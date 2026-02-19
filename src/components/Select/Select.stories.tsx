@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Select } from './Select'
 
 const meta: Meta<typeof Select> = {
-  title: 'Components/Select',
+  title: 'Components/Selection/Select',
   component: Select,
   parameters: {
     layout: 'centered',
@@ -16,7 +16,6 @@ type Story = StoryObj<typeof Select>
 export const Default: Story = {
   args: {
     label: 'Country',
-    placeholder: 'Select a country',
     fullWidth: true,
     children: (
       <>
@@ -98,4 +97,26 @@ export const Disabled: Story = {
       </>
     ),
   },
+}
+
+export const Sizes: Story = {
+  args: {
+    label: 'Size variants',
+    fullWidth: true,
+    children: (
+      <>
+        <option value="">Choose size</option>
+        <option value="sm">Small</option>
+        <option value="md">Medium</option>
+        <option value="lg">Large</option>
+      </>
+    ),
+  },
+  render: (args) => (
+    <div className="flex flex-col gap-6 w-full max-w-xs">
+      <Select {...args} size="sm" label="Small (sm)" />
+      <Select {...args} size="md" label="Medium (md)" />
+      <Select {...args} size="lg" label="Large (lg)" />
+    </div>
+  ),
 }

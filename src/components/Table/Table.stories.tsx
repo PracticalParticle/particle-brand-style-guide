@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption } from './Table'
+import { Badge } from '../Badge'
 
 const meta: Meta<typeof Table> = {
   title: 'Components/Table',
@@ -50,11 +51,8 @@ export const Default: Story = {
 }
 
 export const WithBadges: Story = {
-  render: () => {
-    const { Badge } = require('../Badge')
-    
-    return (
-      <Table>
+  render: () => (
+    <Table>
         <TableHeader>
           <TableRow>
             <TableHead>User</TableHead>
@@ -90,8 +88,7 @@ export const WithBadges: Story = {
           </TableRow>
         </TableBody>
       </Table>
-    )
-  },
+  ),
 }
 
 export const WithoutHover: Story = {

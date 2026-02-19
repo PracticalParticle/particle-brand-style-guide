@@ -1,5 +1,9 @@
 import React, { useEffect } from 'react'
 import { cn } from '@/utils/cn'
+import { Button } from '@/components/Button'
+import { Stepper } from '@/components/Stepper'
+
+export type ModalVariant = 'default' | 'confirmation' | 'warning' | 'danger' | 'success' | 'info'
 
 export interface ModalProps {
   isOpen: boolean
@@ -7,6 +11,8 @@ export interface ModalProps {
   title?: string
   children: React.ReactNode
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'
+  /** Semantic variant: use for alertdialog role on destructive flows. No decorative icons. */
+  variant?: ModalVariant
   showCloseButton?: boolean
   closeOnOverlayClick?: boolean
   closeOnEscape?: boolean
@@ -17,7 +23,8 @@ export const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
-  size = 'md',
+  size = 'lg',
+  variant = 'default',
   showCloseButton = true,
   closeOnOverlayClick = true,
   closeOnEscape = true,
@@ -50,11 +57,11 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null
 
   const sizes = {
-    sm: 'max-w-md',
-    md: 'max-w-lg',
-    lg: 'max-w-2xl',
-    xl: 'max-w-4xl',
-    full: 'max-w-full mx-4',
+    sm: 'max-w-md min-w-[18rem]',
+    md: 'max-w-lg min-w-[20rem]',
+    lg: 'max-w-2xl min-w-[24rem]',
+    xl: 'max-w-4xl min-w-[28rem]',
+    full: 'max-w-full mx-4 min-w-0',
   }
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -63,52 +70,69 @@ export const Modal: React.FC<ModalProps> = ({
     }
   }
 
+  const isAlertDialog = variant === 'danger' || variant === 'confirmation'
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
       onClick={handleOverlayClick}
     >
-      {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm transition-opacity" />
+      {/* Backdrop — neutral overlay, minimal blur */}
+      <div
+        className="fixed inset-0 bg-black/50 dark:bg-black/60 backdrop-blur-[2px] transition-opacity"
+        aria-hidden
+      />
       
-      {/* Modal */}
+      {/* Modal — professional SaaS: clear hierarchy, minimal chrome */}
       <div
         className={cn(
-          'relative z-50 w-full rounded-xl bg-secondary shadow-2xl',
+          'relative z-50 w-full flex flex-col',
+          'rounded-lg border border-default bg-secondary shadow-lg',
+          'min-h-[12rem] max-h-[90vh]',
           'transform transition-all',
           sizes[size]
         )}
-        role="dialog"
+        role={isAlertDialog ? 'alertdialog' : 'dialog'}
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
       >
-        {/* Header */}
+        {/* Header — title only, no decorative icons; easy to dismiss */}
         {(title || showCloseButton) && (
-          <div className="flex items-center justify-between p-6 border-b border-default/20">
+          <div
+            className={cn(
+              'flex items-center justify-between gap-4 shrink-0',
+              'px-5 py-4 sm:px-6 rounded-t-lg',
+              'bg-secondary'
+            )}
+          >
             {title && (
               <h2
                 id="modal-title"
-                className="text-xl font-semibold text-text-primary"
+                className="text-lg font-semibold tracking-tight text-text-primary truncate"
               >
                 {title}
               </h2>
             )}
             {showCloseButton && (
-              <button
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                iconOnly
                 onClick={onClose}
-                className="ml-auto rounded-lg p-1 text-text-tertiary hover:text-text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
-                aria-label="Close modal"
+                aria-label="Close"
+                className="ml-auto flex-shrink-0 focus-visible:ring-offset-secondary text-text-tertiary hover:text-text-primary"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
-              </button>
+              </Button>
             )}
           </div>
         )}
 
-        {/* Content */}
-        <div className="p-6">
+        {/* Content — concise, scrollable */}
+        <div className="p-5 sm:p-6 overflow-y-auto flex-1 min-h-0 text-text-primary">
           {children}
         </div>
       </div>
@@ -126,7 +150,7 @@ export const ModalHeader = React.forwardRef<HTMLDivElement, ModalHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn('flex flex-col space-y-1.5 mb-4', className)}
+        className={cn('flex flex-col gap-1 mb-4', className)}
         {...props}
       >
         {children}
@@ -146,7 +170,7 @@ export const ModalTitle = React.forwardRef<HTMLHeadingElement, ModalTitleProps>(
     return (
       <h2
         ref={ref}
-        className={cn('text-2xl font-semibold leading-none tracking-tight text-text-primary', className)}
+        className={cn('text-lg font-semibold leading-tight tracking-tight text-text-primary', className)}
         {...props}
       >
         {children}
@@ -166,7 +190,7 @@ export const ModalDescription = React.forwardRef<HTMLParagraphElement, ModalDesc
     return (
       <p
         ref={ref}
-        className={cn('text-sm text-text-tertiary', className)}
+        className={cn('text-sm text-text-secondary mt-1', className)}
         {...props}
       >
         {children}
@@ -186,7 +210,7 @@ export const ModalContent = React.forwardRef<HTMLDivElement, ModalContentProps>(
     return (
       <div
         ref={ref}
-        className={cn('', className)}
+        className={cn('text-text-primary text-sm leading-relaxed', className)}
         {...props}
       >
         {children}
@@ -206,7 +230,11 @@ export const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(
     return (
       <div
         ref={ref}
-        className={cn('flex items-center justify-end gap-3 mt-6 pt-4 border-t border-default/20', className)}
+        className={cn(
+          'flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3',
+          'mt-6 pt-5',
+          className
+        )}
         {...props}
       >
         {children}
@@ -216,3 +244,32 @@ export const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(
 )
 
 ModalFooter.displayName = 'ModalFooter'
+
+export interface ModalStepperProps {
+  steps: string[]
+  currentStep: number
+  /** Vertical on small screens, horizontal on md+ when true */
+  responsive?: boolean
+  size?: 'sm' | 'md'
+  className?: string
+}
+
+export const ModalStepper: React.FC<ModalStepperProps> = ({
+  steps,
+  currentStep,
+  responsive = true,
+  size = 'md',
+  className,
+}) => (
+  <div className={cn('mb-6', className)}>
+    <Stepper
+      steps={steps}
+      currentStep={currentStep}
+      orientation="horizontal"
+      responsive={responsive}
+      size={size}
+    />
+  </div>
+)
+
+ModalStepper.displayName = 'ModalStepper'

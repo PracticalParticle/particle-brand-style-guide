@@ -90,7 +90,7 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
             'relative flex min-h-[120px] w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed bg-secondary px-4 py-6 text-center transition-colors border-neutral-400 dark:border-neutral-500',
             drag && !disabled && 'border-tertiary bg-tertiary/5',
             hasError && 'border-error focus-within:border-error',
-            !hasError && !disabled && 'hover:border-neutral-500 dark:hover:border-neutral-400 focus-within:border-focus',
+            !hasError && !disabled && 'hover:border-neutral-500 dark:hover:border-neutral-400 focus-within:border-primary',
             disabled && 'cursor-not-allowed opacity-50'
           )}
         >

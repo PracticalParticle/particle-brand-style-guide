@@ -30,7 +30,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const borderStyles = hasError
       ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
-      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-focus focus-visible:border-focus'
+      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-primary focus-visible:border-primary'
 
     const iconPadding = {
       left: leftIcon ? 'pl-10' : '',
@@ -111,7 +111,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const borderStyles = hasError
       ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
-      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-focus focus-visible:border-focus'
+      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-primary focus-visible:border-primary'
 
     return (
       <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>

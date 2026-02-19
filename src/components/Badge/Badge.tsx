@@ -18,7 +18,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       warning: 'bg-warning-light text-warning dark:bg-warning/30 dark:text-warning',
       error: 'bg-error-light text-error dark:bg-error/30 dark:text-error',
       info: 'bg-info-light text-info dark:bg-info/30 dark:text-info',
-      outline: 'border-2 border-default text-text-secondary',
+      outline: 'border-2 border-border text-text-secondary',
     }
 
     const sizes = {

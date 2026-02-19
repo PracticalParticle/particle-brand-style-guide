@@ -272,6 +272,41 @@ export default {
       },
       ringOffsetColor: {
         DEFAULT: 'rgb(var(--color-bg-primary))',
+        secondary: 'rgb(var(--color-bg-secondary))',
+      },
+      keyframes: {
+        'popover-in-bottom': {
+          '0%': { opacity: '0', transform: 'translateY(-8px) scale(0.96)' },
+          '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+        },
+        'popover-in-top': {
+          '0%': { opacity: '0', transform: 'translateY(8px) scale(0.96)' },
+          '100%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+        },
+        'popover-in-left': {
+          '0%': { opacity: '0', transform: 'translateX(8px) scale(0.96)' },
+          '100%': { opacity: '1', transform: 'translateX(0) scale(1)' },
+        },
+        'popover-in-right': {
+          '0%': { opacity: '0', transform: 'translateX(-8px) scale(0.96)' },
+          '100%': { opacity: '1', transform: 'translateX(0) scale(1)' },
+        },
+        'sheet-in': {
+          '0%': { opacity: '0', transform: 'translateY(100%)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'sheet-out': {
+          '0%': { opacity: '1', transform: 'translateY(0)' },
+          '100%': { opacity: '0', transform: 'translateY(100%)' },
+        },
+      },
+      animation: {
+        'popover-bottom': 'popover-in-bottom 0.2s ease-out',
+        'popover-top': 'popover-in-top 0.2s ease-out',
+        'popover-left': 'popover-in-left 0.2s ease-out',
+        'popover-right': 'popover-in-right 0.2s ease-out',
+        'sheet-in': 'sheet-in 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
+        'sheet-out': 'sheet-out 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
       },
     },
   },

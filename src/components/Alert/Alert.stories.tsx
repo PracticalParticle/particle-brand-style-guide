@@ -59,22 +59,22 @@ export const Info: Story = {
   },
 }
 
+function WithCloseButtonStory() {
+  const [isOpen, setIsOpen] = useState(true)
+  if (!isOpen) return <button onClick={() => setIsOpen(true)}>Show Alert</button>
+  return (
+    <Alert
+      variant="info"
+      title="Dismissible Alert"
+      onClose={() => setIsOpen(false)}
+    >
+      Click the X button to close this alert.
+    </Alert>
+  )
+}
+
 export const WithCloseButton: Story = {
-  render: () => {
-    const [isOpen, setIsOpen] = useState(true)
-    
-    if (!isOpen) return <button onClick={() => setIsOpen(true)}>Show Alert</button>
-    
-    return (
-      <Alert
-        variant="info"
-        title="Dismissible Alert"
-        onClose={() => setIsOpen(false)}
-      >
-        Click the X button to close this alert.
-      </Alert>
-    )
-  },
+  render: () => <WithCloseButtonStory />,
 }
 
 export const WithoutTitle: Story = {
@@ -124,62 +124,63 @@ export const WithCustomIcon: Story = {
   ),
 }
 
-export const DismissibleAlerts: Story = {
-  render: () => {
-    const [alerts, setAlerts] = useState({
-      success: true,
-      warning: true,
-      error: true,
-      info: true,
-    })
+function DismissibleAlertsStory() {
+  const [alerts, setAlerts] = useState({
+    success: true,
+    warning: true,
+    error: true,
+    info: true,
+  })
+  return (
+    <div className="flex flex-col gap-4 w-96">
+      {alerts.success && (
+        <Alert
+          variant="success"
+          title="Success"
+          onClose={() => setAlerts({ ...alerts, success: false })}
+        >
+          This alert can be dismissed.
+        </Alert>
+      )}
+      {alerts.warning && (
+        <Alert
+          variant="warning"
+          title="Warning"
+          onClose={() => setAlerts({ ...alerts, warning: false })}
+        >
+          This alert can be dismissed.
+        </Alert>
+      )}
+      {alerts.error && (
+        <Alert
+          variant="error"
+          title="Error"
+          onClose={() => setAlerts({ ...alerts, error: false })}
+        >
+          This alert can be dismissed.
+        </Alert>
+      )}
+      {alerts.info && (
+        <Alert
+          variant="info"
+          title="Info"
+          onClose={() => setAlerts({ ...alerts, info: false })}
+        >
+          This alert can be dismissed.
+        </Alert>
+      )}
+      {!alerts.success && !alerts.warning && !alerts.error && !alerts.info && (
+        <button
+          onClick={() => setAlerts({ success: true, warning: true, error: true, info: true })}
+          className="px-4 py-2 bg-primary-500 text-white rounded-lg"
+        >
+          Reset All Alerts
+        </button>
+      )}
+    </div>
+  )
+}
 
-    return (
-      <div className="flex flex-col gap-4 w-96">
-        {alerts.success && (
-          <Alert
-            variant="success"
-            title="Success"
-            onClose={() => setAlerts({ ...alerts, success: false })}
-          >
-            This alert can be dismissed.
-          </Alert>
-        )}
-        {alerts.warning && (
-          <Alert
-            variant="warning"
-            title="Warning"
-            onClose={() => setAlerts({ ...alerts, warning: false })}
-          >
-            This alert can be dismissed.
-          </Alert>
-        )}
-        {alerts.error && (
-          <Alert
-            variant="error"
-            title="Error"
-            onClose={() => setAlerts({ ...alerts, error: false })}
-          >
-            This alert can be dismissed.
-          </Alert>
-        )}
-        {alerts.info && (
-          <Alert
-            variant="info"
-            title="Info"
-            onClose={() => setAlerts({ ...alerts, info: false })}
-          >
-            This alert can be dismissed.
-          </Alert>
-        )}
-        {!alerts.success && !alerts.warning && !alerts.error && !alerts.info && (
-          <button
-            onClick={() => setAlerts({ success: true, warning: true, error: true, info: true })}
-            className="px-4 py-2 bg-primary-500 text-white rounded-lg"
-          >
-            Reset All Alerts
-          </button>
-        )}
-      </div>
-    )
-  },
+export const DismissibleAlerts: Story = {
+  render: () => <DismissibleAlertsStory />,
 }
