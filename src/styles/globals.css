@@ -24,8 +24,8 @@
     --color-text-inverse: 255 255 255;  /* White - Text on dark backgrounds */
     
     /* Border Theme Colors - Theme B: Regulated Finance */
-    --color-border: 203 213 225;        /* #CBD5E1 - Theme B border */
-    --color-border-hover: 148 163 184;   /* #94A3B8 - Hover borders */
+    --color-border: 241 245 249;        /* #F1F5F9 - Matches bg-primary, very subtle */
+    --color-border-hover: 233 237 241;   /* #E9EDF1 - Slightly more visible on hover */
     --color-border-focus: 31 78 216;     /* #1F4ED8 - Corporate Blue focus */
     
     /* Brand Colors - Theme B: Regulated Finance */
@@ -85,8 +85,8 @@
     --color-text-inverse: 20 20 20;     /* #141414 - Text on light backgrounds */
     
     /* Border Theme Colors - Dark Mode - Theme B: Regulated Finance */
-    --color-border: 40 40 40;          /* #282828 - Charcoal borders */
-    --color-border-hover: 50 50 50;   /* #323232 - Lighter charcoal borders */
+    --color-border: 25 25 25;          /* #191919 - Very subtle, blends with dark background */
+    --color-border-hover: 35 35 35;   /* #232323 - Slightly lighter on hover */
     --color-border-focus: 31 78 216;  /* #1F4ED8 - Corporate Blue focus */
     
     /* Brand Colors - Dark Mode - Theme B: Regulated Finance */

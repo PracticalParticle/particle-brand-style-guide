@@ -32,7 +32,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
     return (
       <thead
         ref={ref}
-        className={cn('border-b border-default', className)}
+        className={cn('border-b border-default/30', className)}
         {...props}
       >
         {children}
@@ -74,7 +74,7 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
       <tr
         ref={ref}
         className={cn(
-          'border-b border-default transition-colors',
+          'border-b border-default/30 transition-colors',
           hover && 'hover:bg-tertiary',
           className
         )}

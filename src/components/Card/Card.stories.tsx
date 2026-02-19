@@ -1,12 +1,37 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './Card'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardImage, CardAction } from './Card'
 import { Button } from '../Button'
+import { Badge } from '../Badge'
+import {
+  LightningIcon,
+  LockIcon,
+  DeviceIcon,
+  StarIcon,
+  HeartIcon,
+  BellIcon,
+  InfoIcon,
+  WarningIcon,
+  ErrorIcon,
+  CheckIcon,
+  SuccessIcon,
+  InboxIcon,
+  ArrowUpIcon,
+  ArrowDownIcon,
+  MoreOptionsIcon,
+  ArrowRightIcon,
+} from './icons'
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
   component: Card,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component:
+          '**Variants:** `default` and `elevated` = borderless (shadow only; dark mode uses a subtle border for separation). `outlined` = thin border (best for forms, feature grids, empty states). `filled` = accent background, no border.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
@@ -70,13 +95,13 @@ export const Interactive: Story = {
 
 export const WithSubComponents: Story = {
   render: () => (
-    <Card variant="default" padding="md" className="w-96">
+    <Card variant="default" padding="md" className="w-full max-w-md">
       <CardHeader>
         <CardTitle>Card Title</CardTitle>
         <CardDescription>This is a card description that provides additional context.</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-neutral-700 dark:text-neutral-300">
+        <p className="text-text-secondary">
           This is the main content area of the card. You can put any content here.
         </p>
       </CardContent>
@@ -90,17 +115,17 @@ export const WithSubComponents: Story = {
 
 export const PaddingVariants: Story = {
   render: () => (
-    <div className="flex flex-col gap-4">
-      <Card variant="outlined" padding="none" className="w-96">
-        <div className="p-4 bg-neutral-100 dark:bg-neutral-800 rounded-t-xl">No padding (custom)</div>
+    <div className="flex flex-col gap-4 w-full max-w-md">
+      <Card variant="outlined" padding="none" className="w-full">
+        <div className="p-4 bg-secondary rounded-t-xl text-text-primary">No padding (custom)</div>
       </Card>
-      <Card variant="outlined" padding="sm" className="w-96">
+      <Card variant="outlined" padding="sm" className="w-full">
         Small padding
       </Card>
-      <Card variant="outlined" padding="md" className="w-96">
+      <Card variant="outlined" padding="md" className="w-full">
         Medium padding (default)
       </Card>
-      <Card variant="outlined" padding="lg" className="w-96">
+      <Card variant="outlined" padding="lg" className="w-full">
         Large padding
       </Card>
     </div>
@@ -109,7 +134,7 @@ export const PaddingVariants: Story = {
 
 export const AllVariants: Story = {
   render: () => (
-    <div className="grid grid-cols-2 gap-4 w-[800px]">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-4xl">
       <Card variant="default" padding="md">
         <CardTitle>Default</CardTitle>
         <CardContent>Default card variant</CardContent>
@@ -127,5 +152,507 @@ export const AllVariants: Story = {
         <CardContent>Filled card variant</CardContent>
       </Card>
     </div>
+  ),
+}
+
+// ============================================
+// PRODUCT CARDS
+// ============================================
+
+export const ProductCard: Story = {
+  render: () => (
+    <Card variant="default" padding="none" className="w-full max-w-xs sm:max-w-[20rem] overflow-hidden" interactive>
+      <CardImage 
+        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" 
+        alt="Product"
+        aspectRatio="square"
+      />
+      <div className="p-4 sm:p-5 md:p-6">
+        <CardHeader>
+          <div className="flex flex-col gap-2 xs:flex-row xs:items-start xs:justify-between">
+            <div className="flex-1 min-w-0">
+              <CardTitle className="text-lg sm:text-xl">Wireless Headphones</CardTitle>
+              <CardDescription>Premium sound quality</CardDescription>
+            </div>
+            <span className="text-2xl font-bold text-tertiary">$199</span>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-text-secondary mb-4">
+            Experience crystal-clear audio with our premium wireless headphones. 
+            Perfect for music lovers and professionals.
+          </p>
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <Badge variant="outline" size="sm">Wireless</Badge>
+            <Badge variant="outline" size="sm">Noise Cancelling</Badge>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button variant="primary" size="sm" className="flex-1">Add to Cart</Button>
+          <Button variant="ghost" size="sm" iconOnly aria-label="Favorite">
+            <HeartIcon className="w-4 h-4" />
+          </Button>
+        </CardFooter>
+      </div>
+    </Card>
+  ),
+}
+
+// ============================================
+// FEATURE CARDS
+// ============================================
+
+export const FeatureCard: Story = {
+  render: () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full max-w-5xl">
+      {[
+        { icon: LightningIcon, title: 'Fast Performance', desc: 'Lightning-fast load times and smooth interactions' },
+        { icon: LockIcon, title: 'Secure by Default', desc: 'Enterprise-grade security built into every feature' },
+        { icon: DeviceIcon, title: 'Responsive Design', desc: 'Works perfectly on all devices and screen sizes' },
+      ].map((feature) => {
+        const IconComponent = feature.icon
+        return (
+          <Card key={feature.title} variant="outlined" padding="lg" className="text-center">
+            <div className="flex justify-center mb-4 text-tertiary">
+              <IconComponent className="w-10 h-10" />
+            </div>
+            <CardHeader>
+              <CardTitle className="text-lg">{feature.title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CardDescription>{feature.desc}</CardDescription>
+            </CardContent>
+          </Card>
+        )
+      })}
+    </div>
+  ),
+}
+
+// ============================================
+// TESTIMONIAL CARDS
+// ============================================
+
+export const TestimonialCard: Story = {
+  render: () => (
+    <Card variant="default" padding="lg" className="w-full max-w-md">
+      <CardContent className="mb-4">
+        <div className="flex gap-1 mb-4">
+          {[1, 2, 3, 4, 5].map((i) => (
+            <StarIcon key={i} className="w-5 h-5 text-yellow-500 fill-current" />
+          ))}
+        </div>
+        <p className="text-text-primary italic mb-4">
+          "This product has completely transformed how we work. The quality is outstanding 
+          and the support team is incredibly responsive."
+        </p>
+      </CardContent>
+      <div className="flex items-center gap-3 pt-4 border-t border-default/15 dark:border-white/[0.08]">
+        <div className="w-12 h-12 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary font-semibold">
+          JD
+        </div>
+        <div>
+          <div className="font-semibold text-text-primary">John Doe</div>
+          <div className="text-sm text-text-secondary">CEO, Tech Company</div>
+        </div>
+      </div>
+    </Card>
+  ),
+}
+
+// ============================================
+// STATS/METRICS CARDS
+// ============================================
+
+export const StatsCard: Story = {
+  render: () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-5xl">
+      {[
+        { label: 'Total Users', value: '12.5K', change: '+12%', trend: 'up' },
+        { label: 'Revenue', value: '$45.2K', change: '+8%', trend: 'up' },
+        { label: 'Active Sessions', value: '1.2K', change: '-3%', trend: 'down' },
+        { label: 'Conversion Rate', value: '3.4%', change: '+2.1%', trend: 'up' },
+      ].map((stat) => (
+        <Card key={stat.label} variant="elevated" padding="md">
+          <CardContent>
+            <div className="text-sm text-text-secondary mb-1">{stat.label}</div>
+            <div className="text-xl sm:text-2xl font-bold text-text-primary mb-1">{stat.value}</div>
+            <div className={`text-xs flex items-center gap-1 ${
+              stat.trend === 'up' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+            }`}>
+              {stat.trend === 'up' ? (
+                <ArrowUpIcon className="w-3 h-3" />
+              ) : (
+                <ArrowDownIcon className="w-3 h-3" />
+              )}
+              {stat.change}
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  ),
+}
+
+// ============================================
+// PROFILE/USER CARDS
+// ============================================
+
+export const ProfileCard: Story = {
+  render: () => (
+    <Card variant="default" padding="lg" className="w-full max-w-xs sm:max-w-[20rem] text-center">
+      <div className="w-20 h-20 rounded-full bg-tertiary-lighter mx-auto mb-4 flex items-center justify-center text-tertiary text-2xl font-semibold">
+        JD
+      </div>
+      <CardHeader>
+        <CardTitle className="text-xl">John Doe</CardTitle>
+        <CardDescription>Senior Product Designer</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-text-secondary mb-4">
+          Passionate about creating beautiful and functional user experiences.
+        </p>
+        <div className="flex justify-center gap-4 text-sm">
+          <div>
+            <div className="font-semibold text-text-primary">245</div>
+            <div className="text-text-secondary">Projects</div>
+          </div>
+          <div>
+            <div className="font-semibold text-text-primary">1.2K</div>
+            <div className="text-text-secondary">Followers</div>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="justify-center">
+        <Button variant="primary" size="sm">Follow</Button>
+        <Button variant="outline" size="sm">Message</Button>
+      </CardFooter>
+    </Card>
+  ),
+}
+
+// ============================================
+// ARTICLE/BLOG CARDS
+// ============================================
+
+export const ArticleCard: Story = {
+  render: () => (
+    <Card variant="default" padding="none" className="w-full max-w-md overflow-hidden" interactive>
+      <CardImage 
+        src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=400&h=200&fit=crop" 
+        alt="Article"
+        aspectRatio="wide"
+      />
+      <div className="p-4 sm:p-5 md:p-6">
+        <CardHeader>
+          <div className="flex items-center gap-2 text-xs text-text-tertiary mb-2">
+            <span>Design</span>
+            <span className="text-text-tertiary">•</span>
+            <span>Mar 15, 2025</span>
+          </div>
+          <CardTitle className="text-lg sm:text-xl">10 Design Trends for 2025</CardTitle>
+          <CardDescription>
+            Discover the latest design trends that will shape digital experiences this year.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-text-secondary line-clamp-3">
+            From minimalist interfaces to bold typography, explore the design trends 
+            that are making waves in 2025...
+          </p>
+        </CardContent>
+        <CardFooter>
+          <Button variant="ghost" size="sm" rightIcon={<ArrowRightIcon className="w-4 h-4" />}>
+            Read More
+          </Button>
+        </CardFooter>
+      </div>
+    </Card>
+  ),
+}
+
+// ============================================
+// PRICING CARDS
+// ============================================
+
+export const PricingCard: Story = {
+  parameters: {
+    layout: 'fullscreen',
+  },
+  render: () => (
+    <div className="w-full p-4 sm:p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full max-w-5xl mx-auto">
+        {[
+          { name: 'Starter', price: '$9', popular: false },
+          { name: 'Professional', price: '$29', popular: true },
+          { name: 'Enterprise', price: '$99', popular: false },
+        ].map((plan) => (
+          <Card 
+            key={plan.name} 
+            variant={plan.popular ? 'filled' : 'outlined'} 
+            padding="none"
+            className={`w-full min-w-0 ${plan.popular ? 'ring-2 ring-tertiary' : ''}`}
+          >
+            <div className="w-full px-4 py-4 sm:px-5 sm:py-6">
+            {plan.popular && (
+              <div className="flex justify-center mb-3 sm:mb-4">
+                <Badge variant="outline" size="sm" className="border-white/50 text-white">MOST POPULAR</Badge>
+              </div>
+            )}
+            <CardHeader className="text-center">
+              <CardTitle className="text-lg sm:text-2xl">{plan.name}</CardTitle>
+              <div className="mt-3 sm:mt-4 flex flex-wrap items-baseline justify-center gap-x-1">
+                <span className="text-2xl sm:text-4xl font-bold">{plan.price}</span>
+                <span className="text-sm sm:text-base text-text-secondary">/month</span>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+                {['Feature one', 'Feature two', 'Feature three', 'Feature four'].map((feature) => (
+                  <li key={feature} className="flex items-center gap-2 text-sm text-text-primary">
+                    <CheckIcon className="w-4 h-4 text-tertiary flex-shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+            <CardFooter>
+              <Button 
+                variant={plan.popular ? 'secondary' : 'outline'} 
+                size="md"
+                className="w-full min-h-11 sm:min-h-0"
+              >
+                Get Started
+              </Button>
+            </CardFooter>
+          </div>
+        </Card>
+        ))}
+      </div>
+    </div>
+  ),
+}
+
+// ============================================
+// DASHBOARD CARDS
+// ============================================
+
+export const DashboardCard: Story = {
+  render: () => (
+    <Card variant="default" padding="md" className="w-full max-w-2xl">
+      <CardHeader>
+        <div className="flex flex-row items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <CardTitle>Recent Activity</CardTitle>
+            <CardDescription>Your latest updates and notifications</CardDescription>
+          </div>
+          <CardAction>
+            <Button variant="ghost" size="sm">View All</Button>
+          </CardAction>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {[
+            { action: 'New comment', time: '2 minutes ago', user: 'John Doe' },
+            { action: 'File uploaded', time: '1 hour ago', user: 'Jane Smith' },
+            { action: 'Task completed', time: '3 hours ago', user: 'Bob Wilson' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-3 pb-4 border-b border-default/15 dark:border-white/[0.08] last:border-0">
+              <div className="w-8 h-8 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary text-xs font-semibold flex-shrink-0">
+                {item.user.split(' ').map(n => n[0]).join('')}
+              </div>
+              <div className="flex-1">
+                <div className="text-sm text-text-primary">{item.action}</div>
+                <div className="text-xs text-text-tertiary">{item.user} • {item.time}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  ),
+}
+
+// ============================================
+// MEDIA CARDS
+// ============================================
+
+export const MediaCard: Story = {
+  render: () => (
+    <Card variant="default" padding="none" className="w-full max-w-xs sm:max-w-[20rem] overflow-hidden" interactive>
+      <CardImage 
+        src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=300&fit=crop" 
+        alt="Video thumbnail"
+        aspectRatio="video"
+      />
+      <div className="p-4 sm:p-5 md:p-6">
+        <div className="flex items-start justify-between gap-2 mb-2">
+          <CardTitle className="text-lg min-w-0 flex-1">Video Title</CardTitle>
+          <Badge variant="outline" size="sm">12:34</Badge>
+        </div>
+        <CardDescription className="mb-3 text-text-tertiary">
+          Channel Name • 1.2M views • 2 days ago
+        </CardDescription>
+        <CardContent>
+          <p className="text-sm text-text-secondary line-clamp-2">
+            Video description goes here. This is a sample description for a media card.
+          </p>
+        </CardContent>
+      </div>
+    </Card>
+  ),
+}
+
+// ============================================
+// NOTIFICATION CARDS
+// ============================================
+
+export const NotificationCard: Story = {
+  render: () => (
+    <Card variant="default" padding="md" className="w-full max-w-md">
+      <div className="flex flex-row items-start gap-3">
+        <div className="w-10 h-10 rounded-full bg-tertiary flex items-center justify-center text-text-inverse flex-shrink-0">
+          <BellIcon className="w-5 h-5" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between mb-1">
+            <CardTitle className="text-base">New Message</CardTitle>
+            <span className="text-xs text-text-tertiary">2m ago</span>
+          </div>
+          <CardDescription className="mb-2">
+            You have a new message from Sarah Johnson
+          </CardDescription>
+          <CardContent className="p-0">
+            <p className="text-sm text-text-secondary">
+              "Hey, can we schedule a meeting for tomorrow?"
+            </p>
+          </CardContent>
+          <CardFooter className="p-0 pt-3 border-0">
+            <Button variant="primary" size="sm">Reply</Button>
+            <Button variant="ghost" size="sm">Dismiss</Button>
+          </CardFooter>
+        </div>
+      </div>
+    </Card>
+  ),
+}
+
+// ============================================
+// ALERT CARDS
+// ============================================
+
+export const AlertCard: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 w-full max-w-md">
+      <Card variant="outlined" padding="md" className="border border-blue-200 bg-blue-50 dark:border-blue-500/40 dark:bg-blue-950/30">
+        <div className="flex items-start gap-3">
+          <div className="text-blue-600 dark:text-blue-400 flex-shrink-0">
+            <InfoIcon className="w-6 h-6" />
+          </div>
+          <div className="flex-1">
+            <CardTitle className="text-base text-blue-900 dark:text-blue-100">Information</CardTitle>
+            <CardDescription className="text-blue-700 dark:text-blue-300">
+              This is an informational alert card with important details.
+            </CardDescription>
+          </div>
+        </div>
+      </Card>
+      <Card variant="outlined" padding="md" className="border border-yellow-200 bg-yellow-50 dark:border-yellow-500/40 dark:bg-yellow-950/30">
+        <div className="flex items-start gap-3">
+          <div className="text-yellow-600 dark:text-yellow-400 flex-shrink-0">
+            <WarningIcon className="w-6 h-6" />
+          </div>
+          <div className="flex-1">
+            <CardTitle className="text-base text-yellow-900 dark:text-yellow-100">Warning</CardTitle>
+            <CardDescription className="text-yellow-700 dark:text-yellow-300">
+              Please review this warning before proceeding.
+            </CardDescription>
+          </div>
+        </div>
+      </Card>
+      <Card variant="outlined" padding="md" className="border border-red-200 bg-red-50 dark:border-red-500/40 dark:bg-red-950/30">
+        <div className="flex items-start gap-3">
+          <div className="text-red-600 dark:text-red-400 flex-shrink-0">
+            <ErrorIcon className="w-6 h-6" />
+          </div>
+          <div className="flex-1">
+            <CardTitle className="text-base text-red-900 dark:text-red-100">Error</CardTitle>
+            <CardDescription className="text-red-700 dark:text-red-300">
+              Something went wrong. Please try again.
+            </CardDescription>
+          </div>
+        </div>
+      </Card>
+      <Card variant="outlined" padding="md" className="border border-green-200 bg-green-50 dark:border-green-500/40 dark:bg-green-950/30">
+        <div className="flex items-start gap-3">
+          <div className="text-green-600 dark:text-green-400 flex-shrink-0">
+            <SuccessIcon className="w-6 h-6" />
+          </div>
+          <div className="flex-1">
+            <CardTitle className="text-base text-green-900 dark:text-green-100">Success</CardTitle>
+            <CardDescription className="text-green-700 dark:text-green-300">
+              Your action was completed successfully!
+            </CardDescription>
+          </div>
+        </div>
+      </Card>
+    </div>
+  ),
+}
+
+// ============================================
+// EMPTY STATE CARDS
+// ============================================
+
+export const EmptyStateCard: Story = {
+  render: () => (
+    <Card variant="outlined" padding="lg" className="w-full max-w-md text-center">
+      <div className="flex justify-center mb-4 text-text-tertiary">
+        <InboxIcon className="w-16 h-16" />
+      </div>
+      <CardHeader>
+        <CardTitle>No Items Found</CardTitle>
+        <CardDescription>
+          You don't have any items yet. Get started by creating your first item.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter className="justify-center">
+        <Button variant="primary" size="md">Create Item</Button>
+      </CardFooter>
+    </Card>
+  ),
+}
+
+// ============================================
+// CARD WITH HEADER ACTIONS
+// ============================================
+
+export const CardWithHeaderActions: Story = {
+  render: () => (
+    <Card variant="default" padding="md" className="w-full max-w-md">
+      <CardHeader>
+        <div className="flex flex-row items-start justify-between gap-3">
+          <div className="min-w-0 flex-1">
+            <CardTitle>Card with Actions</CardTitle>
+            <CardDescription>This card has action buttons in the header</CardDescription>
+          </div>
+          <CardAction>
+            <Button variant="ghost" size="sm" iconOnly aria-label="More options">
+              <MoreOptionsIcon className="w-5 h-5" />
+            </Button>
+          </CardAction>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-text-secondary">
+          This card demonstrates how to add action buttons or menus in the card header.
+        </p>
+      </CardContent>
+      <CardFooter>
+        <Button variant="primary" size="sm">Save</Button>
+        <Button variant="outline" size="sm">Cancel</Button>
+      </CardFooter>
+    </Card>
   ),
 }

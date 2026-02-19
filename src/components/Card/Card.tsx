@@ -10,24 +10,30 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', padding = 'md', interactive = false, children, ...props }, ref) => {
-    const baseStyles = 'rounded-lg transition-all duration-200 border border-default'
+    const baseStyles = 'rounded-lg transition-all duration-200 bg-secondary text-text-primary min-w-0 w-full'
     
+    // Per-variant: default/elevated = borderless (shadow); dark mode uses subtle border + shadow for separation
+    // outlined = thin border in both modes; filled = borderless accent
     const variants = {
-      default: 'bg-secondary shadow-sm text-text-primary',
-      elevated: 'bg-secondary shadow-md text-text-primary',
-      outlined: 'bg-secondary border-2 border-hover shadow-none text-text-primary',
-      filled: 'bg-tertiary border-tertiary-active text-text-inverse',
+      default:
+        'shadow-sm dark:shadow-[0_1px_2px_rgba(0,0,0,0.4)] dark:border dark:border-white/[0.06]',
+      elevated:
+        'shadow-md dark:shadow-[0_4px_12px_rgba(0,0,0,0.4)] dark:border dark:border-white/[0.08]',
+      outlined:
+        'border border-default/25 shadow-none dark:border-white/10',
+      filled:
+        'bg-tertiary text-text-inverse shadow-sm dark:border-0 dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)]',
     }
 
     const paddings = {
       none: 'p-0',
       sm: 'p-4 sm:p-5',
-      md: 'p-5 sm:p-6 lg:p-6',
-      lg: 'p-6 sm:p-8 lg:p-10',
+      md: 'p-4 sm:p-5 md:p-6',
+      lg: 'p-5 sm:p-6 md:p-8 lg:p-8',
     }
 
     const interactiveStyles = interactive
-      ? 'cursor-pointer hover:shadow-md hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2'
+      ? 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-tertiary focus:ring-offset-2 focus:ring-offset-secondary dark:hover:shadow-lg dark:focus:ring-offset-secondary'
       : ''
 
     return (
@@ -54,7 +60,7 @@ export const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
     return (
       <div
         ref={ref}
-        className={cn('flex flex-col space-y-1.5 mb-4', className)}
+        className={cn('flex flex-col space-y-1 mb-4 sm:mb-6', className)}
         {...props}
       >
         {children}
@@ -74,7 +80,7 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
     return (
       <h3
         ref={ref}
-        className={cn('text-2xl font-semibold leading-none tracking-tight text-inherit', className)}
+        className={cn('text-lg font-semibold leading-tight tracking-tight text-text-primary sm:text-xl', className)}
         {...props}
       >
         {children}
@@ -94,7 +100,7 @@ export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescri
     return (
       <p
         ref={ref}
-        className={cn('text-sm text-inherit opacity-90', className)}
+        className={cn('text-sm leading-relaxed text-text-secondary', className)}
         {...props}
       >
         {children}
@@ -114,7 +120,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
     return (
       <div
         ref={ref}
-        className={cn('', className)}
+        className={cn('text-text-primary', className)}
         {...props}
       >
         {children}
@@ -134,7 +140,10 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
     return (
       <div
         ref={ref}
-        className={cn('flex items-center mt-4 pt-4 border-t border-default', className)}
+        className={cn(
+          'flex flex-wrap items-center gap-2 sm:gap-3 mt-4 pt-4 sm:mt-6 sm:pt-6 border-t border-default/15 dark:border-white/[0.08]',
+          className
+        )}
         {...props}
       >
         {children}
@@ -144,3 +153,56 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
 )
 
 CardFooter.displayName = 'CardFooter'
+
+export interface CardImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  src: string
+  alt: string
+  aspectRatio?: 'square' | 'video' | 'wide' | 'auto'
+}
+
+export const CardImage = React.forwardRef<HTMLImageElement, CardImageProps>(
+  ({ className, src, alt, aspectRatio = 'auto', ...props }, ref) => {
+    const aspectRatios = {
+      square: 'aspect-square',
+      video: 'aspect-video',
+      wide: 'aspect-[21/9]',
+      auto: '',
+    }
+
+    return (
+      <img
+        ref={ref}
+        src={src}
+        alt={alt}
+        className={cn(
+          'w-full max-w-full h-auto object-cover rounded-t-lg',
+          aspectRatios[aspectRatio],
+          className
+        )}
+        {...props}
+      />
+    )
+  }
+)
+
+CardImage.displayName = 'CardImage'
+
+export interface CardActionProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode
+}
+
+export const CardAction = React.forwardRef<HTMLDivElement, CardActionProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn('flex flex-shrink-0 items-center gap-2', className)}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+CardAction.displayName = 'CardAction'

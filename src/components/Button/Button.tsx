@@ -32,15 +32,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     children, 
     ...props 
   }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center font-medium rounded-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.98]'
+    const baseStyles = 'inline-flex items-center justify-center font-medium rounded-base transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none'
     
     const variants = {
-      primary: 'bg-tertiary text-text-inverse hover:bg-tertiary-hover active:bg-tertiary-active focus:ring-tertiary shadow-sm hover:shadow-md',
-      secondary: 'bg-secondary text-text-primary hover:bg-tertiary-lighter active:bg-tertiary-light focus:ring-tertiary shadow-sm hover:shadow-md',
-      danger: 'border border-error text-error bg-transparent hover:bg-error-light/50 active:bg-error-light/70 focus:ring-error',
-      ghost: 'bg-transparent text-tertiary hover:bg-tertiary-lighter/50 active:bg-tertiary-light/50 focus:ring-tertiary',
-      outline: 'border border-tertiary text-tertiary bg-transparent hover:bg-tertiary-lighter/50 active:bg-tertiary-light/50 focus:ring-tertiary',
-      link: 'bg-transparent text-tertiary hover:text-tertiary-hover underline-offset-4 hover:underline p-0 h-auto focus:ring-tertiary shadow-none',
+      primary: 'bg-tertiary text-text-inverse hover:bg-tertiary-hover active:bg-tertiary-active active:scale-[0.97] active:shadow-sm focus-visible:ring-tertiary shadow-sm hover:shadow-md',
+      secondary: 'bg-secondary text-text-primary hover:bg-tertiary-lighter active:bg-tertiary-light active:scale-[0.97] active:shadow-sm focus-visible:ring-tertiary shadow-sm hover:shadow-md',
+      danger: 'border border-error text-error bg-transparent hover:bg-error-light/50 active:bg-error-light/70 active:scale-[0.97] focus-visible:ring-error',
+      ghost: 'bg-transparent text-tertiary hover:bg-tertiary-lighter/50 active:bg-tertiary-light/70 active:scale-[0.97] focus-visible:ring-tertiary',
+      outline: 'border border-tertiary text-tertiary bg-transparent hover:bg-tertiary-lighter/50 active:bg-tertiary-light/70 active:scale-[0.97] focus-visible:ring-tertiary',
+      link: 'bg-transparent text-tertiary hover:text-tertiary-hover underline-offset-4 hover:underline p-0 h-auto active:text-tertiary-active focus-visible:ring-tertiary shadow-none',
     }
 
     const sizes = {

@@ -84,7 +84,7 @@ export const Modal: React.FC<ModalProps> = ({
       >
         {/* Header */}
         {(title || showCloseButton) && (
-          <div className="flex items-center justify-between p-6 border-b border-default">
+          <div className="flex items-center justify-between p-6 border-b border-default/20">
             {title && (
               <h2
                 id="modal-title"
@@ -206,7 +206,7 @@ export const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(
     return (
       <div
         ref={ref}
-        className={cn('flex items-center justify-end gap-3 mt-6 pt-4 border-t border-default', className)}
+        className={cn('flex items-center justify-end gap-3 mt-6 pt-4 border-t border-default/20', className)}
         {...props}
       >
         {children}
