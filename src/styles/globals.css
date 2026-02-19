@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ============================================
+       THEME SYSTEM - CSS Variables
+       Professional theme setup using CSS variables
+       All colors defined as RGB values (space-separated)
+       for Tailwind opacity modifier support
+       ============================================ */
+    
+    /* Background Theme Colors - Theme B: Regulated Finance */
+    --color-bg-primary: 241 245 249;    /* #F1F5F9 - Theme B background */
+    --color-bg-secondary: 255 255 255;  /* White - Card/surface background */
+    --color-bg-tertiary: 248 250 252;   /* #F8FAFC - Subtle background */
+    
+    /* Text Theme Colors - Theme B: Regulated Finance */
+    --color-text-primary: 11 18 32;     /* #0B1220 - Theme B dark text */
+    --color-text-secondary: 51 65 85;   /* #334155 - Theme B secondary text */
+    --color-text-tertiary: 100 116 139; /* #64748B - Tertiary text */
+    --color-text-inverse: 255 255 255;  /* White - Text on dark backgrounds */
+    
+    /* Border Theme Colors - Theme B: Regulated Finance */
+    --color-border: 203 213 225;        /* #CBD5E1 - Theme B border */
+    --color-border-hover: 148 163 184;   /* #94A3B8 - Hover borders */
+    --color-border-focus: 31 78 216;     /* #1F4ED8 - Corporate Blue focus */
+    
+    /* Brand Colors - Theme B: Regulated Finance */
+    --color-primary: 10 10 10;         /* #0A0A0A - Charcoal Black */
+    --color-primary-hover: 8 8 8;       /* #080808 - Darker charcoal */
+    --color-primary-active: 6 6 6;      /* #060606 - Very dark charcoal */
+    --color-primary-light: 51 51 51;    /* #333333 - Medium-dark gray */
+    --color-primary-lighter: 153 153 153; /* #999999 - Medium-light gray */
+    
+    --color-secondary: 241 245 249;      /* #F1F5F9 - Theme B background */
+    --color-secondary-hover: 226 232 240; /* #E2E8F0 - Slightly darker */
+    --color-secondary-active: 255 255 255; /* #ffffff - Pure white */
+    --color-secondary-light: 203 213 225; /* #CBD5E1 - Light gray */
+    --color-secondary-lighter: 248 250 252; /* #F8FAFC - Very light gray */
+    
+    --color-tertiary: 31 78 216;       /* #1F4ED8 - Corporate Blue */
+    --color-tertiary-hover: 26 66 192; /* #1A42C0 - Darker corporate blue */
+    --color-tertiary-active: 21 54 168;   /* #1536A8 - Darker corporate blue */
+    --color-tertiary-light: 143 168 255; /* #8FA8FF - Light corporate blue */
+    --color-tertiary-lighter: 224 231 255; /* #E0E7FF - Lighter corporate blue */
+    
+    /* Accent Color - Theme B: Soft Tech Accent */
+    --color-accent: 56 189 248;       /* #38BDF8 - Soft Tech Accent */
+    --color-accent-hover: 14 165 233; /* #0EA5E9 - Darker tech accent */
+    --color-accent-active: 2 132 199;   /* #0284C7 - Dark tech accent */
+    --color-accent-light: 103 232 249; /* #67E8F9 - Light tech accent */
+    --color-accent-lighter: 207 250 254; /* #CFFAFE - Lighter tech accent */
+    
+    --color-black: 0 0 0;               /* #000000 - Pure black */
+    --color-white: 255 255 255;         /* #FFFFFF - Pure white */
+    
+    /* Semantic Colors */
+    --color-success: 34 197 94;         /* #22C55E */
+    --color-success-light: 220 252 231;  /* #DCFCE7 */
+    --color-warning: 245 158 11;        /* #F59E0B */
+    --color-warning-light: 254 243 199; /* #FEF3C7 */
+    --color-error: 232 93 93;           /* #E85D5D - Professional & muted */
+    --color-error-light: 254 232 232;   /* #FEE8E8 */
+    --color-info: 59 130 246;           /* #3B82F6 */
+    --color-info-light: 219 234 254;    /* #DBEAFE */
+  }
+
+  .dark {
+    /* ============================================
+       DARK THEME - CSS Variables Overrides
+       ============================================ */
+    
+    /* Background Theme Colors - Dark Mode - Theme B: Regulated Finance */
+    --color-bg-primary: 10 10 10;       /* #0A0A0A - Charcoal Black */
+    --color-bg-secondary: 20 20 20;     /* #141414 - Slightly lighter charcoal */
+    --color-bg-tertiary: 30 30 30;      /* #1E1E1E - Medium charcoal */
+    
+    /* Text Theme Colors - Dark Mode - Theme B: Regulated Finance */
+    --color-text-primary: 248 250 252;  /* #F8FAFC - Light text */
+    --color-text-secondary: 203 213 225; /* #CBD5E1 - Secondary text */
+    --color-text-tertiary: 100 116 139; /* #64748B - Tertiary text */
+    --color-text-inverse: 20 20 20;     /* #141414 - Text on light backgrounds */
+    
+    /* Border Theme Colors - Dark Mode - Theme B: Regulated Finance */
+    --color-border: 40 40 40;          /* #282828 - Charcoal borders */
+    --color-border-hover: 50 50 50;   /* #323232 - Lighter charcoal borders */
+    --color-border-focus: 31 78 216;  /* #1F4ED8 - Corporate Blue focus */
+    
+    /* Brand Colors - Dark Mode - Theme B: Regulated Finance */
+    --color-primary: 248 250 252;       /* #F8FAFC - Light text (swapped from light mode) */
+    --color-primary-hover: 241 245 249; /* #F1F5F9 - Slightly darker */
+    --color-primary-active: 255 255 255; /* #ffffff - Pure white */
+    --color-primary-light: 226 232 240; /* #E2E8F0 - Light gray */
+    --color-primary-lighter: 203 213 225; /* #CBD5E1 - Very light gray */
+    
+    --color-secondary: 10 10 10;     /* #0A0A0A - Charcoal Black (swapped from light mode) */
+    --color-secondary-hover: 8 8 8;    /* #080808 - Slightly lighter */
+    --color-secondary-active: 6 6 6;  /* #060606 - Darker */
+    --color-secondary-light: 51 51 51;  /* #333333 - Medium-dark gray */
+    --color-secondary-lighter: 153 153 153; /* #999999 - Medium-light gray */
+    
+    --color-tertiary: 61 102 255;        /* #3D66FF - Brighter corporate blue for dark mode */
+    --color-tertiary-hover: 143 168 255;  /* #8FA8FF - Even brighter */
+    --color-tertiary-active: 31 78 216; /* #1F4ED8 - Corporate Blue */
+    --color-tertiary-light: 26 66 192;     /* #1A42C0 - Darker corporate blue for dark mode */
+    --color-tertiary-lighter: 21 54 168;    /* #1536A8 - Darker variant */
+    
+    /* Accent Color - Dark Mode - Theme B: Soft Tech Accent */
+    --color-accent: 103 232 249;       /* #67E8F9 - Brighter tech accent for dark mode */
+    --color-accent-hover: 56 189 248;  /* #38BDF8 - Soft Tech Accent */
+    --color-accent-active: 14 165 233; /* #0EA5E9 - Darker tech accent */
+    --color-accent-light: 2 132 199;     /* #0284C7 - Dark tech accent for dark mode */
+    --color-accent-lighter: 3 105 161;    /* #0369A1 - Darker variant */
+    
+    --color-black: 0 0 0;                /* Pure black */
+    --color-white: 255 255 255;          /* Pure white */
+    
+    /* Semantic Colors - Dark Mode (Adjusted with opacity) */
+    --color-success: 34 197 94;         /* Same */
+    --color-success-light: 20 83 45;    /* Darker with opacity in components */
+    --color-warning: 245 158 11;        /* Same */
+    --color-warning-light: 180 83 9;    /* Darker with opacity in components */
+    --color-error: 232 93 93;            /* Same */
+    --color-error-light: 184 54 54;     /* Darker with opacity in components */
+    --color-info: 59 130 246;           /* Same */
+    --color-info-light: 29 78 216;      /* Darker with opacity in components */
+  }
+
+  html {
+    background-color: rgb(var(--color-bg-primary));
+    min-height: 100vh;
+  }
+
+  body {
+    background-color: rgb(var(--color-bg-primary));
+    color: rgb(var(--color-text-primary));
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+
+  /* Storybook preview containers - ensure full-page background for story views */
+  #storybook-root,
+  #storybook-root > div {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    min-height: 100vh;
+  }
+
+  .os-host,
+  .os-viewport {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  [data-testid="storybook-preview-wrapper"],
+  [data-testid="storybook-preview-iframe"] {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  /* Storybook story containers - inherit theme background */
+  .sb-story,
+  .sb-story > div {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  /* Docs pages wrapper stays light, but content uses theme */
+  .sbdocs-wrapper {
+    background-color: #ffffff !important;
+  }
+
+  .sbdocs-content {
+    background-color: #ffffff !important;
+  }
+
+  /* Canvas/preview area in docs - uses theme background */
+  .sbdocs-preview {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    transition: background-color 0.2s ease;
+  }
+
+  /* Ensure canvas area respects theme when dark class is applied */
+  .sbdocs-preview.dark {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  /* Story containers within canvas inherit theme */
+  .sbdocs-preview .sb-story,
+  .sbdocs-preview .docs-story,
+  .sbdocs-preview > div {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+}
+
+@layer utilities {
+  /* Triangle geometric pattern utility - inspired by logo */
+  .triangle-pattern {
+    background-image: 
+      linear-gradient(45deg, transparent 25%, rgb(var(--color-primary) / 0.05) 25%),
+      linear-gradient(-45deg, transparent 25%, rgb(var(--color-primary) / 0.05) 25%),
+      linear-gradient(45deg, rgb(var(--color-primary) / 0.05) 75%, transparent 75%),
+      linear-gradient(-45deg, rgb(var(--color-primary) / 0.05) 75%, transparent 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  }
+
+  /* Subtle triangle accent border */
+  .triangle-border {
+    position: relative;
+  }
+
+  .triangle-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgb(var(--color-primary) / 0.3) 25%, 
+      rgb(var(--color-primary) / 0.5) 50%, 
+      rgb(var(--color-primary) / 0.3) 75%, 
+      transparent 100%);
+  }
+
+  /* Focus ring with triangle accent */
+  .focus-triangle {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    --tw-ring-color: rgb(var(--color-primary));
+  }
+
+  .focus-triangle:focus-visible {
+    box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.2), 0 0 0 4px rgb(var(--color-primary) / 0.1);
+  }
+}
