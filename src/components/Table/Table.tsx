@@ -32,7 +32,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
     return (
       <thead
         ref={ref}
-        className={cn('border-b border-neutral-200 dark:border-neutral-700', className)}
+        className={cn('border-b border-default', className)}
         {...props}
       >
         {children}
@@ -74,8 +74,8 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
       <tr
         ref={ref}
         className={cn(
-          'border-b border-neutral-200 dark:border-neutral-700 transition-colors',
-          hover && 'hover:bg-neutral-50 dark:hover:bg-neutral-800/50',
+          'border-b border-default transition-colors',
+          hover && 'hover:bg-tertiary',
           className
         )}
         {...props}
@@ -98,7 +98,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       <th
         ref={ref}
         className={cn(
-          'h-12 px-4 text-left align-middle font-semibold text-neutral-900 dark:text-neutral-50',
+          'h-12 px-4 text-left align-middle font-semibold text-text-primary',
           className
         )}
         {...props}
@@ -120,7 +120,7 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
     return (
       <td
         ref={ref}
-        className={cn('p-4 align-middle text-neutral-700 dark:text-neutral-300', className)}
+        className={cn('p-4 align-middle text-text-secondary', className)}
         {...props}
       >
         {children}
@@ -140,7 +140,7 @@ export const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCapti
     return (
       <caption
         ref={ref}
-        className={cn('mt-4 text-sm text-neutral-600 dark:text-neutral-400', className)}
+        className={cn('mt-4 text-sm text-text-tertiary', className)}
         {...props}
       >
         {children}

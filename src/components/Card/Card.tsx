@@ -13,10 +13,10 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     const baseStyles = 'rounded-lg transition-all duration-200 border border-default'
     
     const variants = {
-      default: 'bg-secondary shadow-sm',
-      elevated: 'bg-secondary shadow-md',
-      outlined: 'bg-secondary border-2 border-hover shadow-none',
-      filled: 'bg-tertiary border-default',
+      default: 'bg-secondary shadow-sm text-text-primary',
+      elevated: 'bg-secondary shadow-md text-text-primary',
+      outlined: 'bg-secondary border-2 border-hover shadow-none text-text-primary',
+      filled: 'bg-tertiary border-tertiary-active text-text-inverse',
     }
 
     const paddings = {
@@ -74,7 +74,7 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
     return (
       <h3
         ref={ref}
-        className={cn('text-2xl font-semibold leading-none tracking-tight text-primary', className)}
+        className={cn('text-2xl font-semibold leading-none tracking-tight text-inherit', className)}
         {...props}
       >
         {children}
@@ -94,7 +94,7 @@ export const CardDescription = React.forwardRef<HTMLParagraphElement, CardDescri
     return (
       <p
         ref={ref}
-        className={cn('text-sm text-secondary', className)}
+        className={cn('text-sm text-inherit opacity-90', className)}
         {...props}
       >
         {children}

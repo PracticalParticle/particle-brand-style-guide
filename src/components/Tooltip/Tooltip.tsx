@@ -89,7 +89,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         <div
           ref={tooltipRef}
           className={cn(
-            'fixed z-50 px-3 py-1.5 text-sm text-white bg-neutral-900 dark:bg-neutral-800 rounded-lg shadow-lg pointer-events-none',
+            'fixed z-50 px-3 py-1.5 text-sm text-text-inverse bg-primary rounded-lg shadow-lg pointer-events-none',
             'animate-in fade-in-0 zoom-in-95 duration-200',
             className
           )}
@@ -102,7 +102,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           {content}
           <div
             className={cn(
-              'absolute w-2 h-2 bg-neutral-900 dark:bg-neutral-800 rotate-45',
+              'absolute w-2 h-2 bg-primary rotate-45',
               placement === 'top' && 'bottom-[-4px] left-1/2 -translate-x-1/2',
               placement === 'bottom' && 'top-[-4px] left-1/2 -translate-x-1/2',
               placement === 'left' && 'right-[-4px] top-1/2 -translate-y-1/2',

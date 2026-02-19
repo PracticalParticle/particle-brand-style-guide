@@ -11,7 +11,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'danger', 'ghost', 'outline', 'primary-gradient', 'secondary-gradient', 'link'],
+      options: ['primary', 'secondary', 'danger', 'ghost', 'outline', 'link'],
     },
     size: {
       control: 'select',
@@ -70,55 +70,17 @@ export const Link: Story = {
 }
 
 // ============================================
-// GRADIENT VARIANTS
-// ============================================
-
-export const PrimaryGradient: Story = {
-  args: {
-    variant: 'primary-gradient',
-    children: 'Gradient Button',
-  },
-}
-
-export const SecondaryGradient: Story = {
-  args: {
-    variant: 'secondary-gradient',
-    children: 'Secondary Gradient',
-  },
-}
-
-export const AllGradients: Story = {
-  render: () => (
-    <div className="flex flex-wrap gap-4 items-center">
-      <Button variant="primary-gradient">Primary Gradient</Button>
-      <Button variant="primary-gradient" size="lg">Large Gradient</Button>
-      <Button variant="secondary-gradient">Secondary Gradient</Button>
-      <Button variant="secondary-gradient" size="lg">Large Secondary</Button>
-    </div>
-  ),
-}
-
-// ============================================
 // SIZES
 // ============================================
 
 export const AllSizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap gap-4 items-center">
-        <Button size="xs">Extra Small</Button>
-        <Button size="sm">Small</Button>
-        <Button size="md">Medium</Button>
-        <Button size="lg">Large</Button>
-        <Button size="xl">Extra Large</Button>
-      </div>
-      <div className="flex flex-wrap gap-4 items-center">
-        <Button variant="primary-gradient" size="xs">XS Gradient</Button>
-        <Button variant="primary-gradient" size="sm">SM Gradient</Button>
-        <Button variant="primary-gradient" size="md">MD Gradient</Button>
-        <Button variant="primary-gradient" size="lg">LG Gradient</Button>
-        <Button variant="primary-gradient" size="xl">XL Gradient</Button>
-      </div>
+    <div className="flex flex-wrap gap-4 items-center">
+      <Button size="xs">Extra Small</Button>
+      <Button size="sm">Small</Button>
+      <Button size="md">Medium</Button>
+      <Button size="lg">Large</Button>
+      <Button size="xl">Extra Large</Button>
     </div>
   ),
 }
@@ -143,7 +105,7 @@ export const WithLeftIcon: Story = {
     return (
       <div className="flex flex-wrap gap-4 items-center">
         <Button variant="primary" leftIcon={<PlusIcon />}>Add Item</Button>
-        <Button variant="primary-gradient" leftIcon={<PlusIcon />}>Create New</Button>
+        <Button variant="primary" leftIcon={<PlusIcon />}>Create New</Button>
         <Button variant="outline" leftIcon={<DownloadIcon />}>Download</Button>
       </div>
     )
@@ -161,7 +123,7 @@ export const WithRightIcon: Story = {
     return (
       <div className="flex flex-wrap gap-4 items-center">
         <Button variant="primary" rightIcon={<ArrowRightIcon />}>Continue</Button>
-        <Button variant="primary-gradient" rightIcon={<ArrowRightIcon />}>Get Started</Button>
+        <Button variant="primary" rightIcon={<ArrowRightIcon />}>Get Started</Button>
         <Button variant="link" rightIcon={<ArrowRightIcon />}>Learn More</Button>
       </div>
     )
@@ -186,7 +148,7 @@ export const WithBothIcons: Story = {
         <Button variant="primary" leftIcon={<PlusIcon />} rightIcon={<ArrowRightIcon />}>
           Add & Continue
         </Button>
-        <Button variant="primary-gradient" leftIcon={<PlusIcon />} rightIcon={<ArrowRightIcon />}>
+        <Button variant="primary" leftIcon={<PlusIcon />} rightIcon={<ArrowRightIcon />}>
           Create & Proceed
         </Button>
       </div>
@@ -274,7 +236,7 @@ export const LoadingStates: Story = {
   render: () => (
     <div className="flex flex-wrap gap-4 items-center">
       <Button variant="primary" isLoading>Processing...</Button>
-      <Button variant="primary-gradient" isLoading>Saving...</Button>
+      <Button variant="primary" isLoading>Saving...</Button>
       <Button variant="outline" isLoading disabled>Disabled Loading</Button>
     </div>
   ),
@@ -284,7 +246,7 @@ export const Disabled: Story = {
   render: () => (
     <div className="flex flex-wrap gap-4 items-center">
       <Button variant="primary" disabled>Disabled</Button>
-      <Button variant="primary-gradient" disabled>Disabled Gradient</Button>
+      <Button variant="secondary" disabled>Disabled Secondary</Button>
       <Button variant="outline" disabled>Disabled Outline</Button>
       <Button variant="ghost" disabled>Disabled Ghost</Button>
     </div>
@@ -299,7 +261,7 @@ export const FullWidth: Story = {
   render: () => (
     <div className="w-full max-w-md space-y-4">
       <Button variant="primary" fullWidth>Full Width Button</Button>
-      <Button variant="primary-gradient" fullWidth>Full Width Gradient</Button>
+      <Button variant="secondary" fullWidth>Full Width Secondary</Button>
       <Button variant="outline" fullWidth leftIcon={
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} className="w-4 h-4">
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -325,7 +287,7 @@ export const WebsiteCTAs: Story = {
 
     return (
       <div className="flex flex-wrap gap-4 items-center">
-        <Button variant="primary-gradient" size="lg" rightIcon={<ArrowRightIcon />}>
+        <Button variant="primary" size="lg" rightIcon={<ArrowRightIcon />}>
           Get Started
         </Button>
         <Button variant="outline" size="lg">
@@ -382,7 +344,7 @@ export const FormButtons: Story = {
 export const CardActions: Story = {
   render: () => (
     <div className="flex flex-wrap gap-4 items-center">
-      <Button variant="primary-gradient" size="sm">
+      <Button variant="primary" size="sm">
         View Details
       </Button>
       <Button variant="outline" size="sm">
@@ -408,8 +370,6 @@ export const AllVariants: Story = {
         <Button variant="danger">Danger</Button>
         <Button variant="ghost">Ghost</Button>
         <Button variant="outline">Outline</Button>
-        <Button variant="primary-gradient">Gradient</Button>
-        <Button variant="secondary-gradient">Secondary Gradient</Button>
         <Button variant="link">Link</Button>
       </div>
     </div>

@@ -28,11 +28,11 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
             />
             <div
               className={cn(
-                "w-11 h-6 bg-neutral-200 dark:bg-neutral-700 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 peer-focus:ring-offset-0 rounded-full peer",
+                "w-11 h-6 bg-tertiary peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-focus:ring-offset-0 rounded-full peer",
                 "peer-checked:after:translate-x-full peer-checked:after:border-white",
-                "after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-neutral-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all",
-                "peer-checked:bg-primary-500",
-                hasError && "border-error-500 peer-checked:bg-error-500",
+                "after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-default after:border after:rounded-full after:h-5 after:w-5 after:transition-all",
+                "peer-checked:bg-primary",
+                hasError && "border-error peer-checked:bg-error",
                 className
               )}
             />
@@ -40,19 +40,19 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           {label && (
             <label
               htmlFor={switchId}
-              className="text-sm font-medium text-neutral-700 dark:text-neutral-300 cursor-pointer"
+              className="text-sm font-medium text-text-primary cursor-pointer"
             >
               {label}
             </label>
           )}
         </div>
         {error && (
-          <p className="text-sm text-error-600 dark:text-error-400">
+          <p className="text-sm text-error">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          <p className="text-sm text-text-tertiary">
             {helperText}
           </p>
         )}

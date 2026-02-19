@@ -20,9 +20,9 @@ export const Spinner: React.FC<SpinnerProps> = ({
   }
 
   const variants = {
-    primary: 'text-primary-500',
-    secondary: 'text-secondary-500',
-    white: 'text-white',
+    primary: 'text-primary',
+    secondary: 'text-secondary',
+    white: 'text-text-inverse',
   }
 
   return (

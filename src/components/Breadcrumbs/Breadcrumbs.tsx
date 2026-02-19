@@ -21,7 +21,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
 }) => {
   const defaultSeparator = (
       <svg
-        className="w-4 h-4 text-neutral-500"
+        className="w-4 h-4 text-text-tertiary"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -43,24 +43,24 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({
           return (
             <li key={index} className="flex items-center">
               {index > 0 && (
-                <span className="mx-2 text-neutral-500">
+                <span className="mx-2 text-text-tertiary">
                   {separator || defaultSeparator}
                 </span>
               )}
               {isLast ? (
-                <span className="text-sm font-medium text-neutral-900 dark:text-neutral-50">
+                <span className="text-sm font-medium text-text-primary">
                   {item.label}
                 </span>
               ) : item.href || item.onClick ? (
                 <a
                   href={item.href}
                   onClick={item.onClick}
-                  className="text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-500 transition-colors"
+                  className="text-sm text-text-secondary hover:text-primary transition-colors"
                 >
                   {item.label}
                 </a>
               ) : (
-                <span className="text-sm text-neutral-600 dark:text-neutral-400">
+                <span className="text-sm text-text-secondary">
                   {item.label}
                 </span>
               )}

@@ -21,10 +21,10 @@ export const Logo: React.FC<LogoProps> = ({
   ...props
 }) => {
   const fillColor = variant === 'light' 
-    ? 'fill-white' 
+    ? 'fill-text-inverse' 
     : variant === 'dark' 
-    ? 'fill-neutral-900 dark:fill-white' 
-    : 'fill-white'
+    ? 'fill-primary' 
+    : 'fill-primary'
 
   return (
     <svg

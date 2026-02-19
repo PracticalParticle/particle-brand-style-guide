@@ -21,7 +21,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
 }) => {
   const defaultIcon = (
     <svg
-      className="w-12 h-12 text-neutral-400 dark:text-neutral-600"
+      className="w-12 h-12 text-text-tertiary"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -56,7 +56,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {...props}
     >
       {icon && (
-        <div className={cn('mb-4 text-neutral-400 dark:text-neutral-600', iconSizes[size])}>
+        <div className={cn('mb-4 text-text-tertiary', iconSizes[size])}>
           {icon}
         </div>
       )}
@@ -65,7 +65,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       {title && (
         <h3
           className={cn(
-            'font-semibold text-neutral-900 dark:text-neutral-50 mb-2',
+            'font-semibold text-text-primary mb-2',
             titleSizes[size]
           )}
         >
@@ -74,7 +74,7 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       )}
       
       {description && (
-        <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 max-w-md">
+        <p className="text-sm text-text-secondary mb-4 max-w-md">
           {description}
         </p>
       )}

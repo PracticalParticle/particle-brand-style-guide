@@ -26,7 +26,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const hasError = !!error
     const hasIcon = !!leftIcon || !!rightIcon
 
-    const baseStyles = 'flex h-10 w-full rounded-md border bg-secondary px-3 py-2 text-sm transition-all duration-200 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-tertiary'
+    const baseStyles = 'flex h-10 w-full rounded-md border bg-secondary px-3 py-2 text-sm transition-all duration-200 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-tertiary'
     
     const borderStyles = hasError
       ? 'border-error focus:border-error focus:ring-error focus:ring-offset-0'
@@ -42,15 +42,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label 
             htmlFor={inputId}
-            className="text-sm font-medium text-neutral-700 dark:text-neutral-300"
+            className="text-sm font-medium text-text-primary"
           >
             {label}
-            {props.required && <span className="text-error-500 ml-1" aria-label="required">*</span>}
+            {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
           </label>
         )}
         <div className="relative">
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-tertiary pointer-events-none">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-text-tertiary pointer-events-none">
               {leftIcon}
             </div>
           )}
@@ -70,7 +70,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-tertiary">
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-text-tertiary">
               {rightIcon}
             </div>
           )}
@@ -81,7 +81,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </p>
         )}
         {helperText && !error && (
-          <p className="text-sm text-neutral-500 dark:text-neutral-400">
+          <p className="text-sm text-text-tertiary">
             {helperText}
           </p>
         )}
@@ -113,7 +113,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const inputId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`
     const hasError = !!error
 
-    const baseStyles = 'flex min-h-[80px] w-full rounded-md border bg-secondary px-3 py-2 text-sm transition-all duration-200 placeholder:text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-tertiary'
+    const baseStyles = 'flex min-h-[80px] w-full rounded-md border bg-secondary px-3 py-2 text-sm transition-all duration-200 placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-tertiary'
     
     const borderStyles = hasError
       ? 'border-error focus:border-error focus:ring-error focus:ring-offset-0'
@@ -124,7 +124,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
         {label && (
           <label 
             htmlFor={inputId}
-            className="text-sm font-medium text-primary"
+            className="text-sm font-medium text-text-primary"
           >
             {label}
             {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
@@ -144,7 +144,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           </p>
         )}
         {helperText && !error && (
-                  <p id={`${inputId}-helper`} className="text-sm text-tertiary">
+          <p id={`${inputId}-helper`} className="text-sm text-text-tertiary">
             {helperText}
           </p>
         )}

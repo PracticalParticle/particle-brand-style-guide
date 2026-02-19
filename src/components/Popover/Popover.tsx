@@ -123,7 +123,7 @@ export const Popover: React.FC<PopoverProps> = ({
         <div
           ref={popoverRef}
           className={cn(
-            'fixed z-50 w-64 p-4 bg-white dark:bg-neutral-900 rounded-lg shadow-xl border border-neutral-200 dark:border-neutral-700',
+            'fixed z-50 w-64 p-4 bg-secondary rounded-lg shadow-xl border border-default',
             'animate-in fade-in-0 zoom-in-95 duration-200',
             className
           )}

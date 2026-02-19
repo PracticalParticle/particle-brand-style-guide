@@ -69,7 +69,7 @@ export const Modal: React.FC<ModalProps> = ({
       onClick={handleOverlayClick}
     >
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" />
+      <div className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm transition-opacity" />
       
       {/* Modal */}
       <div
@@ -88,7 +88,7 @@ export const Modal: React.FC<ModalProps> = ({
             {title && (
               <h2
                 id="modal-title"
-                className="text-xl font-semibold text-primary"
+                className="text-xl font-semibold text-text-primary"
               >
                 {title}
               </h2>
@@ -96,7 +96,7 @@ export const Modal: React.FC<ModalProps> = ({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="ml-auto rounded-lg p-1 text-tertiary hover:text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
+                className="ml-auto rounded-lg p-1 text-text-tertiary hover:text-text-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-primary"
                 aria-label="Close modal"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -146,7 +146,7 @@ export const ModalTitle = React.forwardRef<HTMLHeadingElement, ModalTitleProps>(
     return (
       <h2
         ref={ref}
-        className={cn('text-2xl font-semibold leading-none tracking-tight text-neutral-900 dark:text-neutral-50', className)}
+        className={cn('text-2xl font-semibold leading-none tracking-tight text-text-primary', className)}
         {...props}
       >
         {children}
@@ -166,7 +166,7 @@ export const ModalDescription = React.forwardRef<HTMLParagraphElement, ModalDesc
     return (
       <p
         ref={ref}
-        className={cn('text-sm text-neutral-600 dark:text-neutral-400', className)}
+        className={cn('text-sm text-text-tertiary', className)}
         {...props}
       >
         {children}
@@ -206,7 +206,7 @@ export const ModalFooter = React.forwardRef<HTMLDivElement, ModalFooterProps>(
     return (
       <div
         ref={ref}
-        className={cn('flex items-center justify-end gap-3 mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-700', className)}
+        className={cn('flex items-center justify-end gap-3 mt-6 pt-4 border-t border-default', className)}
         {...props}
       >
         {children}

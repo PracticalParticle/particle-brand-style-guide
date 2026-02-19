@@ -8,8 +8,6 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     | 'danger' 
     | 'ghost' 
     | 'outline'
-    | 'primary-gradient'
-    | 'secondary-gradient'
     | 'link'
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
   isLoading?: boolean
@@ -37,14 +35,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = 'inline-flex items-center justify-center font-medium rounded-base transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.98]'
     
     const variants = {
-      primary: 'bg-primary text-inverse hover:bg-primary-hover active:bg-primary-active focus:ring-primary shadow-sm hover:shadow-md',
-      secondary: 'bg-secondary text-inverse hover:bg-secondary-hover active:bg-secondary-active focus:ring-secondary shadow-sm hover:shadow-md',
-      danger: 'bg-error text-inverse hover:bg-error-600 active:bg-error-700 focus:ring-error shadow-sm hover:shadow-md',
-      ghost: 'bg-transparent text-primary hover:bg-primary-lighter/50 active:bg-primary-light/50 focus:ring-primary',
-      outline: 'border border-primary text-primary bg-transparent hover:bg-primary-lighter/50 active:bg-primary-light/50 focus:ring-primary',
-      'primary-gradient': 'bg-gradient-to-r from-primary to-primary-hover text-inverse hover:from-primary-hover hover:to-primary-active active:from-primary-active active:to-primary-900 focus:ring-primary shadow-md hover:shadow-lg',
-      'secondary-gradient': 'bg-gradient-to-r from-secondary to-secondary-hover text-inverse hover:from-secondary-hover hover:to-secondary-active active:from-secondary-active active:to-secondary-900 focus:ring-secondary shadow-md hover:shadow-lg',
-      link: 'bg-transparent text-primary hover:text-primary-hover underline-offset-4 hover:underline p-0 h-auto focus:ring-primary shadow-none',
+      primary: 'bg-tertiary text-text-inverse hover:bg-tertiary-hover active:bg-tertiary-active focus:ring-tertiary shadow-sm hover:shadow-md',
+      secondary: 'bg-secondary text-text-primary hover:bg-tertiary-lighter active:bg-tertiary-light focus:ring-tertiary shadow-sm hover:shadow-md',
+      danger: 'border border-error text-error bg-transparent hover:bg-error-light/50 active:bg-error-light/70 focus:ring-error',
+      ghost: 'bg-transparent text-tertiary hover:bg-tertiary-lighter/50 active:bg-tertiary-light/50 focus:ring-tertiary',
+      outline: 'border border-tertiary text-tertiary bg-transparent hover:bg-tertiary-lighter/50 active:bg-tertiary-light/50 focus:ring-tertiary',
+      link: 'bg-transparent text-tertiary hover:text-tertiary-hover underline-offset-4 hover:underline p-0 h-auto focus:ring-tertiary shadow-none',
     }
 
     const sizes = {

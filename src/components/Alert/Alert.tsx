@@ -14,11 +14,11 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     const baseStyles = 'relative rounded-lg border p-4 transition-colors'
     
     const variants = {
-      default: 'bg-neutral-50 border-neutral-200 text-neutral-900 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-50',
-      success: 'bg-success-50 border-success-100 text-success-700 dark:bg-success-700/20 dark:border-success-700 dark:text-success-100',
-      warning: 'bg-warning-50 border-warning-100 text-warning-700 dark:bg-warning-700/20 dark:border-warning-700 dark:text-warning-100',
-      error: 'bg-error-50 border-error-100 text-error-700 dark:bg-error-700/20 dark:border-error-700 dark:text-error-100',
-      info: 'bg-info-50 border-info-100 text-info-700 dark:bg-info-700/20 dark:border-info-700 dark:text-info-100',
+      default: 'bg-tertiary border-tertiary-active text-text-inverse',
+      success: 'bg-success-light border-success text-success dark:bg-success/20 dark:border-success dark:text-success',
+      warning: 'bg-warning-light border-warning text-warning dark:bg-warning/20 dark:border-warning dark:text-warning',
+      error: 'bg-error-light border-error text-error dark:bg-error/20 dark:border-error dark:text-error',
+      info: 'bg-info-light border-info text-info dark:bg-info/20 dark:border-info dark:text-info',
     }
 
     const defaultIcons = {

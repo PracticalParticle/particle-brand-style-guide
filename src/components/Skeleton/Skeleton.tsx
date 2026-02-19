@@ -17,7 +17,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   style,
   ...props
 }) => {
-  const baseStyles = 'bg-neutral-200 dark:bg-neutral-800'
+  const baseStyles = 'bg-tertiary'
   
   const variants = {
     text: 'rounded',
