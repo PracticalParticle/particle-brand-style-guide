@@ -8,42 +8,69 @@ export interface RadioProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
 }
 
 export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
-  ({ className, label, error, helperText, id, ...props }, ref) => {
+  ({ className, label, error, helperText, id, disabled, ...props }, ref) => {
     const radioId = id || `radio-${Math.random().toString(36).substr(2, 9)}`
     const hasError = !!error
 
     return (
-      <div className="flex flex-col space-y-1.5">
-        <div className="flex items-start gap-2">
-          <input
-            ref={ref}
-            type="radio"
-            id={radioId}
+      <div className={cn('flex flex-col space-y-1.5', className)}>
+        <div className="flex items-center gap-2">
+          <label
+            htmlFor={radioId}
             className={cn(
-              'h-4 w-4 border-default',
-              'text-primary focus:ring-2 focus:ring-primary focus:ring-offset-0',
-              'disabled:cursor-not-allowed disabled:opacity-50',
-              hasError && 'border-error',
-              className
+              'relative inline-flex cursor-pointer flex-shrink-0 select-none',
+              disabled && 'cursor-not-allowed opacity-50'
             )}
-            {...props}
-          />
+          >
+            <input
+              ref={ref}
+              type="radio"
+              id={radioId}
+              disabled={disabled}
+              className="sr-only peer"
+              aria-invalid={hasError}
+              aria-describedby={error ? `${radioId}-error` : helperText ? `${radioId}-helper` : undefined}
+              {...props}
+            />
+            <span
+              className={cn(
+                'inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors',
+                'border-neutral-300 bg-secondary dark:border-neutral-500 dark:bg-secondary',
+                'hover:border-neutral-400 dark:hover:border-neutral-400',
+                'peer-focus:outline-none',
+                'peer-focus-visible:border-primary peer-focus-visible:ring-0',
+                'peer-active:scale-[0.97]',
+                'peer-checked:border-primary peer-checked:bg-primary peer-checked:[&>span]:scale-100',
+                'peer-disabled:pointer-events-none peer-disabled:hover:border-neutral-300 peer-disabled:dark:hover:border-neutral-500 peer-disabled:opacity-50',
+                hasError &&
+                  'border-error peer-focus-visible:border-error peer-checked:border-error peer-checked:bg-error'
+              )}
+            >
+              <span
+                className="h-2 w-2 scale-0 rounded-full bg-text-inverse transition-transform"
+                aria-hidden
+              />
+            </span>
+          </label>
           {label && (
             <label
               htmlFor={radioId}
-              className="text-sm font-medium text-text-primary cursor-pointer"
+              className={cn(
+                'text-sm font-medium leading-tight text-text-primary cursor-pointer select-none',
+                disabled && 'cursor-not-allowed opacity-50'
+              )}
             >
               {label}
             </label>
           )}
         </div>
         {error && (
-          <p className="text-sm text-error ml-6">
+          <p id={`${radioId}-error`} className="text-sm text-error ml-6" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p className="text-sm text-text-tertiary ml-6">
+          <p id={`${radioId}-helper`} className="text-sm text-text-tertiary ml-6">
             {helperText}
           </p>
         )}

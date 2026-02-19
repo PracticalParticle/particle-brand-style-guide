@@ -36,13 +36,16 @@ export default {
           inverse: 'rgb(var(--color-text-inverse) / <alpha-value>)',
         },
         
-        // Border Theme Colors
+        // Border Theme Colors (use border-border, border-border-hover, border-border-focus)
         border: {
           DEFAULT: 'rgb(var(--color-border) / <alpha-value>)',
           hover: 'rgb(var(--color-border-hover) / <alpha-value>)',
           focus: 'rgb(var(--color-border-focus) / <alpha-value>)',
         },
-        
+        // Alias for design system: border-default, border-focus (single border color utilities)
+        default: 'rgb(var(--color-border) / <alpha-value>)',
+        focus: 'rgb(var(--color-border-focus) / <alpha-value>)',
+
         // Brand Colors - Using CSS Variables
         primary: {
           DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
@@ -266,6 +269,9 @@ export default {
       },
       backgroundPosition: {
         'triangle': '0 0, 0 10px, 10px -10px, -10px 0px',
+      },
+      ringOffsetColor: {
+        DEFAULT: 'rgb(var(--color-bg-primary))',
       },
     },
   },

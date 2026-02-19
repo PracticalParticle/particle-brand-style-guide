@@ -24,13 +24,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   }, ref) => {
     const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
     const hasError = !!error
-    const hasIcon = !!leftIcon || !!rightIcon
 
-    const baseStyles = 'flex h-10 w-full rounded-md border bg-secondary px-3 py-2 text-sm transition-all duration-200 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-tertiary'
-    
+    const baseStyles =
+      'flex h-10 w-full rounded-md border bg-secondary px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-tertiary placeholder:opacity-100 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-secondary file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-text-primary border-neutral-400 dark:border-neutral-500'
+
     const borderStyles = hasError
-      ? 'border-error focus:border-error focus:ring-error focus:ring-offset-0'
-      : 'border-default focus:border-focus focus:ring-primary focus:ring-offset-0 hover:border-hover'
+      ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
+      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-focus focus-visible:border-focus'
 
     const iconPadding = {
       left: leftIcon ? 'pl-10' : '',
@@ -40,9 +40,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
         {label && (
-          <label 
+          <label
             htmlFor={inputId}
-            className="text-sm font-medium text-text-primary"
+            className="text-sm font-medium leading-tight text-text-primary"
           >
             {label}
             {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
@@ -59,14 +59,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             aria-invalid={hasError}
             aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
-            className={cn(
-              baseStyles,
-              borderStyles,
-              iconPadding.left,
-              iconPadding.right,
-              hasIcon && 'pl-10',
-              rightIcon && 'pr-10'
-            )}
+            className={cn(baseStyles, borderStyles, iconPadding.left, iconPadding.right)}
             {...props}
           />
           {rightIcon && (
@@ -76,12 +69,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && (
-          <p className="text-sm text-error">
+          <p id={`${inputId}-error`} className="text-sm text-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p className="text-sm text-text-tertiary">
+          <p id={`${inputId}-helper`} className="text-sm text-text-tertiary">
             {helperText}
           </p>
         )}
@@ -113,18 +106,19 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const inputId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`
     const hasError = !!error
 
-    const baseStyles = 'flex min-h-[80px] w-full rounded-md border bg-secondary px-3 py-2 text-sm transition-all duration-200 placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-tertiary'
-    
+    const baseStyles =
+      'flex min-h-[80px] w-full rounded-md border bg-secondary px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-tertiary placeholder:opacity-100 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-secondary resize-y border-neutral-400 dark:border-neutral-500'
+
     const borderStyles = hasError
-      ? 'border-error focus:border-error focus:ring-error focus:ring-offset-0'
-      : 'border-default focus:border-focus focus:ring-primary focus:ring-offset-0 hover:border-hover'
+      ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
+      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-focus focus-visible:border-focus'
 
     return (
       <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
         {label && (
-          <label 
+          <label
             htmlFor={inputId}
-            className="text-sm font-medium text-text-primary"
+            className="text-sm font-medium leading-tight text-text-primary"
           >
             {label}
             {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
@@ -154,3 +148,29 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 )
 
 Textarea.displayName = 'Textarea'
+
+const SearchIcon = () => (
+  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+  </svg>
+)
+
+export interface SearchInputProps extends Omit<InputProps, 'type'> {
+  /** Show search icon on the left. Default true. */
+  showIcon?: boolean
+}
+
+export const SearchInput = React.forwardRef<HTMLInputElement, SearchInputProps>(
+  ({ showIcon = true, leftIcon, fullWidth, ...props }, ref) => (
+    <Input
+      ref={ref}
+      type="search"
+      leftIcon={leftIcon ?? (showIcon ? <SearchIcon /> : undefined)}
+      fullWidth={fullWidth}
+      autoComplete="off"
+      {...props}
+    />
+  )
+)
+
+SearchInput.displayName = 'SearchInput'

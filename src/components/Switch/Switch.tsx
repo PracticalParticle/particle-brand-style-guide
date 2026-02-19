@@ -28,11 +28,11 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
             />
             <div
               className={cn(
-                "w-11 h-6 bg-tertiary peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary peer-focus:ring-offset-0 rounded-full peer",
-                "peer-checked:after:translate-x-full peer-checked:after:border-white",
-                "after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-default after:border after:rounded-full after:h-5 after:w-5 after:transition-all",
-                "peer-checked:bg-primary",
-                hasError && "border-error peer-checked:bg-error",
+                'relative w-11 h-6 shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-600 transition-colors',
+                'peer-focus:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2',
+                'peer-checked:bg-tertiary peer-checked:after:translate-x-full',
+                'after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-transform',
+                hasError && 'peer-checked:bg-error',
                 className
               )}
             />
@@ -40,7 +40,7 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
           {label && (
             <label
               htmlFor={switchId}
-              className="text-sm font-medium text-text-primary cursor-pointer"
+              className="text-sm font-medium leading-tight text-text-primary cursor-pointer select-none"
             >
               {label}
             </label>
