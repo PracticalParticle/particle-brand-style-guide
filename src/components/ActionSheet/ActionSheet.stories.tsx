@@ -149,7 +149,7 @@ export const Loading: Story = {
     const [open, setOpen] = useState(false)
     return (
       <>
-        <Button onClick={() => setOpen(true)}>Open (loading)</Button>
+        <Button onClick={() => setOpen(true)}>Open</Button>
         <ActionSheet isOpen={open} onClose={() => setOpen(false)} title="Options" actions={[]}>
           <div className="space-y-0.5" aria-busy="true" aria-label="Loading">
             {[1, 2, 3, 4].map((i) => (

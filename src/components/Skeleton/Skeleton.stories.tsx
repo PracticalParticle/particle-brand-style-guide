@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Skeleton } from './Skeleton'
 import { Card, CardHeader, CardContent, CardFooter } from '../Card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../Table'
-import { Modal } from '../Modal'
-import { ActionSheet } from '../ActionSheet'
 
 const meta: Meta<typeof Skeleton> = {
   title: 'Components/Skeleton',
@@ -155,8 +153,8 @@ export const TableSkeleton: Story = {
 
 export const ModalContentSkeleton: Story = {
   render: () => (
-    <Modal isOpen onClose={() => {}} title="">
-      <div className="space-y-4" aria-hidden>
+    <div className="rounded-xl border border-border bg-bg-secondary p-6 shadow-lg max-w-md" aria-hidden>
+      <div className="space-y-4">
         <Skeleton variant="text" width="60%" height={20} />
         <Skeleton variant="text" width="100%" height={14} />
         <Skeleton variant="text" width="100%" height={14} />
@@ -166,12 +164,12 @@ export const ModalContentSkeleton: Story = {
           <Skeleton variant="rectangular" width={72} height={36} className="rounded-lg" />
         </div>
       </div>
-    </Modal>
+    </div>
   ),
   parameters: {
     docs: {
       description: {
-        story: 'Use when modal content is loading (e.g. async form or details).',
+        story: 'Use when modal content is loading (e.g. async form or details). Rendered here in a card-style container; in app, use inside Modal while content loads.',
       },
     },
   },
@@ -179,8 +177,8 @@ export const ModalContentSkeleton: Story = {
 
 export const ActionSheetListSkeleton: Story = {
   render: () => (
-    <ActionSheet isOpen onClose={() => {}} actions={[]} cancelLabel="Cancel">
-      <div className="space-y-0.5" aria-hidden>
+    <div className="rounded-t-2xl border border-t border-border bg-bg-secondary p-4 max-w-sm mx-auto" aria-hidden>
+      <div className="space-y-0.5">
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3">
             <Skeleton variant="rectangular" width={24} height={24} className="rounded" />
@@ -191,14 +189,12 @@ export const ActionSheetListSkeleton: Story = {
           </div>
         ))}
       </div>
-    </ActionSheet>
+    </div>
   ),
   parameters: {
-    layout: 'fullscreen',
-    viewport: { defaultViewport: 'mobile1' },
     docs: {
       description: {
-        story: 'Use when action sheet options are loading (e.g. async list).',
+        story: 'Use when action sheet options are loading (e.g. async list). Rendered here in a sheet-style container; in app, use inside ActionSheet while options load.',
       },
     },
   },

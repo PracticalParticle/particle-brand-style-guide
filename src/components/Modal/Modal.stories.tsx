@@ -95,7 +95,7 @@ function LoadingContentStory() {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Open modal (loading)</Button>
+      <Button onClick={() => setIsOpen(true)}>Open modal</Button>
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Loading...">
         <div className="space-y-4" aria-busy="true" aria-label="Loading">
           <Skeleton variant="text" width="60%" height={20} />

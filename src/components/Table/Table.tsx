@@ -3,21 +3,46 @@ import { cn } from '@/utils/cn'
 
 export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
   children: React.ReactNode
+  /** Wrap table in a rounded container (use with TableToolbar/TablePagination). */
+  container?: boolean
+  /** Use table-fixed layout for stable column widths (no content-based reflow). */
+  fixed?: boolean
+  /** Keep header row visible when scrolling vertically. Requires scroll container. */
+  stickyHeader?: boolean
+  /** Max height of the scroll area when stickyHeader (e.g. "60vh", "400px"). Enables vertical scroll. */
+  scrollMaxHeight?: string
 }
 
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, children, ...props }, ref) => {
-    return (
-      <div className="w-full overflow-auto">
+  ({ className, children, container = false, fixed = false, stickyHeader = false, scrollMaxHeight, ...props }, ref) => {
+    const scrollWrapperClass = cn(
+      'w-full min-w-0 overflow-auto',
+      stickyHeader && '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:bg-bg-secondary [&_thead]:shadow-[0_1px_0_0_rgba(0,0,0,0.05)]'
+    )
+    const scrollStyle = scrollMaxHeight ? { maxHeight: scrollMaxHeight } : undefined
+    const tableEl = (
+      <div className={scrollWrapperClass} style={scrollStyle}>
         <table
           ref={ref}
-          className={cn('w-full caption-bottom text-sm', className)}
+          className={cn(
+            'w-full caption-bottom text-sm',
+            fixed && 'table-fixed',
+            className
+          )}
           {...props}
         >
           {children}
         </table>
       </div>
     )
+    if (container) {
+      return (
+        <div className="border-x border-b border-default bg-bg-primary min-w-0 w-full">
+          {tableEl}
+        </div>
+      )
+    }
+    return tableEl
   }
 )
 
@@ -32,7 +57,11 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
     return (
       <thead
         ref={ref}
-        className={cn('border-b border-default/30', className)}
+        className={cn(
+          'border-b border-default bg-bg-secondary',
+          'text-left text-sm font-semibold text-text-primary',
+          className
+        )}
         {...props}
       >
         {children}
@@ -66,16 +95,19 @@ TableBody.displayName = 'TableBody'
 export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   children: React.ReactNode
   hover?: boolean
+  /** Show pointer and hover state (e.g. clickable row). */
+  interactive?: boolean
 }
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, hover = false, children, ...props }, ref) => {
+  ({ className, hover = false, interactive = false, children, ...props }, ref) => {
     return (
       <tr
         ref={ref}
         className={cn(
           'border-b border-default/30 transition-colors',
-          hover && 'hover:bg-tertiary',
+          hover && 'hover:bg-bg-tertiary/60',
+          interactive && 'cursor-pointer hover:bg-bg-tertiary/60',
           className
         )}
         {...props}
@@ -88,22 +120,64 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
 
 TableRow.displayName = 'TableRow'
 
+const SortAscIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="m18 15-6-6-6 6" />
+  </svg>
+)
+const SortDescIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+)
+const SortBothIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="m7 15 5 5 5-5" />
+    <path d="m7 9 5-5 5 5" />
+  </svg>
+)
+
+export type SortDirection = 'asc' | 'desc' | null
+
 export interface TableHeadProps extends React.ThHTMLAttributes<HTMLTableCellElement> {
   children: React.ReactNode
+  /** Enable sort indicator and click handler. */
+  sortable?: boolean
+  /** Current sort direction (asc/desc) or null for unsorted. */
+  sortDirection?: SortDirection
+  /** Called when sortable column header is clicked. */
+  onSort?: () => void
 }
 
 export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ className, children, sortable, sortDirection = null, onSort, ...props }, ref) => {
+    const isButton = sortable && onSort
+    const content = (
+      <>
+        <span className={cn(isButton && 'mr-1.5')}>{children}</span>
+        {sortable && (
+          <span className="inline-flex shrink-0 text-text-tertiary">
+            {sortDirection === 'asc' && <SortAscIcon className="h-4 w-4" />}
+            {sortDirection === 'desc' && <SortDescIcon className="h-4 w-4" />}
+            {sortDirection === null && <SortBothIcon className="h-4 w-4 opacity-50" />}
+          </span>
+        )}
+      </>
+    )
     return (
       <th
         ref={ref}
         className={cn(
-          'h-12 px-4 text-left align-middle font-semibold text-text-primary',
+          'h-10 sm:h-12 px-2 sm:px-4 text-left align-middle font-semibold text-text-primary text-sm',
+          isButton && 'cursor-pointer select-none hover:bg-bg-tertiary/40 hover:text-text-primary transition-colors rounded-t',
           className
         )}
+        {...(isButton
+          ? { onClick: onSort, onKeyDown: (e: React.KeyboardEvent) => (e.key === 'Enter' || e.key === ' ') && onSort?.(), role: 'button', tabIndex: 0 }
+          : {})}
         {...props}
       >
-        {children}
+        {content}
       </th>
     )
   }
@@ -120,7 +194,7 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
     return (
       <td
         ref={ref}
-        className={cn('p-4 align-middle text-text-secondary', className)}
+        className={cn('px-2 py-2 sm:px-4 sm:py-3 align-middle text-sm text-text-secondary', className)}
         {...props}
       >
         {children}

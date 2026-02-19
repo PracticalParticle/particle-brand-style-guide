@@ -5,6 +5,10 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
     "./.storybook/**/*.{js,ts,jsx,tsx}",
   ],
+  safelist: [
+    { pattern: /^animate-logo-/, variants: [] },
+    { pattern: /^animate-bg-/, variants: [] },
+  ],
   darkMode: 'class',
   theme: {
     screens: {
@@ -42,6 +46,8 @@ export default {
           hover: 'rgb(var(--color-border-hover) / <alpha-value>)',
           focus: 'rgb(var(--color-border-focus) / <alpha-value>)',
         },
+        // Skeleton / loading placeholder - theme-aware, subtle (light & dark)
+        skeleton: 'rgb(var(--color-skeleton) / <alpha-value>)',
         // Alias for design system: border-default, border-focus (single border color utilities)
         default: 'rgb(var(--color-border) / <alpha-value>)',
         focus: 'rgb(var(--color-border-focus) / <alpha-value>)',
@@ -303,6 +309,124 @@ export default {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.5' },
         },
+        // Branded logo: sides (apart = outward) in first half, then one full spin in second half
+        // Apart = each triangle moves outward (left one left, right one right)
+        'spinner-logo-left': {
+          '0%, 50%, 100%': { transform: 'translateX(0)' },
+          '25%': { transform: 'translateX(24%)' },
+        },
+        'spinner-logo-right': {
+          '0%, 50%, 100%': { transform: 'translateX(0)' },
+          '25%': { transform: 'translateX(-24%)' },
+        },
+        'spinner-branded-spin': {
+          '0%, 50%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'spinner-default': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        // Animated logos collection (Brand section)
+        'logo-pulse': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.6' },
+        },
+        'logo-float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-6%)' },
+        },
+        'logo-breathe': {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.06)' },
+        },
+        'logo-reveal': {
+          '0%': { opacity: '0', transform: 'scale(0.92)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'logo-reveal-top': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'logo-reveal-bottom': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'logo-spin-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'logo-expand-left': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(20%)' },
+        },
+        'logo-expand-right': {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(-20%)' },
+        },
+        'logo-color-fade': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.45' },
+        },
+        // Bounce / stumble / from-outside (enterprise, video intro)
+        'logo-bounce': {
+          '0%, 100%': { transform: 'translateY(0) scale(1)' },
+          '30%': { transform: 'translateY(-12%) scale(1.05)' },
+          '50%': { transform: 'translateY(4%) scale(0.98)' },
+          '70%': { transform: 'translateY(-4%) scale(1.02)' },
+        },
+        'logo-stumble': {
+          '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+          '25%': { transform: 'translateY(-8%) rotate(-1.5deg)' },
+          '50%': { transform: 'translateY(4%) rotate(1deg)' },
+          '75%': { transform: 'translateY(-3%) rotate(-0.5deg)' },
+        },
+        'logo-fade-in-outside': {
+          '0%': { opacity: '0', transform: 'scale(0.75) translateY(10%)' },
+          '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+        },
+        'logo-fade-in-outside-top': {
+          '0%': { opacity: '0', transform: 'scale(0.8) translateY(-15%)' },
+          '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+        },
+        'logo-fade-in-outside-bottom': {
+          '0%': { opacity: '0', transform: 'scale(0.8) translateY(15%)' },
+          '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+        },
+        'logo-scale-pop': {
+          '0%': { opacity: '0', transform: 'scale(0.4)' },
+          '70%': { transform: 'scale(1.08)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'logo-slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(24px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'logo-slide-down': {
+          '0%': { opacity: '0', transform: 'translateY(-24px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'logo-hold-fade-out': {
+          '0%, 70%': { opacity: '1', transform: 'scale(1)' },
+          '100%': { opacity: '0', transform: 'scale(0.95)' },
+        },
+        // Background-only (logo static)
+        'bg-shimmer': {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '-200% 0' },
+        },
+        'bg-pulse-subtle': {
+          '0%, 100%': { opacity: '0.4' },
+          '50%': { opacity: '0.7' },
+        },
+        'bg-geometric-rotate': {
+          '0%': { transform: 'rotate(0deg) scale(1)' },
+          '100%': { transform: 'rotate(360deg) scale(1.1)' },
+        },
+        'bg-dots-pulse': {
+          '0%, 100%': { opacity: '0.2', transform: 'scale(1)' },
+          '50%': { opacity: '0.5', transform: 'scale(1.05)' },
+        },
       },
       animation: {
         'popover-bottom': 'popover-in-bottom 0.2s ease-out',
@@ -312,6 +436,34 @@ export default {
         'sheet-in': 'sheet-in 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
         'sheet-out': 'sheet-out 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
         wave: 'wave 1.6s ease-in-out infinite',
+        'spinner-logo-left': 'spinner-logo-left 3.2s ease-in-out infinite',
+        'spinner-logo-right': 'spinner-logo-right 3.2s ease-in-out infinite',
+        'spinner-branded-spin': 'spinner-branded-spin 3.2s linear infinite',
+        'spinner-default': 'spinner-default 1.75s linear infinite',
+        'logo-pulse': 'logo-pulse 2.2s ease-in-out infinite',
+        'logo-float': 'logo-float 3s ease-in-out infinite',
+        'logo-breathe': 'logo-breathe 2.5s ease-in-out infinite',
+        'logo-reveal': 'logo-reveal 0.8s ease-out forwards',
+        'logo-reveal-top': 'logo-reveal-top 0.5s ease-out forwards',
+        'logo-reveal-bottom': 'logo-reveal-bottom 0.5s 0.15s ease-out forwards',
+        'logo-spin-slow': 'logo-spin-slow 4s linear',
+        'logo-expand-left': 'logo-expand-left 2.4s ease-in-out infinite',
+        'logo-expand-right': 'logo-expand-right 2.4s ease-in-out infinite',
+        'logo-color-fade': 'logo-color-fade 2.5s ease-in-out infinite',
+        'logo-bounce': 'logo-bounce 1.8s ease-in-out infinite',
+        'logo-stumble': 'logo-stumble 2s ease-in-out infinite',
+        'logo-fade-in-outside': 'logo-fade-in-outside 0.9s ease-out forwards',
+        'logo-fade-in-outside-top': 'logo-fade-in-outside-top 0.6s ease-out forwards',
+        'logo-fade-in-outside-bottom': 'logo-fade-in-outside-bottom 0.6s 0.12s ease-out forwards',
+        'logo-scale-pop': 'logo-scale-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        'logo-scale-pop-bottom': 'logo-scale-pop 0.6s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+        'logo-slide-up': 'logo-slide-up 0.7s ease-out forwards',
+        'logo-slide-down': 'logo-slide-down 0.7s ease-out forwards',
+        'logo-hold-fade-out': 'logo-hold-fade-out 2.5s ease-in-out forwards',
+        'bg-shimmer': 'bg-shimmer 4s linear infinite',
+        'bg-pulse-subtle': 'bg-pulse-subtle 3s ease-in-out infinite',
+        'bg-geometric-rotate': 'bg-geometric-rotate 20s linear infinite',
+        'bg-dots-pulse': 'bg-dots-pulse 2.5s ease-in-out infinite',
       },
     },
   },

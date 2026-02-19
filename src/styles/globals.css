@@ -26,6 +26,9 @@
     /* Border Theme Colors - Theme B: Regulated Finance */
     --color-border: 241 245 249;        /* #F1F5F9 - Matches bg-primary, very subtle */
     --color-border-hover: 233 237 241;   /* #E9EDF1 - Slightly more visible on hover */
+
+    /* Skeleton / placeholder - subtle, theme-aware (not brand primary) */
+    --color-skeleton: 226 232 240;       /* #E2E8F0 - Neutral 200, soft gray */
     --color-border-focus: 31 78 216;     /* #1F4ED8 - Corporate Blue focus */
     
     /* Brand Colors - Theme B: Regulated Finance */
@@ -96,6 +99,9 @@
     /* Border Theme Colors - Dark Mode - Theme B: Regulated Finance */
     --color-border: 25 25 25;          /* #191919 - Very subtle, blends with dark background */
     --color-border-hover: 35 35 35;   /* #232323 - Slightly lighter on hover */
+
+    /* Skeleton / placeholder - dark theme */
+    --color-skeleton: 45 45 45;        /* #2D2D2D - Slightly lighter than surface, subtle */
     --color-border-focus: 31 78 216;  /* #1F4ED8 - Corporate Blue focus */
     
     /* Brand Colors - Dark Mode - Theme B: Regulated Finance */

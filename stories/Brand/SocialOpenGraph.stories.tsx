@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Logo } from '../../src/components/Logo/Logo'
+import React from 'react'
 
 const meta: Meta = {
   title: 'Brand/Social & Open Graph',
