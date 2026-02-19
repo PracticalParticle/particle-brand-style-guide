@@ -66,20 +66,43 @@ export const Stepper: React.FC<StepperProps> = ({
   }
 
   const renderHorizontal = () => {
-    // One row: each step is one flex item (circle + label in a column). Connector in a fixed-height band so line runs through circle centers.
+    // One continuous line from first circle center to last circle center (steps are equal width).
     const isClickable = !!onStepClick
-    const connectorBandHeight = size === 'sm' ? 'h-8' : 'h-10' // same as circle so line is at circle level
+    const lineTop = size === 'sm' ? 'top-4' : 'top-5' // half of circle height
+    const n = steps.length
+    const lineInset = n > 0 ? `${100 / (2 * n)}%` : '50%' // center of first/last step column
+    const completedPercent =
+      n <= 1 ? 100 : (currentStep / (n - 1)) * 100
+    const completedWidth = n <= 1 ? '100%' : `calc((100% - ${100 / n}%) * ${completedPercent} / 100)`
 
     return (
-      <div className="flex w-full items-start">
+      <div className="relative flex w-full items-start">
+        {/* Track from first circle center to last circle center */}
+        <div
+          className={cn(
+            'absolute h-0.5 rounded-full bg-border',
+            lineTop
+          )}
+          style={{ left: lineInset, right: lineInset }}
+          aria-hidden
+        />
+        {/* Completed segment */}
+        <div
+          className={cn(
+            'absolute h-0.5 rounded-full bg-tertiary transition-all duration-200',
+            lineTop
+          )}
+          style={{ left: lineInset, width: completedWidth }}
+          aria-hidden
+        />
+        {/* Steps on top of line */}
         {steps.map((label, index) => {
           const { isActive } = getStepState(index)
           const description = descriptions?.[index]
-          const isLast = index === steps.length - 1
           const stepEl = (
             <div
               className={cn(
-                'flex flex-1 min-w-0 flex-col items-center text-center',
+                'relative z-10 flex flex-1 min-w-0 flex-col items-center text-center',
                 isClickable && 'cursor-pointer'
               )}
               onClick={isClickable ? () => onStepClick(index) : undefined}
@@ -121,40 +144,45 @@ export const Stepper: React.FC<StepperProps> = ({
               )}
             </div>
           )
-          return (
-            <React.Fragment key={label}>
-              {stepEl}
-              {!isLast && (
-                <div
-                  className={cn(
-                    'flex flex-1 min-w-4 flex-shrink items-center',
-                    connectorBandHeight
-                  )}
-                  aria-hidden
-                >
-                  <div
-                    className={cn(
-                      'h-0.5 w-full rounded-full transition-colors',
-                      index < currentStep ? 'bg-tertiary' : 'bg-border'
-                    )}
-                  />
-                </div>
-              )}
-            </React.Fragment>
-          )
+          return <React.Fragment key={label}>{stepEl}</React.Fragment>
         })}
       </div>
     )
   }
 
   const renderVertical = () => {
-    const connectorMinHeight = size === 'sm' ? 'min-h-4' : 'min-h-5'
+    // One continuous vertical line behind the circles (no gaps). Line through circle centers.
+    const lineOffset = size === 'sm' ? '1rem' : '1.25rem' // half of w-8 / w-10
+    const completedPercent =
+      steps.length <= 1 ? 100 : (currentStep / (steps.length - 1)) * 100
+
     return (
-      <div className="flex flex-col">
+      <div className="relative flex flex-col">
+        {/* Full-height track line (inactive) */}
+        <div
+          className="absolute w-0.5 rounded-full bg-border"
+          style={{
+            left: `calc(${lineOffset} - 1px)`,
+            top: lineOffset,
+            bottom: lineOffset,
+          }}
+          aria-hidden
+        />
+        {/* Completed segment on top of track */}
+        <div
+          className="absolute w-0.5 rounded-full bg-tertiary transition-all duration-200"
+          style={{
+            left: `calc(${lineOffset} - 1px)`,
+            top: lineOffset,
+            height: `calc(100% - 2 * ${lineOffset})`,
+            clipPath: `inset(0 0 ${100 - completedPercent}% 0)`,
+          }}
+          aria-hidden
+        />
+
         {steps.map((label, index) => {
           const { isActive, isCompleted } = getStepState(index)
           const description = descriptions?.[index]
-          const isLast = index === steps.length - 1
           const isClickable = !!onStepClick
           const circleEl = (
             <div
@@ -185,19 +213,8 @@ export const Stepper: React.FC<StepperProps> = ({
 
           return (
             <div key={label} className="flex gap-4">
-              {/* Left column: circle + connector line (flush, no gap) */}
               <div className="flex flex-shrink-0 flex-col items-center">
                 {circleEl}
-                {!isLast && (
-                  <div
-                    className={cn(
-                      '-mt-px w-0.5 flex-1 min-w-0 rounded-full transition-colors',
-                      connectorMinHeight,
-                      index < currentStep ? 'bg-tertiary' : 'bg-border'
-                    )}
-                    aria-hidden
-                  />
-                )}
               </div>
 
               {showLabels && (

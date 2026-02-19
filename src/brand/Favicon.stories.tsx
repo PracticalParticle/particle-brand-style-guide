@@ -4,6 +4,7 @@ import { Logo, downloadLogoSvg, type LogoExportVariant } from '@/components/Logo
 
 const LOGO_RATIO = 92 / 70
 const FAVICON_SIZES = [16, 32, 48, 64] as const
+type FaviconSize = (typeof FAVICON_SIZES)[number]
 
 const meta: Meta = {
   title: 'Brand/Favicon',
@@ -36,7 +37,7 @@ const BACKGROUNDS: { value: string; label: string; bgClass: string; previewVars?
 ]
 
 function FaviconPlayground() {
-  const [size, setSize] = useState<number>(32)
+  const [size, setSize] = useState<FaviconSize>(32)
   const [variant, setVariant] = useState<LogoExportVariant>('dark')
   const [backgroundId, setBackgroundId] = useState<string>('bg-primary')
 

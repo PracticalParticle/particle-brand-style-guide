@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
 import { ActionSheet } from './ActionSheet'
 import { Button } from '../Button'
+import { Skeleton } from '../Skeleton'
 
 const meta: Meta<typeof ActionSheet> = {
   title: 'Components/ActionSheet',
@@ -140,5 +141,36 @@ export const CustomContent: Story = {
         </ActionSheet>
       </>
     )
+  },
+}
+
+export const Loading: Story = {
+  render: function LoadingStory() {
+    const [open, setOpen] = useState(false)
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>Open (loading)</Button>
+        <ActionSheet isOpen={open} onClose={() => setOpen(false)} title="Options" actions={[]}>
+          <div className="space-y-0.5" aria-busy="true" aria-label="Loading">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3">
+                <Skeleton variant="rectangular" width={24} height={24} className="rounded" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton variant="text" width="50%" height={16} />
+                  <Skeleton variant="text" width="30%" height={12} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </ActionSheet>
+      </>
+    )
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Show skeleton rows while action sheet options are loading (e.g. async list).',
+      },
+    },
   },
 }

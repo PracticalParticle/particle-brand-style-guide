@@ -1,5 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Skeleton } from './Skeleton'
+import { Card, CardHeader, CardContent, CardFooter } from '../Card'
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../Table'
+import { Modal } from '../Modal'
+import { ActionSheet } from '../ActionSheet'
 
 const meta: Meta<typeof Skeleton> = {
   title: 'Components/Skeleton',
@@ -68,17 +72,30 @@ export const Animations: Story = {
 
 export const CardSkeleton: Story = {
   render: () => (
-    <div className="w-96 p-6 border border-neutral-200 dark:border-neutral-700 rounded-lg space-y-4">
-      <Skeleton variant="rectangular" width="100%" height={200} />
-      <Skeleton variant="text" width="80%" height={24} />
-      <Skeleton variant="text" width="100%" height={16} />
-      <Skeleton variant="text" width="60%" height={16} />
-      <div className="flex gap-2">
-        <Skeleton variant="rectangular" width={80} height={32} />
-        <Skeleton variant="rectangular" width={80} height={32} />
-      </div>
-    </div>
+    <Card variant="default" padding="md" className="w-96">
+      <Skeleton variant="rectangular" width="100%" height={160} className="rounded-lg mb-4" />
+      <CardHeader>
+        <Skeleton variant="text" width="80%" height={24} />
+        <Skeleton variant="text" width="100%" height={16} />
+        <Skeleton variant="text" width="60%" height={16} />
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <Skeleton variant="text" width="100%" height={14} />
+        <Skeleton variant="text" width="90%" height={14} />
+      </CardContent>
+      <CardFooter>
+        <Skeleton variant="rectangular" width={80} height={32} className="rounded-lg" />
+        <Skeleton variant="rectangular" width={80} height={32} className="rounded-lg" />
+      </CardFooter>
+    </Card>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use inside Card for loading state. Mirrors Card layout to avoid layout shift when content loads.',
+      },
+    },
+  },
 }
 
 export const ListSkeleton: Story = {
@@ -95,4 +112,94 @@ export const ListSkeleton: Story = {
       ))}
     </div>
   ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use for list or feed loading states (e.g. activity lists, user lists).',
+      },
+    },
+  },
+}
+
+export const TableSkeleton: Story = {
+  render: () => (
+    <Table className="min-w-[32rem]">
+      <TableHeader>
+        <TableRow>
+          <TableHead>Name</TableHead>
+          <TableHead>Email</TableHead>
+          <TableHead>Role</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {[1, 2, 3, 4, 5].map((i) => (
+          <TableRow key={i}>
+            <TableCell><Skeleton variant="text" width="80%" height={16} /></TableCell>
+            <TableCell><Skeleton variant="text" width="90%" height={16} /></TableCell>
+            <TableCell><Skeleton variant="text" width="40%" height={16} /></TableCell>
+            <TableCell><Skeleton variant="rectangular" width={64} height={22} className="rounded-md" /></TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use when table data is loading. Keep real column headers; skeleton rows reduce perceived wait.',
+      },
+    },
+  },
+}
+
+export const ModalContentSkeleton: Story = {
+  render: () => (
+    <Modal isOpen onClose={() => {}} title="">
+      <div className="space-y-4" aria-hidden>
+        <Skeleton variant="text" width="60%" height={20} />
+        <Skeleton variant="text" width="100%" height={14} />
+        <Skeleton variant="text" width="100%" height={14} />
+        <Skeleton variant="text" width="70%" height={14} />
+        <div className="flex gap-2 pt-4 justify-end">
+          <Skeleton variant="rectangular" width={72} height={36} className="rounded-lg" />
+          <Skeleton variant="rectangular" width={72} height={36} className="rounded-lg" />
+        </div>
+      </div>
+    </Modal>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Use when modal content is loading (e.g. async form or details).',
+      },
+    },
+  },
+}
+
+export const ActionSheetListSkeleton: Story = {
+  render: () => (
+    <ActionSheet isOpen onClose={() => {}} actions={[]} cancelLabel="Cancel">
+      <div className="space-y-0.5" aria-hidden>
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="flex items-center gap-3 rounded-xl px-4 py-3">
+            <Skeleton variant="rectangular" width={24} height={24} className="rounded" />
+            <div className="flex-1 space-y-2">
+              <Skeleton variant="text" width="50%" height={16} />
+              <Skeleton variant="text" width="30%" height={12} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </ActionSheet>
+  ),
+  parameters: {
+    layout: 'fullscreen',
+    viewport: { defaultViewport: 'mobile1' },
+    docs: {
+      description: {
+        story: 'Use when action sheet options are loading (e.g. async list).',
+      },
+    },
+  },
 }

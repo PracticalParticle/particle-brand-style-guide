@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter, CardImage, CardAction } from './Card'
 import { Button } from '../Button'
 import { Badge } from '../Badge'
+import { Skeleton } from '../Skeleton'
 import {
   LightningIcon,
   LockIcon,
@@ -29,7 +30,7 @@ const meta: Meta<typeof Card> = {
     docs: {
       description: {
         component:
-          '**Variants:** `default` and `elevated` = borderless (shadow only; dark mode uses a subtle border for separation). `outlined` = thin border (best for forms, feature grids, empty states). `filled` = accent background, no border.',
+          '**Variants:** `default` and `elevated` = subtle neutral border + shadow for clear separation in light and dark. `outlined` = visible neutral border, no shadow (best for forms, feature grids, empty states). `filled` = accent background, no border. Borders use style-guide neutrals (neutral-200 light, neutral-700 dark).',
       },
     },
   },
@@ -111,6 +112,34 @@ export const WithSubComponents: Story = {
       </CardFooter>
     </Card>
   ),
+}
+
+export const Loading: Story = {
+  render: () => (
+    <Card variant="default" padding="md" className="w-full max-w-md">
+      <Skeleton variant="rectangular" width="100%" height={160} className="rounded-lg mb-4" />
+      <CardHeader>
+        <Skeleton variant="text" width="80%" height={24} />
+        <Skeleton variant="text" width="100%" height={16} />
+        <Skeleton variant="text" width="60%" height={16} />
+      </CardHeader>
+      <CardContent className="space-y-2">
+        <Skeleton variant="text" width="100%" height={14} />
+        <Skeleton variant="text" width="90%" height={14} />
+      </CardContent>
+      <CardFooter>
+        <Skeleton variant="rectangular" width={80} height={32} className="rounded-lg" />
+        <Skeleton variant="rectangular" width={80} height={32} className="rounded-lg" />
+      </CardFooter>
+    </Card>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Show this state while card content is loading. Uses Skeleton to mirror layout and reduce layout shift.',
+      },
+    },
+  },
 }
 
 export const PaddingVariants: Story = {
@@ -247,7 +276,7 @@ export const TestimonialCard: Story = {
           and the support team is incredibly responsive."
         </p>
       </CardContent>
-      <div className="flex items-center gap-3 pt-4 border-t border-default/15 dark:border-white/[0.08]">
+      <div className="flex items-center gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
         <div className="w-12 h-12 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary font-semibold">
           JD
         </div>
@@ -458,7 +487,7 @@ export const DashboardCard: Story = {
             { action: 'File uploaded', time: '1 hour ago', user: 'Jane Smith' },
             { action: 'Task completed', time: '3 hours ago', user: 'Bob Wilson' },
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 pb-4 border-b border-default/15 dark:border-white/[0.08] last:border-0">
+            <div key={i} className="flex items-start gap-3 pb-4 border-b border-neutral-200 dark:border-neutral-700 last:border-0">
               <div className="w-8 h-8 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary text-xs font-semibold flex-shrink-0">
                 {item.user.split(' ').map(n => n[0]).join('')}
               </div>

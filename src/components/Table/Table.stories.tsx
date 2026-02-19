@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, TableCaption } from './Table'
 import { Badge } from '../Badge'
+import { Skeleton } from '../Skeleton'
 
 const meta: Meta<typeof Table> = {
   title: 'Components/Table',
@@ -143,4 +144,37 @@ export const Compact: Story = {
       </TableBody>
     </Table>
   ),
+}
+
+export const Loading: Story = {
+  render: () => (
+    <Table>
+      <TableCaption>Data is loading</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Transaction ID</TableHead>
+          <TableHead>Date</TableHead>
+          <TableHead>Amount</TableHead>
+          <TableHead>Status</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {[1, 2, 3, 4, 5].map((i) => (
+          <TableRow key={i}>
+            <TableCell><Skeleton variant="text" width="85%" height={16} /></TableCell>
+            <TableCell><Skeleton variant="text" width="70%" height={16} /></TableCell>
+            <TableCell><Skeleton variant="text" width="50%" height={16} /></TableCell>
+            <TableCell><Skeleton variant="rectangular" width={64} height={22} className="rounded-md" /></TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Show skeleton rows while table data is loading. Keep real column headers so users understand the structure.',
+      },
+    },
+  },
 }

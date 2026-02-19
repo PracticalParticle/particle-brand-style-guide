@@ -12,6 +12,7 @@ import {
 import { Button } from '../Button'
 import { Input, Textarea } from '../Input'
 import { Checkbox } from '../Checkbox'
+import { Skeleton } from '../Skeleton'
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -88,6 +89,38 @@ function WithSubComponentsStory() {
 
 export const WithSubComponents: Story = {
   render: () => <WithSubComponentsStory />,
+}
+
+function LoadingContentStory() {
+  const [isOpen, setIsOpen] = useState(false)
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>Open modal (loading)</Button>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title="Loading...">
+        <div className="space-y-4" aria-busy="true" aria-label="Loading">
+          <Skeleton variant="text" width="60%" height={20} />
+          <Skeleton variant="text" width="100%" height={14} />
+          <Skeleton variant="text" width="100%" height={14} />
+          <Skeleton variant="text" width="70%" height={14} />
+          <div className="flex gap-2 pt-4 justify-end">
+            <Skeleton variant="rectangular" width={72} height={36} className="rounded-lg" />
+            <Skeleton variant="rectangular" width={72} height={36} className="rounded-lg" />
+          </div>
+        </div>
+      </Modal>
+    </>
+  )
+}
+
+export const LoadingContent: Story = {
+  render: () => <LoadingContentStory />,
+  parameters: {
+    docs: {
+      description: {
+        story: 'Show skeleton content while modal body is loading (e.g. async form or details). Reduces perceived wait and layout shift.',
+      },
+    },
+  },
 }
 
 function SizesStory() {

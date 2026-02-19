@@ -299,6 +299,10 @@ export default {
           '0%': { opacity: '1', transform: 'translateY(0)' },
           '100%': { opacity: '0', transform: 'translateY(100%)' },
         },
+        wave: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+        },
       },
       animation: {
         'popover-bottom': 'popover-in-bottom 0.2s ease-out',
@@ -307,6 +311,7 @@ export default {
         'popover-right': 'popover-in-right 0.2s ease-out',
         'sheet-in': 'sheet-in 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
         'sheet-out': 'sheet-out 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
+        wave: 'wave 1.6s ease-in-out infinite',
       },
     },
   },

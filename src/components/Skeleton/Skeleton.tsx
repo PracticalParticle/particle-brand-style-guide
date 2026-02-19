@@ -27,7 +27,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 
   const animations = {
     pulse: 'animate-pulse',
-    wave: 'animate-[wave_1.6s_ease-in-out_infinite]',
+    wave: 'animate-wave',
     none: '',
   }
 
@@ -39,6 +39,8 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 
   return (
     <div
+      role="status"
+      aria-label="Loading"
       className={cn(
         baseStyles,
         variants[variant],

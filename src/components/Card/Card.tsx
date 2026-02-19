@@ -12,17 +12,16 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', padding = 'md', interactive = false, children, ...props }, ref) => {
     const baseStyles = 'rounded-lg transition-all duration-200 bg-secondary text-text-primary min-w-0 w-full'
     
-    // Per-variant: default/elevated = borderless (shadow); dark mode uses subtle border + shadow for separation
-    // outlined = thin border in both modes; filled = borderless accent
+    // Variants are visually distinct: default = shadow only; elevated = stronger shadow (in dark, lighter surface + shadow so it doesn't blend); outlined = border, no shadow; filled = accent bg.
     const variants = {
       default:
-        'shadow-sm dark:shadow-[0_1px_2px_rgba(0,0,0,0.4)] dark:border dark:border-white/[0.06]',
+        'border-0 shadow dark:border dark:border-neutral-700/70 dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)]',
       elevated:
-        'shadow-md dark:shadow-[0_4px_12px_rgba(0,0,0,0.4)] dark:border dark:border-white/[0.08]',
+        'border-0 shadow-md dark:bg-bg-tertiary dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_12px_40px_rgba(0,0,0,0.6),0_24px_80px_-12px_rgba(0,0,0,0.5)]',
       outlined:
-        'border border-default/25 shadow-none dark:border-white/10',
+        'border border-neutral-200 shadow-none dark:border-neutral-700',
       filled:
-        'bg-tertiary text-text-inverse shadow-sm dark:border-0 dark:shadow-[0_1px_2px_rgba(0,0,0,0.3)]',
+        'border-0 bg-tertiary text-text-inverse shadow-sm dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)]',
     }
 
     const paddings = {
@@ -141,7 +140,7 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
       <div
         ref={ref}
         className={cn(
-          'flex flex-wrap items-center gap-2 sm:gap-3 mt-4 pt-4 sm:mt-6 sm:pt-6 border-t border-default/15 dark:border-white/[0.08]',
+          'flex flex-wrap items-center gap-2 sm:gap-3 mt-4 pt-4 sm:mt-6 sm:pt-6 border-t border-neutral-200 dark:border-neutral-700',
           className
         )}
         {...props}
