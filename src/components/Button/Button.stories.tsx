@@ -178,7 +178,7 @@ export const IconOnly: Story = {
     return (
       <div className="flex flex-col gap-6">
         <div>
-          <h3 className="text-sm font-medium mb-3 text-neutral-700 dark:text-neutral-300">Icon Only Variants</h3>
+          <h3 className="text-sm font-medium mb-3 text-text-primary">Icon Only Variants</h3>
           <div className="flex flex-wrap gap-4 items-center">
             <Button variant="primary" iconOnly aria-label="Edit">
               <EditIcon />
@@ -196,7 +196,7 @@ export const IconOnly: Story = {
         </div>
 
         <div>
-          <h3 className="text-sm font-medium mb-3 text-neutral-700 dark:text-neutral-300">Icon Only Sizes</h3>
+          <h3 className="text-sm font-medium mb-3 text-text-primary">Icon Only Sizes</h3>
           <div className="flex flex-wrap gap-4 items-center">
             <Button variant="primary" iconOnly size="xs" aria-label="Small">
               <EditIcon />

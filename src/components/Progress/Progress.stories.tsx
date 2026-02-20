@@ -41,15 +41,15 @@ export const LabelPositions: Story = {
   render: () => (
     <div className="space-y-6 w-full min-w-[16rem] max-w-md">
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Label right (default)</p>
+        <p className="text-xs text-text-secondary mb-2">Label right (default)</p>
         <Progress value={65} showLabel labelPosition="right" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Label left</p>
+        <p className="text-xs text-text-secondary mb-2">Label left</p>
         <Progress value={40} showLabel labelPosition="left" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Label center</p>
+        <p className="text-xs text-text-secondary mb-2">Label center</p>
         <Progress value={80} showLabel labelPosition="center" />
       </div>
     </div>
@@ -74,15 +74,15 @@ export const Sizes: Story = {
   render: () => (
     <div className="space-y-6 w-full min-w-[16rem] max-w-md">
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Small</p>
+        <p className="text-xs text-text-secondary mb-2">Small</p>
         <Progress value={50} size="sm" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Medium</p>
+        <p className="text-xs text-text-secondary mb-2">Medium</p>
         <Progress value={50} size="md" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Large</p>
+        <p className="text-xs text-text-secondary mb-2">Large</p>
         <Progress value={50} size="lg" />
       </div>
     </div>

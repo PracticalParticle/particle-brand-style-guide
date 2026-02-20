@@ -139,7 +139,7 @@ export const MultiFilterDemo: Story = {
     const [values, setValues] = useState<Record<string, string>>({ status: '', priority: '' })
     return (
       <div className={cn('rounded-lg border border-default bg-bg-secondary p-4 min-w-[20rem]')}>
-        <p className="text-sm text-text-tertiary mb-3">Toolbar-style: button + chips</p>
+        <p className="text-sm text-text-secondary mb-3">Toolbar-style: button + chips</p>
         <MultiFilter
           fields={DEMO_FIELDS}
           values={values}
@@ -157,12 +157,12 @@ export const QuickFiltersBadges: Story = {
     const [status, setStatus] = useState('')
     return (
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-xs font-medium text-text-tertiary">Status</span>
+        <span className="text-xs font-medium text-text-secondary">Status</span>
         <div className="flex flex-wrap gap-1.5" role="group" aria-label="Status">
           <button
             type="button"
             onClick={() => setStatus('')}
-            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-full"
+            className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full"
             aria-pressed={!status}
           >
             <Badge variant={!status ? 'primary' : 'outline'} size="sm">
@@ -174,7 +174,7 @@ export const QuickFiltersBadges: Story = {
               key={opt}
               type="button"
               onClick={() => setStatus(opt.toLowerCase())}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-full"
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full"
               aria-pressed={status === opt.toLowerCase()}
             >
               <Badge variant={status === opt.toLowerCase() ? 'primary' : 'outline'} size="sm">

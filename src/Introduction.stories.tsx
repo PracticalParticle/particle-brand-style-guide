@@ -144,7 +144,7 @@ export const Welcome: Story = {
           </div>
           <p className="text-base text-text-secondary max-w-2xl mx-auto">
             A comprehensive design system for enterprise security applications. Built for{' '}
-            <strong className="text-tertiary">BloxChain Protocol</strong> — compliance framework
+            <strong className="text-text-primary">BloxChain Protocol</strong> — compliance framework
             for regulated smart accounts.
           </p>
         </header>
@@ -313,15 +313,15 @@ export const Welcome: Story = {
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6" aria-labelledby="stats-heading">
           <h2 id="stats-heading" className="sr-only">Overview</h2>
           <Card variant="outlined" padding="md" className="text-center">
-            <div className="text-3xl font-bold text-tertiary mb-2">30+</div>
+            <div className="text-3xl font-bold text-text-primary mb-2">30+</div>
             <div className="text-sm text-text-secondary">Components</div>
           </Card>
           <Card variant="outlined" padding="md" className="text-center">
-            <div className="text-3xl font-bold text-tertiary mb-2">100%</div>
+            <div className="text-3xl font-bold text-text-primary mb-2">100%</div>
             <div className="text-sm text-text-secondary">Accessible</div>
           </Card>
           <Card variant="outlined" padding="md" className="text-center">
-            <div className="text-3xl font-bold text-tertiary mb-2">WCAG</div>
+            <div className="text-3xl font-bold text-text-primary mb-2">WCAG</div>
             <div className="text-sm text-text-secondary">2.1 AA Compliant</div>
           </Card>
         </section>

@@ -87,6 +87,7 @@ export default {
           active: 'rgb(var(--color-tertiary-active) / <alpha-value>)',
           light: 'rgb(var(--color-tertiary-light) / <alpha-value>)',
           lighter: 'rgb(var(--color-tertiary-lighter) / <alpha-value>)',
+          'on-dark': 'rgb(var(--color-tertiary-on-dark) / <alpha-value>)',
           // Legacy support
           50: 'rgb(var(--color-tertiary-lighter) / <alpha-value>)',
           100: 'rgb(var(--color-tertiary-light) / <alpha-value>)',
@@ -112,6 +113,12 @@ export default {
         },
         white: {
           DEFAULT: 'rgb(var(--color-white) / <alpha-value>)',
+        },
+        
+        // Backdrop for modals and overlays
+        backdrop: {
+          DEFAULT: 'rgb(var(--color-backdrop) / var(--color-backdrop-opacity-light))',
+          dark: 'rgb(var(--color-backdrop) / var(--color-backdrop-opacity-dark))',
         },
         
         // Neutral Colors - Theme B: Regulated Finance
@@ -262,13 +269,13 @@ export default {
         xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
         '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
         inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
-        'glow-dark': '0 0 20px rgba(0, 102, 204, 0.3)',
-        'glow-primary': '0 0 15px rgba(0, 102, 204, 0.2)',
-        'glow-primary-lg': '0 0 30px rgba(0, 102, 204, 0.3)',
+        'glow-dark': '0 0 20px rgb(var(--color-tertiary) / 0.3)',
+        'glow-primary': '0 0 15px rgb(var(--color-tertiary) / 0.2)',
+        'glow-primary-lg': '0 0 30px rgb(var(--color-tertiary) / 0.3)',
       },
       backgroundImage: {
-        'triangle-pattern': 'linear-gradient(45deg, transparent 25%, rgba(0, 102, 204, 0.05) 25%), linear-gradient(-45deg, transparent 25%, rgba(0, 102, 204, 0.05) 25%), linear-gradient(45deg, rgba(0, 102, 204, 0.05) 75%, transparent 75%), linear-gradient(-45deg, rgba(0, 102, 204, 0.05) 75%, transparent 75%)',
-        'triangle-pattern-dark': 'linear-gradient(45deg, transparent 25%, rgba(102, 178, 255, 0.1) 25%), linear-gradient(-45deg, transparent 25%, rgba(102, 178, 255, 0.1) 25%), linear-gradient(45deg, rgba(102, 178, 255, 0.1) 75%, transparent 75%), linear-gradient(-45deg, rgba(102, 178, 255, 0.1) 75%, transparent 75%)',
+        'triangle-pattern': 'linear-gradient(45deg, transparent 25%, rgb(var(--color-tertiary) / 0.05) 25%), linear-gradient(-45deg, transparent 25%, rgb(var(--color-tertiary) / 0.05) 25%), linear-gradient(45deg, rgb(var(--color-tertiary) / 0.05) 75%, transparent 75%), linear-gradient(-45deg, rgb(var(--color-tertiary) / 0.05) 75%, transparent 75%)',
+        'triangle-pattern-dark': 'linear-gradient(45deg, transparent 25%, rgb(var(--color-tertiary) / 0.1) 25%), linear-gradient(-45deg, transparent 25%, rgb(var(--color-tertiary) / 0.1) 25%), linear-gradient(45deg, rgb(var(--color-tertiary) / 0.1) 75%, transparent 75%), linear-gradient(-45deg, rgb(var(--color-tertiary) / 0.1) 75%, transparent 75%)',
       },
       backgroundSize: {
         'triangle': '20px 20px',

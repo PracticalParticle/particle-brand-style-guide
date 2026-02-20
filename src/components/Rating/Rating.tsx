@@ -66,18 +66,15 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
     }
 
     return (
-      <div ref={ref} className={cn('flex flex-col space-y-1.5', className)}>
+      <div ref={ref} className={cn('form-container', className)}>
         {label && (
-          <label id={`${ratingId}-label`} className="text-sm font-medium leading-tight text-text-primary">
+          <label id={`${ratingId}-label`} className="form-label">
             {label}
           </label>
         )}
         <div
           role="group"
-          aria-label={ariaLabel ?? label ?? 'Rating'}
-          aria-valuenow={value}
-          aria-valuemin={0}
-          aria-valuemax={max}
+          aria-label={ariaLabel ?? label ?? `${value} of ${max} stars`}
           aria-invalid={!!error}
           aria-describedby={error ? `${ratingId}-error` : helperText ? `${ratingId}-helper` : undefined}
           onMouseLeave={() => isInteractive && setHover(null)}
@@ -99,7 +96,7 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
                   onMouseEnter={() => setHover(starValue)}
                   className={cn(
                     'inline-flex shrink-0 cursor-pointer rounded p-0.5 transition-colors focus:outline-none focus-visible:ring-0',
-                    'border border-transparent focus-visible:border focus-visible:border-focus hover:opacity-90 active:scale-95',
+                    'border border-transparent focus-visible:border focus-visible:border-border-focus hover:opacity-90 active:scale-95',
                     sizeClasses[size]
                   )}
                 >
@@ -115,12 +112,12 @@ export const Rating = React.forwardRef<HTMLDivElement, RatingProps>(
           })}
         </div>
         {error && (
-          <p id={`${ratingId}-error`} className="text-sm text-error" role="alert">
+          <p id={`${ratingId}-error`} className="form-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={`${ratingId}-helper`} className="text-sm text-text-tertiary">
+          <p id={`${ratingId}-helper`} className="form-helper">
             {helperText}
           </p>
         )}
@@ -135,7 +132,7 @@ function StarIcon({ filled, className }: { filled: boolean; className?: string }
   const path = 'M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z'
   return (
     <svg
-      className={cn(className, filled ? 'text-tertiary' : 'text-neutral-300 dark:text-neutral-600')}
+      className={cn(className, filled ? 'text-tertiary dark:text-tertiary' : 'text-text-tertiary')}
       viewBox="0 0 20 20"
       fill={filled ? 'currentColor' : 'none'}
       stroke={filled ? 'none' : 'currentColor'}

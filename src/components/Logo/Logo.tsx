@@ -39,7 +39,9 @@ export const Logo: React.FC<LogoProps> = ({
       ? 'fill-text-inverse'
       : variant === 'tertiary'
         ? 'fill-tertiary'
-        : 'fill-primary'
+        : variant === 'dark'
+          ? 'fill-primary'
+          : 'fill-primary dark:fill-text-inverse'
 
   const sizeClass = sizeMap[String(size)] ?? 'w-24'
   const isPixelSize = typeof size === 'number'

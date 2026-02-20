@@ -54,21 +54,21 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
       'flex w-full border appearance-none',
       'bg-bg-secondary py-2 text-text-primary',
       'transition-colors duration-150',
-      'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-0',
+      'focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:ring-offset-0',
       'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-bg-tertiary',
       sizeStyles[size],
     ].join(' ')
 
     const borderStyles = hasError
       ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
-      : 'border-border hover:border-border-hover focus:border-primary focus-visible:border-primary'
+      : 'border-border hover:border-border-hover focus:border-border-focus focus-visible:border-border-focus'
 
     return (
-      <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
+      <div className={cn('form-container', fullWidth && 'w-full', className)}>
         {label && (
           <label
             htmlFor={selectId}
-            className="text-sm font-medium leading-tight text-text-primary"
+            className="form-label"
           >
             {label}
             {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
@@ -120,12 +120,12 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           </div>
         </div>
         {error && (
-          <p id={`${selectId}-error`} className="text-sm text-error" role="alert">
+          <p id={`${selectId}-error`} className="form-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={`${selectId}-helper`} className="text-sm text-text-tertiary">
+          <p id={`${selectId}-helper`} className="form-helper">
             {helperText}
           </p>
         )}

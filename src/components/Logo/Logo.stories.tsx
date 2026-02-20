@@ -155,7 +155,7 @@ const COLLECTION_OPTIONS: LogoCardOption[] = [
 ]
 
 const CHECKERBOARD_STYLE: React.CSSProperties = {
-  backgroundImage: `linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)`,
+  backgroundImage: `linear-gradient(45deg, rgb(var(--color-bg-tertiary)) 25%, transparent 25%), linear-gradient(-45deg, rgb(var(--color-bg-tertiary)) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgb(var(--color-bg-tertiary)) 75%), linear-gradient(-45deg, transparent 75%, rgb(var(--color-bg-tertiary)) 75%)`,
   backgroundSize: '12px 12px',
   backgroundPosition: '0 0, 0 6px, 6px -6px, -6px 0px',
 }

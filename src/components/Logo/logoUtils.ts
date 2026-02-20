@@ -3,7 +3,17 @@
  * Uses design system primary (charcoal) and white for light variant.
  */
 
-/** Brand colors only (primary charcoal, white, tertiary corporate blue) */
+/** 
+ * Brand colors only (primary charcoal, white, tertiary corporate blue)
+ * 
+ * IMPORTANT: These hex values must match the CSS variables in globals.css:
+ * - LIGHT_FILL matches --color-white: #FFFFFF
+ * - DARK_FILL matches --color-primary (light mode): #0A0A0A
+ * - TERTIARY_FILL matches --color-tertiary (light mode): #1F4ED8
+ * 
+ * These are used for SVG exports/downloads, so they must be static hex values.
+ * If theme colors change in globals.css, update these constants accordingly.
+ */
 const LIGHT_FILL = '#FFFFFF'
 const DARK_FILL = '#0A0A0A'     // --color-primary (light mode)
 const TERTIARY_FILL = '#1F4ED8' // --color-tertiary (corporate blue)

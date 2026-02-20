@@ -173,7 +173,7 @@ function DismissibleAlertsStory() {
       {!alerts.success && !alerts.warning && !alerts.error && !alerts.info && (
         <button
           onClick={() => setAlerts({ success: true, warning: true, error: true, info: true })}
-          className="px-4 py-2 bg-primary-500 text-white rounded-lg"
+          className="px-4 py-2 bg-primary dark:bg-primary text-text-inverse dark:text-text-inverse rounded-lg"
         >
           Reset All Alerts
         </button>

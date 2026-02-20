@@ -13,46 +13,47 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
     const hasError = !!error
 
     return (
-      <div className="flex flex-col space-y-1.5">
-        <div className="flex items-center gap-3">
+      <div className="form-container">
+        <div className="form-row">
           <label
             htmlFor={switchId}
-            className="relative inline-flex items-center cursor-pointer"
+            className="flex items-center gap-3 cursor-pointer"
           >
-            <input
-              ref={ref}
-              type="checkbox"
-              id={switchId}
-              className="sr-only peer"
-              {...props}
-            />
-            <div
-              className={cn(
-                'relative w-11 h-6 shrink-0 rounded-full bg-neutral-300 dark:bg-neutral-600 transition-colors',
-                'peer-focus:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2',
-                'peer-checked:bg-tertiary peer-checked:after:translate-x-full',
-                'after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm after:transition-transform',
-                hasError && 'peer-checked:bg-error',
-                className
-              )}
-            />
+            <span className="relative inline-flex items-center">
+              <input
+                ref={ref}
+                type="checkbox"
+                id={switchId}
+                className="sr-only peer"
+                aria-invalid={hasError}
+                aria-describedby={error ? `${switchId}-error` : helperText ? `${switchId}-helper` : undefined}
+                {...props}
+              />
+              <div
+                className={cn(
+                  'relative w-11 h-6 shrink-0 rounded-full bg-border transition-colors',
+                  'peer-focus:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-tertiary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-bg-primary dark:peer-focus-visible:ring-tertiary-on-dark',
+                  'peer-checked:bg-tertiary peer-checked:after:translate-x-full',
+                  'after:content-[""] after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-bg-secondary after:shadow-sm after:transition-transform',
+                  hasError && 'peer-checked:bg-error',
+                  className
+                )}
+              />
+            </span>
+            {label && (
+              <span className="form-label select-none">
+                {label}
+              </span>
+            )}
           </label>
-          {label && (
-            <label
-              htmlFor={switchId}
-              className="text-sm font-medium leading-tight text-text-primary cursor-pointer select-none"
-            >
-              {label}
-            </label>
-          )}
         </div>
         {error && (
-          <p className="text-sm text-error">
+          <p id={`${switchId}-error`} className="form-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p className="text-sm text-text-tertiary">
+          <p id={`${switchId}-helper`} className="form-helper">
             {helperText}
           </p>
         )}

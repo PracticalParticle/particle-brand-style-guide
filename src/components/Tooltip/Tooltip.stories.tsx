@@ -159,7 +159,7 @@ export const OnDifferentElements: Story = {
         <Button>Button</Button>
       </Tooltip>
       <Tooltip content="Link tooltip">
-        <a href="#" className="text-tertiary hover:underline font-medium">
+        <a href="#" className="text-tertiary dark:text-tertiary-on-dark hover:underline font-medium">
           Link
         </a>
       </Tooltip>

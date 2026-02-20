@@ -80,7 +80,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
       disabled={disabled}
       className={cn(
         'relative flex h-10 w-full items-center rounded-lg border border-border bg-bg-secondary px-3 py-2 pr-10 text-left text-sm text-text-primary',
-        'hover:border-border-hover focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-0',
+        'hover:border-border-hover focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:ring-offset-0 focus:border-border-focus',
         'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-bg-tertiary',
         fullWidth && 'w-full',
         !selected && !open && 'text-text-tertiary'
@@ -111,7 +111,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           placeholder={searchPlaceholder}
           className={cn(
             'w-full rounded-md border border-border bg-bg-secondary px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary',
-            'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary'
+            'focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:border-border-focus'
           )}
           onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
         />
@@ -150,9 +150,9 @@ export const Combobox: React.FC<ComboboxProps> = ({
   )
 
   return (
-    <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
+    <div className={cn('form-container', fullWidth && 'w-full', className)}>
       {label && (
-        <label htmlFor={id} className="text-sm font-medium leading-tight text-text-primary">
+        <label htmlFor={id} className="form-label">
           {label}
         </label>
       )}

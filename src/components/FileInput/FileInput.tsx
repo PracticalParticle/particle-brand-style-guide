@@ -71,11 +71,11 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
     const fileNames = files ? Array.from(files).map((f) => f.name).join(', ') : null
 
     return (
-      <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
+      <div className={cn('form-container', fullWidth && 'w-full', className)}>
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium leading-tight text-text-primary"
+            className="form-label"
           >
             {label}
             {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
@@ -87,10 +87,10 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={cn(
-            'relative flex min-h-[120px] w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed bg-secondary px-4 py-6 text-center transition-colors border-neutral-400 dark:border-neutral-500',
-            drag && !disabled && 'border-tertiary bg-tertiary/5',
+            'relative flex min-h-[120px] w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed bg-bg-secondary px-4 py-6 text-center transition-colors border-border',
+            drag && !disabled && 'border-border-focus bg-bg-tertiary dark:border-tertiary-on-dark',
             hasError && 'border-error focus-within:border-error',
-            !hasError && !disabled && 'hover:border-neutral-500 dark:hover:border-neutral-400 focus-within:border-primary',
+            !hasError && !disabled && 'hover:border-border-hover focus-within:border-border-focus',
             disabled && 'cursor-not-allowed opacity-50'
           )}
         >
@@ -107,22 +107,22 @@ export const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(
             className="absolute inset-0 z-0 cursor-pointer opacity-0 file:pointer-events-none"
             {...props}
           />
-          <span className={cn('relative z-10 text-sm', fileNames ? 'text-text-secondary' : 'text-text-tertiary')}>
+          <span className={cn('relative z-10 text-sm', fileNames ? 'text-text-secondary' : 'text-text-secondary')}>
             {fileNames || placeholder}
           </span>
           {accept && (
-            <span className="mt-1 text-xs text-text-tertiary">
+            <span className="mt-1 text-xs text-text-secondary">
               {accept}
             </span>
           )}
         </label>
         {error && (
-          <p id={`${inputId}-error`} className="text-sm text-error" role="alert">
+          <p id={`${inputId}-error`} className="form-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={`${inputId}-helper`} className="text-sm text-text-tertiary">
+          <p id={`${inputId}-helper`} className="form-helper">
             {helperText}
           </p>
         )}

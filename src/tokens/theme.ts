@@ -16,7 +16,7 @@
 export const theme = {
   /**
    * Background Colors
-   * Usage: Use bg-primary, bg-secondary, bg-tertiary Tailwind classes
+   * Usage: Use bg-bg-primary, bg-bg-secondary, bg-bg-tertiary Tailwind classes
    */
   background: {
     primary: 'var(--color-bg-primary)',
@@ -26,7 +26,7 @@ export const theme = {
 
   /**
    * Text Colors
-   * Usage: Use text-primary, text-secondary, text-tertiary, text-inverse Tailwind classes
+   * Usage: Use text-text-primary, text-text-secondary, text-text-tertiary, text-text-inverse Tailwind classes
    */
   text: {
     primary: 'var(--color-text-primary)',
@@ -37,7 +37,7 @@ export const theme = {
 
   /**
    * Border Colors
-   * Usage: Use border, border-hover, border-focus Tailwind classes
+   * Usage: Use border-border, border-border-hover, border-border-focus Tailwind classes
    */
   border: {
     default: 'var(--color-border)',

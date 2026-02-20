@@ -79,7 +79,7 @@ export const Modal: React.FC<ModalProps> = ({
     >
       {/* Backdrop — neutral overlay, minimal blur */}
       <div
-        className="fixed inset-0 bg-black/50 dark:bg-black/60 backdrop-blur-[2px] transition-opacity"
+        className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-[2px] transition-opacity"
         aria-hidden
       />
       
@@ -121,7 +121,7 @@ export const Modal: React.FC<ModalProps> = ({
                 iconOnly
                 onClick={onClose}
                 aria-label="Close"
-                className="ml-auto flex-shrink-0 focus-visible:ring-offset-secondary text-text-tertiary hover:text-text-primary"
+                className="ml-auto flex-shrink-0 focus-visible:ring-offset-bg-primary text-text-tertiary hover:text-text-primary"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

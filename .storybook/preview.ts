@@ -102,28 +102,23 @@ const preview: Preview = {
           if (typeof document === 'undefined') return
 
           const currentIsDark = themeValue === 'dark'
+          const htmlElement = document.documentElement
+          const bodyElement = document.body
 
-          // Check if we're inside a docs container
-          const root = document.getElementById('storybook-root')
-          const isInDocs = root?.closest('.sbdocs-wrapper') !== null
-
-          if (isInDocs) {
-            const canvasContainer = root?.closest('.sbdocs-preview') as HTMLElement
-            if (canvasContainer) {
-              if (currentIsDark) canvasContainer.classList.add('dark')
-              else canvasContainer.classList.remove('dark')
-              canvasContainer.style.backgroundColor = 'rgb(var(--color-bg-primary))'
-            }
+          // Always apply theme to html/body so docs and canvas both get correct text/background
+          if (currentIsDark) {
+            htmlElement.classList.add('dark')
+            bodyElement.classList.add('dark')
           } else {
-            const htmlElement = document.documentElement
-            const bodyElement = document.body
-            if (currentIsDark) {
-              htmlElement.classList.add('dark')
-              bodyElement.classList.add('dark')
-            } else {
-              htmlElement.classList.remove('dark')
-              bodyElement.classList.remove('dark')
-            }
+            htmlElement.classList.remove('dark')
+            bodyElement.classList.remove('dark')
+          }
+
+          // Ensure docs canvas area uses theme background
+          const root = document.getElementById('storybook-root')
+          const canvasContainer = root?.closest('.sbdocs-preview') as HTMLElement | null
+          if (canvasContainer) {
+            canvasContainer.style.backgroundColor = 'rgb(var(--color-bg-primary))'
           }
         }, [themeValue])
 

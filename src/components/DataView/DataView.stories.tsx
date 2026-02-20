@@ -89,7 +89,7 @@ const orderColumns = [
 const GALLERY_ITEMS = [
   { id: '1', title: 'Product shot A', category: 'Products', color: 'from-primary/20 to-primary/5' },
   { id: '2', title: 'Product shot B', category: 'Products', color: 'from-primary/15 to-primary/5' },
-  { id: '3', title: 'Office', category: 'Workspace', color: 'from-neutral-400/30 to-neutral-200/20 dark:from-neutral-600/40 dark:to-neutral-800/30' },
+  { id: '3', title: 'Office', category: 'Workspace', color: 'from-skeleton/30 to-skeleton/20' },
   { id: '4', title: 'Team', category: 'People', color: 'from-primary/10 to-secondary/10' },
   { id: '5', title: 'Event', category: 'Events', color: 'from-secondary/20 to-primary/10' },
   { id: '6', title: 'Brand', category: 'Marketing', color: 'from-primary/25 to-transparent' },

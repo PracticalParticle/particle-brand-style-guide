@@ -62,6 +62,10 @@ export interface TablePaginationProps {
   pageSizeLabel?: string
   /** Max page number buttons to show (excluding ellipsis). Default 7 on desktop, 5 on mobile. */
   maxPageButtons?: number
+  /** Optional aria-label for pagination navigation. If not provided, defaults to "Page navigation, page X of Y". */
+  'aria-label'?: string
+  /** Optional ID prefix for form elements. If not provided, a unique ID will be generated. */
+  idPrefix?: string
   className?: string
 }
 
@@ -75,6 +79,8 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   totalItems,
   pageSizeLabel = 'Rows per page',
   maxPageButtons,
+  'aria-label': ariaLabel,
+  idPrefix,
   className,
 }) => {
   const start = totalItems === 0 ? 0 : (page - 1) * pageSize + 1
@@ -84,6 +90,8 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   const totalPagesSafe = Math.max(1, totalPages)
 
   const pageNumbers = getPageNumbers(totalPagesSafe, page, maxPageButtons)
+  const pageSizeId = React.useId()
+  const uniquePageSizeId = idPrefix ? `${idPrefix}-page-size` : `table-page-size-${pageSizeId}`
 
   return (
     <div
@@ -100,11 +108,11 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
         </span>
         {pageSizeOptions.length > 0 && (
           <div className="flex items-center gap-2">
-            <label htmlFor="table-page-size" className="sr-only sm:not-sr-only sm:inline text-text-tertiary">
+            <label htmlFor={uniquePageSizeId} className="sr-only sm:not-sr-only sm:inline text-text-tertiary">
               {pageSizeLabel}
             </label>
             <Select
-              id="table-page-size"
+              id={uniquePageSizeId}
               value={String(pageSize)}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
               className="w-auto min-w-[4.5rem] [&_select]:h-8 [&_select]:py-1 [&_select]:pr-8"
@@ -148,7 +156,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
         </div>
 
         {/* Desktop: full page numbers + prev/next */}
-        <nav className="hidden sm:flex items-center gap-0.5" aria-label="Pagination">
+        <nav className="hidden sm:flex items-center gap-0.5" aria-label={ariaLabel ?? `Page navigation, page ${page} of ${totalPagesSafe}`}>
           <Button
             variant="ghost"
             size="sm"

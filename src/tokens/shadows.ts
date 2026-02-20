@@ -24,7 +24,7 @@ export const shadows = {
     xl: '0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4)',
     '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.5)',
     inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.2)',
-    glow: '0 0 20px rgba(0, 102, 204, 0.3)',
+    glow: '0 0 20px rgb(var(--color-tertiary) / 0.3)',
     none: 'none',
   },
 } as const;

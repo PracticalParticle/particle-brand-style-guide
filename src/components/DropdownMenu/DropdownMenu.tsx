@@ -68,7 +68,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
               disabled={item.disabled}
               className={cn(
                 'flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-text-primary transition-colors',
-                'hover:bg-bg-tertiary focus:bg-bg-tertiary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-inset',
+                'hover:bg-bg-tertiary focus:bg-bg-tertiary focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary/30 focus-visible:ring-inset',
                 item.disabled && 'opacity-50 cursor-not-allowed',
                 item.variant === 'danger' && 'text-error hover:bg-error-light/20 focus:bg-error-light/20 dark:hover:bg-error/20 dark:focus:bg-error/20'
               )}

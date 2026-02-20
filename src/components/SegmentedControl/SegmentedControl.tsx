@@ -44,7 +44,7 @@ export function SegmentedControl<T extends string = string>({
 
   return (
     <div
-      role="group"
+      role="radiogroup"
       aria-label={name}
       className={cn(
         'inline-flex rounded-lg border border-border bg-bg-tertiary p-1',
@@ -65,11 +65,11 @@ export function SegmentedControl<T extends string = string>({
             aria-disabled={isDisabled}
             disabled={isDisabled}
             className={cn(
-              'flex flex-1 items-center justify-center gap-1.5 font-medium transition-colors',
+              'flex flex-1 items-center justify-center gap-1.5 font-medium transition-colors border border-transparent',
               buttonSizeStyles[size],
               isSelected
-                ? 'bg-bg-secondary text-text-primary shadow-sm border border-primary'
-                : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary/50 border border-transparent',
+                ? 'bg-bg-secondary text-text-primary shadow-sm'
+                : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary/50',
               isDisabled && 'opacity-50 cursor-not-allowed'
             )}
             onClick={() => !isDisabled && onValueChange(opt.value)}

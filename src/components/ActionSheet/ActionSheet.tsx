@@ -80,7 +80,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
       onClick={handleBackdropClick}
     >
       <div
-        className="fixed inset-0 bg-black/50 dark:bg-black/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-sm transition-opacity"
         aria-hidden
       />
       <div
@@ -123,7 +123,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                   }}
                   className={cn(
                     'w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors',
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-secondary',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary',
                     action.variant === 'danger'
                       ? 'text-error hover:bg-error-light/20 active:bg-error-light/30'
                       : 'text-text-primary hover:bg-default/30 active:bg-default/50',
@@ -156,7 +156,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
               className={cn(
                 'w-full py-3 rounded-xl font-medium text-text-primary',
                 'bg-default/30 hover:bg-default/50 active:bg-default/70',
-                'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2'
+                'focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
               )}
             >
               {cancelLabel}

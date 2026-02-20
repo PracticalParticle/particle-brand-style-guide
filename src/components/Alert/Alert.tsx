@@ -15,10 +15,11 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
     
     const variants = {
       default: 'bg-tertiary border-tertiary-active text-text-inverse',
-      success: 'bg-success-light border-success text-success dark:bg-success/20 dark:border-success dark:text-success',
-      warning: 'bg-warning-light border-warning text-warning dark:bg-warning/20 dark:border-warning dark:text-warning',
-      error: 'bg-error-light border-error text-error dark:bg-error/20 dark:border-error dark:text-error',
-      info: 'bg-info-light border-info text-info dark:bg-info/20 dark:border-info dark:text-info',
+      success: 'bg-success-light border-success text-success dark:text-text-inverse',
+      warning: 'bg-warning-light border-warning text-warning dark:text-text-inverse',
+      error: 'bg-error-light border-error text-error dark:text-text-inverse',
+      /* Info: high-contrast text on info background (dark blue in light, white in dark) */
+      info: 'bg-info-light border-info text-[rgb(var(--color-info))] dark:text-text-inverse dark:border-tertiary-on-dark/50',
     }
 
     const defaultIcons = {
@@ -66,9 +67,9 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           )}
           <div className="flex-1 min-w-0">
             {title && (
-              <h4 className="font-semibold mb-1">
+              <div className="font-semibold mb-1">
                 {title}
-              </h4>
+              </div>
             )}
             <div className="text-sm">
               {children}

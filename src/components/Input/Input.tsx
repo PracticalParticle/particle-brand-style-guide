@@ -26,11 +26,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const hasError = !!error
 
     const baseStyles =
-      'flex h-10 w-full rounded-md border bg-secondary px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-tertiary placeholder:opacity-100 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-secondary file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-text-primary border-neutral-400 dark:border-neutral-500'
+      'flex h-10 w-full rounded-md border bg-bg-secondary px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-tertiary placeholder:opacity-100 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-bg-tertiary file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-text-primary border-border'
 
     const borderStyles = hasError
       ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
-      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-primary focus-visible:border-primary'
+      : 'hover:border-border-hover focus:border-border-focus focus-visible:border-border-focus'
 
     const iconPadding = {
       left: leftIcon ? 'pl-10' : '',
@@ -38,11 +38,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }
 
     return (
-      <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
+      <div className={cn('form-container', fullWidth && 'w-full', className)}>
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium leading-tight text-text-primary"
+            className="form-label"
           >
             {label}
             {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
@@ -69,12 +69,12 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && (
-          <p id={`${inputId}-error`} className="text-sm text-error" role="alert">
+          <p id={`${inputId}-error`} className="form-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={`${inputId}-helper`} className="text-sm text-text-tertiary">
+          <p id={`${inputId}-helper`} className="form-helper-tertiary">
             {helperText}
           </p>
         )}
@@ -107,18 +107,18 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     const hasError = !!error
 
     const baseStyles =
-      'flex min-h-[80px] w-full rounded-md border bg-secondary px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-tertiary placeholder:opacity-100 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-secondary resize-y border-neutral-400 dark:border-neutral-500'
+      'flex min-h-[80px] w-full rounded-md border bg-bg-secondary px-3 py-2 text-sm text-text-primary transition-colors placeholder:text-text-tertiary placeholder:opacity-100 focus:outline-none focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-bg-tertiary resize-y border-border'
 
     const borderStyles = hasError
       ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
-      : 'hover:border-neutral-500 dark:hover:border-neutral-400 focus:border-primary focus-visible:border-primary'
+      : 'hover:border-border-hover focus:border-border-focus focus-visible:border-border-focus'
 
     return (
-      <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
+      <div className={cn('form-container', fullWidth && 'w-full', className)}>
         {label && (
           <label
             htmlFor={inputId}
-            className="text-sm font-medium leading-tight text-text-primary"
+            className="form-label"
           >
             {label}
             {props.required && <span className="text-error ml-1" aria-label="required">*</span>}
@@ -133,12 +133,12 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
           {...props}
         />
         {error && (
-          <p id={`${inputId}-error`} className="text-sm text-error" role="alert">
+          <p id={`${inputId}-error`} className="form-error" role="alert">
             {error}
           </p>
         )}
         {helperText && !error && (
-          <p id={`${inputId}-helper`} className="text-sm text-text-tertiary">
+          <p id={`${inputId}-helper`} className="form-helper-tertiary">
             {helperText}
           </p>
         )}

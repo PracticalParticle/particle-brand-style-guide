@@ -80,8 +80,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
     onValueChange?.(next)
   }
 
-  const removeOne = (e: React.MouseEvent, optionValue: string) => {
-    e.stopPropagation()
+  const removeOne = (optionValue: string) => {
     onValueChange?.(value.filter((v) => v !== optionValue))
   }
 
@@ -93,63 +92,83 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         : `${selectedOptions.length} selected`
 
   const trigger = (
-    <button
-      type="button"
-      id={id}
-      aria-haspopup="listbox"
-      aria-expanded={open}
-      aria-multiselectable
-      disabled={disabled}
+    <div
       className={cn(
-        'relative flex min-h-10 w-full items-center rounded-lg border border-border bg-bg-secondary px-3 py-2 pr-10 text-left text-sm text-text-primary',
-        'hover:border-border-hover focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-0',
+        'relative flex min-h-10 w-full items-center rounded-lg border border-border bg-bg-secondary px-3 py-2 pr-10 text-left text-sm',
+        'hover:border-border-hover',
         'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-bg-tertiary',
-        fullWidth && 'w-full',
-        selectedOptions.length === 0 && 'text-text-tertiary'
+        fullWidth && 'w-full'
       )}
-      onClick={() => setOpen((o) => !o)}
     >
-      <span className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 overflow-hidden pr-6">
+      <button
+        type="button"
+        id={id}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        disabled={disabled}
+        className={cn(
+          'absolute inset-0 w-full h-full rounded-lg focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:ring-offset-0',
+          'disabled:cursor-not-allowed',
+          selectedOptions.length === 0 && 'cursor-pointer'
+        )}
+        onClick={() => selectedOptions.length === 0 && setOpen((o) => !o)}
+        aria-label={selectedOptions.length === 0 ? placeholder || 'Select options' : `${selectedOptions.length} selected, click to change`}
+      />
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 overflow-hidden pr-6 relative z-10">
         {selectedOptions.length === 0 ? (
-          triggerLabel
+          <span className={cn('text-text-tertiary pointer-events-none')}>
+            {triggerLabel}
+          </span>
         ) : selectedOptions.length <= maxChips ? (
           selectedOptions.map((o) => (
-            <Badge key={o.value} variant="outline" size="sm" className="shrink-0 gap-0.5 pr-0.5">
+            <span key={o.value} className="inline-flex items-center gap-0.5 shrink-0 pr-0.5 px-2 py-0.5 text-xs font-medium rounded-full border-2 border-border text-text-secondary pointer-events-auto">
               <span className="truncate max-w-[8rem]">{o.label}</span>
               <button
                 type="button"
-                onClick={(e) => {
+                onMouseDown={(e) => {
+                  e.preventDefault()
                   e.stopPropagation()
-                  removeOne(e, o.value)
+                }}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  removeOne(o.value)
                 }}
                 aria-label={`Remove ${o.label}`}
-                className="shrink-0 rounded p-0.5 hover:bg-bg-tertiary focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="shrink-0 rounded p-0.5 hover:bg-bg-tertiary cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tertiary"
               >
                 <XIcon className="w-3 h-3" />
               </button>
-            </Badge>
+            </span>
           ))
         ) : (
           <>
             {selectedOptions.slice(0, maxChips).map((o) => (
-              <Badge key={o.value} variant="outline" size="sm" className="shrink-0">
+              <Badge key={o.value} variant="outline" size="sm" className="shrink-0 pointer-events-auto">
                 {o.label}
               </Badge>
             ))}
-            <span className="text-text-tertiary text-xs">+{selectedOptions.length - maxChips} more</span>
+            <span className="text-text-secondary text-xs pointer-events-auto">+{selectedOptions.length - maxChips} more</span>
           </>
         )}
-      </span>
-      <span
+      </div>
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation()
+          setOpen((o) => !o)
+        }}
         className={cn(
-          'pointer-events-none absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center text-text-tertiary transition-transform',
+          'pointer-events-auto absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center text-text-tertiary transition-transform z-20',
+          'focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:ring-offset-0 rounded',
           open && 'rotate-180'
         )}
-        aria-hidden
+        aria-label="Toggle dropdown"
+        aria-hidden={false}
       >
         <ChevronDownIcon className="w-5 h-5" />
-      </span>
-    </button>
+      </button>
+    </div>
   )
 
   const panelContent = (
@@ -163,7 +182,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
           placeholder={searchPlaceholder}
           className={cn(
             'w-full rounded-md border border-border bg-bg-secondary px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary',
-            'focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary'
+            'focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:border-border-focus'
           )}
           onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
         />
@@ -201,9 +220,9 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
   )
 
   return (
-    <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full', className)}>
+    <div className={cn('form-container', fullWidth && 'w-full', className)}>
       {label && (
-        <label htmlFor={id} className="text-sm font-medium leading-tight text-text-primary">
+        <label htmlFor={id} className="form-label">
           {label}
         </label>
       )}

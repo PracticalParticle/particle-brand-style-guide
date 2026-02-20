@@ -120,7 +120,7 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
         disabled={disabled}
         className={cn(
           'relative flex w-full items-center rounded-lg border border-border bg-bg-secondary text-left text-text-primary transition-colors',
-          'hover:border-border-hover focus:outline-none focus:ring-2 focus:ring-primary/20 focus:ring-offset-0',
+          'hover:border-border-hover focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:ring-offset-0 focus:border-border-focus',
           'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-bg-tertiary',
           triggerSizeStyles[size],
           fullWidth && 'w-full',
@@ -194,9 +194,9 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
     const trigger = customTrigger ?? triggerButton
 
     return (
-      <div className={cn('flex flex-col space-y-1.5', fullWidth && 'w-full')}>
+      <div className={cn('form-container', fullWidth && 'w-full')}>
         {label && (
-          <label id={`${id}-label`} htmlFor={id} className="text-sm font-medium leading-tight text-text-primary">
+          <label id={`${id}-label`} htmlFor={id} className="form-label">
             {label}
           </label>
         )}

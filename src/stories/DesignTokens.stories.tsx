@@ -19,131 +19,131 @@ export const Colors: Story = {
         {
           name: 'bg-primary',
           cssVar: '--color-bg-primary',
-          lightHex: '#FAFBFC',
-          darkHex: '#1F2933',
+          lightHex: '#F1F5F9',
+          darkHex: '#0A0A0A',
           usage: 'Main page background',
-          tailwindClass: 'bg-primary',
+          tailwindClass: 'bg-bg-primary',
         },
         {
           name: 'bg-secondary',
           cssVar: '--color-bg-secondary',
           lightHex: '#FFFFFF',
-          darkHex: '#323F4B',
+          darkHex: '#141414',
           usage: 'Card/surface background',
-          tailwindClass: 'bg-secondary',
+          tailwindClass: 'bg-bg-secondary',
         },
         {
           name: 'bg-tertiary',
           cssVar: '--color-bg-tertiary',
-          lightHex: '#F4F6F8',
-          darkHex: '#3E4C59',
+          lightHex: '#F8FAFC',
+          darkHex: '#1E1E1E',
           usage: 'Subtle background sections',
-          tailwindClass: 'bg-tertiary',
+          tailwindClass: 'bg-bg-tertiary',
         },
       ],
       text: [
         {
           name: 'text-primary',
           cssVar: '--color-text-primary',
-          lightHex: '#323F4B',
-          darkHex: '#FAFBFC',
+          lightHex: '#0B1220',
+          darkHex: '#F8FAFC',
           usage: 'Main text, headings',
-          tailwindClass: 'text-primary',
+          tailwindClass: 'text-text-primary',
         },
         {
           name: 'text-secondary',
           cssVar: '--color-text-secondary',
-          lightHex: '#52606D',
-          darkHex: '#CBD2D9',
+          lightHex: '#334155',
+          darkHex: '#CBD5E1',
           usage: 'Secondary text, descriptions',
-          tailwindClass: 'text-secondary',
+          tailwindClass: 'text-text-secondary',
         },
         {
           name: 'text-tertiary',
           cssVar: '--color-text-tertiary',
-          lightHex: '#7B8794',
-          darkHex: '#7B8794',
+          lightHex: '#475569',
+          darkHex: '#CBD5E1',
           usage: 'Helper text, placeholders',
-          tailwindClass: 'text-tertiary',
+          tailwindClass: 'text-text-tertiary',
         },
         {
           name: 'text-inverse',
           cssVar: '--color-text-inverse',
           lightHex: '#FFFFFF',
-          darkHex: '#323F4B',
+          darkHex: '#FFFFFF',
           usage: 'Text on colored backgrounds',
-          tailwindClass: 'text-inverse',
+          tailwindClass: 'text-text-inverse',
         },
       ],
       border: [
         {
           name: 'border',
           cssVar: '--color-border',
-          lightHex: '#E4E7EB',
-          darkHex: '#52606D',
+          lightHex: '#F1F5F9',
+          darkHex: '#191919',
           usage: 'Default borders',
-          tailwindClass: 'border-default',
+          tailwindClass: 'border-border',
         },
         {
           name: 'border-hover',
           cssVar: '--color-border-hover',
-          lightHex: '#CBD2D9',
-          darkHex: '#7B8794',
+          lightHex: '#E9EDF1',
+          darkHex: '#232323',
           usage: 'Borders on hover',
-          tailwindClass: 'border-hover',
+          tailwindClass: 'border-border-hover',
         },
         {
           name: 'border-focus',
           cssVar: '--color-border-focus',
-          lightHex: '#0066CC',
-          darkHex: '#66B2FF',
-          usage: 'Focus borders (primary color)',
-          tailwindClass: 'border-focus',
+          lightHex: '#1F4ED8',
+          darkHex: '#1F4ED8',
+          usage: 'Focus borders (corporate blue)',
+          tailwindClass: 'border-border-focus',
         },
       ],
     }
 
     const brandColors = [
       {
-        name: 'primary',
-        cssVar: '--color-primary',
-        lightHex: '#1a1a1a',
-        darkHex: '#fafafa',
-        usage: 'Primary CTAs, links, active states - Off-black (light mode) / Off-white (dark mode)',
-        tailwindClass: 'bg-primary',
+        name: 'primary (brand)',
+        cssVar: '--color-tertiary',
+        lightHex: '#1F4ED8',
+        darkHex: '#2F52E0',
+        usage: 'Primary brand color: main CTAs, primary buttons, links (WCAG AA: white text on this)',
+        tailwindClass: 'bg-tertiary',
         variants: [
-          { name: 'primary-hover', cssVar: '--color-primary-hover', lightHex: '#2a2a2a', darkHex: '#f0f0f0', usage: 'Hover state' },
-          { name: 'primary-active', cssVar: '--color-primary-active', lightHex: '#0f0f0f', darkHex: '#ffffff', usage: 'Active/pressed state' },
-          { name: 'primary-light', cssVar: '--color-primary-light', lightHex: '#4a4a4a', darkHex: '#e5e5e5', usage: 'Light backgrounds' },
-          { name: 'primary-lighter', cssVar: '--color-primary-lighter', lightHex: '#6a6a6a', darkHex: '#f5f5f5', usage: 'Subtle backgrounds' },
+          { name: 'tertiary-hover', cssVar: '--color-tertiary-hover', lightHex: '#1A42C0', darkHex: '#3A6AFF', usage: 'Hover state' },
+          { name: 'tertiary-active', cssVar: '--color-tertiary-active', lightHex: '#1536A8', darkHex: '#1F4ED8', usage: 'Active/pressed state' },
+          { name: 'tertiary-light', cssVar: '--color-tertiary-light', lightHex: '#E2E8F0', darkHex: '#2A2A32', usage: 'Neutral light / elevated surface' },
+          { name: 'tertiary-lighter', cssVar: '--color-tertiary-lighter', lightHex: '#F8FAFC', darkHex: '#373A40', usage: 'Subtle neutral (no blue tint)' },
         ],
       },
       {
         name: 'secondary',
         cssVar: '--color-secondary',
-        lightHex: '#fafafa',
-        darkHex: '#1a1a1a',
-        usage: 'Secondary actions, supporting elements - Off-white (light mode) / Off-black (dark mode)',
+        lightHex: '#F1F5F9',
+        darkHex: '#1E1E1E',
+        usage: 'Secondary actions, supporting surfaces (light: theme bg; dark: dark gray, distinct from black)',
         tailwindClass: 'bg-secondary',
         variants: [
-          { name: 'secondary-hover', cssVar: '--color-secondary-hover', lightHex: '#f0f0f0', darkHex: '#2a2a2a', usage: 'Hover state' },
-          { name: 'secondary-active', cssVar: '--color-secondary-active', lightHex: '#ffffff', darkHex: '#0f0f0f', usage: 'Active/pressed state' },
-          { name: 'secondary-light', cssVar: '--color-secondary-light', lightHex: '#e5e5e5', darkHex: '#4a4a4a', usage: 'Light backgrounds' },
-          { name: 'secondary-lighter', cssVar: '--color-secondary-lighter', lightHex: '#f5f5f5', darkHex: '#6a6a6a', usage: 'Subtle backgrounds' },
+          { name: 'secondary-hover', cssVar: '--color-secondary-hover', lightHex: '#E2E8F0', darkHex: '#191919', usage: 'Hover state' },
+          { name: 'secondary-active', cssVar: '--color-secondary-active', lightHex: '#FFFFFF', darkHex: '#141414', usage: 'Active/pressed state' },
+          { name: 'secondary-light', cssVar: '--color-secondary-light', lightHex: '#CBD5E1', darkHex: '#333333', usage: 'Light backgrounds' },
+          { name: 'secondary-lighter', cssVar: '--color-secondary-lighter', lightHex: '#F8FAFC', darkHex: '#666666', usage: 'Subtle backgrounds' },
         ],
       },
       {
-        name: 'tertiary',
-        cssVar: '--color-tertiary',
-        lightHex: '#2563EB',
-        darkHex: '#3B82F6',
-        usage: 'Accent elements, highlights, special features - Medium Blue',
-        tailwindClass: 'bg-tertiary',
+        name: 'neutral (charcoal)',
+        cssVar: '--color-primary',
+        lightHex: '#0A0A0A',
+        darkHex: '#0A0A0A',
+        usage: 'Neutral dark surfaces, badges, high-contrast elements (use text-inverse on this)',
+        tailwindClass: 'bg-primary',
         variants: [
-          { name: 'tertiary-hover', cssVar: '--color-tertiary-hover', lightHex: '#3B82F6', darkHex: '#60A5FA', usage: 'Hover state' },
-          { name: 'tertiary-active', cssVar: '--color-tertiary-active', lightHex: '#1D4ED8', darkHex: '#2563EB', usage: 'Active/pressed state' },
-          { name: 'tertiary-light', cssVar: '--color-tertiary-light', lightHex: '#BFDBFE', darkHex: '#1E40AF', usage: 'Light backgrounds' },
-          { name: 'tertiary-lighter', cssVar: '--color-tertiary-lighter', lightHex: '#DBEAFE', darkHex: '#1E3A8A', usage: 'Subtle backgrounds' },
+          { name: 'primary-hover', cssVar: '--color-primary-hover', lightHex: '#080808', darkHex: '#141414', usage: 'Hover state' },
+          { name: 'primary-active', cssVar: '--color-primary-active', lightHex: '#060606', darkHex: '#1E1E1E', usage: 'Active/pressed state' },
+          { name: 'primary-light', cssVar: '--color-primary-light', lightHex: '#333333', darkHex: '#333333', usage: 'Light backgrounds' },
+          { name: 'primary-lighter', cssVar: '--color-primary-lighter', lightHex: '#999999', darkHex: '#666666', usage: 'Subtle backgrounds' },
         ],
       },
       {
@@ -170,38 +170,46 @@ export const Colors: Story = {
       {
         name: 'success',
         cssVar: '--color-success',
-        hex: '#22C55E',
-        usage: 'Success messages, completed states',
+        hex: '#14532D',
+        usage: 'Success messages, completed states (light mode)',
         tailwindClass: 'bg-success',
         lightVar: '--color-success-light',
-        lightHex: '#DCFCE7',
+        lightHex: '#BBF7D0',
+        darkHex: '#34D399',
+        darkLightHex: '#064E3B',
       },
       {
         name: 'error',
         cssVar: '--color-error',
-        hex: '#E85D5D',
-        usage: 'Errors, destructive actions',
+        hex: '#991B1B',
+        usage: 'Errors, destructive actions (light mode)',
         tailwindClass: 'bg-error',
         lightVar: '--color-error-light',
-        lightHex: '#FEE8E8',
+        lightHex: '#FECACA',
+        darkHex: '#F87171',
+        darkLightHex: '#7F1D1D',
       },
       {
         name: 'warning',
         cssVar: '--color-warning',
-        hex: '#F59E0B',
-        usage: 'Warnings, caution states',
+        hex: '#92400E',
+        usage: 'Warnings, caution states (light mode)',
         tailwindClass: 'bg-warning',
         lightVar: '--color-warning-light',
-        lightHex: '#FEF3C7',
+        lightHex: '#FDE68A',
+        darkHex: '#FBBF24',
+        darkLightHex: '#78350F',
       },
       {
         name: 'info',
         cssVar: '--color-info',
-        hex: '#3B82F6',
-        usage: 'Informational messages, tips',
+        hex: '#1E40AF',
+        usage: 'Informational messages, tips (light mode)',
         tailwindClass: 'bg-info',
         lightVar: '--color-info-light',
-        lightHex: '#DBEAFE',
+        lightHex: '#F1F5F9',
+        darkHex: '#2F52E0',
+        darkLightHex: '#1E3A5F',
       },
     ]
 
@@ -221,8 +229,8 @@ export const Colors: Story = {
             <div className="font-semibold text-text-primary mb-1">{name}</div>
             <div className="text-sm text-text-secondary mb-2">{usage}</div>
             <div className="text-xs font-mono text-text-tertiary space-y-1">
-              <div>CSS: <code className="text-tertiary bg-bg-tertiary px-1 py-0.5 rounded">{cssVar}</code></div>
-              <div>Class: <code className="text-tertiary bg-bg-tertiary px-1 py-0.5 rounded">{tailwindClass}</code></div>
+              <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{cssVar}</code></div>
+              <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{tailwindClass}</code></div>
             </div>
           </div>
         </div>
@@ -263,8 +271,8 @@ export const Colors: Story = {
           <div className="font-semibold text-text-primary mb-1 capitalize">{color.name}</div>
           <div className="text-sm text-text-secondary mb-2">{color.usage}</div>
           <div className="text-xs font-mono text-text-tertiary space-y-1">
-            <div>CSS: <code className="text-tertiary bg-bg-tertiary px-1 py-0.5 rounded">{color.cssVar}</code></div>
-            <div>Class: <code className="text-tertiary bg-bg-tertiary px-1 py-0.5 rounded">{color.tailwindClass}</code></div>
+            <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.cssVar}</code></div>
+            <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.tailwindClass}</code></div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -285,7 +293,7 @@ export const Colors: Story = {
             {color.variants.map((variant) => (
               <div key={variant.name} className="flex items-center justify-between text-xs">
                 <div>
-                  <code className="text-tertiary bg-bg-tertiary px-1 py-0.5 rounded">{variant.name}</code>
+                  <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{variant.name}</code>
                   <span className="text-text-tertiary ml-2">{variant.usage}</span>
                 </div>
                 <div className="font-mono text-text-secondary">
@@ -308,6 +316,8 @@ export const Colors: Story = {
       tailwindClass: string
       lightVar: string
       lightHex: string
+      darkHex: string
+      darkLightHex: string
     }
 
     const SemanticColorCard = ({ color }: { color: SemanticColor }) => (
@@ -316,22 +326,44 @@ export const Colors: Story = {
           <div className="font-semibold text-text-primary mb-1 capitalize">{color.name}</div>
           <div className="text-sm text-text-secondary mb-2">{color.usage}</div>
           <div className="text-xs font-mono text-text-tertiary space-y-1">
-            <div>CSS: <code className="text-tertiary bg-bg-tertiary px-1 py-0.5 rounded">{color.cssVar}</code></div>
-            <div>Class: <code className="text-tertiary bg-bg-tertiary px-1 py-0.5 rounded">{color.tailwindClass}</code></div>
+            <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.cssVar}</code></div>
+            <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.tailwindClass}</code></div>
           </div>
         </div>
-        <div className="space-y-3">
+        <div className="grid grid-cols-2 gap-4">
           <div>
-            <div className="text-xs text-text-tertiary mb-2">Main Color</div>
-            <div className="h-16 rounded-md border border-border" style={{ backgroundColor: color.hex }} />
-            <div className="text-xs font-mono text-text-secondary mt-1">{color.hex}</div>
+            <div className="text-xs text-text-tertiary mb-2">Light Mode</div>
+            <div className="space-y-3">
+              <div>
+                <div className="text-xs text-text-tertiary mb-1">Main Color</div>
+                <div className="h-12 rounded-md border border-border" style={{ backgroundColor: color.hex }} />
+                <div className="text-xs font-mono text-text-secondary mt-1">{color.hex}</div>
+              </div>
+              <div>
+                <div className="text-xs text-text-tertiary mb-1">Light Variant</div>
+                <div className="h-10 rounded-md border border-border" style={{ backgroundColor: color.lightHex }} />
+                <div className="text-xs font-mono text-text-secondary mt-1">{color.lightHex}</div>
+              </div>
+            </div>
           </div>
           <div>
-            <div className="text-xs text-text-tertiary mb-2">Light Variant (for backgrounds)</div>
-            <div className="h-12 rounded-md border border-border" style={{ backgroundColor: color.lightHex }} />
-            <div className="text-xs font-mono text-text-secondary mt-1">{color.lightHex}</div>
-            <div className="text-xs text-text-tertiary mt-1">CSS: <code className="bg-bg-tertiary px-1 py-0.5 rounded">{color.lightVar}</code></div>
+            <div className="text-xs text-text-tertiary mb-2">Dark Mode</div>
+            <div className="space-y-3">
+              <div>
+                <div className="text-xs text-text-tertiary mb-1">Main Color</div>
+                <div className="h-12 rounded-md border border-border" style={{ backgroundColor: color.darkHex }} />
+                <div className="text-xs font-mono text-text-secondary mt-1">{color.darkHex}</div>
+              </div>
+              <div>
+                <div className="text-xs text-text-tertiary mb-1">Light Variant</div>
+                <div className="h-10 rounded-md border border-border" style={{ backgroundColor: color.darkLightHex }} />
+                <div className="text-xs font-mono text-text-secondary mt-1">{color.darkLightHex}</div>
+              </div>
+            </div>
           </div>
+        </div>
+        <div className="text-xs text-text-tertiary pt-2 border-t border-border">
+          CSS: <code className="bg-bg-tertiary px-1 py-0.5 rounded">{color.lightVar}</code> (light variant for backgrounds)
         </div>
       </div>
     )
@@ -345,9 +377,10 @@ export const Colors: Story = {
           </p>
           <div className="bg-bg-secondary border border-border rounded-lg p-4 mb-8">
             <p className="text-sm text-text-primary">
-              <strong>Theme System:</strong> All colors are defined as CSS variables in <code className="text-tertiary font-mono bg-bg-tertiary px-1 py-0.5 rounded">globals.css</code> and 
-              mapped to Tailwind classes. Use theme classes (e.g., <code className="text-tertiary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-primary</code>, <code className="text-tertiary font-mono bg-bg-tertiary px-1 py-0.5 rounded">text-primary</code>) 
-              instead of direct color classes for automatic dark mode support.
+              <strong>Theme System:</strong> All colors are defined as CSS variables in <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">globals.css</code> and 
+              mapped to Tailwind classes. Use theme classes for UI surfaces (e.g., <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-bg-primary</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">text-text-primary</code>) 
+              and brand classes for accents (e.g., <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-tertiary</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">text-tertiary</code>) 
+              for automatic dark mode support.
             </p>
           </div>
         </div>
@@ -394,7 +427,7 @@ export const Colors: Story = {
           <div>
             <h2 className="text-2xl font-semibold text-text-primary mb-2">Brand Colors</h2>
             <p className="text-sm text-text-secondary mb-6">
-              Primary and secondary brand colors with hover/active variants for interactive elements.
+              Primary (blue) for main CTAs and buttons; secondary (gray) for supporting surfaces; neutral (charcoal) for dark surfaces. Use theme classes for automatic light/dark.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -644,7 +677,10 @@ export const ResponsiveBreakpoints: Story = {
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="p-4 bg-primary-100 dark:bg-primary-900/20 rounded text-center text-sm">
+                <div 
+                  key={i} 
+                  className="p-4 bg-tertiary-lighter dark:bg-bg-tertiary rounded text-center text-sm text-text-primary"
+                >
                   Col {i}
                 </div>
               ))}

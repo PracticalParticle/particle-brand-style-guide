@@ -71,15 +71,15 @@ export const Sizes: Story = {
   render: () => (
     <div className="space-y-8 w-full max-w-2xl">
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Small</p>
+        <p className="text-xs text-text-secondary mb-2">Small</p>
         <TabsDemo variant="line" size="sm" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Medium</p>
+        <p className="text-xs text-text-secondary mb-2">Medium</p>
         <TabsDemo variant="line" size="md" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Large</p>
+        <p className="text-xs text-text-secondary mb-2">Large</p>
         <TabsDemo variant="line" size="lg" />
       </div>
     </div>

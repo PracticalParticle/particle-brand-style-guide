@@ -52,7 +52,7 @@ export const CustomSeparator: Story = {
       { label: 'Products', href: '#' },
       { label: 'Electronics' },
     ],
-    separator: <span className="mx-2 text-neutral-400">/</span>,
+    separator: <span className="mx-2 text-text-tertiary">/</span>,
   },
 }
 

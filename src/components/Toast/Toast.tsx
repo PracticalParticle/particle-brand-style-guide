@@ -83,15 +83,15 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({
 
 const variantStyles: Record<ToastVariant, string> = {
   default:
-    'bg-bg-secondary border border-border text-text-primary shadow-xl ring-1 ring-black/5 dark:ring-white/5',
+    'bg-bg-secondary border border-border text-text-primary shadow-xl ring-1 ring-border/5',
   success:
-    'bg-success-light border border-success text-success dark:bg-success/90 dark:border-success dark:text-white',
+    'bg-success-light border border-success text-success dark:text-text-inverse',
   warning:
-    'bg-warning-light border border-warning text-warning dark:bg-warning/90 dark:border-warning dark:text-black',
+    'bg-warning-light border border-warning text-warning dark:text-text-inverse',
   error:
-    'bg-error-light border border-error text-error dark:bg-error/90 dark:border-error dark:text-white',
+    'bg-error-light border border-error text-error dark:text-text-inverse',
   info:
-    'bg-info-light border border-info text-info dark:bg-info/90 dark:border-info dark:text-white',
+    'bg-info-light border border-info text-info dark:text-text-inverse',
 }
 
 const defaultIcons: Record<ToastVariant, React.ReactNode> = {
@@ -139,7 +139,7 @@ function ToastItem({ item, onDismiss }: { item: ToastItem; onDismiss: () => void
       <button
         type="button"
         onClick={onDismiss}
-        className="shrink-0 p-1 rounded hover:bg-black/10 dark:hover:bg-white/10 transition-colors opacity-70 hover:opacity-100"
+        className="shrink-0 p-1 rounded hover:bg-bg-tertiary/50 transition-colors opacity-70 hover:opacity-100"
         aria-label="Dismiss notification"
       >
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

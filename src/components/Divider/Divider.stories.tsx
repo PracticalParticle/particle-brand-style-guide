@@ -29,15 +29,15 @@ export const Variants: Story = {
   render: () => (
     <div className="space-y-6 w-full max-w-md">
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Subtle</p>
+        <p className="text-xs text-text-secondary mb-2">Subtle</p>
         <Divider variant="subtle" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Default</p>
+        <p className="text-xs text-text-secondary mb-2">Default</p>
         <Divider variant="default" />
       </div>
       <div>
-        <p className="text-xs text-text-tertiary mb-2">Strong</p>
+        <p className="text-xs text-text-secondary mb-2">Strong</p>
         <Divider variant="strong" />
       </div>
     </div>

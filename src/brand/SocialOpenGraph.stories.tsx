@@ -87,7 +87,7 @@ function SocialOpenGraphPlayground() {
                     <button
                       type="button"
                       onClick={(e) => { e.stopPropagation(); setDimensionId(row.id); }}
-                      className="text-xs font-medium text-tertiary hover:underline"
+                      className="text-xs font-medium text-primary dark:text-text-primary hover:underline"
                     >
                       {dimensionId === row.id ? 'Selected' : 'Select'}
                     </button>

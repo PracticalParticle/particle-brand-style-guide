@@ -34,7 +34,7 @@ export const FilterChip: React.FC<FilterChipProps> = ({
     <button
       type="button"
       onClick={onRemove}
-      className="rounded-full p-0.5 text-text-tertiary hover:text-text-primary hover:bg-bg-tertiary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1 focus-visible:ring-offset-bg-secondary"
+      className="rounded-full p-0.5 text-text-tertiary hover:text-text-primary hover:bg-bg-tertiary focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-1 focus-visible:ring-offset-bg-primary"
       aria-label={`Remove ${label} filter`}
     >
       <CloseIcon className="h-3.5 w-3.5" />

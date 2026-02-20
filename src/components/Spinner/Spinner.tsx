@@ -32,10 +32,10 @@ export const Spinner: React.FC<SpinnerProps> = ({
   }
 
   const variants = {
-    primary: 'text-primary',
-    secondary: 'text-secondary',
+    primary: 'text-tertiary dark:text-tertiary-on-dark',
+    secondary: 'text-text-secondary',
     white: 'text-text-inverse',
-    branded: 'text-primary',
+    branded: 'text-tertiary dark:text-tertiary-on-dark',
     'branded-white': 'text-text-inverse',
   }
 

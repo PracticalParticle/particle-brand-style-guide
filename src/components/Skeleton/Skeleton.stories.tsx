@@ -53,15 +53,15 @@ export const Animations: Story = {
   render: () => (
     <div className="flex flex-col gap-4 w-96">
       <div>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">Pulse (default)</p>
+        <p className="text-sm text-text-secondary mb-2">Pulse (default)</p>
         <Skeleton variant="rectangular" width="100%" height={40} animation="pulse" />
       </div>
       <div>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">Wave</p>
+        <p className="text-sm text-text-secondary mb-2">Wave</p>
         <Skeleton variant="rectangular" width="100%" height={40} animation="wave" />
       </div>
       <div>
-        <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-2">None</p>
+        <p className="text-sm text-text-secondary mb-2">None</p>
         <Skeleton variant="rectangular" width="100%" height={40} animation="none" />
       </div>
     </div>

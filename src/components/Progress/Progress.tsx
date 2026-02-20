@@ -43,15 +43,18 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
     }
 
     const barVariants = {
-      default: 'bg-tertiary dark:bg-tertiary',
-      success: 'bg-success dark:bg-success',
-      warning: 'bg-warning dark:bg-warning',
-      error: 'bg-error dark:bg-error',
+      default: 'bg-tertiary',
+      success: 'bg-success',
+      warning: 'bg-warning',
+      error: 'bg-error',
     }
 
     const label = showLabel ? (max === 100 ? `${Math.round(pct)}%` : `${clamped}/${max}`) : undefined
     const labelAlignClass =
       labelPosition === 'left' ? 'justify-start' : labelPosition === 'center' ? 'justify-center' : 'justify-end'
+    
+    // Default aria-label if not provided
+    const defaultAriaLabel = ariaLabel || (max === 100 ? `${Math.round(pct)}% complete` : `${clamped} of ${max} complete`)
 
     return (
       <div ref={ref} className={cn('w-full min-w-[12rem]', className)} {...props}>
@@ -65,8 +68,8 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
           aria-valuenow={clamped}
           aria-valuemin={0}
           aria-valuemax={max}
-          aria-label={ariaLabel}
-          className={cn('w-full min-w-[12rem] overflow-hidden rounded-full bg-bg-tertiary dark:bg-white/15 border border-border', sizeClasses[size])}
+          aria-label={defaultAriaLabel}
+          className={cn('w-full min-w-[12rem] overflow-hidden rounded-full bg-bg-tertiary border border-border', sizeClasses[size])}
         >
           <div
             className={cn('h-full rounded-full transition-[width] duration-300 ease-out', barVariants[variant])}

@@ -123,7 +123,7 @@ function PlayableAnimCard({
         <button
           type="button"
           onClick={() => setPlayKey((k: number) => k + 1)}
-          className="mt-5 text-xs font-medium text-tertiary hover:text-tertiary-hover px-3 py-1.5 rounded-md border border-tertiary/30 hover:border-tertiary/50 transition-colors"
+          className="mt-5 text-xs font-medium text-tertiary dark:text-tertiary-on-dark hover:text-tertiary-hover px-3 py-1.5 rounded-md border border-tertiary/30 hover:border-tertiary/50 transition-colors"
         >
           Play animation
         </button>

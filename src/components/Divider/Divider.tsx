@@ -17,8 +17,8 @@ export const Divider = React.forwardRef<HTMLHRElement, DividerProps>(
         : 'h-full border-l self-stretch min-h-6'
     const variants = {
       subtle: 'border-border/70',
-      default: 'border-text-tertiary/50',
-      strong: 'border-text-tertiary',
+      default: 'border-border',
+      strong: 'border-text-secondary',
     }
     return (
       <hr

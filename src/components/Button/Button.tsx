@@ -37,11 +37,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     
     const variants = {
       primary: 'bg-tertiary text-text-inverse hover:bg-tertiary-hover active:bg-tertiary-active active:scale-[0.97] active:shadow-sm focus-visible:ring-tertiary shadow-sm hover:shadow-md',
-      secondary: 'bg-secondary text-text-primary hover:bg-tertiary-lighter active:bg-tertiary-light active:scale-[0.97] active:shadow-sm focus-visible:ring-tertiary shadow-sm hover:shadow-md',
-      danger: 'border border-error text-error bg-transparent hover:bg-error-light/50 active:bg-error-light/70 active:scale-[0.97] focus-visible:ring-error',
-      ghost: 'bg-transparent text-tertiary hover:bg-tertiary-lighter/50 active:bg-tertiary-light/70 active:scale-[0.97] focus-visible:ring-tertiary',
-      outline: 'border border-tertiary text-tertiary bg-transparent hover:bg-tertiary-lighter/50 active:bg-tertiary-light/70 active:scale-[0.97] focus-visible:ring-tertiary',
-      link: 'bg-transparent text-tertiary hover:text-tertiary-hover underline-offset-4 hover:underline p-0 h-auto active:text-tertiary-active focus-visible:ring-tertiary shadow-none',
+      secondary: 'bg-bg-secondary border border-border text-text-primary hover:bg-bg-tertiary hover:border-border-hover active:scale-[0.97] focus-visible:ring-tertiary shadow-sm',
+      danger: 'border border-error text-error bg-error-light hover:bg-error-light/80 active:bg-error-light/90 active:scale-[0.97] focus-visible:ring-error dark:text-text-inverse',
+      ghost: 'bg-transparent text-tertiary dark:text-tertiary-on-dark hover:bg-bg-tertiary active:scale-[0.97] focus-visible:ring-tertiary',
+      outline: 'border border-border text-text-primary bg-bg-secondary hover:border-border-hover hover:bg-bg-tertiary active:scale-[0.97] focus-visible:ring-tertiary dark:border-tertiary-on-dark dark:text-tertiary-on-dark dark:hover:border-tertiary',
+      link: 'bg-transparent text-tertiary dark:text-tertiary-on-dark hover:text-tertiary-hover underline-offset-4 hover:underline p-0 h-auto active:text-tertiary-active focus-visible:ring-tertiary shadow-none',
     }
 
     const sizes = {

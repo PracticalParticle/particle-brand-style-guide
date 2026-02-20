@@ -3,8 +3,6 @@ import { cn } from '@/utils/cn'
 import { MultiFilter } from '@/components/Filter'
 import type { MultiFilterField } from '@/components/Filter'
 
-export { countActiveFilters, getActiveFilterChips } from './tableFilterUtils'
-
 export interface TableFilterOption {
   value: string
   label: string

@@ -33,7 +33,7 @@ export const Default: Story = {
     content: (
       <div>
         <h3 className="font-semibold mb-2 text-text-primary">Popover Title</h3>
-        <p className="text-sm text-text-tertiary">
+        <p className="text-sm text-text-secondary">
           This is a popover with some content. Click outside to close.
         </p>
       </div>
@@ -95,7 +95,7 @@ export const HoverTrigger: Story = {
     content: (
       <div>
         <h3 className="font-semibold mb-2 text-text-primary">Hover Popover</h3>
-        <p className="text-sm text-text-tertiary">
+        <p className="text-sm text-text-secondary">
           This popover opens on hover.
         </p>
       </div>
@@ -141,12 +141,12 @@ export const NotificationStyle: Story = {
       content={
         <div className="space-y-2">
           <div className="flex items-start gap-2">
-            <div className="w-8 h-8 rounded-full bg-tertiary/20 flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 rounded-full bg-bg-tertiary flex items-center justify-center flex-shrink-0">
               <span className="text-tertiary text-sm font-semibold">1</span>
             </div>
             <div>
               <p className="font-medium text-text-primary text-sm">New comment</p>
-              <p className="text-xs text-text-tertiary">Someone replied to your post.</p>
+              <p className="text-xs text-text-secondary">Someone replied to your post.</p>
             </div>
           </div>
           <div className="flex gap-2 pt-1">
@@ -174,7 +174,7 @@ export const SocialShare: Story = {
             <span className="text-lg">𝕏</span>
           </button>
           <button type="button" className="p-2 rounded-lg hover:bg-default/40" aria-label="Share on LinkedIn">
-            <span className="text-lg font-semibold text-[#0A66C2]">in</span>
+            <span className="text-lg font-semibold text-tertiary">in</span>
           </button>
           <button type="button" className="p-2 rounded-lg hover:bg-default/40" aria-label="Copy link">
             <svg className="w-5 h-5 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -195,7 +195,7 @@ export const SocialShare: Story = {
 export const CollisionFlips: Story = {
   render: () => (
     <div className="flex flex-col gap-8 items-center p-16">
-      <p className="text-sm text-text-tertiary">Resize the viewport or scroll. Popover flips to stay on screen.</p>
+      <p className="text-sm text-text-secondary">Resize the viewport or scroll. Popover flips to stay on screen.</p>
       <Popover
         placement="bottom"
         collisionPadding
@@ -273,7 +273,7 @@ export const MobileFriendly: Story = {
     content: (
       <div>
         <h3 className="font-semibold mb-2 text-text-primary">Mobile-friendly</h3>
-        <p className="text-sm text-text-tertiary">
+        <p className="text-sm text-text-secondary">
           On small viewports the popover is constrained and stays within the screen. Use ActionSheet for 3+ actions on mobile.
         </p>
       </div>

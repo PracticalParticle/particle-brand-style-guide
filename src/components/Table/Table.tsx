@@ -17,11 +17,17 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
   ({ className, children, container = false, fixed = false, stickyHeader = false, scrollMaxHeight, ...props }, ref) => {
     const scrollWrapperClass = cn(
       'w-full min-w-0 overflow-auto',
-      stickyHeader && '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:bg-bg-secondary [&_thead]:shadow-[0_1px_0_0_rgba(0,0,0,0.05)]'
+      stickyHeader && '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:bg-bg-secondary [&_thead]:shadow-sm'
     )
     const scrollStyle = scrollMaxHeight ? { maxHeight: scrollMaxHeight } : undefined
     const tableEl = (
-      <div className={scrollWrapperClass} style={scrollStyle}>
+      <div 
+        className={scrollWrapperClass} 
+        style={scrollStyle}
+        tabIndex={scrollMaxHeight ? 0 : undefined}
+        role={scrollMaxHeight ? 'region' : undefined}
+        aria-label={scrollMaxHeight ? 'Scrollable table content' : undefined}
+      >
         <table
           ref={ref}
           className={cn(
@@ -156,7 +162,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       <span className="inline-flex items-center gap-1.5 min-w-0">
         <span className="truncate">{children}</span>
         {sortable && (
-          <span className="inline-flex shrink-0 items-center justify-center w-4 h-4 text-text-tertiary" aria-hidden>
+          <span className="inline-flex shrink-0 items-center justify-center w-4 h-4 text-text-secondary" aria-hidden>
             {sortDirection === 'asc' && <SortAscIcon className="h-4 w-4" />}
             {sortDirection === 'desc' && <SortDescIcon className="h-4 w-4" />}
             {sortDirection === null && <SortBothIcon className="h-4 w-4 opacity-50" />}
@@ -214,7 +220,7 @@ export const TableCaption = React.forwardRef<HTMLTableCaptionElement, TableCapti
     return (
       <caption
         ref={ref}
-        className={cn('mt-4 text-sm text-text-tertiary', className)}
+        className={cn('mt-4 text-sm text-text-secondary', className)}
         {...props}
       >
         {children}

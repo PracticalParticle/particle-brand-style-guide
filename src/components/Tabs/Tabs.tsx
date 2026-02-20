@@ -166,7 +166,7 @@ export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
         className={cn(
           'font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 shrink-0',
           variant === 'line' && 'rounded-none border-b-2 border-transparent -mb-px min-h-[2.25rem] box-border',
-          variant === 'line' && (isSelected ? 'border-tertiary text-tertiary' : 'text-text-secondary hover:text-text-primary'),
+          variant === 'line' && (isSelected ? 'border-tertiary dark:border-tertiary-on-dark text-tertiary dark:text-tertiary-on-dark' : 'text-text-secondary hover:text-text-primary'),
           variant === 'pills' && 'rounded-base',
           variant === 'pills' && (isSelected ? 'bg-bg-secondary text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary/50'),
           sizeStyles[size],

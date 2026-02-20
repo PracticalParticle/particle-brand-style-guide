@@ -10,18 +10,18 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ({ className, variant = 'default', padding = 'md', interactive = false, children, ...props }, ref) => {
-    const baseStyles = 'rounded-lg transition-all duration-200 bg-secondary text-text-primary min-w-0 w-full'
+    const baseStyles = 'rounded-lg transition-all duration-200 bg-bg-secondary text-text-primary min-w-0 w-full'
     
     // Variants are visually distinct: default = shadow only; elevated = stronger shadow (in dark, lighter surface + shadow so it doesn't blend); outlined = border, no shadow; filled = accent bg.
     const variants = {
       default:
-        'border-0 shadow dark:border dark:border-neutral-700/70 dark:shadow-[0_1px_3px_rgba(0,0,0,0.35)]',
+        'border-0 shadow dark:border dark:border-border',
       elevated:
-        'border-0 shadow-md dark:bg-bg-tertiary dark:shadow-[0_0_0_1px_rgba(255,255,255,0.04),0_12px_40px_rgba(0,0,0,0.6),0_24px_80px_-12px_rgba(0,0,0,0.5)]',
+        'border-0 shadow-md dark:bg-bg-tertiary dark:shadow-lg',
       outlined:
-        'border border-neutral-200 shadow-none dark:border-neutral-700',
+        'border border-border shadow-none',
       filled:
-        'border-0 bg-tertiary text-text-inverse shadow-sm dark:shadow-[0_1px_3px_rgba(0,0,0,0.3)]',
+        'border-0 bg-tertiary text-text-inverse shadow-sm',
     }
 
     const paddings = {
@@ -32,7 +32,7 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     }
 
     const interactiveStyles = interactive
-      ? 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-tertiary focus:ring-offset-2 focus:ring-offset-secondary dark:hover:shadow-lg dark:focus:ring-offset-secondary'
+      ? 'cursor-pointer hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-tertiary focus:ring-offset-2 focus:ring-offset-bg-primary dark:hover:shadow-lg'
       : ''
 
     return (
@@ -79,7 +79,7 @@ export const CardTitle = React.forwardRef<HTMLHeadingElement, CardTitleProps>(
     return (
       <h3
         ref={ref}
-        className={cn('text-lg font-semibold leading-tight tracking-tight text-text-primary sm:text-xl', className)}
+        className={cn('card-title [.bg-tertiary_&]:text-text-inverse', className)}
         {...props}
       >
         {children}
@@ -119,7 +119,7 @@ export const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
     return (
       <div
         ref={ref}
-        className={cn('text-text-primary', className)}
+        className={cn('', className)}
         {...props}
       >
         {children}
@@ -140,7 +140,7 @@ export const CardFooter = React.forwardRef<HTMLDivElement, CardFooterProps>(
       <div
         ref={ref}
         className={cn(
-          'flex flex-wrap items-center gap-2 sm:gap-3 mt-4 pt-4 sm:mt-6 sm:pt-6 border-t border-neutral-200 dark:border-neutral-700',
+          'flex flex-wrap items-center gap-2 sm:gap-3 mt-4 pt-4 sm:mt-6 sm:pt-6 border-t border-border',
           className
         )}
         {...props}

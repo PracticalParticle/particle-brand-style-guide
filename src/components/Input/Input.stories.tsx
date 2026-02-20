@@ -209,7 +209,7 @@ export const AllFormControls: Story = {
   render: function AllFormControlsStory() {
     const [rating, setRating] = useState(0)
     return (
-      <form className="flex flex-col gap-6 w-full max-w-md rounded-lg border border-neutral-200 dark:border-neutral-700 bg-secondary p-6">
+      <form className="flex flex-col gap-6 w-full max-w-md rounded-lg border border-border bg-secondary p-6">
         <h3 className="text-lg font-semibold text-text-primary">All input types</h3>
         <Input label="Name" type="text" placeholder="Full name" required fullWidth />
         <Input label="Email" type="email" placeholder="you@example.com" required fullWidth />
@@ -237,7 +237,7 @@ export const AllFormControls: Story = {
           <button type="submit" className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-text-inverse">
             Submit
           </button>
-          <button type="button" className="rounded-md border-2 border-neutral-300 dark:border-neutral-500 px-4 py-2 text-sm font-medium text-text-primary">
+          <button type="button" className="rounded-md border-2 border-border px-4 py-2 text-sm font-medium text-text-primary">
             Cancel
           </button>
         </div>

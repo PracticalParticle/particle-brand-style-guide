@@ -30,7 +30,7 @@ const meta: Meta<typeof Card> = {
     docs: {
       description: {
         component:
-          '**Variants:** `default` and `elevated` = subtle neutral border + shadow for clear separation in light and dark. `outlined` = visible neutral border, no shadow (best for forms, feature grids, empty states). `filled` = accent background, no border. Borders use style-guide neutrals (neutral-200 light, neutral-700 dark).',
+          '**Variants:** `default` and `elevated` = subtle theme border + shadow for clear separation in light and dark. `outlined` = visible theme border, no shadow (best for forms, feature grids, empty states). `filled` = accent background, no border. Borders use theme tokens (`border-border`) that automatically adapt to light/dark mode.',
       },
     },
   },
@@ -203,7 +203,7 @@ export const ProductCard: Story = {
               <CardTitle className="text-lg sm:text-xl">Wireless Headphones</CardTitle>
               <CardDescription>Premium sound quality</CardDescription>
             </div>
-            <span className="text-2xl font-bold text-tertiary">$199</span>
+            <span className="text-2xl font-bold text-tertiary dark:text-tertiary-on-dark">$199</span>
           </div>
         </CardHeader>
         <CardContent>
@@ -268,7 +268,7 @@ export const TestimonialCard: Story = {
       <CardContent className="mb-4">
         <div className="flex gap-1 mb-4">
           {[1, 2, 3, 4, 5].map((i) => (
-            <StarIcon key={i} className="w-5 h-5 text-yellow-500 fill-current" />
+            <StarIcon key={i} className="w-5 h-5 text-warning fill-current" />
           ))}
         </div>
         <p className="text-text-primary italic mb-4">
@@ -276,8 +276,8 @@ export const TestimonialCard: Story = {
           and the support team is incredibly responsive."
         </p>
       </CardContent>
-      <div className="flex items-center gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-        <div className="w-12 h-12 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary font-semibold">
+      <div className="flex items-center gap-3 pt-4 border-t border-border">
+        <div className="w-12 h-12 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary dark:text-tertiary-on-dark font-semibold">
           JD
         </div>
         <div>
@@ -307,7 +307,7 @@ export const StatsCard: Story = {
             <div className="text-sm text-text-secondary mb-1">{stat.label}</div>
             <div className="text-xl sm:text-2xl font-bold text-text-primary mb-1">{stat.value}</div>
             <div className={`text-xs flex items-center gap-1 ${
-              stat.trend === 'up' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+              stat.trend === 'up' ? 'text-success' : 'text-error'
             }`}>
               {stat.trend === 'up' ? (
                 <ArrowUpIcon className="w-3 h-3" />
@@ -330,7 +330,7 @@ export const StatsCard: Story = {
 export const ProfileCard: Story = {
   render: () => (
     <Card variant="default" padding="lg" className="w-full max-w-xs sm:max-w-[20rem] text-center">
-      <div className="w-20 h-20 rounded-full bg-tertiary-lighter mx-auto mb-4 flex items-center justify-center text-tertiary text-2xl font-semibold">
+      <div className="w-20 h-20 rounded-full bg-tertiary-lighter mx-auto mb-4 flex items-center justify-center text-tertiary dark:text-tertiary-on-dark text-2xl font-semibold">
         JD
       </div>
       <CardHeader>
@@ -425,21 +425,21 @@ export const PricingCard: Story = {
             <div className="w-full px-4 py-4 sm:px-5 sm:py-6">
             {plan.popular && (
               <div className="flex justify-center mb-3 sm:mb-4">
-                <Badge variant="outline" size="sm" className="border-white/50 text-white">MOST POPULAR</Badge>
+                <Badge variant="outline" size="sm" className="border-text-inverse/50 text-text-inverse dark:border-text-inverse/50 dark:text-text-inverse">MOST POPULAR</Badge>
               </div>
             )}
             <CardHeader className="text-center">
               <CardTitle className="text-lg sm:text-2xl">{plan.name}</CardTitle>
               <div className="mt-3 sm:mt-4 flex flex-wrap items-baseline justify-center gap-x-1">
                 <span className="text-2xl sm:text-4xl font-bold">{plan.price}</span>
-                <span className="text-sm sm:text-base text-text-secondary">/month</span>
+                <span className={`text-sm sm:text-base ${plan.popular ? 'text-text-inverse/80' : 'text-text-secondary'}`}>/month</span>
               </div>
             </CardHeader>
             <CardContent>
-              <ul className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+              <ul className={`space-y-2 sm:space-y-3 mb-4 sm:mb-6 ${plan.popular ? 'text-text-inverse' : 'text-text-primary'}`}>
                 {['Feature one', 'Feature two', 'Feature three', 'Feature four'].map((feature) => (
-                  <li key={feature} className="flex items-center gap-2 text-sm text-text-primary">
-                    <CheckIcon className="w-4 h-4 text-tertiary flex-shrink-0" />
+                  <li key={feature} className="flex items-center gap-2 text-sm">
+                    <CheckIcon className={`w-4 h-4 flex-shrink-0 ${plan.popular ? 'text-text-inverse' : 'text-tertiary'}`} />
                     {feature}
                   </li>
                 ))}
@@ -487,8 +487,8 @@ export const DashboardCard: Story = {
             { action: 'File uploaded', time: '1 hour ago', user: 'Jane Smith' },
             { action: 'Task completed', time: '3 hours ago', user: 'Bob Wilson' },
           ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 pb-4 border-b border-neutral-200 dark:border-neutral-700 last:border-0">
-              <div className="w-8 h-8 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary text-xs font-semibold flex-shrink-0">
+            <div key={i} className="flex items-start gap-3 pb-4 border-b border-border last:border-0">
+              <div className="w-8 h-8 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary dark:text-tertiary-on-dark text-xs font-semibold flex-shrink-0">
                 {item.user.split(' ').map(n => n[0]).join('')}
               </div>
               <div className="flex-1">
@@ -574,53 +574,53 @@ export const NotificationCard: Story = {
 export const AlertCard: Story = {
   render: () => (
     <div className="flex flex-col gap-4 w-full max-w-md">
-      <Card variant="outlined" padding="md" className="border border-blue-200 bg-blue-50 dark:border-blue-500/40 dark:bg-blue-950/30">
+      <Card variant="outlined" padding="md" className="border border-info bg-info-light">
         <div className="flex items-start gap-3">
-          <div className="text-blue-600 dark:text-blue-400 flex-shrink-0">
+          <div className="text-info dark:text-text-inverse flex-shrink-0">
             <InfoIcon className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <CardTitle className="text-base text-blue-900 dark:text-blue-100">Information</CardTitle>
-            <CardDescription className="text-blue-700 dark:text-blue-300">
+            <CardTitle className="text-base text-info dark:text-text-inverse">Information</CardTitle>
+            <CardDescription className="text-info dark:text-text-inverse">
               This is an informational alert card with important details.
             </CardDescription>
           </div>
         </div>
       </Card>
-      <Card variant="outlined" padding="md" className="border border-yellow-200 bg-yellow-50 dark:border-yellow-500/40 dark:bg-yellow-950/30">
+      <Card variant="outlined" padding="md" className="border border-warning bg-warning-light">
         <div className="flex items-start gap-3">
-          <div className="text-yellow-600 dark:text-yellow-400 flex-shrink-0">
+          <div className="text-warning dark:text-text-inverse flex-shrink-0">
             <WarningIcon className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <CardTitle className="text-base text-yellow-900 dark:text-yellow-100">Warning</CardTitle>
-            <CardDescription className="text-yellow-700 dark:text-yellow-300">
+            <CardTitle className="text-base text-warning dark:text-text-inverse">Warning</CardTitle>
+            <CardDescription className="text-warning dark:text-text-inverse">
               Please review this warning before proceeding.
             </CardDescription>
           </div>
         </div>
       </Card>
-      <Card variant="outlined" padding="md" className="border border-red-200 bg-red-50 dark:border-red-500/40 dark:bg-red-950/30">
+      <Card variant="outlined" padding="md" className="border border-error bg-error-light">
         <div className="flex items-start gap-3">
-          <div className="text-red-600 dark:text-red-400 flex-shrink-0">
+          <div className="text-error dark:text-text-inverse flex-shrink-0">
             <ErrorIcon className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <CardTitle className="text-base text-red-900 dark:text-red-100">Error</CardTitle>
-            <CardDescription className="text-red-700 dark:text-red-300">
+            <CardTitle className="text-base text-error dark:text-text-inverse">Error</CardTitle>
+            <CardDescription className="text-error dark:text-text-inverse">
               Something went wrong. Please try again.
             </CardDescription>
           </div>
         </div>
       </Card>
-      <Card variant="outlined" padding="md" className="border border-green-200 bg-green-50 dark:border-green-500/40 dark:bg-green-950/30">
+      <Card variant="outlined" padding="md" className="border border-success bg-success-light">
         <div className="flex items-start gap-3">
-          <div className="text-green-600 dark:text-green-400 flex-shrink-0">
+          <div className="text-success dark:text-text-inverse flex-shrink-0">
             <SuccessIcon className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <CardTitle className="text-base text-green-900 dark:text-green-100">Success</CardTitle>
-            <CardDescription className="text-green-700 dark:text-green-300">
+            <CardTitle className="text-base text-success dark:text-text-inverse">Success</CardTitle>
+            <CardDescription className="text-success dark:text-text-inverse">
               Your action was completed successfully!
             </CardDescription>
           </div>

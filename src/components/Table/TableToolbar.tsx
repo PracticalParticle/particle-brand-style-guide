@@ -183,7 +183,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               ariaLabelActive={`Filters (${activeFilterCount} active)`}
               expanded={filterRowOpen}
               onClick={() => setFilterRowOpen((o) => !o)}
-              className={filterRowOpen ? 'border-primary' : ''}
+              className={filterRowOpen ? 'border-border-focus' : ''}
             />
             {filterChips.length > 0 && (
               <div className="flex flex-wrap items-center gap-1.5 min-w-0 overflow-x-auto">
@@ -322,7 +322,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
             <button
               type="button"
               onClick={() => quickFilters.onChange('')}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
+              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
               aria-pressed={!quickFilters.value}
             >
               <Badge
@@ -341,7 +341,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
                 key={opt.value}
                 type="button"
                 onClick={() => quickFilters.onChange(opt.value)}
-                className="focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
+                className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
                 aria-pressed={quickFilters.value === opt.value}
               >
                 <Badge

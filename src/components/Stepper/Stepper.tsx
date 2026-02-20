@@ -60,8 +60,8 @@ export const Stepper: React.FC<StepperProps> = ({
       textSize,
       isCompleted && 'bg-tertiary text-text-inverse',
       isActive &&
-        'bg-tertiary text-text-inverse ring-2 ring-tertiary/30 ring-offset-2 ring-offset-secondary',
-      isUpcoming && 'bg-border text-text-tertiary'
+        'bg-tertiary text-text-inverse ring-2 ring-tertiary/30 ring-offset-2 ring-offset-bg-primary',
+      isUpcoming && 'bg-border text-text-secondary'
     )
   }
 
@@ -103,7 +103,7 @@ export const Stepper: React.FC<StepperProps> = ({
             <div
               className={cn(
                 'relative z-10 flex flex-1 min-w-0 flex-col items-center text-center',
-                isClickable && 'cursor-pointer'
+                isClickable && 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded'
               )}
               onClick={isClickable ? () => onStepClick(index) : undefined}
               onKeyDown={
@@ -130,13 +130,13 @@ export const Stepper: React.FC<StepperProps> = ({
                     className={cn(
                       'font-medium break-words',
                       textSize,
-                      isActive ? 'text-text-primary' : 'text-text-tertiary'
+                      isActive ? 'text-text-primary' : 'text-text-secondary'
                     )}
                   >
                     {label}
                   </div>
                   {description && (
-                    <div className={cn('text-text-tertiary mt-0.5 break-words', textSize)}>
+                    <div className={cn('text-text-secondary mt-0.5 break-words', textSize)}>
                       {description}
                     </div>
                   )}
@@ -189,7 +189,7 @@ export const Stepper: React.FC<StepperProps> = ({
               className={cn(
                 'relative z-10 flex-shrink-0',
                 circleClass(index),
-                isClickable && 'cursor-pointer'
+                isClickable && 'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
               )}
               onClick={isClickable ? () => onStepClick(index) : undefined}
               onKeyDown={
@@ -241,13 +241,13 @@ export const Stepper: React.FC<StepperProps> = ({
                     className={cn(
                       'font-medium',
                       textSize,
-                      isActive ? 'text-text-primary' : 'text-text-tertiary'
+                      isActive ? 'text-text-primary' : 'text-text-secondary'
                     )}
                   >
                     {label}
                   </div>
                   {description && (
-                    <div className={cn('text-text-tertiary mt-0.5', textSize)}>{description}</div>
+                    <div className={cn('text-text-secondary mt-0.5', textSize)}>{description}</div>
                   )}
                 </div>
               )}
