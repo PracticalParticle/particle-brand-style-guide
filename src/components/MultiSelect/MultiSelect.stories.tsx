@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { MultiSelect } from './MultiSelect'
 
 const meta: Meta<typeof MultiSelect> = {
-  title: 'Components/Selection/MultiSelect',
+  title: 'Components/Forms/MultiSelect',
   component: MultiSelect,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

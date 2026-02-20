@@ -4,7 +4,7 @@ import { Popover } from './Popover'
 import { Button } from '../Button'
 
 const meta: Meta<typeof Popover> = {
-  title: 'Components/Popover',
+  title: 'Components/Surfaces/Popover',
   component: Popover,
   parameters: {
     layout: 'centered',

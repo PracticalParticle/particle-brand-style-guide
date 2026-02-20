@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react'
 import React, { useState } from 'react'
 import { cn } from '@/utils/cn'
 import { Spinner } from '@/components/Spinner'
-import AnimatedLogosDocs from './AnimatedLogos.docs.mdx'
 
 /** Logo paths (same as Logo / Spinner) — two triangles */
 const LOGO_TOP =
@@ -137,27 +136,14 @@ function PlayableAnimCard({
   )
 }
 
-const ANIMATION_OPTIONS = [
-  { value: 'bounce', label: 'Bounce' },
-  { value: 'stumble', label: 'Stumble' },
-  { value: 'float', label: 'Float' },
-  { value: 'pulse', label: 'Pulse' },
-  { value: 'breathe', label: 'Breathe' },
-  { value: 'expand', label: 'Expand' },
-  { value: 'fadeIn', label: 'Fade in from outside' },
-  { value: 'scalePop', label: 'Scale pop' },
-  { value: 'holdFadeOut', label: 'Hold then fade out' },
-] as const
-
 const meta: Meta = {
   title: 'Brand/Animated Logos',
   parameters: {
     layout: 'centered',
     docs: {
-      page: AnimatedLogosDocs,
       description: {
         component:
-          'Professional logo animations for SaaS, video intro/outro, social, and enterprise. Motion, reveal, bounce, background-only. Use the two triangle shapes on-brand. Use Playground or individual stories to customize variant and size.',
+          'Professional logo animations for SaaS, video intro/outro, social, and enterprise. Motion, reveal, bounce, background-only. Use the two triangle shapes on-brand. Use individual stories to customize variant and size.',
       },
     },
   },
@@ -179,47 +165,6 @@ const meta: Meta = {
 export default meta
 
 type Story = StoryObj<{ variant: LogoVariant; size: LogoSize; animation?: string }>
-
-export const Playground: Story = {
-  args: {
-    variant: 'default',
-    size: 'lg',
-    animation: 'bounce',
-  },
-  argTypes: {
-    animation: {
-      control: 'select',
-      options: ANIMATION_OPTIONS.map((o) => o.value),
-      description: 'Which animation to show.',
-    },
-  },
-  render: (args) => {
-    const { variant, size, animation } = args
-    const common = { variant, size }
-    switch (animation) {
-      case 'bounce':
-        return <LogoMark {...common} pathTopClassName="animate-logo-bounce" pathBottomClassName="animate-logo-bounce" />
-      case 'stumble':
-        return <LogoMark {...common} pathTopClassName="animate-logo-stumble" pathBottomClassName="animate-logo-stumble" />
-      case 'float':
-        return <LogoMark {...common} pathTopClassName="animate-logo-float" pathBottomClassName="animate-logo-float" />
-      case 'pulse':
-        return <LogoMark {...common} pathTopClassName="animate-logo-pulse" pathBottomClassName="animate-logo-pulse" />
-      case 'breathe':
-        return <LogoMark {...common} scale={0.82} pathTopClassName="animate-logo-breathe" pathBottomClassName="animate-logo-breathe" />
-      case 'expand':
-        return <LogoMark {...common} scale={0.65} pathTopClassName="animate-logo-expand-left" pathBottomClassName="animate-logo-expand-right" />
-      case 'fadeIn':
-        return <LogoMark {...common} pathTopClassName="animate-logo-fade-in-outside" pathBottomClassName="animate-logo-fade-in-outside" />
-      case 'scalePop':
-        return <LogoMark {...common} pathTopClassName="animate-logo-scale-pop opacity-0" pathBottomClassName="animate-logo-scale-pop-bottom opacity-0" />
-      case 'holdFadeOut':
-        return <LogoMark {...common} pathTopClassName="animate-logo-hold-fade-out" pathBottomClassName="animate-logo-hold-fade-out" />
-      default:
-        return <LogoMark {...common} pathTopClassName="animate-logo-bounce" pathBottomClassName="animate-logo-bounce" />
-    }
-  },
-}
 
 export const Collection: Story = {
   render: () => (

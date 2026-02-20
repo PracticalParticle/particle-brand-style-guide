@@ -153,22 +153,22 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
   ({ className, children, sortable, sortDirection = null, onSort, ...props }, ref) => {
     const isButton = sortable && onSort
     const content = (
-      <>
-        <span className={cn(isButton && 'mr-1.5')}>{children}</span>
+      <span className="inline-flex items-center gap-1.5 min-w-0">
+        <span className="truncate">{children}</span>
         {sortable && (
-          <span className="inline-flex shrink-0 text-text-tertiary">
+          <span className="inline-flex shrink-0 items-center justify-center w-4 h-4 text-text-tertiary" aria-hidden>
             {sortDirection === 'asc' && <SortAscIcon className="h-4 w-4" />}
             {sortDirection === 'desc' && <SortDescIcon className="h-4 w-4" />}
             {sortDirection === null && <SortBothIcon className="h-4 w-4 opacity-50" />}
           </span>
         )}
-      </>
+      </span>
     )
     return (
       <th
         ref={ref}
         className={cn(
-          'h-10 sm:h-12 px-2 sm:px-4 text-left align-middle font-semibold text-text-primary text-sm',
+          'h-10 sm:h-12 px-2 sm:px-4 text-left align-middle font-semibold text-text-primary text-sm whitespace-nowrap',
           isButton && 'cursor-pointer select-none hover:bg-bg-tertiary/40 hover:text-text-primary transition-colors rounded-t',
           className
         )}

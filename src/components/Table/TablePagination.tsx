@@ -28,7 +28,7 @@ function getPageNumbers(totalPages: number, currentPage: number, maxVisible: num
   const pages: (number | 'ellipsis')[] = []
   const windowSize = Math.max(3, maxVisible - 2) // leave room for first, last, and two ellipsis
   let start = Math.max(2, currentPage - Math.floor(windowSize / 2))
-  let end = Math.min(totalPages - 1, start + windowSize - 1)
+  const end = Math.min(totalPages - 1, start + windowSize - 1)
   if (end - start + 1 < windowSize) {
     start = Math.max(2, end - windowSize + 1)
   }

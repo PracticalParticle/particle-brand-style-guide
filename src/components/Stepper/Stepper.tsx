@@ -220,7 +220,7 @@ export const Stepper: React.FC<StepperProps> = ({
               {showLabels && (
                 <div
                   className={cn(
-                    'pb-6 pt-0.5 min-w-0 flex-1',
+                    'pb-8 pt-0.5 min-w-0 flex-1',
                     isClickable && 'cursor-pointer'
                   )}
                   onClick={isClickable ? () => onStepClick(index) : undefined}

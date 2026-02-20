@@ -9,7 +9,7 @@ import { Rating } from '../Rating/Rating'
 import { FileInput } from '../FileInput/FileInput'
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input',
+  title: 'Components/Forms/Input',
   component: Input,
   parameters: {
     layout: 'centered',

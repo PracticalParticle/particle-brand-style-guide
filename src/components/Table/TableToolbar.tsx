@@ -1,21 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { cn } from '@/utils/cn'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { Select } from '@/components/Select'
 import { Badge } from '@/components/Badge'
-import { TableFilters, countActiveFilters, type TableFilterField } from './TableFilters'
+import { FilterButton, FilterChip, FilterInlineRow } from '@/components/Filter'
+import { type TableFilterField } from './TableFilters'
+import { countActiveFilters, getActiveFilterChips } from './tableFilterUtils'
 
 const SearchIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
     <circle cx="11" cy="11" r="8" />
     <path d="m21 21-4.35-4.35" />
-  </svg>
-)
-
-const FilterIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
   </svg>
 )
 
@@ -25,58 +21,70 @@ const ClearIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
+const SortAscIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="m18 15-6-6-6 6" />
+  </svg>
+)
+const SortDescIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+)
+
 export interface TableToolbarFilterOption {
   value: string
   label: string
 }
 
-/** Multi-field filters config (popover + chips). */
+/** Multi-field filters: expandable inline row (no popover) + chips. */
 export interface TableToolbarFiltersConfig {
   fields: TableFilterField[]
   values: Record<string, string>
   onValuesChange: (values: Record<string, string>) => void
 }
 
+/** Sort control: key + direction. */
+export interface TableToolbarSortConfig {
+  sortKey: string
+  sortDir: 'asc' | 'desc'
+  options: { key: string; label: string }[]
+  onSortChange: (key: string, dir: 'asc' | 'desc') => void
+}
+
 /** Quick filter badges: one-click filter pills (e.g. All | Completed | Pending). */
 export interface TableToolbarQuickFilters {
-  /** Options for the quick filter (value '' = "All" or use allLabel). */
   options: TableToolbarFilterOption[]
-  /** Current value. Empty = all. */
   value: string
-  /** Called when a badge is clicked. */
   onChange: (value: string) => void
-  /** Optional label before the badges (e.g. "Status"). */
   label?: string
-  /** Label for the "all" option when value is empty. Default "All". */
   allLabel?: string
 }
 
 export interface TableToolbarProps {
-  /** Search query (controlled). */
+  /** Search (controlled). Shown in first row with filters. */
   searchValue?: string
-  /** Called when search input changes. */
   onSearchChange?: (value: string) => void
-  /** Placeholder for search input. */
   searchPlaceholder?: string
-  /** Multi-field filters (icon button + popover + chips). */
+  /** Multi-field filters: toggle opens inline row below (no dropdown-in-dropdown). */
   filtersConfig?: TableToolbarFiltersConfig
-  /** Quick filter badges (e.g. All | Completed | Pending). */
+  /** Quick filter badges. */
   quickFilters?: TableToolbarQuickFilters
-  /** Legacy: single filter. */
+  /** Sort: Sort by + direction in first row. */
+  sortConfig?: TableToolbarSortConfig
+  /** Legacy single filter (optional). */
   filterLabel?: string
   filterValue?: string
   onFilterChange?: (value: string) => void
   filterOptions?: TableToolbarFilterOption[]
-  /** Called when user clicks "Clear all". */
   onClearAll?: () => void
   hasActiveFilters?: boolean
-  /** Right-side actions. */
   actions?: React.ReactNode
   className?: string
   children?: React.ReactNode
 }
 
-const CLEAR_BUTTON_MIN_WIDTH = '2.5rem' // reserve space for icon-only Clear so layout doesn't jump
+const CLEAR_BUTTON_MIN_WIDTH = '2.5rem'
 
 export const TableToolbar: React.FC<TableToolbarProps> = ({
   searchValue = '',
@@ -84,6 +92,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   searchPlaceholder = 'Search…',
   filtersConfig,
   quickFilters,
+  sortConfig,
   filterLabel,
   filterValue,
   onFilterChange,
@@ -94,6 +103,8 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   className,
   children,
 }) => {
+  const [filterRowOpen, setFilterRowOpen] = useState(false)
+
   const hasMultiFilters = filtersConfig && filtersConfig.fields.length > 0
   const hasLegacyFilter = filterLabel && filterOptions.length > 0 && onFilterChange !== undefined
 
@@ -119,6 +130,17 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   }
 
   const hasQuickFilters = quickFilters && quickFilters.options.length > 0
+  const filterChips = hasMultiFilters ? getActiveFilterChips(filtersConfig!.fields, filtersConfig!.values) : []
+  const activeFilterCount = hasMultiFilters ? countActiveFilters(filtersConfig!.values) : 0
+
+  const inlineFilterFields = hasMultiFilters
+    ? filtersConfig!.fields.map((f) => ({
+        id: f.id,
+        label: f.label,
+        options: f.options,
+        allLabel: f.allLabel,
+      }))
+    : []
 
   return (
     <div
@@ -128,17 +150,18 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
         className
       )}
     >
-      {/* Row 1: Search, filters, clear, actions — single line; overflow-x-auto on small so table width is not impacted */}
+      {/* Row 1: Search, Filter toggle, chips, Clear, Sort, actions */}
       <div
         className={cn(
-          'flex flex-nowrap items-center gap-2',
+          'flex flex-nowrap items-center gap-2 min-w-0',
           'px-2 py-2 xs:px-3 sm:px-4 sm:py-2.5',
           'min-h-[2.75rem] sm:min-h-[3rem]',
           'overflow-x-auto overflow-y-hidden'
         )}
       >
+        {/* Search */}
         {onSearchChange !== undefined && (
-          <div className="w-[10rem] xs:w-[11rem] sm:w-[12rem] shrink-0">
+          <div className="w-[8.5rem] min-w-[8.5rem] xs:w-[10rem] sm:w-[12rem] shrink-0">
             <Input
               type="search"
               placeholder={searchPlaceholder}
@@ -146,28 +169,46 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               onChange={(e) => onSearchChange(e.target.value)}
               leftIcon={<SearchIcon className="h-4 w-4 text-text-tertiary" />}
               className="h-9 text-sm"
-              aria-label="Search table"
+              aria-label="Search"
             />
           </div>
         )}
 
+        {/* Filter toggle (opens inline row below) + chips */}
         {hasMultiFilters && (
-          <TableFilters
-            fields={filtersConfig!.fields}
-            values={filtersConfig!.values}
-            onValuesChange={filtersConfig!.onValuesChange}
-            className="shrink-0"
-          />
+          <div className="flex items-center gap-2 shrink-0 min-w-0">
+            <FilterButton
+              activeCount={activeFilterCount}
+              ariaLabel="Show filters"
+              ariaLabelActive={`Filters (${activeFilterCount} active)`}
+              expanded={filterRowOpen}
+              onClick={() => setFilterRowOpen((o) => !o)}
+              className={filterRowOpen ? 'border-primary' : ''}
+            />
+            {filterChips.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 min-w-0 overflow-x-auto">
+                {filterChips.map((c) => (
+                  <FilterChip
+                    key={c.id}
+                    label={c.label}
+                    valueLabel={c.valueLabel}
+                    onRemove={() =>
+                      filtersConfig!.onValuesChange({ ...filtersConfig!.values, [c.id]: '' })
+                    }
+                  />
+                ))}
+              </div>
+            )}
+          </div>
         )}
 
         {!hasMultiFilters && hasLegacyFilter && (
-          <div className="w-[10rem] sm:w-[11rem] shrink-0">
+          <div className="min-w-[9rem] w-[10rem] sm:w-[11rem] shrink-0">
             <Select
               value={filterValue ?? ''}
               onChange={(e) => onFilterChange?.(e.target.value)}
-              leftIcon={<FilterIcon className="h-4 w-4 text-text-tertiary" />}
               size="sm"
-              className="[&_select]:h-9"
+              className="[&_select]:h-9 [&_select]:text-xs [&_select]:py-1.5"
               aria-label={filterLabel ?? 'Filter'}
             >
               <option value="">All</option>
@@ -181,10 +222,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
         )}
 
         {showClearSlot && (
-          <div
-            className="flex items-center shrink-0"
-            style={{ minWidth: CLEAR_BUTTON_MIN_WIDTH }}
-          >
+          <div className="flex items-center shrink-0" style={{ minWidth: CLEAR_BUTTON_MIN_WIDTH }}>
             {hasActiveFilters && (onClearAll !== undefined || hasMultiFilters || quickFilters) && (
               <Button
                 variant="ghost"
@@ -202,6 +240,50 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
 
         {children}
 
+        {/* Sort */}
+        {sortConfig && sortConfig.options.length > 0 && (
+          <div className="flex items-center gap-2 shrink-0">
+            <label htmlFor="toolbar-sort-by" className="text-xs font-medium text-text-tertiary whitespace-nowrap sr-only sm:not-sr-only">
+              Sort by
+            </label>
+            <Select
+              id="toolbar-sort-by"
+              size="sm"
+              value={sortConfig.sortKey}
+              onChange={(e) => sortConfig.onSortChange(e.target.value, sortConfig.sortDir)}
+              className="min-w-[8rem] w-[8.5rem] sm:w-[9rem] [&_select]:h-9 [&_select]:text-xs [&_select]:py-1.5"
+              aria-label="Sort by"
+            >
+              {sortConfig.options.map((opt) => (
+                <option key={opt.key} value={opt.key}>
+                  {opt.label}
+                </option>
+              ))}
+            </Select>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              iconOnly
+              onClick={() =>
+                sortConfig.onSortChange(
+                  sortConfig.sortKey,
+                  sortConfig.sortDir === 'asc' ? 'desc' : 'asc'
+                )
+              }
+              className="h-8 w-8 text-text-tertiary hover:text-text-primary"
+              aria-label={sortConfig.sortDir === 'asc' ? 'Sort descending' : 'Sort ascending'}
+              title={sortConfig.sortDir === 'asc' ? 'Descending' : 'Ascending'}
+            >
+              {sortConfig.sortDir === 'asc' ? (
+                <SortAscIcon className="h-4 w-4" />
+              ) : (
+                <SortDescIcon className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+        )}
+
         <div className="flex-1 min-w-2 shrink-0" aria-hidden />
 
         {actions && (
@@ -211,7 +293,18 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
         )}
       </div>
 
-      {/* Row 2: Quick filter badges — own row below; wrap; fixed-size badges so selection doesn't change width */}
+      {/* Row 2: Expandable inline filters (no popover) */}
+      {hasMultiFilters && filterRowOpen && (
+        <FilterInlineRow
+          fields={inlineFilterFields}
+          values={filtersConfig!.values}
+          onValuesChange={filtersConfig!.onValuesChange}
+          onClearAll={handleClearAll}
+          rowLabel="Filters"
+        />
+      )}
+
+      {/* Row 3: Quick filter badges */}
       {hasQuickFilters && (
         <div
           className={cn(

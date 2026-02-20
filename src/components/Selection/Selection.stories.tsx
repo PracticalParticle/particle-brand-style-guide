@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import { Select } from '@/components/Select'
 import { DropdownSelect } from '@/components/DropdownSelect'
 import { DropdownMenu } from '@/components/DropdownMenu'
 import { Combobox } from '@/components/Combobox'
@@ -15,7 +14,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'Full set of selection components for SaaS, marketing sites, and internal tools. Use native **Select** for simple forms; **DropdownSelect** for custom styling and option groups; **Combobox** for searchable long lists; **MultiSelect** for multiple values with chips; **SegmentedControl** for 2–5 inline options; **DropdownMenu** for action menus.',
+          'Full set of selection components for SaaS, marketing sites, and internal tools. Use **DropdownSelect** for custom styling and option groups; **Combobox** for searchable long lists; **MultiSelect** for multiple values with chips; **SegmentedControl** for 2–5 inline options; **DropdownMenu** for action menus.',
       },
     },
   },
@@ -43,7 +42,6 @@ const ChevronDownIcon = () => (
 )
 
 function AllSelectionComponentsStory() {
-  const [nativeValue, setNativeValue] = useState('')
   const [dropdownValue, setDropdownValue] = useState<string | null>(null)
   const [comboboxValue, setComboboxValue] = useState<string | null>(null)
   const [multiValue, setMultiValue] = useState<string[]>([])
@@ -51,21 +49,6 @@ function AllSelectionComponentsStory() {
   return (
     <div className="flex flex-col gap-10 w-full max-w-md p-6 rounded-lg border border-border bg-bg-secondary">
         <h2 className="text-lg font-semibold text-text-primary">Selection components</h2>
-
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium text-text-secondary">Native Select</h3>
-          <Select
-            label="Country"
-            value={nativeValue}
-            onChange={(e) => setNativeValue(e.target.value)}
-            fullWidth
-          >
-            <option value="">Choose…</option>
-            {countryOptions.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
-            ))}
-          </Select>
-        </div>
 
         <div className="space-y-2">
           <h3 className="text-sm font-medium text-text-secondary">DropdownSelect</h3>
@@ -149,8 +132,7 @@ export const WhenToUse: StoryObj = {
     <div className="max-w-2xl space-y-4 text-sm text-text-secondary">
       <h2 className="text-lg font-semibold text-text-primary">When to use which</h2>
       <ul className="list-disc list-inside space-y-2">
-        <li><strong className="text-text-primary">Select</strong> — Simple forms, few options, no custom UI. Best for basic dropdowns and full accessibility with no JS.</li>
-        <li><strong className="text-text-primary">DropdownSelect</strong> — Custom look, option groups, icons, or when you need the trigger to match your design system.</li>
+        <li><strong className="text-text-primary">DropdownSelect</strong> — Custom look, option groups, icons, or when you need the trigger to match your design system. Use for most single-select forms.</li>
         <li><strong className="text-text-primary">Combobox</strong> — Long lists (10+ options). Type to filter. Use for country, category, or any searchable single choice.</li>
         <li><strong className="text-text-primary">MultiSelect</strong> — Multiple values, tags, or “add many” flows. Shows selected as chips; supports search inside panel.</li>
         <li><strong className="text-text-primary">SegmentedControl</strong> — 2–5 options, always visible (e.g. List/Grid, Newest/Oldest). Inline, compact.</li>

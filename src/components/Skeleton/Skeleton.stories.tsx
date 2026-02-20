@@ -4,7 +4,7 @@ import { Card, CardHeader, CardContent, CardFooter } from '../Card'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../Table'
 
 const meta: Meta<typeof Skeleton> = {
-  title: 'Components/Skeleton',
+  title: 'Components/Feedback/Skeleton',
   component: Skeleton,
   parameters: {
     layout: 'centered',

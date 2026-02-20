@@ -5,7 +5,7 @@ import { Button } from '../Button'
 import { Card } from '../Card'
 
 const meta: Meta<typeof Stepper> = {
-  title: 'Components/Stepper',
+  title: 'Components/Navigation/Stepper',
   component: Stepper,
   parameters: {
     layout: 'centered',

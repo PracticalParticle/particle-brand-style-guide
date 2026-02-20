@@ -167,10 +167,37 @@
   }
 
   /* Storybook preview containers - ensure full-page background for story views */
-  #storybook-root,
-  #storybook-root > div {
+  #storybook-root {
     background-color: rgb(var(--color-bg-primary)) !important;
     min-height: 100vh;
+  }
+
+  /* Canvas (individual story view): prevent story content from stretching. Keep background on root only. */
+  #storybook-root > div {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* Decorator wrapper and its parent chain must not stretch so cards/badges stay proportional */
+  .story-canvas-root {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  #storybook-root div:has(> .story-canvas-root) {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Storybook internal story containers (docs + canvas) */
+  .sb-story,
+  .sb-story > div,
+  .docs-story,
+  .docs-story > div {
+    height: auto !important;
+    min-height: 0 !important;
   }
 
   .os-host,

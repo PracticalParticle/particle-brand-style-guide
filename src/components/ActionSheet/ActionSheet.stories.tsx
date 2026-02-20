@@ -5,7 +5,7 @@ import { Button } from '../Button'
 import { Skeleton } from '../Skeleton'
 
 const meta: Meta<typeof ActionSheet> = {
-  title: 'Components/ActionSheet',
+  title: 'Components/Surfaces/ActionSheet',
   component: ActionSheet,
   parameters: {
     layout: 'centered',

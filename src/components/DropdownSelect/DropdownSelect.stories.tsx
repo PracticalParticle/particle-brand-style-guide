@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { DropdownSelect } from './DropdownSelect'
 
 const meta: Meta<typeof DropdownSelect> = {
-  title: 'Components/Selection/DropdownSelect',
+  title: 'Components/Forms/DropdownSelect',
   component: DropdownSelect,
   parameters: { layout: 'centered' },
   tags: ['autodocs'],

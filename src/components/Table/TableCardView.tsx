@@ -45,8 +45,9 @@ export function TableCardView<T extends object>({
   return (
     <div
       className={cn(
+        'min-w-0',
         layout === 'grid'
-          ? 'grid gap-3 sm:grid-cols-2 lg:grid-cols-3'
+          ? 'grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3'
           : 'flex flex-col gap-3',
         className
       )}

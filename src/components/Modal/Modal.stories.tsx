@@ -15,7 +15,7 @@ import { Checkbox } from '../Checkbox'
 import { Skeleton } from '../Skeleton'
 
 const meta: Meta<typeof Modal> = {
-  title: 'Components/Modal',
+  title: 'Components/Surfaces/Modal',
   component: Modal,
   parameters: {
     layout: 'centered',
