@@ -43,7 +43,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
     )
     if (container) {
       return (
-        <div className="border-x border-b border-default bg-bg-primary min-w-0 w-full">
+        <div className="table-container -mt-px border-x border-b border-border dark:border-table bg-bg-secondary min-w-0 w-full">
           {tableEl}
         </div>
       )
@@ -64,7 +64,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
       <thead
         ref={ref}
         className={cn(
-          'border-b border-default bg-bg-secondary',
+          'table-header border-b border-border dark:border-table bg-bg-secondary',
           'text-left text-sm font-semibold text-text-primary',
           className
         )}
@@ -103,17 +103,21 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
   hover?: boolean
   /** Show pointer and hover state (e.g. clickable row). */
   interactive?: boolean
+  /** Applies the branded selection state (left-accent bar + tinted background). */
+  selected?: boolean
 }
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, hover = false, interactive = false, children, ...props }, ref) => {
+  ({ className, hover = false, interactive = false, selected = false, children, ...props }, ref) => {
     return (
       <tr
         ref={ref}
+        aria-selected={selected || undefined}
         className={cn(
-          'border-b border-default/30 transition-colors',
-          hover && 'hover:bg-bg-tertiary/60',
-          interactive && 'cursor-pointer hover:bg-bg-tertiary/60',
+          'table-row border-b border-border dark:border-table transition-colors duration-brand ease-brand',
+          hover && 'hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08]',
+          interactive && 'cursor-pointer hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08]',
+          selected && 'row-selected',
           className
         )}
         {...props}
@@ -175,7 +179,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         ref={ref}
         className={cn(
           'h-10 sm:h-12 px-2 sm:px-4 text-left align-middle font-semibold text-text-primary text-sm whitespace-nowrap',
-          isButton && 'cursor-pointer select-none hover:bg-bg-tertiary/40 hover:text-text-primary transition-colors rounded-t',
+          isButton && 'cursor-pointer select-none hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08] hover:text-text-primary transition-colors duration-brand ease-brand rounded-t',
           className
         )}
         {...(isButton

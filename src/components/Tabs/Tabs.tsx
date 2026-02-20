@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useId, useCallback } from 'react'
+import React, { createContext, useContext, useId, useCallback, useRef, useLayoutEffect, useState } from 'react'
 import { cn } from '@/utils/cn'
 
 type TabsContextValue = {
@@ -11,6 +11,7 @@ type TabsContextValue = {
   panelIdPrefix: string
   getTabId: (value: string) => string
   getPanelId: (value: string) => string
+  registerTab: (value: string, el: HTMLButtonElement | null) => void
 }
 
 const TabsContext = createContext<TabsContextValue | null>(null)
@@ -45,6 +46,13 @@ export const Tabs: React.FC<TabsProps> = ({
   const panelIdPrefix = `tabs-${idBase}-panel`
   const getTabId = useCallback((v: string) => `${tabIdPrefix}-${v}`, [tabIdPrefix])
   const getPanelId = useCallback((v: string) => `${panelIdPrefix}-${v}`, [panelIdPrefix])
+
+  const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map())
+  const registerTab = useCallback((v: string, el: HTMLButtonElement | null) => {
+    if (el) tabRefs.current.set(v, el)
+    else tabRefs.current.delete(v)
+  }, [])
+
   const ctx: TabsContextValue = {
     value,
     onChange,
@@ -55,6 +63,7 @@ export const Tabs: React.FC<TabsProps> = ({
     panelIdPrefix,
     getTabId,
     getPanelId,
+    registerTab,
   }
   const isVertical = orientation === 'vertical'
   return (
@@ -91,11 +100,36 @@ export const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
     const { value: selectedValue, onChange, orientation, variant } = useTabs()
     const isVertical = orientation === 'vertical'
     const values = getTabValuesFromChildren(children)
+
+    // Animated indicator state
+    const listRef = useRef<HTMLDivElement | null>(null)
+    const [indicator, setIndicator] = useState<{ left: number; width: number; top: number; height: number } | null>(null)
+
+    // Merge forwarded ref with our listRef
+    const setRef = (el: HTMLDivElement | null) => {
+      listRef.current = el
+      if (typeof ref === 'function') ref(el)
+      else if (ref) ref.current = el
+    }
+
+    // Measure the active tab position on value change
+    useLayoutEffect(() => {
+      const list = listRef.current
+      if (!list) return
+      const activeTab = list.querySelector<HTMLButtonElement>('[aria-selected="true"]')
+      if (!activeTab) return
+      const listRect = list.getBoundingClientRect()
+      const tabRect = activeTab.getBoundingClientRect()
+      setIndicator({
+        left:   tabRect.left - listRect.left,
+        width:  tabRect.width,
+        top:    tabRect.top - listRect.top,
+        height: tabRect.height,
+      })
+    }, [selectedValue, variant])
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (values.length === 0) {
-        onKeyDown?.(e)
-        return
-      }
+      if (values.length === 0) { onKeyDown?.(e); return }
       const i = values.indexOf(selectedValue)
       let next: number | null = null
       if (orientation === 'horizontal') {
@@ -114,21 +148,36 @@ export const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       }
       onKeyDown?.(e)
     }
+
     return (
       <div
-        ref={ref}
+        ref={setRef}
         role="tablist"
         aria-orientation={orientation}
         className={cn(
-          'flex shrink-0',
+          'flex shrink-0 relative',
           isVertical ? 'flex-col' : 'flex-row',
-          variant === 'line' && !isVertical && 'border-b border-border rounded-t-lg overflow-hidden',
-          variant === 'pills' && 'gap-1 p-1 bg-bg-tertiary rounded-lg w-fit',
+          variant === 'line' && !isVertical && 'border-b border-border',
+          variant === 'pills' && 'gap-1 p-1 bg-bg-tertiary rounded-control w-fit',
           className
         )}
         onKeyDown={handleKeyDown}
         {...props}
       >
+        {/* Animated sliding indicator */}
+        {indicator && variant === 'pills' && (
+          <span
+            aria-hidden
+            className="absolute rounded-inset bg-bg-secondary shadow-sm pointer-events-none z-0"
+            style={{
+              left:       indicator.left,
+              width:      indicator.width,
+              top:        indicator.top,
+              height:     indicator.height,
+              transition: 'left 220ms cubic-bezier(0.16,1,0.3,1), width 220ms cubic-bezier(0.16,1,0.3,1)',
+            }}
+          />
+        )}
         {children}
       </div>
     )
@@ -143,20 +192,29 @@ export interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
 
 export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
   ({ value, className, children, onClick, ...props }, ref) => {
-    const { value: selectedValue, onChange, getTabId, getPanelId, variant, size } = useTabs()
+    const { value: selectedValue, onChange, getTabId, getPanelId, variant, size, registerTab } = useTabs()
     const isSelected = selectedValue === value
+
+    const setRef = useCallback((el: HTMLButtonElement | null) => {
+      registerTab(value, el)
+      if (typeof ref === 'function') ref(el)
+      else if (ref) ref.current = el
+    }, [value, registerTab, ref])
+
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e)
       onChange(value)
     }
+
     const sizeStyles = {
       sm: 'px-3 py-1.5 text-xs',
       md: 'px-4 py-2 text-sm',
       lg: 'px-5 py-2.5 text-base',
     }
+
     return (
       <button
-        ref={ref}
+        ref={setRef}
         type="button"
         role="tab"
         id={getTabId(value)}
@@ -164,11 +222,21 @@ export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
         aria-controls={getPanelId(value)}
         tabIndex={isSelected ? 0 : -1}
         className={cn(
-          'font-medium transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 shrink-0',
-          variant === 'line' && 'rounded-none border-b-2 border-transparent -mb-px min-h-[2.25rem] box-border',
-          variant === 'line' && (isSelected ? 'border-tertiary dark:border-tertiary-on-dark text-tertiary dark:text-tertiary-on-dark' : 'text-text-secondary hover:text-text-primary'),
-          variant === 'pills' && 'rounded-base',
-          variant === 'pills' && (isSelected ? 'bg-bg-secondary text-text-primary shadow-sm' : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary/50'),
+          'relative z-10 font-medium transition-colors duration-brand ease-brand',
+          'focus:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary',
+          'shrink-0 select-none',
+          variant === 'line' && [
+            'rounded-none border-b-2 border-transparent -mb-px min-h-[2.25rem] box-border',
+            isSelected
+              ? 'border-tertiary dark:border-tertiary-on-dark text-tertiary dark:text-tertiary-on-dark'
+              : 'text-text-secondary hover:text-text-primary hover:border-border-hover',
+          ],
+          variant === 'pills' && [
+            'rounded-inset',
+            isSelected
+              ? 'text-text-primary'
+              : 'text-text-secondary hover:text-text-primary',
+          ],
           sizeStyles[size],
           className
         )}
@@ -221,4 +289,3 @@ export const TabPanel = React.forwardRef<HTMLDivElement, TabPanelProps>(
   }
 )
 TabPanel.displayName = 'TabPanel'
-

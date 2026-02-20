@@ -1,5 +1,6 @@
 /**
- * Typography tokens for Particle Crypto Security LTD Design System
+ * Typography tokens for Particle Design System
+ * Brand: strong hierarchy, body line-height ≥1.5, weights 400/500/600/700 only.
  */
 
 export const typography = {
@@ -8,16 +9,17 @@ export const typography = {
     mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
   },
 
+  /* Scale: xs 12 → 4xl 36px; body ≥1.5 line-height; headings tighter */
   fontSize: {
-    xs: ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.025em' }],      // 12px
-    sm: ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em' }],   // 14px
+    xs: ['0.75rem', { lineHeight: '1.25rem', letterSpacing: '0.025em' }],   // 12px
+    sm: ['0.875rem', { lineHeight: '1.5rem', letterSpacing: '0.01em' }],    // 14px
     base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '0' }],            // 16px
-    lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],  // 18px
-    xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.015em' }],  // 20px
-    '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],    // 24px
-    '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.025em' }], // 30px
-    '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.03em' }], // 36px
-    '5xl': ['3rem', { lineHeight: '1', letterSpacing: '-0.035em' }],        // 48px
+    lg: ['1.125rem', { lineHeight: '1.5rem', letterSpacing: '-0.01em' }],   // 18px
+    xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.015em' }], // 20px
+    '2xl': ['1.5rem', { lineHeight: '1.75rem', letterSpacing: '-0.02em' }], // 24px
+    '3xl': ['1.875rem', { lineHeight: '2rem', letterSpacing: '-0.025em' }], // 30px
+    '4xl': ['2.25rem', { lineHeight: '2.25rem', letterSpacing: '-0.03em' }],// 36px
+    '5xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.035em' }],      // 48px display
   },
 
   fontWeight: {
@@ -25,6 +27,7 @@ export const typography = {
     medium: '500',
     semibold: '600',
     bold: '700',
+    /* Avoid: 300 (too light), 800/900 (except marketing display) */
   },
 
   letterSpacing: {

@@ -1,172 +1,95 @@
-# Particle Crypto Security LTD - Brand Guidelines
+# Particle Crypto Security LTD — Brand Guidelines
 
-## Brand Identity
+Pure monochrome design system: black, white, off-neutrals. No chromatic accent. Fits the angular, “signal-like” logo and an enterprise / AI-modern feel.
 
-Particle Crypto Security LTD builds BloxChain Protocol - a compliance framework for regulated smart accounts. Our brand reflects enterprise security, blockchain technology, trust, and professionalism.
+---
 
-## Logo & Visual Identity
+## Brand identity
 
-### Geometric Triangles
-Our logo incorporates geometric triangles, representing:
-- **Security**: Strong, protective angles
-- **Technology**: Modern, technical precision
-- **Trust**: Stable, reliable foundation
+Particle builds BloxChain Protocol — a compliance framework for regulated smart accounts. The brand is **serious, precise, system-level**: think Apple Pro / Linear / Vercel console, but fully achromatic.
 
-These triangular elements can be used subtly in backgrounds, patterns, and decorative elements.
+---
 
-## Color Palette
+## Color
 
-### Primary Colors
+**No chromatic brand.** Monochrome only:
 
-**Enterprise Blue** - Our primary brand color
-- `#0066CC` - Main brand color (Primary 500)
-- Use for primary actions, links, and key UI elements
-- Represents trust, security, and professionalism
+- **Light**: Canvas #F6F7F9, surface #FFFFFF, surface-muted #F1F3F5. Text #0A0A0A, secondary #525252, muted #737373. Borders #E5E7EB / #404040 focus.
+- **Dark**: Canvas #0B0C0E, surface #14161A, surface-muted #1B1E24. Text #FAFAFA, secondary #A3A3A3, muted #6B7280. Borders #2A2F36 / #A3A3A3 focus.
 
-**Color Scale**
-- 50-100: Light backgrounds, subtle accents
-- 200-400: Hover states, secondary elements
-- 500: Primary brand color
-- 600-900: Darker variants for contrast
+Primary actions are **strong contrast blocks**: black (#0A0A0A) in light, white in dark. Use `bg-btn-primary` and `text-text-inverse`.
 
-### Neutral Colors
+---
 
-**Grays** - For text, backgrounds, and structure
-- Use for body text, borders, and backgrounds
-- Maintains readability and hierarchy
+## Hierarchy without color
 
-### Semantic Colors
+- **Typography**: Size, weight, line-height. Headlines larger and semi-bold/bold; body regular, generous line-height.
+- **Contrast**: Primary = solid black or white block; secondary = outline or ghost.
+- **Elevation**: Cards/modals with subtle shadow and slightly different surface from page background.
+- **Density**: Important areas denser and framed; secondary areas more whitespace.
 
-- **Success**: Green (#22C55E) - Confirmations, positive actions
-- **Warning**: Amber (#F59E0B) - Cautions, important notices
-- **Error**: Red (#EF4444) - Errors, destructive actions
-- **Info**: Blue (#3B82F6) - Informational messages
+---
 
-## Typography
+## Shape language
 
-### Font Family
+- **Base**: Straight lines, diagonals, triangles from the logo.
+- **Corners**: Structural (nav, sidebars) = straight. Interactive (buttons, inputs, cards) = 6–10px radius; optional **clipped corner** on primary CTAs.
+- **Proportions**: Wide, low components (buttons, cards, rows) for a “system” feel.
 
-**Primary**: Inter
-- Modern, professional sans-serif
-- Excellent readability at all sizes
-- Supports multiple weights
+---
 
-**Monospace**: JetBrains Mono (for code)
-- Technical content
-- Addresses, hashes, code snippets
+## Logo & motif
 
-### Type Scale
+The interlocking triangles define the language:
 
-- **Display**: 48px (5xl) - Hero headings
-- **Heading 1**: 36px (4xl) - Page titles
-- **Heading 2**: 30px (3xl) - Section titles
-- **Heading 3**: 24px (2xl) - Subsection titles
-- **Heading 4**: 20px (xl) - Card titles
-- **Body Large**: 18px (lg) - Emphasized body text
-- **Body**: 16px (base) - Standard body text
-- **Body Small**: 14px (sm) - Secondary text
-- **Caption**: 12px (xs) - Labels, metadata
+- **Logo**: Single source file `src/components/Logo/logo.svg` (viewBox, padding, stroke, currentColor). Use the `<Logo>` component or `downloadLogoSvg` / `getLogoSvgString` from `@/components/Logo`. Do not override width/height in the app — size via Tailwind classes only so theme and state don’t change how it looks.
+- Use triangle pattern at **2–3% opacity** for hero/empty states.
+- **Clipped corner** or small angled notch on primary CTAs or card headers.
+- **Diagonal dividers** and triangle glyphs (caret, expand, warning) in line style, black/white.
 
-### Font Weights
+---
 
-- **400 (Normal)**: Body text
-- **500 (Medium)**: Emphasized text, labels
-- **600 (Semibold)**: Headings, important text
-- **700 (Bold)**: Strong emphasis, callouts
+## Buttons & states
 
-## Spacing System
+- **Primary**: Black bg + white text (light); white bg + black text (dark). Hover: slight brightness + 1px lift. Active: pressed (1px down, shadow reduced).
+- **Secondary**: Outline, hover fill with light grey (light) or dark grey (dark).
+- **Disabled**: Lower opacity, no shadow, no motion.
+- **Focus**: 2px neutral ring (black 60% in light, white 70% in dark). Class: `focus-ring`.
 
-Base unit: **4px**
+States must be clear via **thickness, shadow, and motion**, not color.
 
-Use consistent spacing to create rhythm and hierarchy:
-- **Tight**: 4-8px - Related elements
-- **Normal**: 12-16px - Standard spacing
-- **Loose**: 24-32px - Sections, groups
-- **Extra Loose**: 48px+ - Major sections
-
-## Layout Principles
-
-### Grid System
-- Use consistent grid alignment
-- Maintain clear visual hierarchy
-- Ensure responsive behavior
-
-### White Space
-- Generous spacing for enterprise feel
-- Clear separation between sections
-- Avoid clutter
-
-## Component Guidelines
-
-### Buttons
-- Primary: Use for main actions
-- Secondary: Alternative actions
-- Danger: Destructive actions
-- Ghost/Outline: Tertiary actions
-
-### Cards
-- Subtle shadows for depth
-- Clear borders or backgrounds
-- Consistent padding
-
-### Forms
-- Clear labels and placeholders
-- Visible focus states
-- Helpful error messages
-
-## Dark Mode
-
-Dark mode is fully supported with:
-- Adjusted color values for readability
-- Subtle glows for depth
-- Maintained contrast ratios
-- Professional appearance
+---
 
 ## Accessibility
 
-- **WCAG 2.1 AA** compliance required
-- Minimum contrast ratios:
-  - Text: 4.5:1
-  - Large text: 3:1
-- Keyboard navigation support
-- Screen reader compatibility
-- Focus indicators on all interactive elements
+- **Contrast**: Body text ≥ 4.5:1, large text and UI ≥ 3:1 (WCAG).
+- **States**: Always combine contrast, shape, **icon**, and **text** (e.g. “Error” + icon). Never color-only.
+- **Focus**: Visible outline; never `outline: none` without a replacement.
+- **Motion**: Respect `prefers-reduced-motion`.
 
-## Usage Examples
+---
 
-### Do's ✅
-- Use primary blue for key actions
-- Maintain consistent spacing
-- Use semantic colors appropriately
-- Ensure sufficient contrast
-- Follow component patterns
+## Do's and don'ts
 
-### Don'ts ❌
-- Don't use colors outside the palette
-- Don't create custom spacing values
-- Don't override component styles unnecessarily
-- Don't compromise accessibility
-- Don't mix design patterns
+**Do**
+
+- Use theme classes: `bg-canvas`, `bg-surface`, `text-primary`, `border-default`; `bg-btn-primary` for primary CTAs.
+- Use `focus-ring` on all interactive elements.
+- Test in both light and dark.
+- Use icon + text for error/success/warning.
+
+**Don't**
+
+- Introduce chromatic accents (blue, green, red, etc.) in the core UI.
+- Use pure black (#000) in dark mode (use #050509).
+- Rely on color alone for state or meaning.
+- Remove or weaken focus indicators.
+
+---
 
 ## Implementation
 
-All brand guidelines are implemented as:
-- **Design Tokens**: Colors, typography, spacing
-- **React Components**: Reusable UI elements
-- **Theme System**: Light/dark mode support
-- **Documentation**: Storybook stories
-
-## About BloxChain Protocol
-
-BloxChain Protocol is a governance and control layer for public blockchain environments, enabling regulated institutions to operate smart accounts with:
-
-- Segregation of duties
-- Intervention windows
-- Controlled operations
-- Built-in compliance mechanisms
-
-The protocol embeds regulatory safeguards directly into execution, ensuring transactions are auditable, secure, and compliant.
-
-## Questions?
-
-For brand usage questions or design system inquiries, contact the design team.
+- **Design tokens**: `src/styles/globals.css`, `tailwind.config.js`, `src/tokens/`
+- **Components**: `src/components/` with Storybook
+- **Logo**: `src/components/Logo/logo.svg` is the canonical logo. `Logo.tsx` uses it (no width/height overrides); `logoUtils.ts` uses it for export; `logoConstants.ts` holds path data and aspect ratio for animations only.
+- **Docs**: [DESIGN_MANIFESTO.md](./DESIGN_MANIFESTO.md), [THEME_SYSTEM.md](./THEME_SYSTEM.md), [TRUST_PATTERNS.md](./TRUST_PATTERNS.md)

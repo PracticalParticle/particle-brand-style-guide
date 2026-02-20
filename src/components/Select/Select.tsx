@@ -45,23 +45,23 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     const hasError = !!error
 
     const sizeStyles: Record<SelectSize, string> = {
-      sm: 'h-8 rounded-md px-2.5 pr-8 text-xs',
-      md: 'h-10 rounded-lg px-3 pr-10 text-sm',
-      lg: 'h-11 rounded-lg px-3.5 pr-11 text-base',
+      sm: 'h-8 rounded-control px-2.5 pr-8 text-xs leading-none py-[10px]',
+      md: 'h-10 rounded-control px-3 pr-10 text-sm leading-none py-[13px]',
+      lg: 'h-11 rounded-control px-3.5 pr-11 text-base leading-none py-[14px]',
     }
 
     const baseStyles = [
-      'flex w-full border appearance-none',
-      'bg-bg-secondary py-2 text-text-primary',
-      'transition-colors duration-150',
-      'focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:ring-offset-0',
-      'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-bg-tertiary',
+      'flex w-full min-h-0 border appearance-none items-center box-border',
+      'bg-bg-secondary text-text-primary',
+      'transition-all duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)]',
+      'focus:outline-none focus:ring-0',
+      'disabled:cursor-not-allowed disabled:opacity-40 disabled:bg-bg-tertiary',
       sizeStyles[size],
     ].join(' ')
 
     const borderStyles = hasError
-      ? 'border-error hover:border-error focus:border-error focus-visible:border-error'
-      : 'border-border hover:border-border-hover focus:border-border-focus focus-visible:border-border-focus'
+      ? 'border-error hover:border-error focus:border-error focus:shadow-[0_0_0_3px_rgb(var(--color-error)/0.12)]'
+      : 'border-border hover:border-border-hover focus:border-border-focus focus:shadow-[0_0_0_3px_rgb(var(--color-border-focus)/0.15)]'
 
     return (
       <div className={cn('form-container', fullWidth && 'w-full', className)}>

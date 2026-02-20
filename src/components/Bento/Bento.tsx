@@ -332,7 +332,7 @@ export const Bento: React.FC<BentoProps> = ({
               key={item.key}
               style={itemStyle}
               className={cn(
-                'min-w-0',
+                'min-w-0 flex flex-col min-h-0',
                 !isResponsiveCol && colSpanClasses,
                 !isResponsiveRow && rowSpanClasses
               )}
@@ -341,7 +341,7 @@ export const Bento: React.FC<BentoProps> = ({
               <Card
                 variant={item.variant ?? 'outlined'}
                 padding={item.padding ?? 'md'}
-                className={cn('h-full w-full min-w-0 bg-bg-secondary', item.className)}
+                className={cn('h-full min-h-0 w-full min-w-0 flex flex-col overflow-hidden bg-bg-secondary', item.className)}
               >
                 {item.content}
               </Card>

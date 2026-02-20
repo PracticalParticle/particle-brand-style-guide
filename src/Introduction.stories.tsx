@@ -2,9 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Card,
+  CardTitle,
+  CardDescription,
+  CardFooter,
   Divider,
   Spinner,
   Logo,
+  Button,
   ComponentShowcase,
 } from '@/components'
 
@@ -179,6 +183,37 @@ export const Welcome: Story = {
             Use the <strong>Brand</strong> section in the sidebar for Logo, Animated Logos,
             Favicon, and Social & Open Graph specs.
           </p>
+        </section>
+
+        <Divider variant="default" />
+
+        {/* Duotone & glass — new design language */}
+        <section className="space-y-6" aria-labelledby="duotone-heading">
+          <h2 id="duotone-heading" className="text-2xl font-bold text-text-primary">
+            Duotone & glass surfaces
+          </h2>
+          <p className="text-text-secondary max-w-2xl">
+            Hero and marketing sections use subtle duotone gradients (<code className="bg-bg-tertiary px-1 rounded text-sm">bg-duotone-hero</code>).
+            Cards can use <strong>glass</strong> or <strong>on-gradient</strong> variants for a modern, layered look.
+          </p>
+          <div className="bg-duotone-hero rounded-card p-8 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card variant="glass" padding="lg">
+                <CardTitle>Glass card</CardTitle>
+                <CardDescription>Translucent with backdrop blur — for hero sections and short content.</CardDescription>
+                <CardFooter className="border-0 pt-2">
+                  <Button variant="primary" size="sm">Primary action</Button>
+                </CardFooter>
+              </Card>
+              <Card variant="on-gradient" padding="lg">
+                <CardTitle>On-gradient card</CardTitle>
+                <CardDescription>Near-opaque surface for feature blocks and longer copy on duotone.</CardDescription>
+                <CardFooter className="border-0 pt-2">
+                  <Button variant="secondary" size="sm">Secondary</Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
         </section>
 
         <Divider variant="default" />

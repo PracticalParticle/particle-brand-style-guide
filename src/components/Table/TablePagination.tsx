@@ -96,8 +96,8 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   return (
     <div
       className={cn(
-        'flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between',
-        'rounded-b-lg border-t border-default bg-bg-secondary px-2 py-2 xs:px-3 sm:px-4 sm:py-3 lg:px-5',
+        'table-pagination flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between',
+        'rounded-b-lg border-t border-default dark:border-subtle bg-bg-secondary px-2 py-2 xs:px-3 sm:px-4 sm:py-3 lg:px-5',
         'text-sm text-text-secondary',
         className
       )}

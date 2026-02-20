@@ -3,11 +3,11 @@ import { cn } from '@/utils/cn'
 import { Spinner } from '../Spinner'
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 
-    | 'primary' 
-    | 'secondary' 
-    | 'danger' 
-    | 'ghost' 
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'danger'
+    | 'ghost'
     | 'outline'
     | 'link'
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
@@ -20,44 +20,88 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ 
-    className, 
-    variant = 'primary', 
-    size = 'md', 
-    isLoading, 
-    disabled,
-    leftIcon,
-    rightIcon,
-    iconOnly = false,
-    fullWidth = false,
-    children, 
-    ...props 
-  }, ref) => {
-    const baseStyles = 'inline-flex items-center justify-center font-medium rounded-base transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none'
-    
+  (
+    {
+      className,
+      variant = 'primary',
+      size = 'md',
+      isLoading,
+      disabled,
+      leftIcon,
+      rightIcon,
+      iconOnly = false,
+      fullWidth = false,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const baseStyles = [
+      'inline-flex items-center justify-center font-medium rounded-control',
+      'transition-all duration-normal ease-out',
+      'focus-ring',
+      'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none',
+      'select-none',
+    ].join(' ')
+
     const variants = {
-      primary: 'bg-tertiary text-text-inverse hover:bg-tertiary-hover active:bg-tertiary-active active:scale-[0.97] active:shadow-sm focus-visible:ring-tertiary shadow-sm hover:shadow-md',
-      secondary: 'bg-bg-secondary border border-border text-text-primary hover:bg-bg-tertiary hover:border-border-hover active:scale-[0.97] focus-visible:ring-tertiary shadow-sm',
-      danger: 'border border-error text-error bg-error-light hover:bg-error-light/80 active:bg-error-light/90 active:scale-[0.97] focus-visible:ring-error dark:text-text-inverse',
-      ghost: 'bg-transparent text-tertiary dark:text-tertiary-on-dark hover:bg-bg-tertiary active:scale-[0.97] focus-visible:ring-tertiary',
-      outline: 'border border-border text-text-primary bg-bg-secondary hover:border-border-hover hover:bg-bg-tertiary active:scale-[0.97] focus-visible:ring-tertiary dark:border-tertiary-on-dark dark:text-tertiary-on-dark dark:hover:border-tertiary',
-      link: 'bg-transparent text-tertiary dark:text-tertiary-on-dark hover:text-tertiary-hover underline-offset-4 hover:underline p-0 h-auto active:text-tertiary-active focus-visible:ring-tertiary shadow-none',
+      /* Primary: black block (light) / white block (dark) */
+      primary: [
+        'bg-btn-primary text-text-inverse shadow-sm',
+        'hover:bg-btn-primary-hover hover:-translate-y-px hover:shadow',
+        'active:bg-btn-primary-active active:translate-y-0 active:shadow-sm',
+      ].join(' '),
+
+      /* Secondary: outline, fill on hover */
+      secondary: [
+        'bg-transparent border border-border text-text-primary',
+        'hover:bg-bg-tertiary hover:border-border-hover hover:-translate-y-px hover:shadow-sm',
+        'active:translate-y-0 active:shadow-none active:bg-bg-tertiary',
+      ].join(' '),
+
+      /* Danger: semantic error colors — use for destructive actions */
+      danger: [
+        'bg-error-light text-error border border-error/30',
+        'hover:bg-error/10 hover:border-error/50 hover:shadow-sm',
+        'active:bg-error/15 active:scale-[0.98]',
+        'dark:bg-error/15 dark:text-error dark:border-error/25',
+        'dark:hover:bg-error/25 dark:hover:border-error/40',
+      ].join(' '),
+
+      /* Ghost: transparent, fill on hover */
+      ghost: [
+        'bg-transparent text-text-primary',
+        'hover:bg-bg-tertiary active:bg-bg-tertiary active:scale-[0.98]',
+      ].join(' '),
+
+      /* Outline: 1px border, light fill on hover */
+      outline: [
+        'border border-border text-text-primary bg-transparent',
+        'hover:border-border-hover hover:bg-bg-tertiary hover:-translate-y-px',
+        'active:translate-y-0 active:bg-bg-tertiary',
+      ].join(' '),
+
+      /* Link: text only */
+      link: [
+        'bg-transparent text-text-primary underline-offset-4 hover:underline',
+        'p-0 h-auto shadow-none rounded-none',
+      ].join(' '),
     }
 
     const sizes = {
-      xs: iconOnly ? 'p-1.5' : 'px-2 py-1 text-xs gap-1',
-      sm: iconOnly ? 'p-2' : 'px-3 py-1.5 text-sm gap-1.5',
-      md: iconOnly ? 'p-2.5' : 'px-4 py-2 text-sm gap-2',
-      lg: iconOnly ? 'p-3' : 'px-5 py-2.5 text-base gap-2.5',
-      xl: iconOnly ? 'p-4' : 'px-6 py-3 text-lg gap-3',
+      xs: iconOnly ? 'p-1.5' : 'px-2.5 py-1 text-xs gap-1 tracking-wide',
+      sm: iconOnly ? 'p-2' : 'px-3 py-1.5 text-sm gap-1.5 tracking-wide',
+      md: iconOnly ? 'p-2.5' : 'px-4 py-2 text-sm gap-2 tracking-wide min-h-[40px]',
+      lg: iconOnly ? 'p-3' : 'px-5 py-2.5 text-base gap-2.5 min-h-[44px]',
+      xl: iconOnly ? 'p-4' : 'px-7 py-3 text-base gap-3',
     }
 
     const iconSizes = {
       xs: 'w-3 h-3',
-      sm: 'w-4 h-4',
+      sm: 'w-3.5 h-3.5',
       md: 'w-4 h-4',
       lg: 'w-5 h-5',
-      xl: 'w-6 h-6',
+      xl: 'w-5 h-5',
     }
 
     const showChildren = !iconOnly && children
@@ -65,33 +109,48 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
+        data-variant={variant}
         className={cn(
-          baseStyles, 
-          variants[variant], 
+          baseStyles,
+          variants[variant],
           sizes[size],
           fullWidth && 'w-full',
           iconOnly && 'aspect-square',
           className
         )}
         disabled={disabled || isLoading}
-        aria-label={iconOnly && typeof children === 'string' ? children : undefined}
+        aria-label={
+          iconOnly && typeof children === 'string' ? children : undefined
+        }
         {...props}
       >
         {isLoading ? (
           <Spinner
             variant={variant === 'primary' ? 'white' : 'primary'}
-            size={size === 'xs' || size === 'sm' ? 'sm' : size === 'lg' || size === 'xl' ? 'lg' : 'md'}
+            size={
+              size === 'xs' || size === 'sm'
+                ? 'sm'
+                : size === 'lg' || size === 'xl'
+                  ? 'lg'
+                  : 'md'
+            }
           />
         ) : (
           <>
             {leftIcon && (
-              <span className={cn('flex-shrink-0', iconSizes[size])} aria-hidden="true">
+              <span
+                className={cn('flex-shrink-0', iconSizes[size])}
+                aria-hidden="true"
+              >
                 {leftIcon}
               </span>
             )}
             {showChildren && <span>{children}</span>}
             {rightIcon && (
-              <span className={cn('flex-shrink-0', iconSizes[size])} aria-hidden="true">
+              <span
+                className={cn('flex-shrink-0', iconSizes[size])}
+                aria-hidden="true"
+              >
                 {rightIcon}
               </span>
             )}

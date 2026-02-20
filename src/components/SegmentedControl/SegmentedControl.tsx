@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useLayoutEffect, useState } from 'react'
 import { cn } from '@/utils/cn'
 
 export interface SegmentedControlOption<T extends string = string> {
@@ -30,51 +30,86 @@ export function SegmentedControl<T extends string = string>({
   className,
   name,
 }: SegmentedControlProps<T>) {
-  const sizeStyles = {
-    sm: 'p-0.5 gap-0',
-    md: 'p-1 gap-px',
-    lg: 'p-1.5 gap-0.5',
-  }
+  const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRefs = useRef<Map<string, HTMLButtonElement>>(new Map())
 
-  const buttonSizeStyles = {
-    sm: 'px-2.5 py-1 text-xs rounded-md',
-    md: 'px-3 py-1.5 text-sm rounded-md',
-    lg: 'px-4 py-2 text-sm rounded-lg',
-  }
+  const [thumb, setThumb] = useState<{ left: number; width: number } | null>(null)
+
+  useLayoutEffect(() => {
+    const container = containerRef.current
+    const activeBtn = buttonRefs.current.get(value)
+    if (!container || !activeBtn) return
+    const cRect = container.getBoundingClientRect()
+    const bRect = activeBtn.getBoundingClientRect()
+    setThumb({ left: bRect.left - cRect.left, width: bRect.width })
+  }, [value, size, fullWidth])
+
+  const containerPad = { sm: 'p-0.5', md: 'p-1', lg: 'p-1.5' }[size]
+
+  const buttonSize = {
+    sm: 'px-2.5 py-1 text-xs',
+    md: 'px-3 py-1.5 text-sm',
+    lg: 'px-4 py-2 text-sm',
+  }[size]
 
   return (
     <div
+      ref={containerRef}
       role="radiogroup"
       aria-label={name}
       className={cn(
-        'inline-flex rounded-lg border border-border bg-bg-tertiary p-1',
-        sizeStyles[size],
+        'relative inline-flex rounded-control border border-border bg-bg-tertiary',
+        containerPad,
         fullWidth && 'w-full',
         className
       )}
     >
+      {/* Sliding pill thumb */}
+      {thumb && (
+        <span
+          aria-hidden
+          className="absolute top-1 bottom-1 rounded-inset bg-bg-secondary shadow-sm pointer-events-none z-0"
+          style={{
+            left:       thumb.left,
+            width:      thumb.width,
+            transition: 'left 220ms cubic-bezier(0.16,1,0.3,1), width 220ms cubic-bezier(0.16,1,0.3,1)',
+          }}
+        />
+      )}
+
       {options.map((opt) => {
         const isSelected = value === opt.value
         const isDisabled = disabled || opt.disabled
         return (
           <button
             key={opt.value}
+            ref={(el) => {
+              if (el) buttonRefs.current.set(opt.value, el)
+              else buttonRefs.current.delete(opt.value)
+            }}
             type="button"
             role="radio"
             aria-checked={isSelected}
             aria-disabled={isDisabled}
             disabled={isDisabled}
             className={cn(
-              'flex flex-1 items-center justify-center gap-1.5 font-medium transition-colors border border-transparent',
-              buttonSizeStyles[size],
+              'relative z-10 flex flex-1 items-center justify-center gap-1.5',
+              'font-medium rounded-inset select-none',
+              'transition-colors duration-brand ease-brand',
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-1 focus-visible:ring-offset-bg-tertiary',
+              buttonSize,
               isSelected
-                ? 'bg-bg-secondary text-text-primary shadow-sm'
-                : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary/50',
-              isDisabled && 'opacity-50 cursor-not-allowed'
+                ? 'text-text-primary'
+                : 'text-text-secondary hover:text-text-primary',
+              isDisabled && 'opacity-40 cursor-not-allowed pointer-events-none'
             )}
             onClick={() => !isDisabled && onValueChange(opt.value)}
           >
-            {opt.icon && <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4">{opt.icon}</span>}
+            {opt.icon && (
+              <span className="shrink-0 [&>svg]:w-4 [&>svg]:h-4" aria-hidden>
+                {opt.icon}
+              </span>
+            )}
             <span className="truncate">{opt.label}</span>
           </button>
         )

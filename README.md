@@ -51,6 +51,7 @@ npm run build-storybook
 ```
 src/
 ├── components/     # React components
+│   └── Logo/       # logo.svg = canonical logo; no width overrides in app
 ├── tokens/        # Design tokens (colors, typography, spacing)
 ├── styles/        # Global styles
 └── utils/         # Utility functions
@@ -60,9 +61,12 @@ src/
 
 ### Colors
 
-- **Primary**: Enterprise blue (#0066CC)
-- **Secondary**: Complementary grays and blues
-- **Semantic**: Success, Warning, Error, Info
+- **Tertiary (Primary CTA)**: Corporate blue (#1F4ED8) - Main brand color for CTAs and primary actions
+- **Primary (Charcoal)**: Neutral dark (#0A0A0A) - For dark surfaces and high-contrast elements
+- **Secondary**: Supporting surfaces (#F1F5F9 light, #1E1E1E dark)
+- **Semantic**: Success, Warning, Error, Info - Status indicators
+
+See [docs/THEME_SYSTEM.md](./docs/THEME_SYSTEM.md) for complete theme documentation.
 
 ### Typography
 
@@ -119,6 +123,78 @@ npm run storybook
 ```
 
 Visit `http://localhost:6006` to view the interactive documentation.
+
+## Consumption Guide
+
+### Using the Theme in Other Projects
+
+To use the Particle theme system in other applications or websites:
+
+1. **Copy theme CSS variables**: Import `src/styles/globals.css` into your project
+2. **Use Tailwind config**: Copy the theme configuration from `tailwind.config.js` or create a preset
+3. **Use theme classes**: Use the same Tailwind class names (`bg-bg-primary`, `text-text-primary`, `bg-tertiary`, etc.)
+
+**Example setup:**
+
+```bash
+# Copy globals.css to your project
+cp src/styles/globals.css your-project/src/styles/
+```
+
+```js
+// tailwind.config.js
+export default {
+  theme: {
+    extend: {
+      colors: {
+        bg: {
+          primary: 'rgb(var(--color-bg-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--color-bg-secondary) / <alpha-value>)',
+          tertiary: 'rgb(var(--color-bg-tertiary) / <alpha-value>)',
+        },
+        text: {
+          primary: 'rgb(var(--color-text-primary) / <alpha-value>)',
+          secondary: 'rgb(var(--color-text-secondary) / <alpha-value>)',
+          tertiary: 'rgb(var(--color-text-tertiary) / <alpha-value>)',
+          inverse: 'rgb(var(--color-text-inverse) / <alpha-value>)',
+        },
+        // ... see tailwind.config.js for complete mapping
+      },
+    },
+  },
+}
+```
+
+**Important**: Always use theme classes (`bg-bg-primary`, `text-text-primary`, `bg-tertiary`) instead of raw Tailwind neutrals (`bg-neutral-50`, `text-neutral-900`) to maintain brand consistency and automatic dark mode support.
+
+### Brand Assets for Social Media & Marketing
+
+**Primary Brand Colors:**
+- **Corporate Blue (Tertiary)**: `#1F4ED8` - Use for primary CTAs, links, and brand accents
+- **Charcoal (Primary)**: `#0A0A0A` - Use for dark surfaces, badges, high-contrast elements
+- **White**: `#FFFFFF` - Use for text on colored backgrounds
+
+**Theme Colors (for UI surfaces):**
+- **Background Primary**: `#F1F5F9` (light) / `#18181C` (dark)
+- **Background Secondary**: `#FFFFFF` (light) / `#202026` (dark)
+- **Text Primary**: `#0B1220` (light) / `#F8FAFC` (dark)
+
+**Typography:**
+- **Primary Font**: Inter (weights: 400, 500, 600, 700)
+- **Monospace**: JetBrains Mono
+
+**Logo Usage:**
+- See Storybook Design Tokens story for logo variants and usage guidelines
+- Logo supports light and dark modes
+- Maintain minimum clear space around logo
+
+**Do's and Don'ts:**
+- ✅ **Do**: Use theme tokens (`bg-tertiary`, `text-text-primary`) in product UI
+- ✅ **Do**: Use brand hex colors for marketing materials and social media
+- ❌ **Don't**: Use raw Tailwind neutrals (`neutral-50`, `neutral-900`) in product UI
+- ❌ **Don't**: Modify theme colors without updating both light and dark modes
+
+For complete brand guidelines, see the **Design Tokens** story in Storybook or [docs/THEME_SYSTEM.md](./docs/THEME_SYSTEM.md).
 
 ## Brand Guidelines
 

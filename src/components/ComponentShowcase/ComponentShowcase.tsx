@@ -2,13 +2,16 @@ import React from 'react'
 import { cn } from '@/utils/cn'
 import {
   Button,
+  Card,
   CardHeader,
   CardTitle,
+  CardDescription,
   CardContent,
+  CardFooter,
+  CardImage,
   Badge,
   Input,
   Alert,
-  Spinner,
   Progress,
   Tabs,
   TabsList,
@@ -16,23 +19,14 @@ import {
   TabsPanels,
   TabPanel,
   Avatar,
-  Skeleton,
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  TablePagination,
   Checkbox,
   Radio,
   Switch,
   Breadcrumbs,
-  Rating,
   Divider,
   Stepper,
   EmptyState,
@@ -41,13 +35,38 @@ import {
   Tooltip,
   Logo,
   Select,
-  FilterChip,
 } from '@/components'
-import { Bento, type BentoItem } from '@/components/Bento'
+import { OrdersTablePreview } from '@/components/DataView/OrdersTablePreview'
 
 export interface ComponentShowcaseProps {
   idPrefix?: string
   className?: string
+}
+
+/** Wrapper for each app preview: canvas background so nested cards/surfaces are visible */
+function AppPanel({
+  title,
+  children,
+  className,
+}: {
+  title: string
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <section
+      className={cn(
+        'w-full min-w-0 rounded-card border border-border bg-bg-primary overflow-visible',
+        'flex flex-col items-stretch',
+        className
+      )}
+    >
+      <h2 className="text-xs font-semibold text-text-muted uppercase tracking-wide px-4 sm:px-6 pt-4 pb-2 border-b border-border">
+        {title}
+      </h2>
+      <div className="p-4 sm:p-6 flex flex-col gap-4 min-w-0">{children}</div>
+    </section>
+  )
 }
 
 export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
@@ -56,521 +75,204 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
 }) => {
   const [segValue, setSegValue] = React.useState<'a' | 'b' | 'c'>('a')
 
-  const bentoItems: BentoItem[] = [
-    // Large table - responsive: full width on mobile, 2 cols on md+, 2 rows
-    {
-      key: 'table-large',
-      content: (
-        <div className="min-w-0 overflow-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>ID</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Amt</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              <TableRow>
-                <TableCell>TXN-01</TableCell>
-                <TableCell>Alice</TableCell>
-                <TableCell><Badge variant="success" size="sm">Done</Badge></TableCell>
-                <TableCell>$1,200</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>TXN-02</TableCell>
-                <TableCell>Bob</TableCell>
-                <TableCell><Badge variant="warning" size="sm">Pending</Badge></TableCell>
-                <TableCell>$890</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>TXN-03</TableCell>
-                <TableCell>Carol</TableCell>
-                <TableCell><Badge variant="default" size="sm">New</Badge></TableCell>
-                <TableCell>$2,100</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>TXN-04</TableCell>
-                <TableCell>David</TableCell>
-                <TableCell><Badge variant="success" size="sm">Done</Badge></TableCell>
-                <TableCell>$560</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
+  return (
+    <div className={cn('w-full min-w-0 flex flex-col gap-6 sm:gap-8', className)}>
+      {/* From: Data View / TableView story — responsive orders table */}
+      <AppPanel title="Data View — Orders table">
+        <OrdersTablePreview showModal={false} />
+      </AppPanel>
+
+      {/* From: Card stories — DashboardCard, MediaCard, WithSubComponents */}
+      <AppPanel title="Cards">
+        <div className="flex flex-wrap gap-4 items-stretch">
+          <Card variant="default" padding="md" className="w-full max-w-2xl min-w-0 flex-1">
+            <CardHeader>
+              <div className="flex flex-row items-start justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <CardTitle>Recent Activity</CardTitle>
+                  <CardDescription>Your latest updates and notifications</CardDescription>
+                </div>
+                <Button variant="ghost" size="sm">View All</Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {[
+                  { action: 'New comment', time: '2 minutes ago', user: 'John Doe' },
+                  { action: 'File uploaded', time: '1 hour ago', user: 'Jane Smith' },
+                  { action: 'Task completed', time: '3 hours ago', user: 'Bob Wilson' },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3 pb-4 border-b border-border last:border-0">
+                    <div className="w-8 h-8 rounded-full bg-tertiary-lighter flex items-center justify-center text-tertiary dark:text-tertiary-on-dark text-xs font-semibold flex-shrink-0">
+                      {item.user.split(' ').map((n) => n[0]).join('')}
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-sm text-text-primary">{item.action}</div>
+                      <div className="text-xs text-text-tertiary">{item.user} • {item.time}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+          <Card variant="default" padding="none" className="w-full max-w-xs sm:max-w-[20rem] overflow-hidden flex-1 min-w-0" interactive>
+            <CardImage
+              src="https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=400&h=300&fit=crop"
+              alt="Video thumbnail"
+              aspectRatio="video"
+            />
+            <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-1 min-h-0">
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <CardTitle className="text-lg min-w-0 flex-1">Video Title</CardTitle>
+                <Badge variant="outline" size="sm">12:34</Badge>
+              </div>
+              <CardDescription className="mb-3 text-text-tertiary">
+                Channel Name • 1.2M views • 2 days ago
+              </CardDescription>
+              <CardContent>
+                <p className="text-sm text-text-secondary line-clamp-2">
+                  Video description goes here. This is a sample description for a media card.
+                </p>
+              </CardContent>
+            </div>
+          </Card>
+          <Card variant="default" padding="md" className="w-full max-w-md flex-1 min-w-0">
+            <CardHeader>
+              <CardTitle>Card Title</CardTitle>
+              <CardDescription>This is a card description that provides additional context.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-text-secondary">
+                This is the main content area of the card. You can put any content here.
+              </p>
+            </CardContent>
+            <CardFooter>
+              <Button variant="outline" size="sm">Cancel</Button>
+              <Button variant="primary" size="sm">Action</Button>
+            </CardFooter>
+          </Card>
         </div>
-      ),
-      colSpan: { base: 1, sm: 2, md: 2, lg: 2 },
-      rowSpan: { base: 1, md: 2 },
-      padding: 'md',
-    },
-    // Data view with search, table, and pagination - responsive: full width on mobile, 2 cols on md+
-    {
-      key: 'data-view',
-      content: (
-        <div className="space-y-3 min-w-0 overflow-hidden">
-          <div className="flex gap-2 min-w-0">
-            <Input id={`${idPrefix}-search`} placeholder="Search…" className="min-w-0 flex-1" />
-            <Button variant="primary" size="sm" className="shrink-0">Add</Button>
+      </AppPanel>
+
+      {/* From: Input, Select, Checkbox, Radio, Switch, FileInput stories */}
+      <AppPanel title="Form controls">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
+          <div className="space-y-3 sm:col-span-2">
+            <Input id={`${idPrefix}-name`} placeholder="Full name" fullWidth />
+            <Input id={`${idPrefix}-email`} placeholder="Email" type="email" fullWidth />
           </div>
-          <div className="min-w-0 overflow-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="text-xs">ID</TableHead>
-                  <TableHead className="text-xs">Status</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell className="text-xs">1</TableCell>
-                  <TableCell><Badge variant="success" size="sm">Done</Badge></TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell className="text-xs">2</TableCell>
-                  <TableCell><Badge variant="warning" size="sm">Pending</Badge></TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-          <TablePagination
-            page={1}
-            totalPages={1}
-            onPageChange={() => {}}
-            pageSize={5}
-            onPageSizeChange={() => {}}
-            totalItems={2}
-            pageSizeOptions={[5, 10]}
-            aria-label="Data view pagination"
-            idPrefix={`${idPrefix}-data-view`}
-          />
-        </div>
-      ),
-      colSpan: { base: 1, sm: 2, md: 2, lg: 2 },
-      rowSpan: { base: 1, md: 2 },
-      padding: 'md',
-    },
-    // Form controls
-    {
-      key: 'form-controls',
-      content: (
-        <div>
-          <p className="text-sm font-medium text-text-secondary mb-3">Form Controls</p>
           <div className="space-y-3">
-            <Checkbox id={`${idPrefix}-cb`} label="Option" />
-            <Radio name={`${idPrefix}-radio`} id={`${idPrefix}-r1`} label="A" />
-            <Radio name={`${idPrefix}-radio`} id={`${idPrefix}-r2`} label="B" defaultChecked />
-            <Switch id={`${idPrefix}-sw`} label="Toggle" defaultChecked />
+            <Select
+              id={`${idPrefix}-role`}
+              size="sm"
+              className="w-full"
+              aria-label="Role"
+            >
+              <option value="">Select role</option>
+              <option value="admin">Admin</option>
+              <option value="editor">Editor</option>
+              <option value="viewer">Viewer</option>
+            </Select>
+            <FileInput id={`${idPrefix}-avatar`} placeholder="Upload avatar" />
+          </div>
+          <div className="space-y-3">
+            <p className="text-xs font-medium text-text-primary">Notifications</p>
+            <Checkbox id={`${idPrefix}-notify-email`} label="Email" defaultChecked />
+            <Checkbox id={`${idPrefix}-notify-push`} label="Push" />
+            <Radio name={`${idPrefix}-freq`} id={`${idPrefix}-freq-daily`} label="Daily digest" />
+            <Radio name={`${idPrefix}-freq`} id={`${idPrefix}-freq-weekly`} label="Weekly" defaultChecked />
+            <Switch id={`${idPrefix}-dark`} label="Dark mode" defaultChecked />
           </div>
         </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Buttons, badges, input, progress - responsive: 1 col on mobile, 1-2 on larger screens
-    {
-      key: 'buttons-badges',
-      content: (
-        <div className="space-y-3">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="primary">Primary</Badge>
-            <Badge variant="success">Success</Badge>
-            <Badge variant="outline">Outline</Badge>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="primary" size="sm">Primary</Button>
-            <Button variant="secondary" size="sm">Secondary</Button>
-            <Button variant="outline" size="sm">Outline</Button>
-          </div>
-          <Input id={`${idPrefix}-email`} placeholder="Email" fullWidth />
-          <Progress value={65} aria-label="65 percent" size="sm" />
+        <Divider className="my-2" />
+        <div className="flex flex-wrap gap-2 justify-end">
+          <Button variant="secondary" size="sm">Cancel</Button>
+          <Button variant="primary" size="sm">Save changes</Button>
         </div>
-      ),
-      colSpan: { base: 1, sm: 1, md: 1, lg: 1 },
-      rowSpan: { base: 1, md: 2 },
-      padding: 'md',
-    },
-    // Tabs
-    {
-      key: 'tabs',
-      content: (
+      </AppPanel>
+
+      {/* From: Breadcrumbs, Tabs, Alert, Stepper stories */}
+      <AppPanel title="Navigation & feedback">
+        <Breadcrumbs
+          items={[
+            { label: 'Home', href: '#' },
+            { label: 'Projects', href: '#' },
+            { label: 'Settings' },
+          ]}
+        />
         <Tabs value="overview" onChange={() => {}} size="sm" variant="pills">
           <TabsList>
             <Tab value="overview">Overview</Tab>
             <Tab value="details">Details</Tab>
+            <Tab value="activity">Activity</Tab>
           </TabsList>
           <TabsPanels>
             <TabPanel value="overview">
-              <p className="text-sm text-text-secondary pt-2">Dashboard and data views.</p>
+              <div className="space-y-3 pt-3">
+                <Alert variant="info" title="Tip">
+                  Use tabs for secondary navigation within a section.
+                </Alert>
+                <Progress value={60} size="sm" aria-label="60 percent" />
+                <Stepper
+                  steps={['Create', 'Review', 'Publish']}
+                  currentStep={1}
+                  size="sm"
+                  variant="minimal"
+                  orientation="horizontal"
+                />
+              </div>
             </TabPanel>
             <TabPanel value="details">
-              <p className="text-sm text-text-secondary pt-2">Filters and tables.</p>
+              <p className="text-sm text-text-secondary pt-2">Details content.</p>
+            </TabPanel>
+            <TabPanel value="activity">
+              <p className="text-sm text-text-secondary pt-2">Activity log.</p>
             </TabPanel>
           </TabsPanels>
         </Tabs>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Accordion
-    {
-      key: 'accordion',
-      content: (
-        <Accordion defaultValue="a">
+      </AppPanel>
+
+      {/* From: Avatar, SegmentedControl, Tooltip, Logo, EmptyState, Accordion stories */}
+      <AppPanel title="Empty state & accordion">
+        <div className="flex flex-wrap items-center gap-4">
+          <div className="flex items-center gap-3 p-3 rounded-card bg-bg-tertiary/50 min-w-0">
+            <Avatar src="" alt="" fallback="JD" size="lg" />
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-text-primary truncate">Jane Doe</p>
+              <p className="text-xs text-text-secondary truncate">jane@example.com</p>
+            </div>
+            <Button variant="secondary" size="sm" className="shrink-0">Edit</Button>
+          </div>
+          <SegmentedControl
+            value={segValue}
+            onValueChange={(v) => setSegValue(v as 'a' | 'b' | 'c')}
+            options={[
+              { value: 'a', label: 'List' },
+              { value: 'b', label: 'Grid' },
+              { value: 'c', label: 'Map' },
+            ]}
+          />
+          <Tooltip content="Show help" placement="top">
+            <Button variant="ghost" size="sm">Help</Button>
+          </Tooltip>
+          <Logo variant="default" size={24} />
+        </div>
+        <EmptyState
+          title="No documents yet"
+          description="Upload a file or create from template to get started."
+          action={<Button variant="primary" size="sm">Upload file</Button>}
+        />
+        <Accordion type="single" defaultValue="a" className="border border-border rounded-card overflow-hidden max-w-xl">
           <AccordionItem value="a">
             <AccordionTrigger value="a">Section A</AccordionTrigger>
-            <AccordionContent value="a">
-              <span className="text-xs text-text-tertiary">Content for section A.</span>
-            </AccordionContent>
+            <AccordionContent value="a">Content for section A.</AccordionContent>
           </AccordionItem>
           <AccordionItem value="b">
             <AccordionTrigger value="b">Section B</AccordionTrigger>
-            <AccordionContent value="b">
-              <span className="text-xs text-text-tertiary">Content for section B.</span>
-            </AccordionContent>
+            <AccordionContent value="b">Content for section B.</AccordionContent>
           </AccordionItem>
         </Accordion>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Alert + Skeleton
-    {
-      key: 'alert-skeleton',
-      content: (
-        <div className="space-y-3">
-          <Alert variant="info" title="Loading">
-            Fetching data…
-          </Alert>
-          <div className="space-y-2" aria-hidden>
-            <Skeleton variant="text" width="70%" height={12} />
-            <Skeleton variant="text" width="90%" height={12} />
-          </div>
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Table pagination - responsive: full width on mobile, 2 cols on md+
-    {
-      key: 'table-pagination',
-      content: (
-        <TablePagination
-          page={1}
-          totalPages={3}
-          onPageChange={() => {}}
-          pageSize={10}
-          onPageSizeChange={() => {}}
-          totalItems={12}
-          pageSizeOptions={[5, 10, 25]}
-          aria-label="Table pagination"
-          idPrefix={`${idPrefix}-table`}
-        />
-      ),
-      colSpan: { base: 1, sm: 2, md: 2, lg: 2 },
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Card with header and content
-    {
-      key: 'card-header-content',
-      content: (
-        <div>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Card Title</CardTitle>
-          </CardHeader>
-          <CardContent className="text-xs text-text-secondary">
-            Card content and description.
-          </CardContent>
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Segmented control
-    {
-      key: 'segmented-control',
-      content: (
-        <div>
-          <p className="text-sm font-medium text-text-secondary mb-3">Segments</p>
-          <SegmentedControl
-            options={[
-              { value: 'a', label: 'One' },
-              { value: 'b', label: 'Two' },
-              { value: 'c', label: 'Three' },
-            ]}
-            value={segValue}
-            onValueChange={(v) => setSegValue(v as 'a' | 'b' | 'c')}
-            size="sm"
-          />
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // File input
-    {
-      key: 'file-input',
-      content: (
-        <FileInput id={`${idPrefix}-file`} placeholder="Drop file" />
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Empty state
-    {
-      key: 'empty-state',
-      content: (
-        <EmptyState size="sm" title="No items" description="Add something" />
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Stepper vertical
-    {
-      key: 'stepper-vertical',
-      content: (
-        <Stepper
-          steps={['Step 1', 'Step 2']}
-          currentStep={0}
-          size="sm"
-          variant="minimal"
-          orientation="vertical"
-        />
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Breadcrumbs - responsive: full width on mobile, 2 cols on md+
-    {
-      key: 'breadcrumbs',
-      content: (
-        <Breadcrumbs
-          items={[
-            { label: 'Home' },
-            { label: 'Products' },
-            { label: 'Detail' },
-          ]}
-        />
-      ),
-      colSpan: { base: 1, sm: 2, md: 2, lg: 2 },
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Filter chip
-    {
-      key: 'filter-chip',
-      content: (
-        <FilterChip label="Status" valueLabel="Active" onRemove={() => {}} />
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Avatar + Spinner
-    {
-      key: 'avatar-spinner',
-      content: (
-        <div className="flex items-center gap-3">
-          <Avatar size="md" name="Jane Doe" />
-          <div>
-            <p className="text-sm font-medium text-text-primary">Jane Doe</p>
-            <div className="flex items-center gap-2 mt-1">
-              <Spinner size="sm" variant="primary" aria-hidden />
-              <span className="text-xs text-text-tertiary">Loading</span>
-            </div>
-          </div>
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Logo
-    {
-      key: 'logo',
-      content: (
-        <div className="flex items-center justify-center h-full">
-          <Logo size="md" variant="default" role="img" aria-label="Logo" />
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Select
-    {
-      key: 'select',
-      content: (
-        <Select id={`${idPrefix}-select`} size="sm" className="w-full" aria-label="Choose an option">
-          <option value="">Choose…</option>
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-        </Select>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Stepper horizontal
-    {
-      key: 'stepper-horizontal',
-      content: (
-        <Stepper
-          steps={['One', 'Two', 'Three']}
-          currentStep={1}
-          size="sm"
-          variant="minimal"
-          orientation="horizontal"
-        />
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Rating
-    {
-      key: 'rating',
-      content: (
-        <div>
-          <Rating value={4} readonly size="md" aria-label="4 of 5 stars" />
-          <p className="text-sm text-text-tertiary mt-2">Rating</p>
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Tooltip + Button
-    {
-      key: 'tooltip-button',
-      content: (
-        <Tooltip content="Tooltip content" placement="top">
-          <Button variant="outline" size="sm">Hover me</Button>
-        </Tooltip>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Badges row - responsive: full width on mobile, 2 cols on md+
-    {
-      key: 'badges-row',
-      content: (
-        <div className="flex flex-wrap gap-2">
-          <Badge variant="error" size="sm">Error</Badge>
-          <Badge variant="warning" size="sm">Warning</Badge>
-          <Badge variant="info" size="sm">Info</Badge>
-        </div>
-      ),
-      colSpan: { base: 1, sm: 2, md: 2, lg: 2 },
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Divider
-    {
-      key: 'divider',
-      content: (
-        <div>
-          <p className="text-sm font-medium text-text-primary mb-2">Divider</p>
-          <Divider variant="default" className="my-2" />
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Alert success
-    {
-      key: 'alert-success',
-      content: (
-        <Alert variant="success" title="Saved">Changes saved.</Alert>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Filter chip + Badge - responsive: full width on mobile, 2 cols on md+
-    {
-      key: 'filter-chip-badge',
-      content: (
-        <div className="flex flex-wrap gap-2 items-center">
-          <FilterChip label="Type" valueLabel="All" onRemove={() => {}} />
-          <Badge variant="outline" size="sm">Filter</Badge>
-        </div>
-      ),
-      colSpan: { base: 1, sm: 2, md: 2, lg: 2 },
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Progress
-    {
-      key: 'progress',
-      content: (
-        <div>
-          <p className="text-sm font-medium text-text-secondary mb-2">Progress</p>
-          <Progress value={80} size="sm" aria-label="80 percent" />
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Skeleton block
-    {
-      key: 'skeleton-block',
-      content: (
-        <div className="space-y-2" aria-hidden>
-          <Skeleton variant="text" width="80%" height={12} />
-          <Skeleton variant="rectangular" height={28} className="rounded" />
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Action button
-    {
-      key: 'action-button',
-      content: (
-        <Button variant="primary" size="sm" fullWidth>Action</Button>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-    // Primary/Success badges
-    {
-      key: 'primary-success-badges',
-      content: (
-        <div className="flex flex-wrap gap-2 justify-center">
-          <Badge variant="primary" size="sm">Primary</Badge>
-          <Badge variant="success" size="sm">Success</Badge>
-        </div>
-      ),
-      colSpan: 1,
-      rowSpan: 1,
-      padding: 'md',
-    },
-  ]
-
-  return (
-    <div className={cn('w-full min-w-0', className)}>
-      <Bento
-        items={bentoItems}
-        columns={{ base: 1, sm: 2, md: 3, lg: 4 }}
-        gap="md"
-        minHeight={200}
-      />
+      </AppPanel>
     </div>
   )
 }

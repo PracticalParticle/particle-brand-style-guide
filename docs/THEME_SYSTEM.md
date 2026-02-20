@@ -2,299 +2,120 @@
 
 ## Overview
 
-The Particle Crypto Security LTD design system uses a **CSS variable-based theme system** for professional, dynamic theming. This system provides centralized control over colors, supports light/dark modes, and enables runtime theme customization.
-
-## Architecture
-
-### CSS Variables
-
-All theme colors are defined as CSS variables in `src/styles/globals.css`:
-
-- **Background Colors**: `--color-bg-primary`, `--color-bg-secondary`, `--color-bg-tertiary`
-- **Text Colors**: `--color-text-primary`, `--color-text-secondary`, `--color-text-tertiary`, `--color-text-inverse`
-- **Border Colors**: `--color-border`, `--color-border-hover`, `--color-border-focus`
-- **Brand Colors**: `--color-primary`, `--color-primary-hover`, `--color-primary-active`, etc.
-- **Semantic Colors**: `--color-success`, `--color-error`, `--color-warning`, `--color-info`
-
-All colors are defined as **RGB values (space-separated)** to support Tailwind's opacity modifiers.
-
-### Tailwind Integration
-
-The theme system integrates with Tailwind CSS through `tailwind.config.js`:
-
-```javascript
-colors: {
-  bg: {
-    primary: 'rgb(var(--color-bg-primary) / <alpha-value>)',
-    secondary: 'rgb(var(--color-bg-secondary) / <alpha-value>)',
-    tertiary: 'rgb(var(--color-bg-tertiary) / <alpha-value>)',
-  },
-  text: {
-    primary: 'rgb(var(--color-text-primary) / <alpha-value>)',
-    secondary: 'rgb(var(--color-text-secondary) / <alpha-value>)',
-    tertiary: 'rgb(var(--color-text-tertiary) / <alpha-value>)',
-    inverse: 'rgb(var(--color-text-inverse) / <alpha-value>)',
-  },
-  border: {
-    DEFAULT: 'rgb(var(--color-border) / <alpha-value>)',
-    hover: 'rgb(var(--color-border-hover) / <alpha-value>)',
-    focus: 'rgb(var(--color-border-focus) / <alpha-value>)',
-  },
-  // ... brand and semantic colors
-}
-```
-
-## Theme Colors
-
-### Background Colors
-
-- **`bg-primary`**: Main page background (neutral-50 in light, neutral-950 in dark)
-- **`bg-secondary`**: Card/surface background (white in light, neutral-900 in dark)
-- **`bg-tertiary`**: Subtle background (neutral-100 in light, neutral-800 in dark)
-
-**Usage:**
-```tsx
-<div className="bg-primary">Main background</div>
-<Card className="bg-secondary">Card content</Card>
-<div className="bg-tertiary">Subtle section</div>
-```
-
-### Text Colors
-
-- **`text-primary`**: Main text color (neutral-900 in light, neutral-50 in dark)
-- **`text-secondary`**: Secondary text (neutral-700 in light, neutral-300 in dark)
-- **`text-tertiary`**: Tertiary text (neutral-500 in both modes)
-- **`text-inverse`**: Text on dark backgrounds (white in light, neutral-900 in dark)
-
-**Usage:**
-```tsx
-<h1 className="text-primary">Main heading</h1>
-<p className="text-secondary">Secondary text</p>
-<span className="text-tertiary">Helper text</span>
-<button className="bg-primary text-inverse">Button</button>
-```
-
-### Border Colors
-
-- **`border`** or **`border-default`**: Default border color
-- **`border-hover`**: Border color on hover
-- **`border-focus`**: Border color on focus (primary color)
-
-**Usage:**
-```tsx
-<input className="border border-default hover:border-hover focus:border-focus" />
-```
-
-### Brand Colors
-
-- **`primary`**: Main brand color (#0066CC)
-- **`primary-hover`**: Hover state
-- **`primary-active`**: Active/pressed state
-- **`primary-light`**: Light variant for backgrounds
-- **`primary-lighter`**: Lighter variant for subtle backgrounds
-- **`secondary`**: Secondary brand color (#627D98)
-- Similar variants for secondary color
-
-**Usage:**
-```tsx
-<button className="bg-primary hover:bg-primary-hover active:bg-primary-active">
-  Primary Button
-</button>
-<div className="bg-primary-lighter">Subtle primary background</div>
-```
-
-### Semantic Colors
+The Particle design system is **pure monochrome**: black, white, and off-neutrals only. No chromatic accents. Hierarchy comes from typography, contrast, elevation, and density. See [DESIGN_MANIFESTO.md](./DESIGN_MANIFESTO.md).
 
-- **`success`**: Success state (#22C55E)
-- **`error`**: Error state (#E85D5D)
-- **`warning`**: Warning state (#F59E0B)
-- **`info`**: Info state (#3B82F6)
-- Each has a `-light` variant for backgrounds
+Theme is implemented with **CSS variables** in `src/styles/globals.css` and mapped in `tailwind.config.js`. Dark mode uses the **class strategy** (add `dark` to the root element).
 
-**Usage:**
-```tsx
-<div className="bg-success-light text-success">Success message</div>
-<div className="bg-error-light text-error">Error message</div>
-```
+---
 
-## Dark Mode
+## Palette (clean enterprise monochrome)
 
-Dark mode is automatically handled through CSS variable overrides in `.dark` selector:
+Naming is **surfaces** (canvas / surface / surface-muted / elevated), **text** (primary / secondary / muted / inverse), **borders** (default / subtle / strong / focus), **brand** (monochrome only). No blue or chromatic primary.
 
-```css
-.dark {
-  --color-bg-primary: 31 41 51;  /* neutral-950 */
-  --color-bg-secondary: 50 63 75; /* neutral-900 */
-  /* ... other overrides */
-}
-```
+### Light mode
 
-To enable dark mode, add the `dark` class to your root element:
+| Token | Hex | Usage |
+|-------|-----|--------|
+| **Surfaces** | | |
+| `bg-canvas` | #F6F7F9 | App background |
+| `bg-surface` | #FFFFFF | Cards, panels |
+| `bg-surface-muted` | #F1F3F5 | Hovers, subtle |
+| `bg-elevated` | #FFFFFF | Modals |
+| **Text** | | |
+| `text-primary` | #0A0A0A | Primary text |
+| `text-secondary` | #525252 | Secondary |
+| `text-muted` | #737373 | Muted |
+| `text-inverse` | #FFFFFF | On dark blocks |
+| **Borders** | | |
+| `border-default` | #E5E7EB | Default |
+| `border-subtle` | #F1F5F9 | Subtle |
+| `border-strong` | #D1D5DB | Emphasis |
+| `border-focus` | #404040 | Focus ring |
 
-```tsx
-<html className="dark">
-  {/* ... */}
-</html>
-```
+### Dark mode
 
-## Usage Examples
+| Token | Hex | Usage |
+|-------|-----|--------|
+| **Surfaces** | | |
+| `bg-canvas` | #0B0C0E | App background |
+| `bg-surface` | #14161A | Cards, panels |
+| `bg-surface-muted` | #1B1E24 | Hovers |
+| `bg-elevated` | #191C22 | Modals |
+| **Text** | | |
+| `text-primary` | #FAFAFA | Primary |
+| `text-secondary` | #A3A3A3 | Secondary |
+| `text-muted` | #6B7280 | Muted |
+| **Borders** | | |
+| `border-default` | #2A2F36 | Default |
+| `border-subtle` | #1F242B | Subtle |
+| `border-strong` | #3A414A | Strong |
+| `border-focus` | #A3A3A3 | Focus |
 
-### Component Styling
+---
 
-**Before (direct Tailwind colors):**
-```tsx
-<div className="bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-50">
-  Content
-</div>
-```
+## Typography
 
-**After (theme classes):**
-```tsx
-<div className="bg-secondary text-primary">
-  Content
-</div>
-```
+Aligned with brand vision: **strong hierarchy**, **generous line-height for body**, **no ultra-thin or black weights** in UI.
 
-### Card Component
+- **Font**: Inter (400, 500, 600, 700). Mono: JetBrains Mono.
+- **Scale**: xs 12px, sm 14px, base 16px, lg 18px, xl 20px, 2xl 24px, 3xl 30px, 4xl 36px.
+- **Body**: line-height **≥ 1.5** (base and sm). Use `text-body`, `text-body-secondary`.
+- **Headings**: Tighter line-height (snug/tight). Use `text-heading-1` … `text-heading-4`, `text-display-*`.
+- **Weights**: 400 (body), 500 (medium), 600 (semibold), 700 (bold). Avoid 300 and 900 in product UI.
+- **Display**: Bold (700), not extrabold, for a calmer enterprise feel.
 
-```tsx
-<Card className="bg-secondary border-default">
-  <CardTitle className="text-primary">Title</CardTitle>
-  <CardDescription className="text-secondary">Description</CardDescription>
-</Card>
-```
+---
 
-### Button Component
+## Buttons (monochrome)
 
-```tsx
-<Button variant="primary" className="bg-primary hover:bg-primary-hover">
-  Click me
-</Button>
-```
+- **Primary**: Black block (light) or white block (dark). Use `bg-btn-primary`, `text-text-inverse`. Brand: `#0A0A0A` / `#141414` / `#1E1E1E` (light); white in dark. Hover: slight brightness + 1px lift. Active: pressed (shadow down).
+- **Secondary**: Outline (`border border-border`), fill on hover with `bg-surface-muted` or legacy `bg-bg-tertiary`.
+- **Danger**: Neutral emphasis — `border-2 border-strong`, icon + “Error”/“Delete” text. No red.
+- **Focus**: 2px outline + 2px offset halo (neutral). Use class `focus-ring`.
 
-### Input Component
+---
 
-```tsx
-<Input 
-  className="bg-secondary border-default focus:border-focus"
-  placeholder="Enter text..."
-/>
-```
+## Focus
 
-## TypeScript Support
+All interactive elements must have a **visible focus** style. Use the utility class **`focus-ring`**, which applies:
 
-The theme system includes TypeScript definitions in `src/tokens/theme.ts`:
+- **Light**: `0 0 0 2px rgba(0, 0, 0, 0.6)`
+- **Dark**: `0 0 0 2px rgba(255, 255, 255, 0.7)`
 
-```typescript
-import { theme, getThemeVar, setThemeVar } from '@/tokens/theme'
+No brand color; focus is neutral for monochrome authority.
 
-// Access theme tokens
-const primaryColor = theme.brand.primary
+---
 
-// Get CSS variable value
-const bgPrimary = getThemeVar('--color-bg-primary')
+## Motion
 
-// Set CSS variable value (for runtime customization)
-setThemeVar('--color-primary', '0 102 204')
-```
+- **Durations**: `duration-fast` 120ms, `duration-normal` 180ms, `duration-slow` 200ms.
+- **Easing**: `ease-out` / `cubic-bezier(0.4, 0, 0.2, 1)`.
+- **Respect** `prefers-reduced-motion` (handled in globals.css).
 
-## Customization
+---
 
-### Runtime Theme Customization
+## Radius & elevation
 
-You can customize theme colors at runtime using CSS variables:
+- **Radius**: Cards/panels `rounded-card` (10px), controls `rounded-control` (6px).
+- **Shadow**: `shadow-subtle`, `shadow-elevated` for cards; no chromatic glow.
 
-```typescript
-import { setThemeVar } from '@/tokens/theme'
+---
 
-// Change primary color
-setThemeVar('--color-primary', '59 130 246') // Blue-500
+## Semantic color (restrained, enterprise)
 
-// Change background
-setThemeVar('--color-bg-primary', '255 255 255') // White
-```
+Colored only for **status** (success, error, warning, info). No blue as brand.
 
-### Custom Theme Variants
+- **Success**: Light `#166534` / `#DCFCE7`. Dark `#34D399` / `#064E3B`. `bg-success`, `bg-success-light`, `text-success`.
+- **Error**: Light `#B91C1C` / `#FEE2E2`. Dark `#F87171` / `#4A0C0C`. `bg-error`, `text-error`.
+- **Warning**: Light `#B45309` / `#FEF3C7`. Dark `#FBBF24` / `#4A2209`. `bg-warning`, `text-warning`.
+- **Info**: Neutral tone (no blue brand). Light `#374151` / `#F3F4F6`. Dark `#9CA3AF` / `#1F2937`. `bg-info`, `text-info`.
 
-To add custom theme variants, update `globals.css`:
+Use with **icon + text**. Classes: `text-success`, `bg-success-light`, `border-error`, etc.
 
-```css
-:root {
-  --color-custom-accent: 255 0 0; /* Red */
-}
+---
 
-.dark {
-  --color-custom-accent: 255 100 100; /* Lighter red */
-}
-```
+## Implementation
 
-Then add to `tailwind.config.js`:
-
-```javascript
-colors: {
-  custom: {
-    accent: 'rgb(var(--color-custom-accent) / <alpha-value>)',
-  },
-}
-```
-
-## Migration Guide
-
-### From Direct Tailwind Colors to Theme Classes
-
-1. **Backgrounds:**
-   - `bg-white dark:bg-neutral-900` → `bg-secondary`
-   - `bg-neutral-50 dark:bg-neutral-950` → `bg-primary`
-   - `bg-neutral-100 dark:bg-neutral-800` → `bg-tertiary`
-
-2. **Text:**
-   - `text-neutral-900 dark:text-neutral-50` → `text-primary`
-   - `text-neutral-700 dark:text-neutral-300` → `text-secondary`
-   - `text-neutral-500` → `text-tertiary`
-
-3. **Borders:**
-   - `border-neutral-200 dark:border-neutral-800` → `border-default`
-   - `border-neutral-300 dark:border-neutral-700` → `border-hover`
-   - `border-primary-500` → `border-focus`
-
-4. **Brand Colors:**
-   - `bg-primary-500` → `bg-primary`
-   - `bg-primary-600` → `bg-primary-hover`
-   - `bg-primary-700` → `bg-primary-active`
-
-## Benefits
-
-1. **Centralized Control**: All colors defined in one place (`globals.css`)
-2. **Dynamic Theming**: Easy runtime customization via CSS variables
-3. **Dark Mode Support**: Automatic dark mode through CSS variable overrides
-4. **Type Safety**: TypeScript definitions for theme tokens
-5. **Consistency**: Enforces consistent color usage across components
-6. **Maintainability**: Easy to update colors globally
-7. **Performance**: CSS variables are performant and cached by browsers
-
-## Best Practices
-
-1. **Always use theme classes** instead of direct Tailwind color classes
-2. **Use semantic names** (`bg-primary`, `text-primary`) rather than color names (`bg-blue-500`)
-3. **Leverage opacity modifiers** with theme classes: `bg-primary/50`
-4. **Test in both light and dark modes** to ensure proper contrast
-5. **Use `text-inverse`** for text on colored backgrounds
-6. **Prefer theme classes** over inline styles for consistency
-
-## Troubleshooting
-
-### Colors not updating
-
-- Ensure CSS variables are defined in `globals.css`
-- Check that Tailwind config maps variables correctly
-- Verify the `dark` class is applied to root element for dark mode
-
-### Opacity not working
-
-- Ensure CSS variables use space-separated RGB values (not hex)
-- Use Tailwind's opacity modifier syntax: `bg-primary/50`
-
-### TypeScript errors
-
-- Import theme types from `@/tokens/theme`
-- Use `getThemeVar()` and `setThemeVar()` helpers for type safety
+- **Tokens**: `src/tokens/colors.ts`, `src/styles/globals.css` (vars: `--color-bg-canvas`, `--color-text-primary`, `--color-border-default`, `--color-brand-primary`, etc.)
+- **Tailwind**: `tailwind.config.js` — `bg.canvas`, `bg.surface`, `text.primary`, `border.default`, `brand.primary`, `btn.primary`. Legacy: `bg.primary`/`bg-secondary`/`bg.tertiary` map to same values.
+- **Components**: Prefer `bg-canvas`, `bg-surface`, `text-primary`, `border-default`, `focus-ring`, `bg-btn-primary` for primary actions. Legacy `bg-bg-primary`, `text-text-primary`, `border-border` still work.

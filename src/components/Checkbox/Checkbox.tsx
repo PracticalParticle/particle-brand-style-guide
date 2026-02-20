@@ -55,14 +55,16 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               />
               <span
                 className={cn(
-                  'inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm border-2 transition-colors',
-                  'border-border bg-bg-secondary dark:bg-bg-tertiary dark:border-border-hover',
+                  'inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-inset border-2',
+                  'transition-all duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)]',
+                  'border-border bg-bg-secondary dark:bg-bg-secondary dark:border-border',
                   'hover:border-border-hover',
                   'peer-focus:outline-none',
-                  'peer-focus-visible:border-tertiary peer-focus-visible:ring-0 dark:peer-focus-visible:border-tertiary-on-dark',
-                  'peer-active:scale-[0.97]',
-                  'peer-checked:border-tertiary peer-checked:bg-tertiary peer-checked:text-text-inverse peer-checked:[&>svg]:opacity-100 dark:peer-checked:border-tertiary dark:peer-checked:bg-tertiary',
-                  'peer-disabled:pointer-events-none peer-disabled:hover:border-border peer-disabled:opacity-50',
+                  'peer-focus-visible:border-tertiary peer-focus-visible:shadow-[0_0_0_3px_rgb(var(--color-border-focus)/0.18)]',
+                  'dark:peer-focus-visible:border-tertiary-on-dark',
+                  'peer-active:scale-[0.95]',
+                  'peer-checked:border-tertiary peer-checked:bg-tertiary peer-checked:text-text-inverse peer-checked:[&>svg]:opacity-100',
+                  'peer-disabled:pointer-events-none peer-disabled:hover:border-border peer-disabled:opacity-40',
                   hasError &&
                     'border-error peer-focus-visible:border-error peer-checked:border-error peer-checked:bg-error'
                 )}

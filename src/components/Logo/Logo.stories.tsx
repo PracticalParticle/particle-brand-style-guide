@@ -2,10 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { cn } from '@/utils/cn'
 import { Logo } from './Logo'
 import { downloadLogoSvg, type LogoExportVariant } from './logoUtils'
+import { LOGO_ASPECT_RATIO } from './logoConstants'
 
-const LOGO_RATIO = 92 / 70
 const PREVIEW_SIZE = 120
-const PREVIEW_H = Math.round(PREVIEW_SIZE / LOGO_RATIO)
+const PREVIEW_H = Math.round(PREVIEW_SIZE / LOGO_ASPECT_RATIO)
 
 const meta: Meta<typeof Logo> = {
   title: 'Brand/Logo',
@@ -61,53 +61,39 @@ interface LogoCardOption {
   bgClass: string
 }
 
+// Distinct combinations only: dark on light = white/surface/page bg; transparent has dark + light.
 const COLLECTION_OPTIONS: LogoCardOption[] = [
   {
-    id: 'dark-white',
-    name: 'Dark logo on white',
-    usage: 'Light pages, documents, print',
+    id: 'dark-light-bg',
+    name: 'Dark logo on light',
+    usage: 'Light pages, documents, print, cards, panels, surface, page background',
     variant: 'dark',
     bg: 'white',
-    previewVars: { ['--color-primary' as string]: '10 10 10' },
+    previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-text-primary' as string]: '10 10 10' },
     bgClass: 'bg-white',
   },
   {
     id: 'dark-transparent',
     name: 'Dark logo on transparent',
-    usage: 'Overlays, PNG export, watermarks',
+    usage: 'Overlays on light, PNG export, watermarks',
     variant: 'dark',
     bg: 'transparent',
-    previewVars: { ['--color-primary' as string]: '10 10 10' },
+    previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-text-primary' as string]: '10 10 10' },
     bgClass: 'bg-transparent',
   },
   {
-    id: 'dark-bg-secondary',
-    name: 'Dark logo on surface',
-    usage: 'Cards, panels, SaaS (theme surface)',
-    variant: 'dark',
-    bg: 'bg-secondary',
-    previewVars: {
-      ['--color-primary' as string]: '10 10 10',
-      ['--color-bg-secondary' as string]: '255 255 255',
-    },
-    bgClass: 'bg-bg-secondary',
+    id: 'light-transparent',
+    name: 'Light logo on transparent',
+    usage: 'Overlays on dark, PNG export, watermarks',
+    variant: 'light',
+    bg: 'transparent',
+    previewVars: { ['--color-text-inverse' as string]: '255 255 255' },
+    bgClass: 'bg-transparent',
   },
   {
-    id: 'dark-bg-primary',
-    name: 'Dark logo on page background',
-    usage: 'Light theme page background',
-    variant: 'dark',
-    bg: 'bg-primary',
-    previewVars: {
-      ['--color-primary' as string]: '10 10 10',
-      ['--color-bg-primary' as string]: '241 245 249',
-    },
-    bgClass: 'bg-bg-primary',
-  },
-  {
-    id: 'light-primary',
-    name: 'Light logo on primary',
-    usage: 'Headers, nav, dark mode hero',
+    id: 'light-dark-bg',
+    name: 'Light logo on dark',
+    usage: 'Headers, nav, footer, dark mode hero, high contrast (primary or black)',
     variant: 'light',
     bg: 'primary',
     previewVars: {
@@ -117,40 +103,27 @@ const COLLECTION_OPTIONS: LogoCardOption[] = [
     bgClass: 'bg-primary',
   },
   {
-    id: 'light-black',
-    name: 'Light logo on black',
-    usage: 'High contrast, footer',
-    variant: 'light',
-    bg: 'black',
-    previewVars: { ['--color-text-inverse' as string]: '255 255 255' },
-    bgClass: 'bg-black',
-  },
-  {
     id: 'light-tertiary',
     name: 'Light logo on tertiary',
     usage: 'CTAs, feature blocks (brand blue)',
     variant: 'light',
     bg: 'tertiary',
-    previewVars: { ['--color-text-inverse' as string]: '255 255 255' },
+    previewVars: {
+      ['--color-text-inverse' as string]: '255 255 255',
+      ['--color-tertiary' as string]: '31 78 216',
+    },
     bgClass: 'bg-tertiary',
   },
   {
-    id: 'tertiary-white',
-    name: 'Tertiary logo on white',
-    usage: 'Accent branding on light',
+    id: 'tertiary-light-bg',
+    name: 'Tertiary logo on light',
+    usage: 'Accent branding on light (white, surface, cards, dashboards)',
     variant: 'tertiary',
     bg: 'white',
-    previewVars: { ['--color-tertiary' as string]: '31 78 216' },
+    previewVars: {
+      ['--color-tertiary' as string]: '31 78 216',
+    },
     bgClass: 'bg-white',
-  },
-  {
-    id: 'tertiary-bg-secondary',
-    name: 'Tertiary logo on surface',
-    usage: 'Cards, dashboards',
-    variant: 'tertiary',
-    bg: 'bg-secondary',
-    previewVars: { ['--color-tertiary' as string]: '31 78 216' },
-    bgClass: 'bg-bg-secondary',
   },
 ]
 
@@ -171,7 +144,7 @@ function LogoCard({ option }: { option: LogoCardOption }) {
   }
   const isTransparent = option.bg === 'transparent'
   return (
-    <div className="p-6 rounded-lg border border-border bg-bg-secondary space-y-4 flex flex-col">
+    <div className="p-4 rounded border border-border bg-bg-secondary space-y-3 flex flex-col">
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
           <div className="font-semibold text-text-primary mb-1">{option.name}</div>
@@ -202,11 +175,11 @@ function LogoCard({ option }: { option: LogoCardOption }) {
                 ...option.previewVars,
               }}
               className={cn(
-                'flex items-center justify-center overflow-hidden border border-border min-h-[88px] w-full',
+                'overflow-hidden border border-border flex items-center justify-center',
                 !isTransparent && option.bgClass,
-                shape === 'none' && 'rounded-lg',
-                shape === 'square' && 'rounded-xl aspect-square max-w-[88px] mx-auto',
-                shape === 'circle' && 'rounded-full aspect-square max-w-[88px] mx-auto'
+                shape === 'none' && 'rounded',
+                shape === 'square' && 'rounded-lg aspect-square w-20',
+                shape === 'circle' && 'rounded-full aspect-square w-20'
               )}
             >
               <Logo variant={option.variant} size={shape === 'none' ? 'md' : 'sm'} />
@@ -229,8 +202,9 @@ export const LogoCollection: Story = {
         <p className="text-sm text-text-secondary mb-2">
           Brand logo options for SaaS and company sites. Each card shows the logo on different backgrounds and shapes (no shape, square, circle). Download SVG per option. Uses brand colors only: primary, tertiary, white.
         </p>
-        <div className="rounded-lg border border-border bg-bg-secondary p-4 text-sm text-text-secondary">
-          <strong>Usage:</strong> Pick the card that matches your background. Previews are theme-independent so they look correct in light and dark mode.
+        <div className="rounded-lg border border-border bg-bg-secondary p-4 text-sm text-text-secondary space-y-2">
+          <p><strong>Usage:</strong> Pick the card that matches your background. Previews are theme-independent so they look correct in light and dark mode.</p>
+          <p><strong>Combinations:</strong> In light theme, white and surface (bg-secondary) are the same, so one “on light” card covers both. Primary (charcoal) and black are both dark for the light logo, so one “light on dark” card covers headers, nav, and footer.</p>
         </div>
       </div>
       <section className="space-y-6">
@@ -292,7 +266,7 @@ export const AllSizes: Story = {
             <div key={px} className="flex flex-col items-center gap-2">
               <Logo size={px} />
               <span className="text-xs text-text-tertiary">
-                {px}×{Math.round(px / LOGO_RATIO)}
+                {px}×{Math.round(px / LOGO_ASPECT_RATIO)}
               </span>
             </div>
           ))}

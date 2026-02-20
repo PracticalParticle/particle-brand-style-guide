@@ -145,7 +145,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   return (
     <div
       className={cn(
-        'rounded-t-lg border-b border-default bg-bg-secondary',
+        'table-toolbar rounded-t-lg border-b border-default dark:border-subtle bg-bg-secondary',
         'flex flex-col gap-0',
         className
       )}
@@ -308,13 +308,13 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
       {hasQuickFilters && (
         <div
           className={cn(
-            'flex flex-wrap items-center gap-x-2 gap-y-1.5',
-            'px-2 pb-2 pt-0 xs:px-3 sm:px-4 sm:pb-3 sm:pt-0',
-            'border-t border-default/60'
+            'table-toolbar-quick flex flex-wrap items-center gap-x-2 gap-y-1.5',
+            'px-2 py-2 xs:px-3 sm:px-4 sm:py-3',
+            'border-t border-default dark:border-subtle'
           )}
         >
           {quickFilters.label && (
-            <span className="text-xs font-medium text-text-tertiary shrink-0 w-full xs:w-auto mb-0.5 xs:mb-0">
+            <span className="text-xs font-medium text-text-tertiary shrink-0">
               {quickFilters.label}
             </span>
           )}

@@ -205,7 +205,7 @@ export const SortableColumns: Story = {
       { name: 'Gamma LLC', date: '2024-03-10', amount: '$890' },
     ]
     return (
-      <div className={cn(tableStoryWrapper, 'rounded-lg border border-default bg-bg-primary overflow-hidden shadow-base')}>
+      <div className={cn(tableStoryWrapper, 'table-block rounded-lg border border-default dark:border-subtle bg-bg-primary overflow-hidden shadow-base')}>
         <Table container>
           <TableHeader>
             <TableRow>
@@ -260,7 +260,7 @@ export const FixedLayoutStickyHeader: Story = {
       value: `$${(i + 1) * 100}`,
     }))
     return (
-      <div className={cn(tableStoryWrapper, 'rounded-lg border border-default bg-bg-primary overflow-hidden shadow-base')}>
+      <div className={cn(tableStoryWrapper, 'table-block rounded-lg border border-default dark:border-subtle bg-bg-primary overflow-hidden shadow-base')}>
         <Table container fixed stickyHeader scrollMaxHeight="16rem">
           <TableHeader>
             <TableRow>

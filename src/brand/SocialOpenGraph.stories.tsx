@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import React, { useState } from 'react'
 import { Logo } from '@/components/Logo'
 import { downloadLogoSvg, type LogoExportVariant } from '@/components/Logo'
+import { LOGO_ASPECT_RATIO } from '@/components/Logo/logoConstants'
 
 const meta: Meta = {
   title: 'Brand/Social and Open Graph',
@@ -32,12 +33,13 @@ const VARIANTS: { value: LogoExportVariant; label: string }[] = [
   { value: 'tertiary', label: 'Tertiary' },
 ]
 
-const BACKGROUNDS: { value: string; label: string; bgClass: string; previewVars?: React.CSSProperties }[] = [
-  { value: 'primary', label: 'Primary', bgClass: 'bg-primary', previewVars: { ['--color-text-inverse' as string]: '255 255 255' } },
-  { value: 'white', label: 'White', bgClass: 'bg-white', previewVars: { ['--color-primary' as string]: '10 10 10' } },
+/** Background + CSS vars so logo variant (dark/light/tertiary) always contrasts. */
+const BACKGROUNDS: { value: string; label: string; bgClass: string; previewVars: React.CSSProperties }[] = [
+  { value: 'primary', label: 'Primary', bgClass: 'bg-primary', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-text-inverse' as string]: '255 255 255' } },
+  { value: 'white', label: 'White', bgClass: 'bg-white', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-tertiary' as string]: '31 78 216', ['--color-text-primary' as string]: '10 10 10' } },
   { value: 'black', label: 'Black', bgClass: 'bg-black', previewVars: { ['--color-text-inverse' as string]: '255 255 255' } },
-  { value: 'tertiary', label: 'Tertiary', bgClass: 'bg-tertiary', previewVars: { ['--color-text-inverse' as string]: '255 255 255' } },
-  { value: 'bg-secondary', label: 'Surface', bgClass: 'bg-bg-secondary', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-bg-secondary' as string]: '255 255 255' } },
+  { value: 'tertiary', label: 'Tertiary', bgClass: 'bg-tertiary', previewVars: { ['--color-tertiary' as string]: '31 78 216', ['--color-text-inverse' as string]: '255 255 255' } },
+  { value: 'bg-secondary', label: 'Surface', bgClass: 'bg-bg-secondary', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-tertiary' as string]: '31 78 216', ['--color-bg-secondary' as string]: '255 255 255', ['--color-text-primary' as string]: '10 10 10' } },
 ]
 
 function SocialOpenGraphPlayground() {
@@ -49,8 +51,8 @@ function SocialOpenGraphPlayground() {
   const bg = BACKGROUNDS.find((b) => b.value === backgroundId) ?? BACKGROUNDS[0]
 
   const handleDownload = () => {
-    const logoW = Math.min(dim.width, dim.height * (92 / 70))
-    const logoH = Math.round(logoW / (92 / 70))
+    const logoW = Math.min(dim.width, dim.height * LOGO_ASPECT_RATIO)
+    const logoH = Math.round(logoW / LOGO_ASPECT_RATIO)
     downloadLogoSvg(variant, logoW, logoH, `particle-og-${dim.width}x${dim.height}-${variant}.svg`)
   }
 
@@ -144,7 +146,7 @@ function SocialOpenGraphPlayground() {
         <div className="flex-1 w-full">
           <h3 className="text-sm font-semibold text-text-primary mb-2">Preview</h3>
           <p className="text-xs text-text-tertiary mb-2">
-            {dim.width}×{dim.height} (scaled). Logo centered on selected background.
+            {dim.width}×{dim.height} (scaled). Use light logo on dark/tertiary; dark or tertiary on light.
           </p>
           <div
             style={{
@@ -152,7 +154,7 @@ function SocialOpenGraphPlayground() {
               maxWidth: 420,
               ...bg.previewVars,
             }}
-            className={`rounded-lg border border-border overflow-hidden flex items-center justify-center ${bg.bgClass}`}
+            className={`rounded border border-border overflow-hidden flex items-center justify-center ${bg.bgClass}`}
           >
             <Logo variant={variant} size="xl" />
           </div>

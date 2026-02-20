@@ -61,9 +61,12 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
         role="img"
         aria-label={alt || name || undefined}
         className={cn(
-          'inline-flex items-center justify-center font-medium shrink-0 overflow-hidden bg-tertiary-lighter text-tertiary dark:text-tertiary-on-dark border border-border',
+          'inline-flex items-center justify-center font-medium shrink-0 overflow-hidden',
+          'bg-tertiary-lighter border border-border',
+          'text-tertiary dark:text-tertiary-on-dark',
+          'transition-colors duration-[220ms]',
           shape === 'circle' && 'rounded-full',
-          shape === 'rounded' && 'rounded-lg',
+          shape === 'rounded' && 'rounded-xl',
           sizeClasses[size],
           className
         )}

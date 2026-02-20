@@ -10,27 +10,67 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
-  ({ className, variant = 'default', size = 'md', children, 'aria-label': ariaLabel, ...props }, ref) => {
-    const baseStyles = 'inline-flex items-center font-medium rounded-full transition-colors'
-    
+  (
+    {
+      className,
+      variant = 'default',
+      size = 'md',
+      children,
+      'aria-label': ariaLabel,
+      ...props
+    },
+    ref
+  ) => {
+    const baseStyles = [
+      'inline-flex items-center font-medium rounded-full',
+      'transition-colors duration-[220ms]',
+      'tracking-wide',
+    ].join(' ')
+
     const variants = {
+      // Brand — electric indigo
       default: 'bg-tertiary text-text-inverse',
-      primary: 'bg-primary text-text-inverse',
-      success: 'bg-success-light text-success dark:text-text-inverse',
-      warning: 'bg-warning-light text-warning dark:text-text-inverse',
-      error: 'bg-error-light text-error dark:text-text-inverse',
-      info: 'bg-info-light text-info dark:text-text-inverse',
-      outline: 'border-2 border-border text-text-secondary',
+
+      // Primary — deep navy / dark surface
+      primary: [
+        'bg-primary text-text-inverse',
+        'dark:bg-bg-tertiary dark:text-text-primary dark:border dark:border-border',
+      ].join(' '),
+
+      // Status — tinted surfaces with bordered style
+      success: [
+        'bg-success-light text-success border border-success/20',
+        'dark:bg-success/15 dark:text-success dark:border-success/25',
+      ].join(' '),
+
+      warning: [
+        'bg-warning-light text-warning border border-warning/20',
+        'dark:bg-warning/15 dark:text-warning dark:border-warning/25',
+      ].join(' '),
+
+      error: [
+        'bg-error-light text-error border border-error/20',
+        'dark:bg-error/15 dark:text-error dark:border-error/25',
+      ].join(' '),
+
+      info: [
+        'bg-info-light text-info border border-info/20',
+        'dark:bg-tertiary/15 dark:text-tertiary-on-dark dark:border-tertiary-on-dark/25',
+      ].join(' '),
+
+      // Outline — minimal ring
+      outline: [
+        'border border-border text-text-secondary bg-transparent',
+        'dark:border-border dark:text-text-secondary',
+      ].join(' '),
     }
 
     const sizes = {
-      sm: 'px-2 py-0.5 text-xs',
-      md: 'px-2.5 py-1 text-sm',
-      lg: 'px-3 py-1.5 text-base',
+      sm: 'px-2 py-0.5 text-xs gap-1',
+      md: 'px-2.5 py-0.5 text-xs gap-1',
+      lg: 'px-3 py-1 text-sm gap-1.5',
     }
 
-    // If aria-label is provided, use role="img" to make it accessible
-    // Otherwise, rely on text content which is already accessible
     return (
       <span
         ref={ref}

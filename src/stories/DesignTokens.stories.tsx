@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { Card, CardTitle, CardDescription, CardContent } from '@/components/Card'
+import { Button } from '@/components/Button'
 
 const meta: Meta = {
   title: 'Design System/Design Tokens',
@@ -17,87 +19,87 @@ export const Colors: Story = {
     const themeColors = {
       background: [
         {
-          name: 'bg-primary',
-          cssVar: '--color-bg-primary',
-          lightHex: '#F1F5F9',
-          darkHex: '#0A0A0A',
-          usage: 'Main page background',
-          tailwindClass: 'bg-bg-primary',
+          name: 'bg-canvas (primary)',
+          cssVar: '--color-bg-canvas',
+          lightHex: '#F6F7F9',
+          darkHex: '#0B0C0E',
+          usage: 'App background',
+          tailwindClass: 'bg-canvas / bg-bg-primary',
         },
         {
-          name: 'bg-secondary',
-          cssVar: '--color-bg-secondary',
+          name: 'bg-surface (secondary)',
+          cssVar: '--color-bg-surface',
           lightHex: '#FFFFFF',
-          darkHex: '#141414',
-          usage: 'Card/surface background',
-          tailwindClass: 'bg-bg-secondary',
+          darkHex: '#14161A',
+          usage: 'Cards, panels, modals',
+          tailwindClass: 'bg-surface / bg-bg-secondary',
         },
         {
-          name: 'bg-tertiary',
-          cssVar: '--color-bg-tertiary',
-          lightHex: '#F8FAFC',
-          darkHex: '#1E1E1E',
-          usage: 'Subtle background sections',
-          tailwindClass: 'bg-bg-tertiary',
+          name: 'bg-surface-muted (tertiary)',
+          cssVar: '--color-bg-surface-muted',
+          lightHex: '#F1F3F5',
+          darkHex: '#1B1E24',
+          usage: 'Hovers, subtle surfaces',
+          tailwindClass: 'bg-surface-muted / bg-bg-tertiary',
         },
       ],
       text: [
         {
           name: 'text-primary',
           cssVar: '--color-text-primary',
-          lightHex: '#0B1220',
-          darkHex: '#F8FAFC',
+          lightHex: '#0A0A0A',
+          darkHex: '#FAFAFA',
           usage: 'Main text, headings',
           tailwindClass: 'text-text-primary',
         },
         {
           name: 'text-secondary',
           cssVar: '--color-text-secondary',
-          lightHex: '#334155',
-          darkHex: '#CBD5E1',
-          usage: 'Secondary text, descriptions',
+          lightHex: '#525252',
+          darkHex: '#A3A3A3',
+          usage: 'Secondary text',
           tailwindClass: 'text-text-secondary',
         },
         {
-          name: 'text-tertiary',
-          cssVar: '--color-text-tertiary',
-          lightHex: '#475569',
-          darkHex: '#CBD5E1',
-          usage: 'Helper text, placeholders',
-          tailwindClass: 'text-text-tertiary',
+          name: 'text-muted (tertiary)',
+          cssVar: '--color-text-muted',
+          lightHex: '#525252',
+          darkHex: '#6B7280',
+          usage: 'Helper text, placeholders (WCAG AA 4.5:1)',
+          tailwindClass: 'text-text-muted / text-text-tertiary',
         },
         {
           name: 'text-inverse',
           cssVar: '--color-text-inverse',
           lightHex: '#FFFFFF',
-          darkHex: '#FFFFFF',
-          usage: 'Text on colored backgrounds',
+          darkHex: '#0A0A0A',
+          usage: 'Text on primary button: white in light (on black), black in dark (on white). Reverses with theme.',
           tailwindClass: 'text-text-inverse',
         },
       ],
       border: [
         {
-          name: 'border',
-          cssVar: '--color-border',
-          lightHex: '#F1F5F9',
-          darkHex: '#191919',
+          name: 'border-default',
+          cssVar: '--color-border-default',
+          lightHex: '#E5E7EB',
+          darkHex: '#2A2F36',
           usage: 'Default borders',
-          tailwindClass: 'border-border',
+          tailwindClass: 'border-border / border-default',
         },
         {
-          name: 'border-hover',
+          name: 'border-hover / strong',
           cssVar: '--color-border-hover',
-          lightHex: '#E9EDF1',
-          darkHex: '#232323',
-          usage: 'Borders on hover',
-          tailwindClass: 'border-border-hover',
+          lightHex: '#D1D5DB',
+          darkHex: '#3A414A',
+          usage: 'Borders on hover, emphasis',
+          tailwindClass: 'border-border-hover / border-strong',
         },
         {
           name: 'border-focus',
           cssVar: '--color-border-focus',
-          lightHex: '#1F4ED8',
-          darkHex: '#1F4ED8',
-          usage: 'Focus borders (corporate blue)',
+          lightHex: '#404040',
+          darkHex: '#A3A3A3',
+          usage: 'Neutral focus ring (no brand color)',
           tailwindClass: 'border-border-focus',
         },
       ],
@@ -105,45 +107,42 @@ export const Colors: Story = {
 
     const brandColors = [
       {
-        name: 'primary (brand)',
-        cssVar: '--color-tertiary',
-        lightHex: '#1F4ED8',
-        darkHex: '#2F52E0',
-        usage: 'Primary brand color: main CTAs, primary buttons, links (WCAG AA: white text on this)',
-        tailwindClass: 'bg-tertiary',
+        name: 'Brand primary (monochrome)',
+        cssVar: '--color-btn-primary / --color-brand-primary',
+        lightHex: '#0A0A0A',
+        darkHex: '#FAFAFA',
+        usage: 'Primary CTA, buttons. Black block (light) / white block (dark). No blue.',
+        tailwindClass: 'bg-btn-primary',
         variants: [
-          { name: 'tertiary-hover', cssVar: '--color-tertiary-hover', lightHex: '#1A42C0', darkHex: '#3A6AFF', usage: 'Hover state' },
-          { name: 'tertiary-active', cssVar: '--color-tertiary-active', lightHex: '#1536A8', darkHex: '#1F4ED8', usage: 'Active/pressed state' },
-          { name: 'tertiary-light', cssVar: '--color-tertiary-light', lightHex: '#E2E8F0', darkHex: '#2A2A32', usage: 'Neutral light / elevated surface' },
-          { name: 'tertiary-lighter', cssVar: '--color-tertiary-lighter', lightHex: '#F8FAFC', darkHex: '#373A40', usage: 'Subtle neutral (no blue tint)' },
+          { name: 'primary-hover', cssVar: '--color-btn-primary-hover', lightHex: '#141414', darkHex: '#F3F4F6', usage: 'Hover state' },
+          { name: 'primary-active', cssVar: '--color-btn-primary-active', lightHex: '#1E1E1E', darkHex: '#E5E7EB', usage: 'Active/pressed state' },
+          { name: 'tertiary (alias)', cssVar: '--color-tertiary', lightHex: '#0A0A0A', darkHex: '#FAFAFA', usage: 'Same as primary button in monochrome' },
+          { name: 'tertiary-light', cssVar: '--color-tertiary-light', lightHex: '#F1F3F5', darkHex: '#1B1E24', usage: 'Subtle surface, not brand tint' },
+          { name: 'tertiary-lighter', cssVar: '--color-tertiary-lighter', lightHex: '#F1F3F5', darkHex: '#1B1E24', usage: 'Very subtle surface' },
         ],
       },
       {
-        name: 'secondary',
+        name: 'Surface / secondary',
         cssVar: '--color-secondary',
-        lightHex: '#F1F5F9',
-        darkHex: '#1E1E1E',
-        usage: 'Secondary actions, supporting surfaces (light: theme bg; dark: dark gray, distinct from black)',
+        lightHex: '#FFFFFF',
+        darkHex: '#14161A',
+        usage: 'Card/surface background, ghost button hover',
         tailwindClass: 'bg-secondary',
         variants: [
-          { name: 'secondary-hover', cssVar: '--color-secondary-hover', lightHex: '#E2E8F0', darkHex: '#191919', usage: 'Hover state' },
-          { name: 'secondary-active', cssVar: '--color-secondary-active', lightHex: '#FFFFFF', darkHex: '#141414', usage: 'Active/pressed state' },
-          { name: 'secondary-light', cssVar: '--color-secondary-light', lightHex: '#CBD5E1', darkHex: '#333333', usage: 'Light backgrounds' },
-          { name: 'secondary-lighter', cssVar: '--color-secondary-lighter', lightHex: '#F8FAFC', darkHex: '#666666', usage: 'Subtle backgrounds' },
+          { name: 'secondary-hover', cssVar: '--color-secondary-hover', lightHex: '#F1F3F5', darkHex: '#1B1E24', usage: 'Hover state' },
+          { name: 'secondary-active', cssVar: '--color-secondary-active', lightHex: '#E5E7EB', darkHex: '#0B0C0E', usage: 'Active/pressed state' },
         ],
       },
       {
-        name: 'neutral (charcoal)',
+        name: 'Charcoal / primary (surfaces)',
         cssVar: '--color-primary',
         lightHex: '#0A0A0A',
-        darkHex: '#0A0A0A',
-        usage: 'Neutral dark surfaces, badges, high-contrast elements (use text-inverse on this)',
+        darkHex: '#FAFAFA',
+        usage: 'Brand black (light) or white (dark). Use with text-inverse on buttons.',
         tailwindClass: 'bg-primary',
         variants: [
-          { name: 'primary-hover', cssVar: '--color-primary-hover', lightHex: '#080808', darkHex: '#141414', usage: 'Hover state' },
-          { name: 'primary-active', cssVar: '--color-primary-active', lightHex: '#060606', darkHex: '#1E1E1E', usage: 'Active/pressed state' },
-          { name: 'primary-light', cssVar: '--color-primary-light', lightHex: '#333333', darkHex: '#333333', usage: 'Light backgrounds' },
-          { name: 'primary-lighter', cssVar: '--color-primary-lighter', lightHex: '#999999', darkHex: '#666666', usage: 'Subtle backgrounds' },
+          { name: 'primary-hover', cssVar: '--color-primary-hover', lightHex: '#141414', darkHex: '#F3F4F6', usage: 'Hover state' },
+          { name: 'primary-active', cssVar: '--color-primary-active', lightHex: '#1E1E1E', darkHex: '#E5E7EB', usage: 'Active/pressed state' },
         ],
       },
       {
@@ -151,7 +150,7 @@ export const Colors: Story = {
         cssVar: '--color-black',
         lightHex: '#000000',
         darkHex: '#000000',
-        usage: 'High contrast text, dark elements',
+        usage: 'High contrast, dark elements',
         tailwindClass: 'bg-black',
         variants: [],
       },
@@ -160,7 +159,7 @@ export const Colors: Story = {
         cssVar: '--color-white',
         lightHex: '#FFFFFF',
         darkHex: '#FFFFFF',
-        usage: 'High contrast backgrounds, light elements',
+        usage: 'High contrast, light elements',
         tailwindClass: 'bg-white',
         variants: [],
       },
@@ -170,46 +169,46 @@ export const Colors: Story = {
       {
         name: 'success',
         cssVar: '--color-success',
-        hex: '#14532D',
+        hex: '#166534',
         usage: 'Success messages, completed states (light mode)',
         tailwindClass: 'bg-success',
         lightVar: '--color-success-light',
-        lightHex: '#BBF7D0',
+        lightHex: '#DCFCE7',
         darkHex: '#34D399',
         darkLightHex: '#064E3B',
       },
       {
         name: 'error',
         cssVar: '--color-error',
-        hex: '#991B1B',
+        hex: '#B91C1C',
         usage: 'Errors, destructive actions (light mode)',
         tailwindClass: 'bg-error',
         lightVar: '--color-error-light',
-        lightHex: '#FECACA',
+        lightHex: '#FEE2E2',
         darkHex: '#F87171',
-        darkLightHex: '#7F1D1D',
+        darkLightHex: '#4A0C0C',
       },
       {
         name: 'warning',
         cssVar: '--color-warning',
-        hex: '#92400E',
+        hex: '#B45309',
         usage: 'Warnings, caution states (light mode)',
         tailwindClass: 'bg-warning',
         lightVar: '--color-warning-light',
-        lightHex: '#FDE68A',
+        lightHex: '#FEF3C7',
         darkHex: '#FBBF24',
-        darkLightHex: '#78350F',
+        darkLightHex: '#4A2209',
       },
       {
         name: 'info',
         cssVar: '--color-info',
-        hex: '#1E40AF',
-        usage: 'Informational messages, tips (light mode)',
+        hex: '#374151',
+        usage: 'Informational messages (neutral, no blue brand)',
         tailwindClass: 'bg-info',
         lightVar: '--color-info-light',
-        lightHex: '#F1F5F9',
-        darkHex: '#2F52E0',
-        darkLightHex: '#1E3A5F',
+        lightHex: '#F3F4F6',
+        darkHex: '#9CA3AF',
+        darkLightHex: '#1F2937',
       },
     ]
 
@@ -223,14 +222,14 @@ export const Colors: Story = {
     }
 
     const ColorCard = ({ name, cssVar, lightHex, darkHex, usage, tailwindClass }: ColorCardProps) => (
-      <div className="p-6 bg-bg-secondary rounded-lg border border-border space-y-4">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <div className="font-semibold text-text-primary mb-1">{name}</div>
-            <div className="text-sm text-text-secondary mb-2">{usage}</div>
-            <div className="text-xs font-mono text-text-tertiary space-y-1">
-              <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{cssVar}</code></div>
-              <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{tailwindClass}</code></div>
+      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <div className="font-semibold text-text-primary mb-1 break-words">{name}</div>
+            <div className="text-sm text-text-secondary mb-2 break-words">{usage}</div>
+            <div className="text-xs font-mono text-text-tertiary space-y-1 break-all">
+              <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded break-all">{cssVar}</code></div>
+              <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded break-all">{tailwindClass}</code></div>
             </div>
           </div>
         </div>
@@ -266,13 +265,13 @@ export const Colors: Story = {
     }
 
     const BrandColorCard = ({ color }: { color: BrandColor }) => (
-      <div className="p-6 bg-bg-secondary rounded-lg border border-border space-y-4">
-        <div>
-          <div className="font-semibold text-text-primary mb-1 capitalize">{color.name}</div>
-          <div className="text-sm text-text-secondary mb-2">{color.usage}</div>
-          <div className="text-xs font-mono text-text-tertiary space-y-1">
-            <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.cssVar}</code></div>
-            <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.tailwindClass}</code></div>
+      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words">
+        <div className="min-w-0">
+          <div className="font-semibold text-text-primary mb-1 capitalize break-words">{color.name}</div>
+          <div className="text-sm text-text-secondary mb-2 break-words">{color.usage}</div>
+          <div className="text-xs font-mono text-text-tertiary space-y-1 break-all">
+            <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded break-all">{color.cssVar}</code></div>
+            <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded break-all">{color.tailwindClass}</code></div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -291,12 +290,12 @@ export const Colors: Story = {
           <div className="pt-4 border-t border-border space-y-3">
             <div className="text-xs font-semibold text-text-secondary uppercase">Variants</div>
             {color.variants.map((variant) => (
-              <div key={variant.name} className="flex items-center justify-between text-xs">
-                <div>
-                  <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{variant.name}</code>
-                  <span className="text-text-tertiary ml-2">{variant.usage}</span>
+              <div key={variant.name} className="flex items-center justify-between gap-2 text-xs min-w-0">
+                <div className="min-w-0 break-words flex-1">
+                  <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded break-all">{variant.name}</code>
+                  <span className="text-text-tertiary ml-2 break-words">{variant.usage}</span>
                 </div>
-                <div className="font-mono text-text-secondary">
+                <div className="font-mono text-text-secondary shrink-0">
                   <span className="mr-2">{variant.lightHex}</span>
                   <span className="text-text-tertiary">/</span>
                   <span className="ml-2">{variant.darkHex}</span>
@@ -321,13 +320,13 @@ export const Colors: Story = {
     }
 
     const SemanticColorCard = ({ color }: { color: SemanticColor }) => (
-      <div className="p-6 bg-bg-secondary rounded-lg border border-border space-y-4">
-        <div>
-          <div className="font-semibold text-text-primary mb-1 capitalize">{color.name}</div>
-          <div className="text-sm text-text-secondary mb-2">{color.usage}</div>
-          <div className="text-xs font-mono text-text-tertiary space-y-1">
-            <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.cssVar}</code></div>
-            <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded">{color.tailwindClass}</code></div>
+      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words">
+        <div className="min-w-0">
+          <div className="font-semibold text-text-primary mb-1 capitalize break-words">{color.name}</div>
+          <div className="text-sm text-text-secondary mb-2 break-words">{color.usage}</div>
+          <div className="text-xs font-mono text-text-tertiary space-y-1 break-all">
+            <div>CSS: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded break-all">{color.cssVar}</code></div>
+            <div>Class: <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded break-all">{color.tailwindClass}</code></div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -369,18 +368,18 @@ export const Colors: Story = {
     )
 
     return (
-      <div className="p-8 space-y-12 w-full min-h-screen">
-        <div>
-          <h1 className="text-3xl font-bold mb-2 text-text-primary">Theme Color System</h1>
-          <p className="text-text-secondary mb-4">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-8 sm:space-y-12 w-full min-h-screen max-w-[1600px]">
+        <div className="min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-text-primary">Theme Color System</h1>
+          <p className="text-sm sm:text-base text-text-secondary mb-4">
             CSS variable-based theme system with automatic light/dark mode support
           </p>
           <div className="bg-bg-secondary border border-border rounded-lg p-4 mb-8">
             <p className="text-sm text-text-primary">
               <strong>Theme System:</strong> All colors are defined as CSS variables in <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">globals.css</code> and 
-              mapped to Tailwind classes. Use theme classes for UI surfaces (e.g., <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-bg-primary</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">text-text-primary</code>) 
-              and brand classes for accents (e.g., <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-tertiary</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">text-tertiary</code>) 
-              for automatic dark mode support.
+              mapped to Tailwind. Use <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-canvas</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-surface</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">text-primary</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">border-default</code> 
+              (or legacy <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-bg-primary</code>, <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">text-text-primary</code>). 
+              Brand is monochrome: <code className="text-text-primary font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-btn-primary</code> for primary buttons (black/white block).
             </p>
           </div>
         </div>
@@ -396,7 +395,7 @@ export const Colors: Story = {
 
           <div>
             <h3 className="text-lg font-medium text-text-primary mb-4">Background Colors</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {themeColors.background.map((color) => (
                 <ColorCard key={color.name} {...color} />
               ))}
@@ -405,7 +404,7 @@ export const Colors: Story = {
 
           <div>
             <h3 className="text-lg font-medium text-text-primary mb-4">Text Colors</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
               {themeColors.text.map((color) => (
                 <ColorCard key={color.name} {...color} />
               ))}
@@ -414,7 +413,7 @@ export const Colors: Story = {
 
           <div>
             <h3 className="text-lg font-medium text-text-primary mb-4">Border Colors</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {themeColors.border.map((color) => (
                 <ColorCard key={color.name} {...color} />
               ))}
@@ -426,11 +425,11 @@ export const Colors: Story = {
         <section className="space-y-6">
           <div>
             <h2 className="text-2xl font-semibold text-text-primary mb-2">Brand Colors</h2>
-            <p className="text-sm text-text-secondary mb-6">
-              Primary (blue) for main CTAs and buttons; secondary (gray) for supporting surfaces; neutral (charcoal) for dark surfaces. Use theme classes for automatic light/dark.
+            <p className="text-sm text-text-secondary mb-6 break-words">
+              Brand is monochrome: primary = black block (light) / white block (dark). No blue. Use <code className="bg-bg-tertiary px-1 py-0.5 rounded text-text-primary">bg-btn-primary</code> for CTAs; theme classes for surfaces.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
             {brandColors.map((color) => (
               <BrandColorCard key={color.name} color={color} />
             ))}
@@ -445,7 +444,7 @@ export const Colors: Story = {
               Use for status indicators and feedback. Always combine with icons/text - don't rely on color alone.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-6">
             {semanticColors.map((color) => (
               <SemanticColorCard key={color.name} color={color} />
             ))}
@@ -642,6 +641,102 @@ export const Shadows: Story = {
   ),
 }
 
+export const DuotoneGradients: Story = {
+  render: () => (
+    <div className="p-8 space-y-12 w-full min-h-screen">
+      <div>
+        <h1 className="text-3xl font-bold mb-2 text-text-primary">Duotone Gradients</h1>
+        <p className="text-text-secondary mb-4">
+          Enterprise-appropriate gradient backgrounds for hero sections, marketing pages, and feature blocks.
+          Use <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded font-mono text-sm">bg-duotone-subtle</code> or{' '}
+          <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded font-mono text-sm">bg-duotone-hero</code>.
+          Place cards with <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded font-mono text-sm">variant=&quot;glass&quot;</code> or{' '}
+          <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded font-mono text-sm">variant=&quot;on-gradient&quot;</code> on top for readability.
+        </p>
+      </div>
+
+      <section className="space-y-8">
+        <div>
+          <h2 className="text-xl font-semibold text-text-primary mb-4">bg-duotone-subtle</h2>
+          <div className="bg-duotone-subtle rounded-xl p-8 min-h-[200px] flex flex-col gap-4">
+            <p className="text-text-primary">Section with subtle neutral gradient at the edges.</p>
+            <Card variant="on-gradient" padding="md">
+              <CardTitle>Card on gradient</CardTitle>
+              <CardDescription>Use variant=&quot;on-gradient&quot; or &quot;glass&quot; for content on duotone backgrounds.</CardDescription>
+              <CardContent className="mt-2">
+                <Button variant="primary">Primary action</Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-xl font-semibold text-text-primary mb-4">bg-duotone-hero</h2>
+          <div className="bg-duotone-hero rounded-xl p-8 min-h-[200px] flex flex-col gap-4">
+            <h3 className="text-2xl font-bold text-text-primary">Hero section</h3>
+            <p className="text-text-secondary max-w-xl">Stronger neutral gradient for marketing headers. Cards and buttons remain readable.</p>
+            <div className="flex flex-wrap gap-3">
+              <Card variant="glass" padding="sm">
+                <CardTitle className="text-base">Glass card</CardTitle>
+                <CardDescription>Translucent with backdrop blur.</CardDescription>
+              </Card>
+              <Card variant="on-gradient" padding="sm">
+                <CardTitle className="text-base">On-gradient card</CardTitle>
+                <CardDescription>Near-opaque for dense content.</CardDescription>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  ),
+}
+
+export const SurfaceOnGradient: Story = {
+  render: () => (
+    <div className="p-8 space-y-12 w-full min-h-screen">
+      <div>
+        <h1 className="text-3xl font-bold mb-2 text-text-primary">Surfaces on Gradient Backgrounds</h1>
+        <p className="text-text-secondary mb-4">
+          Card variants designed for use on <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded font-mono text-sm">bg-duotone-subtle</code> /{' '}
+          <code className="text-tertiary dark:text-tertiary-on-dark bg-bg-tertiary px-1 py-0.5 rounded font-mono text-sm">bg-duotone-hero</code>.
+          Use <strong>glass</strong> for a lighter overlay; use <strong>on-gradient</strong> when content needs maximum readability.
+        </p>
+      </div>
+
+      <section className="bg-duotone-hero rounded-xl p-8 space-y-6">
+        <h2 className="text-xl font-semibold text-text-primary">Cards on bg-duotone-hero</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card variant="glass" padding="lg">
+            <CardTitle>Glass variant</CardTitle>
+            <CardDescription>Backdrop blur, translucent. Best for short content and overlays.</CardDescription>
+            <CardContent className="mt-4">
+              <Button variant="secondary" size="sm">Learn more</Button>
+            </CardContent>
+          </Card>
+          <Card variant="on-gradient" padding="lg">
+            <CardTitle>On-gradient variant</CardTitle>
+            <CardDescription>Near-opaque surface with light blur. Best for feature blocks and marketing copy.</CardDescription>
+            <CardContent className="mt-4">
+              <Button variant="primary" size="sm">Get started</Button>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="p-6 bg-bg-secondary rounded-lg border border-border">
+        <h2 className="text-lg font-semibold text-text-primary mb-2">Glass accessibility</h2>
+        <p className="text-sm text-text-secondary">
+          When users enable <strong>Reduce transparency</strong> (e.g. macOS Accessibility, Windows), glass and on-gradient cards
+          automatically fall back to a solid background (<code className="font-mono bg-bg-tertiary px-1 py-0.5 rounded">bg-bg-secondary</code>) and
+          backdrop blur is removed. See <code className="font-mono bg-bg-tertiary px-1 py-0.5 rounded">docs/THEME_SYSTEM.md</code> and{' '}
+          <code className="font-mono bg-bg-tertiary px-1 py-0.5 rounded">prefers-reduced-transparency</code> in globals.css.
+        </p>
+      </section>
+    </div>
+  ),
+}
+
 export const ResponsiveBreakpoints: Story = {
   render: () => (
     <div className="p-8 space-y-12 w-full min-h-screen">
@@ -679,7 +774,7 @@ export const ResponsiveBreakpoints: Story = {
               {[1, 2, 3, 4].map((i) => (
                 <div 
                   key={i} 
-                  className="p-4 bg-tertiary-lighter dark:bg-bg-tertiary rounded text-center text-sm text-text-primary"
+                  className="p-4 bg-surface-muted dark:bg-bg-tertiary rounded text-center text-sm text-text-primary"
                 >
                   Col {i}
                 </div>

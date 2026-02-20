@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,160 +6,216 @@
 @layer base {
   :root {
     /* ============================================
-       THEME SYSTEM - CSS Variables
-       Professional theme setup using CSS variables
-       All colors defined as RGB values (space-separated)
-       for Tailwind opacity modifier support
+       PARTICLE — Clean enterprise monochrome
+       Surfaces: canvas / surface / surface-muted / elevated
+       Text: primary / secondary / muted / inverse
+       Borders: default / subtle / strong / focus
+       Brand: monochrome only (no blue). See docs/DESIGN_MANIFESTO.md.
+       Values: space-separated RGB for Tailwind opacity.
        ============================================ */
-    
-    /* Background Theme Colors - Theme B: Regulated Finance */
-    --color-bg-primary: 241 245 249;    /* #F1F5F9 - Theme B background */
-    --color-bg-secondary: 255 255 255;  /* White - Card/surface background */
-    --color-bg-tertiary: 248 250 252;   /* #F8FAFC - Subtle background */
-    
-    /* Text Theme Colors - Theme B: Regulated Finance */
-    --color-text-primary: 11 18 32;     /* #0B1220 - Theme B dark text */
-    --color-text-secondary: 51 65 85;   /* #334155 - Theme B secondary text */
-    --color-text-tertiary: 71 85 105;   /* #475569 - Tertiary text (WCAG AA compliant - 4.5:1 contrast on white) */
-    --color-text-inverse: 255 255 255;  /* White - Text on dark backgrounds */
-    
-    /* Border Theme Colors - Theme B: Regulated Finance (visible on bg-primary and bg-secondary) */
-    --color-border: 226 232 240;        /* #E2E8F0 - Visible on white and #F1F5F9 */
-    --color-border-hover: 203 213 225;  /* #CBD5E1 - More visible on hover */
 
-    /* Skeleton / placeholder - subtle, theme-aware (not brand primary) */
-    --color-skeleton: 226 232 240;       /* #E2E8F0 - Neutral 200, soft gray */
-    --color-border-focus: 31 78 216;     /* #1F4ED8 - Corporate Blue focus */
-    
-    /* Brand Colors - Theme B: Regulated Finance */
-    --color-primary: 10 10 10;         /* #0A0A0A - Charcoal Black */
-    --color-primary-hover: 8 8 8;       /* #080808 - Darker charcoal */
-    --color-primary-active: 6 6 6;      /* #060606 - Very dark charcoal */
-    --color-primary-light: 51 51 51;    /* #333333 - Medium-dark gray */
-    --color-primary-lighter: 153 153 153; /* #999999 - Medium-light gray */
-    
-    --color-secondary: 241 245 249;      /* #F1F5F9 - Theme B background */
-    --color-secondary-hover: 226 232 240; /* #E2E8F0 - Slightly darker */
-    --color-secondary-active: 255 255 255; /* #ffffff - Pure white */
-    --color-secondary-light: 203 213 225; /* #CBD5E1 - Light gray */
-    --color-secondary-lighter: 248 250 252; /* #F8FAFC - Very light gray */
-    
-    --color-tertiary: 31 78 216;       /* #1F4ED8 - Corporate Blue */
-    --color-tertiary-hover: 26 66 192; /* #1A42C0 - Darker corporate blue */
-    --color-tertiary-active: 21 54 168;   /* #1536A8 - Darker corporate blue */
-    --color-tertiary-light: 226 232 240;   /* #E2E8F0 - Neutral light (no light blue) */
-    --color-tertiary-lighter: 248 250 252; /* #F8FAFC - Subtle neutral */
-    /* Light mode: same as tertiary; dark mode overridden below for WCAG AA on dark backgrounds */
-    --color-tertiary-on-dark: 31 78 216;
-    
-    /* Accent: aligned with tertiary (one blue, no separate light blue) */
-    --color-accent: 31 78 216;         /* #1F4ED8 - Same as tertiary */
-    --color-accent-hover: 26 66 192;  /* #1A42C0 */
-    --color-accent-active: 21 54 168; /* #1536A8 */
-    --color-accent-light: 226 232 240;   /* #E2E8F0 - Neutral */
-    --color-accent-lighter: 248 250 252; /* #F8FAFC - Neutral */
-    
-    --color-black: 0 0 0;               /* #000000 - Pure black */
-    --color-white: 255 255 255;         /* #FFFFFF - Pure white */
-    
-    /* Semantic Colors - Light Mode (clear, visible; WCAG AA where used for text) */
-    --color-success: 20 83 45;          /* #14532D - green-800 */
-    --color-success-light: 187 247 208; /* #BBF7D0 - stronger tint, not too light */
-    --color-warning: 146 64 14;         /* #92400E - amber-800 */
-    --color-warning-light: 253 230 138; /* #FDE68A - stronger tint, not too light */
-    --color-error: 153 27 27;          /* #991B1B - red-800 */
-    --color-error-light: 254 202 202;   /* #FECACA - stronger tint, not too light */
-    --color-info: 30 64 175;            /* #1E40AF - blue-800, 4.5:1+ contrast on light backgrounds */
-    --color-info-light: 241 245 249;    /* #F1F5F9 - Subtle neutral (no light blue) */
+    /* ── Surfaces (light) ─────────────────────── */
+    --color-bg-canvas:        246 247 249;  /* #F6F7F9 - app background */
+    --color-bg-surface:      255 255 255;   /* #FFFFFF - cards, panels */
+    --color-bg-surface-muted: 241 243 245;   /* #F1F3F5 - hovers, subtle */
+    --color-bg-elevated:     255 255 255;   /* #FFFFFF - modals */
+    /* Legacy aliases (same values) */
+    --color-bg-primary:   246 247 249;
+    --color-bg-secondary: 255 255 255;
+    --color-bg-tertiary:  241 243 245;
 
-    /* Tooltip – component tokens (use theme colors above for variant colors) */
+    /* ── Text (light) ─────────────────────────── */
+    --color-text-primary:   10  10  10;   /* #0A0A0A */
+    --color-text-secondary: 82  82  82;   /* #525252 */
+    --color-text-muted:     82  82  82;   /* #525252 — WCAG AA 4.5:1 on canvas/surface-muted */
+    --color-text-inverse:  255 255 255;   /* #FFFFFF */
+    --color-text-tertiary:  82  82  82;   /* alias → muted */
+
+    /* ── Borders (light) ─────────────────────── */
+    --color-border-default: 229 231 235;  /* #E5E7EB */
+    --color-border-subtle:  241 245 249;  /* #F1F5F9 */
+    --color-border-strong:  209 213 219;  /* #D1D5DB */
+    --color-border-table:   229 231 235;  /* same as default — table row/header dividers */
+    --color-border-focus:   64  64  64;   /* #404040 */
+    /* Legacy (same as default/strong) */
+    --color-border:        229 231 235;
+    --color-border-hover:  209 213 219;
+
+    /* ── Brand (monochrome): primary = black in light ─ */
+    --color-brand-primary:       10  10  10;  /* #0A0A0A */
+    --color-brand-primary-hover: 20  20  20;  /* #141414 */
+    --color-brand-primary-active: 30  30  30;  /* #1E1E1E */
+    --color-brand-inverse:      255 255 255;  /* #FFFFFF */
+    /* Button primary & legacy aliases */
+    --color-btn-primary:        10  10  10;
+    --color-btn-primary-hover:  20  20  20;
+    --color-btn-primary-active: 30  30  30;
+    --color-tertiary:           10  10  10;
+    --color-tertiary-hover:    20  20  20;
+    --color-tertiary-active:   30  30  30;
+    --color-tertiary-on-dark:   10  10  10;
+    --color-tertiary-light:    241 243 245;
+    --color-tertiary-lighter:  241 243 245;
+    --color-primary:           10  10  10;
+    --color-primary-hover:     20  20  20;
+    --color-primary-active:    30  30  30;
+    --color-secondary:        255 255 255;
+    --color-secondary-hover:  241 243 245;
+    --color-secondary-active: 229 231 235;
+
+    /* ── Semantic (restrained, enterprise) ───────────────────────────── */
+    --color-success:       22 101  52;   /* #166534 */
+    --color-success-light: 220 252 231;   /* #DCFCE7 */
+    --color-error:        185  28  28;   /* #B91C1C */
+    --color-error-light:  254 226 226;   /* #FEE2E2 */
+    --color-warning:      180  83   9;   /* #B45309 */
+    --color-warning-light: 254 243 199;  /* #FEF3C7 */
+    --color-info:          55  65  81;   /* #374151 - neutral info */
+    --color-info-light:   243 244 246;   /* #F3F4F6 */
+
+    --color-skeleton: 229 231 235;
+    --color-black: 0 0 0;
+    --color-white: 255 255 255;
+
+    /* ── Focus: 2px neutral ring (no brand color) ─ */
+    --focus-ring: 0 0 0 2px rgba(0, 0, 0, 0.6);
+    --focus-ring-offset: rgb(246 247 249);
+
     --tooltip-max-width: 15rem;
-    --tooltip-radius: 0.625rem;
+    --tooltip-radius: 0.5rem;
     --tooltip-padding-x: 0.75rem;
     --tooltip-padding-y: 0.375rem;
     --tooltip-gap: 0.5rem;
     --tooltip-arrow-size: 0.5rem;
-    --tooltip-subtle-opacity: 0.95;
+    --tooltip-subtle-opacity: 0.98;
 
-    /* Backdrop for modals and overlays */
-    --color-backdrop: 0 0 0; /* RGB values */
+    --color-backdrop: 0 0 0;
     --color-backdrop-opacity-light: 0.5;
-    --color-backdrop-opacity-dark: 0.6;
+    --color-backdrop-opacity-dark: 0.65;
   }
 
   .dark {
-    /* ============================================
-       DARK THEME - CSS Variables Overrides
-       ============================================ */
-    
-    /* Background Theme Colors - Dark Mode - Theme B (less black, softer) */
-    --color-bg-primary: 24 24 28;       /* #18181C - Soft dark gray (less black) */
-    --color-bg-secondary: 32 32 38;      /* #202026 - Card/surface */
-    --color-bg-tertiary: 42 42 50;      /* #2A2A32 - Elevated sections */
-    
-    /* Text Theme Colors - Dark Mode - Theme B: Regulated Finance */
-    --color-text-primary: 248 250 252;  /* #F8FAFC - Light text */
-    --color-text-secondary: 203 213 225; /* #CBD5E1 - Secondary text */
-    --color-text-tertiary: 203 213 225; /* #CBD5E1 - Tertiary text (same as secondary for WCAG AA contrast) */
-    --color-text-inverse: 255 255 255;  /* #FFFFFF - White text for colored backgrounds (buttons, badges) in dark mode */
-    
-    /* Border Theme Colors - Dark Mode - visible on dark backgrounds */
-    --color-border: 55 58 64;          /* #373A40 - Visible on dark surfaces */
-    --color-border-hover: 75 78 86;    /* #4B4E56 - More visible on hover */
+    /* ── Surfaces (dark) ─────────────────────── */
+    --color-bg-canvas:        11  12  14;   /* #0B0C0E */
+    --color-bg-surface:      20  22  26;   /* #14161A */
+    --color-bg-surface-muted: 27  30  36;   /* #1B1E24 */
+    --color-bg-elevated:     25  28  34;   /* #191C22 */
+    --color-bg-primary:      11  12  14;
+    --color-bg-secondary:   20  22  26;
+    --color-bg-tertiary:     27  30  36;
 
-    /* Skeleton / placeholder - dark theme */
-    --color-skeleton: 45 45 45;        /* #2D2D2D - Slightly lighter than surface, subtle */
-    --color-border-focus: 148 184 255; /* #94B8FF - tertiary-on-dark, visible on dark surfaces */
-    
-    /* Brand Colors - Dark Mode - Theme B: Regulated Finance */
-    /* Primary remains dark for use as backgrounds (badges, buttons) - use text-primary for light text color */
-    --color-primary: 10 10 10;          /* #0A0A0A - Charcoal Black (same as light mode for consistency as background) */
-    --color-primary-hover: 20 20 20;   /* #141414 - Slightly lighter for hover */
-    --color-primary-active: 30 30 30;  /* #1E1E1E - Lighter for active state */
-    --color-primary-light: 51 51 51;   /* #333333 - Medium-dark gray */
-    --color-primary-lighter: 102 102 102; /* #666666 - Lighter gray */
-    
-    --color-secondary: 30 30 30;     /* #1E1E1E - Dark gray (distinct from primary #0A0A0A) */
-    --color-secondary-hover: 25 25 25;  /* #191919 */
-    --color-secondary-active: 20 20 20; /* #141414 */
-    --color-secondary-light: 51 51 51;  /* #333333 - Medium-dark gray */
-    --color-secondary-lighter: 102 102 102; /* #666666 - Lighter gray */
-    
-    /* Brand Color - Dark Mode: Same hue as light (#1F4ED8 = hsl 224°, 91%, 43%) */
-    /* Tertiary must be DARKER so white text meets WCAG AA (4.5:1). Lighter blue = worse contrast with white. */
-    /* hsl(224°, 90%, 40%) = #2F52E0 — relative luminance ~0.17, contrast with white ≈ 4.6:1 */
-    --color-tertiary: 47 82 224;         /* #2F52E0 - Dark enough for 4.5:1+ with white text */
-    --color-tertiary-hover: 58 106 255;   /* #3A6AFF - Lighter hover */
-    /* Tertiary text/border on dark surfaces (e.g. outline buttons, code chips): ≥4.5:1 on #0a0a0a and #1e1e1e */
-    --color-tertiary-on-dark: 148 184 255; /* #94B8FF - WCAG AA on dark backgrounds */
-    --color-tertiary-active: 31 78 216;   /* #1F4ED8 - Active/pressed state */
-    --color-tertiary-light: 42 42 50;     /* #2A2A32 - Neutral (no blue tint) */
-    --color-tertiary-lighter: 55 58 64;   /* #373A40 - Neutral */
-    
-    /* Accent - Dark Mode: aligned with tertiary (one blue) */
-    --color-accent: 47 82 224;         /* #2F52E0 - Same as tertiary */
-    --color-accent-hover: 58 106 255;  /* #3A6AFF */
-    --color-accent-active: 31 78 216;  /* #1F4ED8 */
-    --color-accent-light: 42 42 50;     /* #2A2A32 - Neutral dark surface */
-    --color-accent-lighter: 55 58 64;   /* #373A40 - Neutral */
-    
-    --color-black: 0 0 0;                /* Pure black */
-    --color-white: 255 255 255;          /* Pure white */
-    
-    /* Semantic Colors - Dark Mode (clean hues, not muddy) */
-    --color-success: 52 211 153;         /* #34D399 - emerald-400, clean green */
-    --color-success-light: 6 78 59;     /* #064E3B - emerald-900, clean dark green bg */
-    --color-warning: 251 191 36;         /* #FBBF24 - amber-400, clean yellow */
-    --color-warning-light: 120 53 15;    /* #78350F - amber-900, clean dark amber bg */
-    --color-error: 248 113 113;         /* #F87171 - red-400 */
-    --color-error-light: 127 29 29;      /* #7F1D1D - red-900, clean dark red bg */
-    --color-info: 47 82 224;             /* #2F52E0 - Same as tertiary; info backgrounds/CTAs (use text-inverse on this) */
-    --color-info-light: 30 58 95;      /* #1E3A5F - Dark blue background for WCAG AA contrast (4.5:1+) with white text */
+    /* ── Text (dark) ─────────────────────────── */
+    --color-text-primary:  250 250 250;   /* #FAFAFA */
+    --color-text-secondary: 163 163 163;  /* #A3A3A3 */
+    --color-text-muted:    107 114 128;   /* #6B7280 */
+    --color-text-inverse:   10  10  10;   /* #0A0A0A — text on white/light blocks (e.g. primary button) */
+    --color-text-tertiary:  163 163 163;
 
-    /* Tooltip – dark overrides */
-    --tooltip-subtle-opacity: 0.8;
+    /* ── Borders (dark) ─────────────────────── */
+    --color-border-default: 42  47  54;   /* #2A2F36 */
+    --color-border-subtle:  31  36  43;   /* #1F242B */
+    --color-border-strong:  58  65  74;   /* #3A414A */
+    --color-border-table:   24  28  34;   /* #181C22 — table row/header dividers, less bright */
+    --color-border-focus:  163 163 163;   /* #A3A3A3 */
+    --color-border:        42  47  54;
+    --color-border-hover:   58  65  74;
 
-    /* Dark mode backdrop uses same RGB but different opacity */
+    /* ── Brand (dark): primary = white block ─── */
+    --color-brand-primary:      250 250 250;
+    --color-brand-primary-hover: 243 244 246;
+    --color-brand-primary-active: 229 231 235;
+    --color-brand-inverse:       10  10  10;
+    --color-btn-primary:       250 250 250;
+    --color-btn-primary-hover: 243 244 246;
+    --color-btn-primary-active: 229 231 235;
+    --color-tertiary:          250 250 250;
+    --color-tertiary-hover:    243 244 246;
+    --color-tertiary-active:   229 231 235;
+    --color-tertiary-on-dark:  250 250 250;
+    --color-tertiary-light:     27  30  36;
+    --color-tertiary-lighter:   31  36  43;
+    --color-primary:          250 250 250;
+    --color-primary-hover:    243 244 246;
+    --color-primary-active:   229 231 235;
+    --color-secondary:        20  22  26;
+    --color-secondary-hover:  27  30  36;
+    --color-secondary-active: 11  12  14;
+
+    /* ── Semantic dark ─────────────────────────────────────────────── */
+    --color-success:       52 211 153;   /* #34D399 */
+    --color-success-light:  6  78  59;    /* #064E3B */
+    --color-error:        248 113 113;   /* #F87171 */
+    --color-error-light:  74  12  12;    /* #4A0C0C */
+    --color-warning:      251 191  36;   /* #FBBF24 */
+    --color-warning-light: 74  34   9;    /* #4A2209 */
+    --color-info:         156 163 175;   /* #9CA3AF - neutral */
+    --color-info-light:   31  41  55;    /* #1F2937 */
+
+    --color-skeleton: 42 47 54;
+    --focus-ring: 0 0 0 2px rgba(255, 255, 255, 0.7);
+    --focus-ring-offset: rgb(11 12 14);
+    --tooltip-subtle-opacity: 0.95;
+  }
+
+  /* ── Radius: 6–10px, hybrid straight + rounded ───────────────────── */
+  :root {
+    --radius-base:    10px; /* Cards, panels */
+    --radius-control: 6px;  /* Buttons, inputs (6–8px) */
+    --radius-inset:   4px;
+    --radius-pill:    9999px;
+  }
+
+  /* ── Semantic spacing aliases ────────────────────────────────────────
+     Components use these, not raw px. Override with .density-compact.  */
+  :root {
+    --spacing-component-xs: 0.25rem;   /* 4px  — tight internal gaps */
+    --spacing-component-sm: 0.5rem;    /* 8px  — small control padding */
+    --spacing-component-md: 0.75rem;   /* 12px — default control height pad */
+    --spacing-component-lg: 1.25rem;   /* 20px — card internal padding */
+    --spacing-component-xl: 1.5rem;    /* 24px — section internal spacing */
+    --spacing-layout-sm:    1rem;      /* 16px — between related components */
+    --spacing-layout-md:    1.5rem;    /* 24px — between groups */
+    --spacing-layout-lg:    2.5rem;    /* 40px — between major sections */
+    --spacing-layout-xl:    4rem;      /* 64px — between page sections */
+  }
+
+  /* ── Compact density mode ────────────────────────────────────────────
+     Apply .density-compact to <html> or <body> for compact UI density. */
+  .density-compact {
+    --spacing-component-sm: 0.375rem;
+    --spacing-component-md: 0.625rem;
+    --spacing-component-lg: 0.875rem;
+    --spacing-component-xl: 1.25rem;
+  }
+
+  /* ── Motion: 120–200ms, ease-out ─────────────────────────────────── */
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast:    120ms;
+    --duration-normal:  180ms;
+    --duration-slow:    200ms;
+    --duration-slower:  280ms;
+    --ease-default:     cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── Highlight: neutral emphasis (monochrome) ─────────────────────── */
+  :root {
+    --color-highlight:      243 244 246;
+    --color-highlight-text:  5   5   9;
+  }
+  .dark {
+    --color-highlight:      31  41  51;
+    --color-highlight-text: 249 250 251;
+  }
+
+  /* ── Data viz: neutral steps (monochrome) ────────────────────────── */
+  :root {
+    --color-data-1:  31  41  55;
+    --color-data-2:  55  65  81;
+    --color-data-3:  75  85  99;
+    --color-data-4: 107 114 128;
+    --color-data-5: 156 163 175;
+    --color-data-6: 209 213 219;
   }
 
   html {
@@ -178,7 +234,53 @@
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    font-optical-sizing: auto;
     min-height: 100vh;
+  }
+
+  /* ── Text selection (neutral) ─────────────────────────────────────── */
+  ::selection {
+    background-color: rgb(var(--color-border-hover) / 0.5);
+    color: rgb(var(--color-text-primary));
+  }
+
+  /* ── Custom scrollbar ────────────────────────────────────────────────*/
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-border));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-border-hover));
+  }
+  ::-webkit-scrollbar-corner { background: transparent; }
+
+  /* ── Reduced-motion compliance ───────────────────────────────────────*/
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ── Reduced-transparency compliance (glass fallback) ──────────────────
+     When user prefers reduced transparency, replace glass/blur with solid
+     surfaces so content remains readable and accessible.                    */
+  @media (prefers-reduced-transparency: reduce) {
+    .card-glass,
+    [data-glass],
+    [class*="backdrop-blur"] {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .card-glass,
+    [data-glass] {
+      background: rgb(var(--color-bg-surface)) !important;
+    }
   }
 
   /* Storybook preview containers - ensure full-page background for story views */
@@ -248,11 +350,11 @@
   }
 
   .sbdocs a {
-    color: rgb(var(--color-tertiary)) !important;
+    color: rgb(var(--color-text-primary)) !important;
+    text-decoration: underline;
   }
-
-  .dark .sbdocs a {
-    color: rgb(var(--color-tertiary-on-dark)) !important;
+  .sbdocs a:hover {
+    text-decoration-thickness: 2px;
   }
 
   /* Canvas/preview area in docs - uses theme background */
@@ -275,139 +377,265 @@
 }
 
 @layer components {
-  /* Form label pattern - uses typography tokens (text-sm = 0.875rem, font-medium = 500) and theme tokens (text-text-primary) */
-  /* Used in Input, Checkbox, Radio, Switch, FileInput, Select, MultiSelect, Combobox, DropdownSelect, Rating */
-  .form-label {
-    @apply text-sm font-medium leading-tight text-text-primary;
-    /* Maps to: typography.fontSize.sm, typography.fontWeight.medium, theme.text.primary */
-  }
-  
-  .form-label-disabled {
-    @apply text-sm font-medium leading-tight text-text-primary opacity-50;
-  }
-  
-  /* Helper text pattern - uses typography and theme tokens */
-  /* Used across all form components */
-  .form-helper {
-    @apply text-sm text-text-secondary;
-    /* Maps to: typography.fontSize.sm, theme.text.secondary */
-  }
-  
-  .form-helper-tertiary {
-    @apply text-sm text-text-tertiary;
-    /* Maps to: typography.fontSize.sm, theme.text.tertiary */
-  }
-  
-  /* Error text pattern - uses typography and semantic color tokens */
-  .form-error {
-    @apply text-sm text-error;
-    /* Maps to: typography.fontSize.sm, theme.semantic.error */
-  }
-  
-  /* Form container pattern - uses spacing tokens (space-y-1.5 = 0.375rem) */
-  .form-container {
-    @apply flex flex-col space-y-1.5;
-    /* Maps to: spacing tokens via Tailwind spacing scale */
-  }
-  
-  /* Form row pattern - uses spacing tokens (gap-2 = 0.5rem) */
-  .form-row {
-    @apply flex items-center gap-2;
-  }
-  
-  /* Form row with start alignment (for Checkbox/Radio) */
-  .form-row-start {
-    @apply flex items-start gap-2;
-  }
-  
-  /* Card title pattern - uses typography tokens (text-lg = 1.125rem, font-semibold = 600) */
+  /* ── Form patterns ────────────────────────────────────────────────── */
+  .form-label          { @apply text-sm font-medium leading-tight tracking-tight text-text-primary; }
+  .form-label-disabled { @apply text-sm font-medium leading-tight text-text-primary opacity-40; }
+  .form-helper         { @apply text-sm text-text-secondary; }
+  .form-helper-tertiary{ @apply text-sm text-text-tertiary; }
+  .form-error          { @apply text-sm text-error; }
+  .form-container      { @apply flex flex-col space-y-1.5; }
+  .form-row            { @apply flex items-center gap-2; }
+  .form-row-start      { @apply flex items-start gap-2; }
+
+  /* ── Card title ──────────────────────────────────────────────────── */
   .card-title {
-    @apply text-lg font-semibold leading-tight tracking-tight text-text-primary sm:text-xl;
-    /* Maps to: typography.fontSize.lg/xl, typography.fontWeight.semibold, theme.text.primary */
+    @apply text-base font-semibold leading-snug tracking-tight text-text-primary sm:text-lg;
   }
-  
-  /* Common heading patterns - use typography tokens */
+
+  /* ── Display / Heading scale (weights 600–700, no 300/900) ────────── */
+  .text-display-2xl {
+    @apply font-bold text-text-primary leading-none;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    letter-spacing: -0.055em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 48;
+  }
+  .text-display-xl {
+    @apply font-bold text-text-primary leading-none;
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    letter-spacing: -0.048em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 40;
+  }
+  .text-display-lg {
+    @apply font-bold text-text-primary leading-tight;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.04em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 32;
+  }
+  .text-display {
+    @apply text-5xl font-bold text-text-primary leading-none;
+    letter-spacing: -0.04em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 32;
+  }
   .text-heading-1 {
-    @apply text-4xl font-bold text-text-primary;
-    /* Maps to: typography.fontSize['4xl'], typography.fontWeight.bold, theme.text.primary */
+    @apply text-4xl font-bold tracking-tight text-text-primary;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 28;
   }
-  
   .text-heading-2 {
-    @apply text-3xl font-semibold text-text-primary;
-    /* Maps to: typography.fontSize['3xl'], typography.fontWeight.semibold, theme.text.primary */
+    @apply text-3xl font-semibold tracking-tight text-text-primary;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 24;
   }
-  
-  .text-heading-3 {
-    @apply text-2xl font-semibold text-text-primary;
-    /* Maps to: typography.fontSize['2xl'], typography.fontWeight.semibold, theme.text.primary */
+  .text-heading-3 { @apply text-2xl font-semibold tracking-tight text-text-primary; }
+  .text-heading-4 { @apply text-xl  font-semibold text-text-primary; }
+
+  /* ── Body scale (line-height ≥1.5) ───────────────────────────────── */
+  .text-body           { @apply text-base text-text-primary; line-height: 1.5; }
+  .text-body-secondary { @apply text-sm text-text-secondary; line-height: 1.5; }
+  .text-body-tertiary  { @apply text-xs text-text-tertiary leading-normal; }
+  .text-caption        { @apply text-xs font-medium tracking-wide text-text-secondary; }
+  .text-mono           { @apply text-sm font-mono text-text-secondary leading-normal; }
+
+  /* ── Label + Overline (for form labels, table headers, section labels) */
+  .text-label {
+    @apply text-xs font-semibold tracking-widest uppercase text-text-secondary;
+    letter-spacing: 0.08em;
   }
-  
-  .text-heading-4 {
-    @apply text-xl font-semibold text-text-primary;
-    /* Maps to: typography.fontSize.xl, typography.fontWeight.semibold, theme.text.primary */
+  .text-overline {
+    @apply text-text-tertiary font-bold uppercase;
+    font-size: 0.625rem;      /* 10px */
+    letter-spacing: 0.12em;
   }
-  
-  /* Body text patterns - use typography and theme tokens */
-  .text-body {
-    @apply text-base text-text-primary;
-    /* Maps to: typography.fontSize.base, theme.text.primary */
+
+  /* ── Tabular numbers — for dashboards, tables, data ─────────────── */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
   }
-  
-  .text-body-secondary {
-    @apply text-sm text-text-secondary;
-    /* Maps to: typography.fontSize.sm, theme.text.secondary */
+
+  /* ── Emphasis text (monochrome: same as primary) ─────────────────── */
+  .text-gradient-brand {
+    @apply text-text-primary font-semibold;
   }
-  
-  .text-body-tertiary {
-    @apply text-xs text-text-tertiary;
-    /* Maps to: typography.fontSize.xs, theme.text.tertiary */
+
+  /* ── Card glass (dark-mode premium surface) ─────────────────────── */
+  .card-glass {
+    @apply bg-bg-secondary/80 border border-border backdrop-blur-sm;
   }
-  
-  /* Caption/small label pattern */
-  .text-caption {
-    @apply text-xs font-medium text-text-secondary;
-    /* Maps to: typography.fontSize.xs, typography.fontWeight.medium, theme.text.secondary */
+  .dark .card-glass {
+    background: rgb(var(--color-bg-secondary) / 0.7);
+    border-color: rgb(var(--color-border) / 0.8);
+    backdrop-filter: blur(12px) saturate(1.4);
+  }
+
+  /* ── Focus: 2px outline + 2px offset halo (neutral, strong visibility) ─ */
+  .focus-ring {
+    @apply focus:outline-none;
+  }
+  .focus-ring:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+  .focus-brand {
+    @apply focus:outline-none;
+  }
+  .focus-brand:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
   }
 }
 
 @layer utilities {
-  /* Triangle geometric pattern utility - inspired by logo */
+  /* ── Triangle pattern (monochrome, 2–3% opacity) ─────────────────── */
   .triangle-pattern {
-    background-image: 
-      linear-gradient(45deg, transparent 25%, rgb(var(--color-primary) / 0.05) 25%),
-      linear-gradient(-45deg, transparent 25%, rgb(var(--color-primary) / 0.05) 25%),
-      linear-gradient(45deg, rgb(var(--color-primary) / 0.05) 75%, transparent 75%),
-      linear-gradient(-45deg, rgb(var(--color-primary) / 0.05) 75%, transparent 75%);
+    background-image:
+      linear-gradient(45deg,  transparent 25%, rgb(var(--color-text-primary) / 0.03) 25%),
+      linear-gradient(-45deg, transparent 25%, rgb(var(--color-text-primary) / 0.03) 25%),
+      linear-gradient(45deg,  rgb(var(--color-text-primary) / 0.03) 75%, transparent 75%),
+      linear-gradient(-45deg, rgb(var(--color-text-primary) / 0.03) 75%, transparent 75%);
     background-size: 20px 20px;
     background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
   }
 
-  /* Subtle triangle accent border */
-  .triangle-border {
-    position: relative;
-  }
-
+  /* ── Diagonal top border (neutral) ───────────────────────────────── */
+  .triangle-border { position: relative; }
   .triangle-border::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, 
-      transparent 0%, 
-      rgb(var(--color-primary) / 0.3) 25%, 
-      rgb(var(--color-primary) / 0.5) 50%, 
-      rgb(var(--color-primary) / 0.3) 75%, 
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgb(var(--color-border)) 50%,
       transparent 100%);
   }
 
-  /* Focus ring with triangle accent - uses theme focus (tertiary/border-focus) */
-  .focus-triangle {
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-border-focus;
+  /* ── Subtle neutral gradients (hero / sections) ─────────────────── */
+  .bg-gradient-brand {
+    background: linear-gradient(180deg,
+      rgb(var(--color-border) / 0.15) 0%,
+      rgb(var(--color-bg-primary)) 60%
+    );
+  }
+  .bg-duotone-subtle {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.08) 0%,
+      rgb(var(--color-bg-primary)) 50%,
+      rgb(var(--color-border) / 0.05) 100%
+    );
+  }
+  .bg-duotone-hero {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.12) 0%,
+      rgb(var(--color-bg-primary)) 40%,
+      rgb(var(--color-border) / 0.06) 100%
+    );
+  }
+  .dark .bg-duotone-subtle {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.12) 0%,
+      rgb(var(--color-bg-primary)) 50%,
+      rgb(var(--color-border) / 0.08) 100%
+    );
+  }
+  .dark .bg-duotone-hero {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.15) 0%,
+      rgb(var(--color-bg-primary)) 40%,
+      rgb(var(--color-border) / 0.10) 100%
+    );
   }
 
-  .focus-triangle:focus-visible {
-    box-shadow: 0 0 0 2px rgb(var(--color-border-focus) / 0.2), 0 0 0 4px rgb(var(--color-border-focus) / 0.1);
+  /* ── Glow border (neutral) ───────────────────────────────────────── */
+  .border-glow {
+    box-shadow: 0 0 0 1px rgb(var(--color-border-hover)),
+                0 0 16px rgb(var(--color-text-primary) / 0.06);
   }
+
+  /* ── Focus: 2px + 2px offset halo ─────────────────────────────────── */
+  .focus-triangle {
+    @apply focus:outline-none;
+  }
+  .focus-triangle:focus-visible {
+    box-shadow: var(--focus-ring);
+  }
+
+  /* ── Border elevation ─────────────────────────────────────────────── */
+  .border-elevated {
+    box-shadow:
+      0 0 0 1px rgb(var(--color-border)),
+      0 1px 2px rgb(var(--color-text-primary) / 0.04),
+      0 4px 12px rgb(var(--color-text-primary) / 0.06);
+  }
+  .dark .border-elevated {
+    box-shadow:
+      0 0 0 1px rgb(var(--color-border)),
+      inset 0 1px 0 rgb(255 255 255 / 0.04),
+      0 4px 24px rgb(var(--color-text-primary) / 0.08);
+  }
+
+  /* ── Row selection (neutral) ────────────────────────────────────── */
+  .row-selected {
+    background-color: rgb(var(--color-border) / 0.4);
+    box-shadow: inset 2px 0 0 rgb(var(--color-text-primary));
+  }
+  .dark .row-selected {
+    background-color: rgb(var(--color-border) / 0.5);
+    box-shadow: inset 2px 0 0 rgb(var(--color-text-primary));
+  }
+
+  /* ── Dark mode: table block (muted borders, correct surfaces) ───── */
+  .dark .table-block {
+    border-color: rgb(var(--color-border-subtle));
+  }
+  .dark .table-toolbar {
+    border-bottom-color: rgb(var(--color-border-subtle));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-toolbar-quick {
+    border-top-color: rgb(var(--color-border-subtle));
+  }
+  .dark .table-pagination {
+    border-top-color: rgb(var(--color-border-subtle));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-container {
+    border-color: rgb(var(--color-border-table));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-container .table-header,
+  .dark thead.table-header {
+    border-bottom-color: rgb(var(--color-border-table));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-container .table-row,
+  .dark tbody tr.table-row {
+    border-bottom-color: rgb(var(--color-border-table));
+  }
+
+  /* ── Highlight / emphasis text mark ─────────────────────────────── */
+  .text-highlight {
+    background-color: rgb(var(--color-highlight) / 0.7);
+    color: rgb(var(--color-highlight-text));
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  /* ── Data visualization color utilities ─────────────────────────── */
+  .text-data-1 { color: rgb(var(--color-data-1)); }
+  .text-data-2 { color: rgb(var(--color-data-2)); }
+  .text-data-3 { color: rgb(var(--color-data-3)); }
+  .text-data-4 { color: rgb(var(--color-data-4)); }
+  .text-data-5 { color: rgb(var(--color-data-5)); }
+  .text-data-6 { color: rgb(var(--color-data-6)); }
+  .bg-data-1   { background-color: rgb(var(--color-data-1)); }
+  .bg-data-2   { background-color: rgb(var(--color-data-2)); }
+  .bg-data-3   { background-color: rgb(var(--color-data-3)); }
+  .bg-data-4   { background-color: rgb(var(--color-data-4)); }
+  .bg-data-5   { background-color: rgb(var(--color-data-5)); }
+  .bg-data-6   { background-color: rgb(var(--color-data-6)); }
 }

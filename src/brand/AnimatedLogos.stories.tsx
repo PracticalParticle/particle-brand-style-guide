@@ -2,29 +2,34 @@ import type { Meta, StoryObj } from '@storybook/react'
 import React, { useState } from 'react'
 import { cn } from '@/utils/cn'
 import { Spinner } from '@/components/Spinner'
+import {
+  LOGO_PATH_TOP,
+  LOGO_PATH_BOTTOM,
+  LOGO_ART_WIDTH,
+  LOGO_ART_HEIGHT,
+  LOGO_ART_CENTER_X,
+  LOGO_ART_CENTER_Y,
+  LOGO_STROKE_WIDTH,
+} from '@/components/Logo/logoConstants'
 
-/** Logo paths (same as Logo / Spinner) — two triangles */
-const LOGO_TOP =
-  'M58.0121 4.88998L61.1256 0.695557L64.2391 4.88999L79.9978 26.12H73.7709L61.1256 9.08441L40.3915 37.0172H81.8597L77.4823 31.12H83.7093L88.0867 37.0172L91.7981 42.0172H85.5712H36.6801H30.4531L34.1646 37.0172L58.0121 4.88998Z'
-const LOGO_BOTTOM =
-  'M33.7859 65.1965L30.6725 69.3909L27.559 65.1965L11.8001 43.9663H18.0271L30.6725 61.0021L51.4066 33.0693H9.93837L14.3156 38.9663H8.08869L3.71143 33.0693L0 28.0693H6.22694H55.118H61.345L57.6335 33.0693L33.7859 65.1965Z'
-/** Logo in 0,0 to 92,70. Padded viewBox centers it with equal margin so animations don't clip. */
+/** Extra padding for animation viewBox so motion doesn't clip (logo art is 0,0 to LOGO_ART_WIDTH,LOGO_ART_HEIGHT). */
 const PAD = 50
 const VB_MIN = -PAD
-const VB_W = 92 + PAD * 2
-const VB_H = 70 + PAD * 2
+const VB_W = LOGO_ART_WIDTH + PAD * 2
+const VB_H = LOGO_ART_HEIGHT + PAD * 2
 const VB_PADDED = `${VB_MIN} ${VB_MIN} ${VB_W} ${VB_H}`
-const CENTER = '46,35'
+const CENTER = `${LOGO_ART_CENTER_X},${LOGO_ART_CENTER_Y}`
 
 /** Same as Brand/Logo: primary (theme), light (on dark bgs), tertiary (brand blue) */
 export type LogoVariant = 'default' | 'dark' | 'light' | 'tertiary'
 export type LogoSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
+/** Fill + stroke classes to match Logo component. */
 const FILL_BY_VARIANT: Record<LogoVariant, string> = {
-  default: 'fill-primary',
-  dark: 'fill-primary',
-  light: 'fill-text-inverse',
-  tertiary: 'fill-tertiary',
+  default: 'fill-primary stroke-primary',
+  dark: 'fill-primary stroke-primary',
+  light: 'fill-text-inverse stroke-text-inverse',
+  tertiary: 'fill-tertiary stroke-tertiary',
 }
 
 const SIZE_CLASS: Record<LogoSize, string> = {
@@ -69,19 +74,25 @@ function LogoMark({
       style={{ aspectRatio: `${VB_W}/${VB_H}` }}
       aria-hidden
     >
-      {/* Logo centered in padded viewBox; no extra translate so (0,0)-(92,70) is centered */}
+      {/* Logo centered in padded viewBox; scale from art center */}
       <g transform={`translate(${CENTER}) scale(${scale}) translate(-${CENTER})`}>
         <path
           fillRule="evenodd"
           clipRule="evenodd"
-          d={LOGO_TOP}
+          d={LOGO_PATH_TOP}
           className={cn(fill, pathTopClassName)}
+          strokeWidth={LOGO_STROKE_WIDTH}
+          strokeLinejoin="round"
+          strokeLinecap="round"
         />
         <path
           fillRule="evenodd"
           clipRule="evenodd"
-          d={LOGO_BOTTOM}
+          d={LOGO_PATH_BOTTOM}
           className={cn(fill, pathBottomClassName)}
+          strokeWidth={LOGO_STROKE_WIDTH}
+          strokeLinejoin="round"
+          strokeLinecap="round"
         />
       </g>
     </svg>

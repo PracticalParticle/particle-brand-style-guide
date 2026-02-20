@@ -11,15 +11,32 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant = 'default', title, children, onClose, icon, ...props }, ref) => {
-    const baseStyles = 'relative rounded-lg border p-4 transition-colors'
-    
+    const baseStyles = [
+      'relative rounded-card border p-4',
+      'transition-all duration-[220ms]',
+    ].join(' ')
+
     const variants = {
-      default: 'bg-tertiary border-tertiary-active text-text-inverse',
-      success: 'bg-success-light border-success text-success dark:text-text-inverse',
-      warning: 'bg-warning-light border-warning text-warning dark:text-text-inverse',
-      error: 'bg-error-light border-error text-error dark:text-text-inverse',
-      /* Info: high-contrast text on info background (dark blue in light, white in dark) */
-      info: 'bg-info-light border-info text-[rgb(var(--color-info))] dark:text-text-inverse dark:border-tertiary-on-dark/50',
+      default: [
+        'bg-tertiary border-tertiary-active text-text-inverse',
+        'dark:shadow-glow-brand/50',
+      ].join(' '),
+      success: [
+        'bg-success-light border-success/30 text-success',
+        'dark:bg-success/12 dark:border-success/25 dark:text-success',
+      ].join(' '),
+      warning: [
+        'bg-warning-light border-warning/30 text-warning',
+        'dark:bg-warning/12 dark:border-warning/25 dark:text-warning',
+      ].join(' '),
+      error: [
+        'bg-error-light border-error/30 text-error',
+        'dark:bg-error/12 dark:border-error/25 dark:text-error',
+      ].join(' '),
+      info: [
+        'bg-info-light border-info/30 text-info',
+        'dark:bg-tertiary/12 dark:border-tertiary-on-dark/25 dark:text-tertiary-on-dark',
+      ].join(' '),
     }
 
     const defaultIcons = {

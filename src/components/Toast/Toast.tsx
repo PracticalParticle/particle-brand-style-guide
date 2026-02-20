@@ -127,7 +127,7 @@ function ToastItem({ item, onDismiss }: { item: ToastItem; onDismiss: () => void
     <div
       role="alert"
       className={cn(
-        'flex items-start gap-3 rounded-lg p-4 shadow-xl backdrop-blur-sm',
+        'flex items-start gap-3 rounded-card p-4 shadow-xl backdrop-blur-sm',
         variantStyles[item.variant]
       )}
     >

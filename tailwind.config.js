@@ -25,8 +25,13 @@ export default {
         // THEME SYSTEM - CSS Variable Based Colors
         // ============================================
         
-        // Background Theme Colors
+        // Background Theme Colors (clean: canvas / surface / surface-muted / elevated)
         bg: {
+          canvas: 'rgb(var(--color-bg-canvas) / <alpha-value>)',
+          surface: 'rgb(var(--color-bg-surface) / <alpha-value>)',
+          'surface-muted': 'rgb(var(--color-bg-surface-muted) / <alpha-value>)',
+          elevated: 'rgb(var(--color-bg-elevated) / <alpha-value>)',
+          // Legacy (same values)
           primary: 'rgb(var(--color-bg-primary) / <alpha-value>)',
           secondary: 'rgb(var(--color-bg-secondary) / <alpha-value>)',
           tertiary: 'rgb(var(--color-bg-tertiary) / <alpha-value>)',
@@ -37,20 +42,23 @@ export default {
           primary: 'rgb(var(--color-text-primary) / <alpha-value>)',
           secondary: 'rgb(var(--color-text-secondary) / <alpha-value>)',
           tertiary: 'rgb(var(--color-text-tertiary) / <alpha-value>)',
+          muted: 'rgb(var(--color-text-muted) / <alpha-value>)',
           inverse: 'rgb(var(--color-text-inverse) / <alpha-value>)',
         },
         
-        // Border Theme Colors (use border-border, border-border-hover, border-border-focus)
+        // Border (clean: default / subtle / strong / focus / table). "border" alias for border-border.
         border: {
-          DEFAULT: 'rgb(var(--color-border) / <alpha-value>)',
-          hover: 'rgb(var(--color-border-hover) / <alpha-value>)',
+          DEFAULT: 'rgb(var(--color-border-default) / <alpha-value>)',
+          default: 'rgb(var(--color-border-default) / <alpha-value>)',
+          border: 'rgb(var(--color-border-default) / <alpha-value>)',
+          subtle: 'rgb(var(--color-border-subtle) / <alpha-value>)',
+          strong: 'rgb(var(--color-border-strong) / <alpha-value>)',
+          table: 'rgb(var(--color-border-table) / <alpha-value>)',
           focus: 'rgb(var(--color-border-focus) / <alpha-value>)',
+          hover: 'rgb(var(--color-border-hover) / <alpha-value>)',
         },
-        // Skeleton / loading placeholder - theme-aware, subtle (light & dark)
+        // Skeleton / loading placeholder - theme-aware
         skeleton: 'rgb(var(--color-skeleton) / <alpha-value>)',
-        // Alias for design system: border-default, border-focus (single border color utilities)
-        default: 'rgb(var(--color-border) / <alpha-value>)',
-        focus: 'rgb(var(--color-border-focus) / <alpha-value>)',
 
         // Brand Colors - Using CSS Variables
         primary: {
@@ -81,32 +89,27 @@ export default {
           700: 'rgb(var(--color-secondary-active) / <alpha-value>)',
           900: 'rgb(255 255 255 / <alpha-value>)', // Pure white
         },
+        /* Brand (monochrome): primary = black/white block; no blue */
+        brand: {
+          primary: 'rgb(var(--color-brand-primary) / <alpha-value>)',
+          'primary-hover': 'rgb(var(--color-brand-primary-hover) / <alpha-value>)',
+          'primary-active': 'rgb(var(--color-brand-primary-active) / <alpha-value>)',
+          inverse: 'rgb(var(--color-brand-inverse) / <alpha-value>)',
+        },
+        /* Primary button: uses brand (black light / white dark) */
+        btn: {
+          primary: 'rgb(var(--color-btn-primary) / <alpha-value>)',
+          'primary-hover': 'rgb(var(--color-btn-primary-hover) / <alpha-value>)',
+          'primary-active': 'rgb(var(--color-btn-primary-active) / <alpha-value>)',
+        },
+        /* Alias for compatibility: tertiary = primary button in monochrome */
         tertiary: {
           DEFAULT: 'rgb(var(--color-tertiary) / <alpha-value>)',
           hover: 'rgb(var(--color-tertiary-hover) / <alpha-value>)',
           active: 'rgb(var(--color-tertiary-active) / <alpha-value>)',
+          'on-dark': 'rgb(var(--color-tertiary-on-dark) / <alpha-value>)',
           light: 'rgb(var(--color-tertiary-light) / <alpha-value>)',
           lighter: 'rgb(var(--color-tertiary-lighter) / <alpha-value>)',
-          'on-dark': 'rgb(var(--color-tertiary-on-dark) / <alpha-value>)',
-          // Legacy support
-          50: 'rgb(var(--color-tertiary-lighter) / <alpha-value>)',
-          100: 'rgb(var(--color-tertiary-light) / <alpha-value>)',
-          500: 'rgb(var(--color-tertiary) / <alpha-value>)',
-          600: 'rgb(var(--color-tertiary-hover) / <alpha-value>)',
-          700: 'rgb(var(--color-tertiary-active) / <alpha-value>)',
-        },
-        accent: {
-          DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
-          hover: 'rgb(var(--color-accent-hover) / <alpha-value>)',
-          active: 'rgb(var(--color-accent-active) / <alpha-value>)',
-          light: 'rgb(var(--color-accent-light) / <alpha-value>)',
-          lighter: 'rgb(var(--color-accent-lighter) / <alpha-value>)',
-          // Legacy support
-          50: 'rgb(var(--color-accent-lighter) / <alpha-value>)',
-          100: 'rgb(var(--color-accent-light) / <alpha-value>)',
-          500: 'rgb(var(--color-accent) / <alpha-value>)',
-          600: 'rgb(var(--color-accent-hover) / <alpha-value>)',
-          700: 'rgb(var(--color-accent-active) / <alpha-value>)',
         },
         black: {
           DEFAULT: 'rgb(var(--color-black) / <alpha-value>)',
@@ -121,73 +124,70 @@ export default {
           dark: 'rgb(var(--color-backdrop) / var(--color-backdrop-opacity-dark))',
         },
         
-        // Neutral Colors - Theme B: Regulated Finance
+        /* Neutral scale — monochrome palette */
         neutral: {
-          50: '#F8FAFC',
-          100: '#F1F5F9',
-          200: '#E2E8F0',
-          300: '#CBD5E1',
-          400: '#94A3B8',
-          500: '#64748B',
-          600: '#475569',
-          700: '#334155',
-          800: '#1E293B',
-          900: '#0F172A',
-          950: '#0B1220',
+          0:   '#FFFFFF',
+          50:  '#F5F5F7',
+          100: '#F3F4F6',
+          200: '#E5E7EB',
+          300: '#D1D5DB',
+          400: '#9CA3AF',
+          500: '#6B7280',
+          600: '#4B5563',
+          700: '#374151',
+          800: '#1F2937',
+          900: '#050509',
         },
-        
-        // Semantic Colors - Using CSS Variables
+
+        /* Semantic (neutral in monochrome — use with icon + text) */
         success: {
           DEFAULT: 'rgb(var(--color-success) / <alpha-value>)',
           light: 'rgb(var(--color-success-light) / <alpha-value>)',
-          50: 'rgb(var(--color-success-light) / <alpha-value>)',
-          100: 'rgb(var(--color-success-light) / <alpha-value>)',
-          500: 'rgb(var(--color-success) / <alpha-value>)',
-          600: 'rgb(22 163 74 / <alpha-value>)',
-          700: 'rgb(21 128 61 / <alpha-value>)',
         },
         error: {
           DEFAULT: 'rgb(var(--color-error) / <alpha-value>)',
           light: 'rgb(var(--color-error-light) / <alpha-value>)',
-          50: 'rgb(var(--color-error-light) / <alpha-value>)',
-          100: 'rgb(var(--color-error-light) / <alpha-value>)',
-          500: 'rgb(var(--color-error) / <alpha-value>)',
-          600: 'rgb(209 67 67 / <alpha-value>)',
-          700: 'rgb(184 54 54 / <alpha-value>)',
         },
         warning: {
           DEFAULT: 'rgb(var(--color-warning) / <alpha-value>)',
           light: 'rgb(var(--color-warning-light) / <alpha-value>)',
-          50: 'rgb(var(--color-warning-light) / <alpha-value>)',
-          100: 'rgb(var(--color-warning-light) / <alpha-value>)',
-          500: 'rgb(var(--color-warning) / <alpha-value>)',
-          600: 'rgb(217 119 6 / <alpha-value>)',
-          700: 'rgb(180 83 9 / <alpha-value>)',
         },
         info: {
           DEFAULT: 'rgb(var(--color-info) / <alpha-value>)',
           light: 'rgb(var(--color-info-light) / <alpha-value>)',
-          50: 'rgb(var(--color-info-light) / <alpha-value>)',
-          100: 'rgb(var(--color-info-light) / <alpha-value>)',
-          500: 'rgb(var(--color-info) / <alpha-value>)',
-          600: 'rgb(37 99 235 / <alpha-value>)',
-          700: 'rgb(29 78 216 / <alpha-value>)',
+        },
+
+        // ── Highlight / emphasis ─────────────────────────────────────
+        highlight: {
+          DEFAULT: 'rgb(var(--color-highlight) / <alpha-value>)',
+          text:    'rgb(var(--color-highlight-text) / <alpha-value>)',
+        },
+
+        // ── Data visualization (6-color, color-blind safe) ───────────
+        data: {
+          1: 'rgb(var(--color-data-1) / <alpha-value>)',
+          2: 'rgb(var(--color-data-2) / <alpha-value>)',
+          3: 'rgb(var(--color-data-3) / <alpha-value>)',
+          4: 'rgb(var(--color-data-4) / <alpha-value>)',
+          5: 'rgb(var(--color-data-5) / <alpha-value>)',
+          6: 'rgb(var(--color-data-6) / <alpha-value>)',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
+      /* Type scale: xs 12 → 4xl 36px; body line-height ≥1.5; headings tighter */
       fontSize: {
-        xs: ['0.75rem', { lineHeight: '1rem', letterSpacing: '0.025em' }],
-        sm: ['0.875rem', { lineHeight: '1.25rem', letterSpacing: '0.01em' }],
-        base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '0' }],
-        lg: ['1.125rem', { lineHeight: '1.75rem', letterSpacing: '-0.01em' }],
-        xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.015em' }],
-        '2xl': ['1.5rem', { lineHeight: '2rem', letterSpacing: '-0.02em' }],
-        '3xl': ['1.875rem', { lineHeight: '2.25rem', letterSpacing: '-0.025em' }],
-        '4xl': ['2.25rem', { lineHeight: '2.5rem', letterSpacing: '-0.03em' }],
-        '5xl': ['3rem', { lineHeight: '1', letterSpacing: '-0.035em' }],
+        xs: ['0.75rem', { lineHeight: '1.25rem', letterSpacing: '0.025em' }],   /* 12px */
+        sm: ['0.875rem', { lineHeight: '1.5rem', letterSpacing: '0.01em' }],     /* 14px, body ≥1.5 */
+        base: ['1rem', { lineHeight: '1.5rem', letterSpacing: '0' }],            /* 16px */
+        lg: ['1.125rem', { lineHeight: '1.5rem', letterSpacing: '-0.01em' }],   /* 18px */
+        xl: ['1.25rem', { lineHeight: '1.75rem', letterSpacing: '-0.015em' }],  /* 20px */
+        '2xl': ['1.5rem', { lineHeight: '1.75rem', letterSpacing: '-0.02em' }],  /* 24px, heading tight */
+        '3xl': ['1.875rem', { lineHeight: '2rem', letterSpacing: '-0.025em' }],  /* 30px */
+        '4xl': ['2.25rem', { lineHeight: '2.25rem', letterSpacing: '-0.03em' }], /* 36px */
+        '5xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.035em' }],       /* 48px display */
       },
       spacing: {
         0: '0',
@@ -236,16 +236,20 @@ export default {
         7.5: '1.875rem',
       },
       borderRadius: {
-        none: '0',
-        xs: '0.125rem',
-        sm: '0.25rem',
-        base: '0.375rem',
-        md: '0.5rem',
-        lg: '0.625rem',
-        xl: '0.75rem',
-        '2xl': '0.875rem',
-        '3xl': '1rem',
-        full: '9999px',
+        card:    'var(--radius-base, 10px)',
+        control: 'var(--radius-control, 6px)',
+        inset:   'var(--radius-inset, 4px)',
+        pill:    'var(--radius-pill, 9999px)',
+        none:  '0',
+        xs:    '0.125rem',
+        sm:    '0.25rem',
+        base:  '0.375rem',
+        md:    '0.5rem',
+        lg:    '0.5rem',
+        xl:    '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.25rem',
+        full:  '9999px',
       },
       gridTemplateColumns: {
         'auto-fit': 'repeat(auto-fit, minmax(0, 1fr))',
@@ -262,20 +266,38 @@ export default {
         'span-16': 'span 16 / span 16',
       },
       boxShadow: {
-        sm: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-        base: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-        xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-        '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
-        inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
-        'glow-dark': '0 0 20px rgb(var(--color-tertiary) / 0.3)',
-        'glow-primary': '0 0 15px rgb(var(--color-tertiary) / 0.2)',
-        'glow-primary-lg': '0 0 30px rgb(var(--color-tertiary) / 0.3)',
+        subtle:   '0 1px 2px rgba(0,0,0,0.04)',
+        elevated: '0 8px 30px rgba(5,5,9,0.08), 0 2px 8px rgba(5,5,9,0.04)',
+        'elevated-strong': '0 12px 40px rgba(5,5,9,0.12), 0 4px 12px rgba(5,5,9,0.06)',
+        sm:    '0 1px 2px 0 rgb(5 5 9 / 0.06)',
+        base:  '0 1px 3px 0 rgb(8 12 34 / 0.1), 0 1px 2px -1px rgb(8 12 34 / 0.06)',
+        md:    '0 4px 6px -1px rgb(8 12 34 / 0.08), 0 2px 4px -2px rgb(8 12 34 / 0.04)',
+        lg:    '0 10px 24px -4px rgb(8 12 34 / 0.12), 0 4px 8px -4px rgb(8 12 34 / 0.06)',
+        xl:    '0 20px 40px -8px rgb(8 12 34 / 0.16), 0 8px 16px -4px rgb(8 12 34 / 0.08)',
+        '2xl': '0 32px 64px -12px rgb(8 12 34 / 0.28)',
+        inner: 'inset 0 2px 4px 0 rgb(5 5 9 / 0.06)',
+        'glow-dark': '0 0 0 1px rgb(var(--color-border)), 0 4px 24px rgb(var(--color-text-primary) / 0.08)',
       },
       backgroundImage: {
-        'triangle-pattern': 'linear-gradient(45deg, transparent 25%, rgb(var(--color-tertiary) / 0.05) 25%), linear-gradient(-45deg, transparent 25%, rgb(var(--color-tertiary) / 0.05) 25%), linear-gradient(45deg, rgb(var(--color-tertiary) / 0.05) 75%, transparent 75%), linear-gradient(-45deg, rgb(var(--color-tertiary) / 0.05) 75%, transparent 75%)',
-        'triangle-pattern-dark': 'linear-gradient(45deg, transparent 25%, rgb(var(--color-tertiary) / 0.1) 25%), linear-gradient(-45deg, transparent 25%, rgb(var(--color-tertiary) / 0.1) 25%), linear-gradient(45deg, rgb(var(--color-tertiary) / 0.1) 75%, transparent 75%), linear-gradient(-45deg, rgb(var(--color-tertiary) / 0.1) 75%, transparent 75%)',
+        'triangle-pattern': 'linear-gradient(45deg, transparent 25%, rgb(var(--color-text-primary) / 0.03) 25%), linear-gradient(-45deg, transparent 25%, rgb(var(--color-text-primary) / 0.03) 25%), linear-gradient(45deg, rgb(var(--color-text-primary) / 0.03) 75%, transparent 75%), linear-gradient(-45deg, rgb(var(--color-text-primary) / 0.03) 75%, transparent 75%)',
+        'gradient-brand': 'linear-gradient(180deg, rgb(var(--color-border) / 0.15) 0%, transparent 60%)',
+        'gradient-hero':  'linear-gradient(180deg, rgb(var(--color-border) / 0.12) 0%, transparent 60%)',
+      },
+      transitionTimingFunction: {
+        // Phase 7: modern SaaS standard
+        DEFAULT: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        'brand':  'cubic-bezier(0.16, 1, 0.3, 1)',
+        'enter':  'cubic-bezier(0, 0, 0.2, 1)',
+        'exit':   'cubic-bezier(0.4, 0, 1, 1)',
+        'bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+      },
+      transitionDuration: {
+        'instant': '0ms',
+        'fast':    '120ms',   /* Phase 7 */
+        'normal':  '180ms',
+        'brand':   '180ms',
+        'slow':    '280ms',
+        'slower':  '500ms',
       },
       backgroundSize: {
         'triangle': '20px 20px',
@@ -417,6 +439,11 @@ export default {
           '0%, 70%': { opacity: '1', transform: 'scale(1)' },
           '100%': { opacity: '0', transform: 'scale(0.95)' },
         },
+        // Progress bar shimmer
+        'progress-shimmer': {
+          '0%':   { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
         // Background-only (logo static)
         'bg-shimmer': {
           '0%': { backgroundPosition: '200% 0' },
@@ -467,6 +494,7 @@ export default {
         'logo-slide-up': 'logo-slide-up 0.7s ease-out forwards',
         'logo-slide-down': 'logo-slide-down 0.7s ease-out forwards',
         'logo-hold-fade-out': 'logo-hold-fade-out 2.5s ease-in-out forwards',
+        'progress-shimmer': 'progress-shimmer 1.8s ease-in-out infinite',
         'bg-shimmer': 'bg-shimmer 4s linear infinite',
         'bg-pulse-subtle': 'bg-pulse-subtle 3s ease-in-out infinite',
         'bg-geometric-rotate': 'bg-geometric-rotate 20s linear infinite',

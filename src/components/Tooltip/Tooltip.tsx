@@ -35,11 +35,11 @@ const placementAnimations: Record<TooltipPlacement, string> = {
   right: 'animate-popover-right',
 }
 
-/* Variants use theme background tokens (bg-bg-*) and text/border from design system – see globals.css */
+/* Variants: shadow only (no border) so box and arrow look unified – see globals.css */
 const variantStyles: Record<TooltipVariant, string> = {
-  default: 'bg-bg-secondary text-text-primary border border-default shadow-lg',
-  light: 'bg-bg-secondary text-text-primary border border-default shadow-xl',
-  subtle: 'bg-bg-tertiary/[var(--tooltip-subtle-opacity)] text-text-primary border border-default shadow-lg',
+  default: 'bg-bg-secondary text-text-primary shadow-lg',
+  light: 'bg-bg-secondary text-text-primary shadow-xl',
+  subtle: 'bg-bg-tertiary/[var(--tooltip-subtle-opacity)] text-text-primary shadow-lg',
 }
 
 const arrowVariantStyles: Record<TooltipVariant, string> = {

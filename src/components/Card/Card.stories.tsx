@@ -10,11 +10,7 @@ import {
   StarIcon,
   HeartIcon,
   BellIcon,
-  InfoIcon,
-  WarningIcon,
-  ErrorIcon,
   CheckIcon,
-  SuccessIcon,
   InboxIcon,
   ArrowUpIcon,
   ArrowDownIcon,
@@ -38,7 +34,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'elevated', 'outlined', 'filled'],
+      options: ['default', 'elevated', 'outlined', 'filled', 'glass', 'on-gradient'],
     },
     padding: {
       control: 'select',
@@ -107,8 +103,8 @@ export const WithSubComponents: Story = {
         </p>
       </CardContent>
       <CardFooter>
-        <Button variant="primary" size="sm">Action</Button>
         <Button variant="outline" size="sm">Cancel</Button>
+        <Button variant="primary" size="sm">Action</Button>
       </CardFooter>
     </Card>
   ),
@@ -146,7 +142,7 @@ export const PaddingVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-4 w-full max-w-md">
       <Card variant="outlined" padding="none" className="w-full">
-        <div className="p-4 bg-secondary rounded-t-xl text-text-primary">No padding (custom)</div>
+        <div className="p-4 bg-secondary rounded-t-card text-text-primary">No padding (custom)</div>
       </Card>
       <Card variant="outlined" padding="sm" className="w-full">
         Small padding
@@ -180,8 +176,82 @@ export const AllVariants: Story = {
         <CardTitle>Filled</CardTitle>
         <CardContent>Filled card variant</CardContent>
       </Card>
+      <Card variant="glass" padding="md">
+        <CardTitle>Glass</CardTitle>
+        <CardContent>Glass card — backdrop blur, for overlays and hero sections.</CardContent>
+      </Card>
+      <Card variant="on-gradient" padding="md">
+        <CardTitle>On gradient</CardTitle>
+        <CardContent>On-gradient card — use on duotone backgrounds for readability.</CardContent>
+      </Card>
     </div>
   ),
+}
+
+export const GlassOnDuotone: Story = {
+  render: () => (
+    <div className="bg-duotone-hero rounded-card p-8 min-h-[320px] w-full max-w-4xl">
+      <h3 className="text-xl font-semibold text-text-primary mb-2">Glass card on duotone</h3>
+      <p className="text-text-secondary text-sm mb-6">Use <code className="bg-bg-secondary/80 px-1 rounded">variant=&quot;glass&quot;</code> for a translucent surface with backdrop blur.</p>
+      <Card variant="glass" padding="lg" className="max-w-md">
+        <CardTitle>Glass variant</CardTitle>
+        <CardDescription>This card sits on the duotone hero background. Backdrop blur and subtle border make it stand out.</CardDescription>
+        <CardContent className="mt-2">
+          <Button variant="primary" size="sm">Primary action</Button>
+        </CardContent>
+      </Card>
+    </div>
+  ),
+  parameters: {
+    docs: { description: { story: 'Glass card on bg-duotone-hero. Use for hero sections and marketing.' } },
+  },
+}
+
+export const OnGradientOnDuotone: Story = {
+  render: () => (
+    <div className="bg-duotone-hero rounded-card p-8 min-h-[320px] w-full max-w-4xl">
+      <h3 className="text-xl font-semibold text-text-primary mb-2">On-gradient card on duotone</h3>
+      <p className="text-text-secondary text-sm mb-6">Use <code className="bg-bg-secondary/80 px-1 rounded">variant=&quot;on-gradient&quot;</code> for near-opaque content cards on gradient backgrounds.</p>
+      <Card variant="on-gradient" padding="lg" className="max-w-md">
+        <CardTitle>On-gradient variant</CardTitle>
+        <CardDescription>Near-opaque surface with light blur — best for feature blocks and longer copy on duotone sections.</CardDescription>
+        <CardContent className="mt-2">
+          <Button variant="secondary" size="sm">Learn more</Button>
+        </CardContent>
+      </Card>
+    </div>
+  ),
+  parameters: {
+    docs: { description: { story: 'On-gradient card on bg-duotone-hero. Use for feature blocks and marketing content.' } },
+  },
+}
+
+export const GlassAndOnGradientComparison: Story = {
+  render: () => (
+    <div className="bg-duotone-hero rounded-card p-8 w-full max-w-4xl space-y-6">
+      <h3 className="text-xl font-semibold text-text-primary">Cards on duotone — comparison</h3>
+      <p className="text-text-secondary text-sm">Both variants work on <code className="bg-bg-secondary/80 px-1 rounded">bg-duotone-hero</code>. Glass is more translucent; on-gradient is more readable for dense content.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card variant="glass" padding="lg">
+          <CardTitle>Glass</CardTitle>
+          <CardDescription>Translucent, backdrop blur. Short content and CTAs.</CardDescription>
+          <CardFooter className="border-0 pt-2">
+            <Button variant="primary" size="sm">Get started</Button>
+          </CardFooter>
+        </Card>
+        <Card variant="on-gradient" padding="lg">
+          <CardTitle>On gradient</CardTitle>
+          <CardDescription>Near-opaque, strong shadow. Feature blocks and longer copy.</CardDescription>
+          <CardFooter className="border-0 pt-2">
+            <Button variant="secondary" size="sm">Learn more</Button>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: { description: { story: 'Side-by-side glass vs on-gradient on duotone background.' } },
+  },
 }
 
 // ============================================
@@ -196,7 +266,7 @@ export const ProductCard: Story = {
         alt="Product"
         aspectRatio="square"
       />
-      <div className="p-4 sm:p-5 md:p-6">
+      <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-1 min-h-0">
         <CardHeader>
           <div className="flex flex-col gap-2 xs:flex-row xs:items-start xs:justify-between">
             <div className="flex-1 min-w-0">
@@ -372,7 +442,7 @@ export const ArticleCard: Story = {
         alt="Article"
         aspectRatio="wide"
       />
-      <div className="p-4 sm:p-5 md:p-6">
+      <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-1 min-h-0">
         <CardHeader>
           <div className="flex items-center gap-2 text-xs text-text-tertiary mb-2">
             <span>Design</span>
@@ -390,7 +460,7 @@ export const ArticleCard: Story = {
             that are making waves in 2025...
           </p>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="justify-start">
           <Button variant="ghost" size="sm" rightIcon={<ArrowRightIcon className="w-4 h-4" />}>
             Read More
           </Button>
@@ -422,7 +492,7 @@ export const PricingCard: Story = {
             padding="none"
             className={`w-full min-w-0 ${plan.popular ? 'ring-2 ring-tertiary' : ''}`}
           >
-            <div className="w-full px-4 py-4 sm:px-5 sm:py-6">
+            <div className="w-full px-4 py-4 sm:px-5 sm:py-6 flex flex-col flex-1 min-h-0">
             {plan.popular && (
               <div className="flex justify-center mb-3 sm:mb-4">
                 <Badge variant="outline" size="sm" className="border-text-inverse/50 text-text-inverse dark:border-text-inverse/50 dark:text-text-inverse">MOST POPULAR</Badge>
@@ -558,75 +628,12 @@ export const NotificationCard: Story = {
             </p>
           </CardContent>
           <CardFooter className="p-0 pt-3 border-0">
-            <Button variant="primary" size="sm">Reply</Button>
             <Button variant="ghost" size="sm">Dismiss</Button>
+            <Button variant="primary" size="sm">Reply</Button>
           </CardFooter>
         </div>
       </div>
     </Card>
-  ),
-}
-
-// ============================================
-// ALERT CARDS
-// ============================================
-
-export const AlertCard: Story = {
-  render: () => (
-    <div className="flex flex-col gap-4 w-full max-w-md">
-      <Card variant="outlined" padding="md" className="border border-info bg-info-light">
-        <div className="flex items-start gap-3">
-          <div className="text-info dark:text-text-inverse flex-shrink-0">
-            <InfoIcon className="w-6 h-6" />
-          </div>
-          <div className="flex-1">
-            <CardTitle className="text-base text-info dark:text-text-inverse">Information</CardTitle>
-            <CardDescription className="text-info dark:text-text-inverse">
-              This is an informational alert card with important details.
-            </CardDescription>
-          </div>
-        </div>
-      </Card>
-      <Card variant="outlined" padding="md" className="border border-warning bg-warning-light">
-        <div className="flex items-start gap-3">
-          <div className="text-warning dark:text-text-inverse flex-shrink-0">
-            <WarningIcon className="w-6 h-6" />
-          </div>
-          <div className="flex-1">
-            <CardTitle className="text-base text-warning dark:text-text-inverse">Warning</CardTitle>
-            <CardDescription className="text-warning dark:text-text-inverse">
-              Please review this warning before proceeding.
-            </CardDescription>
-          </div>
-        </div>
-      </Card>
-      <Card variant="outlined" padding="md" className="border border-error bg-error-light">
-        <div className="flex items-start gap-3">
-          <div className="text-error dark:text-text-inverse flex-shrink-0">
-            <ErrorIcon className="w-6 h-6" />
-          </div>
-          <div className="flex-1">
-            <CardTitle className="text-base text-error dark:text-text-inverse">Error</CardTitle>
-            <CardDescription className="text-error dark:text-text-inverse">
-              Something went wrong. Please try again.
-            </CardDescription>
-          </div>
-        </div>
-      </Card>
-      <Card variant="outlined" padding="md" className="border border-success bg-success-light">
-        <div className="flex items-start gap-3">
-          <div className="text-success dark:text-text-inverse flex-shrink-0">
-            <SuccessIcon className="w-6 h-6" />
-          </div>
-          <div className="flex-1">
-            <CardTitle className="text-base text-success dark:text-text-inverse">Success</CardTitle>
-            <CardDescription className="text-success dark:text-text-inverse">
-              Your action was completed successfully!
-            </CardDescription>
-          </div>
-        </div>
-      </Card>
-    </div>
   ),
 }
 
@@ -679,8 +686,8 @@ export const CardWithHeaderActions: Story = {
         </p>
       </CardContent>
       <CardFooter>
-        <Button variant="primary" size="sm">Save</Button>
         <Button variant="outline" size="sm">Cancel</Button>
+        <Button variant="primary" size="sm">Save</Button>
       </CardFooter>
     </Card>
   ),

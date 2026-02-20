@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React, { useState } from 'react'
 import { Logo, downloadLogoSvg, type LogoExportVariant } from '@/components/Logo'
-
-const LOGO_RATIO = 92 / 70
+import { LOGO_ASPECT_RATIO } from '@/components/Logo/logoConstants'
 const FAVICON_SIZES = [16, 32, 48, 64] as const
 type FaviconSize = (typeof FAVICON_SIZES)[number]
 
@@ -29,11 +28,12 @@ const VARIANTS: { value: LogoExportVariant; label: string }[] = [
   { value: 'tertiary', label: 'Tertiary' },
 ]
 
-const BACKGROUNDS: { value: string; label: string; bgClass: string; previewVars?: React.CSSProperties }[] = [
-  { value: 'bg-primary', label: 'Page', bgClass: 'bg-bg-primary', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-bg-primary' as string]: '241 245 249' } },
-  { value: 'white', label: 'White', bgClass: 'bg-white', previewVars: { ['--color-primary' as string]: '10 10 10' } },
-  { value: 'primary', label: 'Primary', bgClass: 'bg-primary', previewVars: { ['--color-text-inverse' as string]: '255 255 255' } },
-  { value: 'transparent', label: 'Transparent', bgClass: 'bg-transparent', previewVars: { ['--color-primary' as string]: '10 10 10' } },
+/** Background + CSS vars so logo variant always contrasts. */
+const BACKGROUNDS: { value: string; label: string; bgClass: string; previewVars: React.CSSProperties }[] = [
+  { value: 'bg-primary', label: 'Page', bgClass: 'bg-bg-primary', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-tertiary' as string]: '31 78 216', ['--color-bg-primary' as string]: '241 245 249', ['--color-text-primary' as string]: '10 10 10' } },
+  { value: 'white', label: 'White', bgClass: 'bg-white', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-tertiary' as string]: '31 78 216', ['--color-text-primary' as string]: '10 10 10' } },
+  { value: 'primary', label: 'Primary', bgClass: 'bg-primary', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-text-inverse' as string]: '255 255 255' } },
+  { value: 'transparent', label: 'Transparent', bgClass: 'bg-transparent', previewVars: { ['--color-primary' as string]: '10 10 10', ['--color-tertiary' as string]: '31 78 216', ['--color-text-primary' as string]: '10 10 10' } },
 ]
 
 function FaviconPlayground() {
@@ -42,7 +42,7 @@ function FaviconPlayground() {
   const [backgroundId, setBackgroundId] = useState<string>('bg-primary')
 
   const bg = BACKGROUNDS.find((b) => b.value === backgroundId) ?? BACKGROUNDS[0]
-  const heightPx = Math.round(size / LOGO_RATIO)
+  const heightPx = Math.round(size / LOGO_ASPECT_RATIO)
 
   const handleDownload = () => {
     downloadLogoSvg(variant, size, heightPx, `favicon-${size}-${variant}.svg`)
@@ -73,7 +73,7 @@ function FaviconPlayground() {
                   : 'border-border bg-bg-secondary text-text-secondary hover:bg-bg-tertiary'
               }`}
             >
-              {px}×{Math.round(px / LOGO_RATIO)}
+              {px}×{Math.round(px / LOGO_ASPECT_RATIO)}
             </button>
           ))}
         </div>
@@ -124,18 +124,16 @@ function FaviconPlayground() {
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-text-primary mb-2">Preview</h3>
           <p className="text-xs text-text-tertiary mb-2">
-            {size}×{heightPx} px (scaled up for visibility).
+            {size}×{heightPx} px.
           </p>
           <div
             style={{
               ...previewStyle,
               ...bg.previewVars,
             }}
-            className={`rounded-lg border border-border flex items-center justify-center w-24 h-24 shrink-0 ${!isTransparent ? bg.bgClass : ''}`}
+            className={`rounded border border-border flex items-center justify-center shrink-0 ${!isTransparent ? bg.bgClass : ''}`}
           >
-            <div className="scale-[2] origin-center">
-              <Logo variant={variant} size={size} />
-            </div>
+            <Logo variant={variant} size={size} />
           </div>
         </div>
         <div className="flex flex-col gap-2 shrink-0">
