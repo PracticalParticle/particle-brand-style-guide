@@ -1,0 +1,876 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* ============================================
+       PARTICLE — Clean enterprise monochrome
+       Surfaces: canvas / surface / surface-muted / elevated
+       Text: primary / secondary / muted / inverse
+       Borders: default / subtle / strong / focus
+       Brand: monochrome only (no blue). See docs/DESIGN_MANIFESTO.md.
+       Values: space-separated RGB for Tailwind opacity.
+       ============================================ */
+
+    /* ── Surfaces (light) ─────────────────────── */
+    --color-bg-canvas:        246 247 249;  /* #F6F7F9 - app background */
+    --color-bg-surface:      255 255 255;   /* #FFFFFF - cards, panels */
+    --color-bg-surface-muted: 236 238 241;   /* #ECEEF1 - hovers, subtle (wider step from canvas for perceptible hover) */
+    --color-bg-elevated:     255 255 255;   /* #FFFFFF - modals */
+    /* Legacy aliases (same values) */
+    --color-bg-primary:   246 247 249;
+    --color-bg-secondary: 255 255 255;
+    --color-bg-tertiary:  236 238 241;
+
+    /* ── Text (light) ─────────────────────────── */
+    --color-text-primary:   10  10  10;   /* #0A0A0A */
+    --color-text-secondary: 82  82  82;   /* #525252 */
+    --color-text-muted:     82  82  82;   /* #525252 — WCAG AA 4.5:1 on canvas/surface-muted */
+    --color-text-inverse:  255 255 255;   /* #FFFFFF */
+    --color-text-tertiary:  82  82  82;   /* alias → muted */
+
+    /* ── Borders (light) ─────────────────────── */
+    --color-border-default: 229 231 235;  /* #E5E7EB */
+    --color-border-subtle:  241 245 249;  /* #F1F5F9 */
+    --color-border-strong:  209 213 219;  /* #D1D5DB */
+    --color-border-table:   229 231 235;  /* same as default — table row/header dividers */
+    --color-border-focus:   64  64  64;   /* #404040 */
+    /* Legacy (same as default/strong) */
+    --color-border:        229 231 235;
+    --color-border-hover:  209 213 219;
+
+    /* ── Brand (monochrome): primary = black in light ─ */
+    --color-brand-primary:       10  10  10;  /* #0A0A0A */
+    --color-brand-primary-hover: 20  20  20;  /* #141414 */
+    --color-brand-primary-active: 30  30  30;  /* #1E1E1E */
+    --color-brand-inverse:      255 255 255;  /* #FFFFFF */
+    /* Button primary & legacy aliases */
+    --color-btn-primary:        10  10  10;
+    --color-btn-primary-hover:  20  20  20;
+    --color-btn-primary-active: 30  30  30;
+    --color-tertiary:           10  10  10;
+    --color-tertiary-hover:    20  20  20;
+    --color-tertiary-active:   30  30  30;
+    --color-tertiary-on-dark:   10  10  10;
+    --color-tertiary-light:    241 243 245;
+    --color-tertiary-lighter:  241 243 245;
+    --color-primary:           10  10  10;
+    --color-primary-hover:     20  20  20;
+    --color-primary-active:    30  30  30;
+    --color-secondary:        255 255 255;
+    --color-secondary-hover:  241 243 245;
+    --color-secondary-active: 229 231 235;
+
+    /* ── Semantic (restrained, enterprise) ───────────────────────────── */
+    --color-success:       22 101  52;   /* #166534 */
+    --color-success-light: 220 252 231;   /* #DCFCE7 */
+    --color-error:        185  28  28;   /* #B91C1C */
+    --color-error-light:  254 226 226;   /* #FEE2E2 */
+    --color-warning:      180  83   9;   /* #B45309 */
+    --color-warning-light: 254 243 199;  /* #FEF3C7 */
+    --color-info:          55  65  81;   /* #374151 - neutral info */
+    --color-info-light:   243 244 246;   /* #F3F4F6 */
+
+    --color-skeleton: 229 231 235;
+    --color-black: 0 0 0;
+    --color-white: 255 255 255;
+
+    /* ── Focus: 2px neutral ring (no brand color) ─ */
+    --focus-ring: 0 0 0 2px rgba(0, 0, 0, 0.6);
+    --focus-ring-offset: rgb(246 247 249);
+
+    --tooltip-max-width: 15rem;
+    --tooltip-radius: 0.5rem;
+    --tooltip-padding-x: 0.75rem;
+    --tooltip-padding-y: 0.375rem;
+    --tooltip-gap: 0.5rem;
+    --tooltip-arrow-size: 0.5rem;
+    --tooltip-subtle-opacity: 0.98;
+
+    --color-backdrop: 0 0 0;
+    --color-backdrop-opacity-light: 0.5;
+    --color-backdrop-opacity-dark: 0.65;
+
+    /* ── Layer opacities (translucent surfaces for depth) ───────────── */
+    --layer-surface-overlay: 0.95;
+    --layer-surface-soft: 0.9;
+    --layer-muted-overlay: 0.8;
+
+    /* ── Glass surface tokens (nav, modals, floating panels) ────────── */
+    /* Light mode: more transparent + stronger blur so frosted effect reads over bright BG */
+    --glass-bg-opacity: 0.65;
+    --glass-blur: 18px;
+    --glass-border-opacity: 0.75;
+    --glass-saturate: 1.6;
+
+    /* ── Shadow color (for box-shadow theme consistency) ─────────────── */
+    --color-shadow: 5 5 9;
+  }
+
+  .dark {
+    /* ── Surfaces (dark) ─────────────────────── */
+    --color-bg-canvas:        11  12  14;   /* #0B0C0E */
+    --color-bg-surface:      20  22  26;   /* #14161A */
+    --color-bg-surface-muted: 27  30  36;   /* #1B1E24 */
+    --color-bg-elevated:     32  36  48;   /* #202430 - cooler blue tint, clearly above surface-muted */
+    --color-bg-primary:      11  12  14;
+    --color-bg-secondary:   20  22  26;
+    --color-bg-tertiary:     27  30  36;
+
+    /* ── Text (dark) ─────────────────────────── */
+    --color-text-primary:  250 250 250;   /* #FAFAFA */
+    --color-text-secondary: 163 163 163;  /* #A3A3A3 */
+    --color-text-muted:    128 136 152;   /* #808898 — 5.25:1 on bg-surface, 5.66:1 on bg-canvas (WCAG AA) */
+    --color-text-inverse:   10  10  10;   /* #0A0A0A — text on white/light blocks (e.g. primary button) */
+    --color-text-tertiary:  128 136 152;  /* alias → muted */
+
+    /* ── Borders (dark) ─────────────────────── */
+    --color-border-default: 42  47  54;   /* #2A2F36 */
+    --color-border-subtle:  31  36  43;   /* #1F242B */
+    --color-border-strong:  58  65  74;   /* #3A414A */
+    --color-border-table:   24  28  34;   /* #181C22 — table row/header dividers, less bright */
+    --color-border-focus:  163 163 163;   /* #A3A3A3 */
+    --color-border:        42  47  54;
+    --color-border-hover:   58  65  74;
+
+    /* ── Brand (dark): primary = white block ─── */
+    --color-brand-primary:      250 250 250;
+    --color-brand-primary-hover: 243 244 246;
+    --color-brand-primary-active: 229 231 235;
+    --color-brand-inverse:       10  10  10;
+    --color-btn-primary:       250 250 250;
+    --color-btn-primary-hover: 243 244 246;
+    --color-btn-primary-active: 229 231 235;
+    --color-tertiary:          250 250 250;
+    --color-tertiary-hover:    243 244 246;
+    --color-tertiary-active:   229 231 235;
+    --color-tertiary-on-dark:  250 250 250;
+    --color-tertiary-light:     27  30  36;
+    --color-tertiary-lighter:   31  36  43;
+    --color-primary:          250 250 250;
+    --color-primary-hover:    243 244 246;
+    --color-primary-active:   229 231 235;
+    --color-secondary:        20  22  26;
+    --color-secondary-hover:  27  30  36;
+    --color-secondary-active: 11  12  14;
+
+    /* ── Semantic dark ─────────────────────────────────────────────── */
+    --color-success:       52 211 153;   /* #34D399 */
+    --color-success-light:  6  78  59;    /* #064E3B */
+    --color-error:        248 113 113;   /* #F87171 */
+    --color-error-light:  74  12  12;    /* #4A0C0C */
+    --color-warning:      251 191  36;   /* #FBBF24 */
+    --color-warning-light: 74  34   9;    /* #4A2209 */
+    --color-info:         156 163 175;   /* #9CA3AF - neutral */
+    --color-info-light:   31  41  55;    /* #1F2937 */
+
+    --color-skeleton: 42 47 54;
+    --focus-ring: 0 0 0 2px rgba(255, 255, 255, 0.7);
+    --focus-ring-offset: rgb(11 12 14);
+    --tooltip-subtle-opacity: 0.95;
+
+    /* ── Glass (dark) ───────────────────────────────────────────────── */
+    /* Dark mode: deeper blur + high saturate; border handled by white rim, not token */
+    --glass-bg-opacity: 0.70;
+    --glass-blur: 20px;
+    --glass-border-opacity: 0.08;   /* nearly invisible — rim light does the edge work */
+    --glass-saturate: 2.0;
+
+    --color-shadow: 0 0 0;
+  }
+
+  /* ── Radius: full grammar from sharp (structural) to pill ────────── */
+  :root {
+    --radius-structural: 2px;   /* Nav, sidebar, table headers — sharp, system-level */
+    --radius-inset:      4px;   /* Inset controls, tags */
+    --radius-control:    6px;   /* Buttons, inputs */
+    --radius-base:       10px;  /* Cards, panels */
+    --radius-overlay:    12px;  /* Modals, drawers — slightly larger, floating */
+    --radius-pill:       9999px;
+  }
+
+  /* ── Semantic spacing aliases ────────────────────────────────────────
+     Components use these, not raw px. Override with .density-compact.  */
+  :root {
+    --spacing-component-xs: 0.25rem;   /* 4px  — tight internal gaps */
+    --spacing-component-sm: 0.5rem;    /* 8px  — small control padding */
+    --spacing-component-md: 0.75rem;   /* 12px — default control height pad */
+    --spacing-component-lg: 1.25rem;   /* 20px — card internal padding */
+    --spacing-component-xl: 1.5rem;    /* 24px — section internal spacing */
+    --spacing-layout-sm:    1rem;      /* 16px — between related components */
+    --spacing-layout-md:    1.5rem;    /* 24px — between groups */
+    --spacing-layout-lg:    2.5rem;    /* 40px — between major sections */
+    --spacing-layout-xl:    4rem;      /* 64px — between page sections */
+  }
+
+  /* ── Compact density mode ────────────────────────────────────────────
+     Apply .density-compact to <html> or <body> for compact UI density. */
+  .density-compact {
+    --spacing-component-sm: 0.375rem;
+    --spacing-component-md: 0.625rem;
+    --spacing-component-lg: 0.875rem;
+    --spacing-component-xl: 1.25rem;
+  }
+
+  /* ── Motion: 120–200ms, ease-out ─────────────────────────────────── */
+  :root {
+    --duration-instant: 0ms;
+    --duration-fast:    120ms;
+    --duration-normal:  180ms;
+    --duration-slow:    200ms;
+    --duration-slower:  280ms;
+    --ease-default:     cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── Triangle pattern opacity (per-mode for visibility calibration) ─ */
+  :root {
+    --triangle-opacity:      0.04;   /* light: slightly higher — text-primary on near-white */
+    --triangle-hero-opacity: 0.05;   /* light hero: needs to register over bright canvas */
+  }
+  .dark {
+    --triangle-opacity:      0.025;  /* dark: white on black — lower threshold for same feel */
+    --triangle-hero-opacity: 0.03;
+  }
+
+  /* ── Highlight: neutral emphasis (monochrome) ─────────────────────── */
+  :root {
+    --color-highlight:      243 244 246;
+    --color-highlight-text:  5   5   9;
+  }
+  .dark {
+    --color-highlight:      31  41  51;
+    --color-highlight-text: 249 250 251;
+  }
+
+  /* ── Data viz: neutral steps (monochrome) ────────────────────────── */
+  :root {
+    --color-data-1:  31  41  55;
+    --color-data-2:  55  65  81;
+    --color-data-3:  75  85  99;
+    --color-data-4: 107 114 128;
+    --color-data-5: 156 163 175;
+    --color-data-6: 209 213 219;
+  }
+
+  html {
+    background-color: rgb(var(--color-bg-primary));
+    min-height: 100vh;
+    color-scheme: light;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: rgb(var(--color-bg-primary));
+    color: rgb(var(--color-text-primary));
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'rlig' 1, 'calt' 1;
+    font-optical-sizing: auto;
+    min-height: 100vh;
+  }
+
+  /* ── Text selection (neutral) ─────────────────────────────────────── */
+  ::selection {
+    background-color: rgb(var(--color-border-hover) / 0.5);
+    color: rgb(var(--color-text-primary));
+  }
+
+  /* ── Custom scrollbar ────────────────────────────────────────────────*/
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--color-border));
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--color-border-hover));
+  }
+  ::-webkit-scrollbar-corner { background: transparent; }
+
+  /* ── Reduced-motion compliance ───────────────────────────────────────*/
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    html, body {
+      transition: none !important;
+    }
+  }
+
+  /* ── Reduced-transparency compliance (glass fallback) ──────────────────
+     When user prefers reduced transparency, replace glass/blur with solid
+     surfaces so content remains readable and accessible.                    */
+  @media (prefers-reduced-transparency: reduce) {
+    .card-glass,
+    .surface-glass,
+    [data-glass],
+    [class*="backdrop-blur"] {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+    .card-glass,
+    .surface-glass,
+    [data-glass] {
+      background: rgb(var(--color-bg-surface)) !important;
+    }
+  }
+
+  /* Storybook preview containers - ensure full-page background for story views */
+  #storybook-root {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    min-height: 100vh;
+  }
+
+  /* Canvas (individual story view): prevent story content from stretching. Keep background on root only. */
+  #storybook-root > div {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* Decorator wrapper: theme background, no white box in light/dark */
+  .story-canvas-root {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  #storybook-root div:has(> .story-canvas-root) {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Storybook internal story containers (docs + canvas) */
+  .sb-story,
+  .sb-story > div,
+  .docs-story,
+  .docs-story > div {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .os-host,
+  .os-viewport {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  [data-testid="storybook-preview-wrapper"],
+  [data-testid="storybook-preview-iframe"] {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  /* Storybook story containers - inherit theme background */
+  .sb-story,
+  .sb-story > div {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  /* Docs pages: background and text follow theme (light/dark) */
+  .sbdocs-wrapper {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    color: rgb(var(--color-text-primary)) !important;
+  }
+
+  .sbdocs-content {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    color: rgb(var(--color-text-primary)) !important;
+  }
+
+  .sbdocs h1, .sbdocs h2, .sbdocs h3, .sbdocs h4, .sbdocs p, .sbdocs li, .sbdocs td, .sbdocs th {
+    color: rgb(var(--color-text-primary)) !important;
+  }
+
+  .sbdocs a {
+    color: rgb(var(--color-text-primary)) !important;
+    text-decoration: underline;
+  }
+  .sbdocs a:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  /* Canvas/preview area in docs - uses theme background */
+  .sbdocs-preview {
+    background-color: rgb(var(--color-bg-primary)) !important;
+    transition: background-color 0.2s ease;
+  }
+
+  /* Ensure canvas area respects theme when dark class is applied */
+  .sbdocs-preview.dark {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+
+  /* Story containers within canvas inherit theme */
+  .sbdocs-preview .sb-story,
+  .sbdocs-preview .docs-story,
+  .sbdocs-preview > div {
+    background-color: rgb(var(--color-bg-primary)) !important;
+  }
+}
+
+@layer components {
+  /* ── Form patterns ────────────────────────────────────────────────── */
+  .form-label          { @apply text-sm font-medium leading-tight tracking-tight text-text-primary; }
+  .form-label-disabled { @apply text-sm font-medium leading-tight text-text-primary opacity-40; }
+  .form-helper         { @apply text-sm text-text-secondary; }
+  .form-helper-tertiary{ @apply text-sm text-text-tertiary; }
+  .form-error          { @apply text-sm text-error; }
+  .form-container      { @apply flex flex-col space-y-1.5; }
+  .form-row            { @apply flex items-center gap-2; }
+  .form-row-start      { @apply flex items-start gap-2; }
+
+  /* ── Card title ──────────────────────────────────────────────────── */
+  .card-title {
+    @apply text-base font-semibold leading-snug tracking-tight text-text-primary sm:text-lg;
+  }
+
+  /* ── Display / Heading scale (weights 600–700, no 300/900) ────────── */
+  .text-display-2xl {
+    @apply font-bold text-text-primary leading-none;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    letter-spacing: -0.055em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 48;
+  }
+  .text-display-xl {
+    @apply font-bold text-text-primary leading-none;
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    letter-spacing: -0.048em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 40;
+  }
+  .text-display-lg {
+    @apply font-bold text-text-primary leading-tight;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.04em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 32;
+  }
+  .text-display {
+    @apply text-5xl font-bold text-text-primary leading-none;
+    letter-spacing: -0.04em;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 32;
+  }
+  .text-heading-1 {
+    @apply text-4xl font-bold tracking-tight text-text-primary;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 28;
+  }
+  .text-heading-2 {
+    @apply text-3xl font-semibold tracking-tight text-text-primary;
+    font-optical-sizing: auto;
+    font-variation-settings: 'opsz' 24;
+  }
+  .text-heading-3 { @apply text-2xl font-semibold tracking-tight text-text-primary; }
+  .text-heading-4 { @apply text-xl  font-semibold text-text-primary; }
+
+  /* ── Body scale (line-height ≥1.5) ───────────────────────────────── */
+  .text-body           { @apply text-base text-text-primary; line-height: 1.5; }
+  .text-body-secondary { @apply text-sm text-text-secondary; line-height: 1.5; }
+  .text-body-tertiary  { @apply text-xs text-text-tertiary leading-normal; }
+  .text-caption        { @apply text-xs font-medium tracking-wide text-text-secondary; }
+  .text-mono           { @apply text-sm font-mono text-text-secondary leading-normal; }
+
+  /* ── Label + Overline (for form labels, table headers, section labels) */
+  .text-label {
+    @apply text-xs font-semibold tracking-widest uppercase text-text-secondary;
+    letter-spacing: 0.08em;
+  }
+  .text-overline {
+    @apply text-text-tertiary font-bold uppercase;
+    font-size: 0.625rem;      /* 10px */
+    letter-spacing: 0.12em;
+  }
+
+  /* ── Tabular numbers — for dashboards, tables, data ─────────────── */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* ── Brand text gradient — for hero/marketing display text only ─────
+     Monochrome diagonal: primary → secondary. Adds visual dimension to
+     large display headings without introducing color.
+     Do NOT use in product UI — display and hero contexts only.          */
+  .text-gradient-brand {
+    background: linear-gradient(
+      135deg,
+      rgb(var(--color-text-primary)) 0%,
+      rgb(var(--color-text-secondary)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+  }
+  /* Dark mode: lighter start, muted end — same diagonal depth */
+  .dark .text-gradient-brand {
+    background: linear-gradient(
+      135deg,
+      rgb(var(--color-text-primary)) 0%,
+      rgb(var(--color-text-muted)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Glass surfaces (first-class: nav, modals, floating panels) ──── */
+  /* Light: strong white rim (reflects sky-light), visible border, soft ambient shadow  */
+  .card-glass,
+  .surface-glass {
+    background: rgb(var(--color-bg-surface) / var(--glass-bg-opacity));
+    border: 1px solid rgb(var(--color-border-default) / var(--glass-border-opacity));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.85),   /* bright white rim — glass catching light */
+      inset 0 -1px 0 0 rgb(0 0 0 / 0.04),          /* gravity edge */
+      0 2px 8px rgb(0 0 0 / 0.06),                  /* contact shadow */
+      0 8px 24px rgb(0 0 0 / 0.07);                /* soft ambient depth */
+  }
+  /* Dark: cool-tinted bg, subtle white rim border, deep ambient shadow */
+  .dark .card-glass,
+  .dark .surface-glass {
+    background: rgb(32 36 48 / var(--glass-bg-opacity));  /* cool blue-tinted dark — glass luminosity */
+    border-color: rgb(255 255 255 / 0.07);                 /* thin bright rim in place of dark border */
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.07),    /* subtle white rim — single light source above */
+      inset 0 -1px 0 0 rgb(0 0 0 / 0.25),          /* gravity edge */
+      0 2px 8px rgb(0 0 0 / 0.30),                  /* contact shadow */
+      0 8px 40px rgb(0 0 0 / 0.55);               /* deep ambient — dark room depth */
+  }
+
+  /* ── Focus: 2px outline + 2px offset halo (neutral, strong visibility) ─ */
+  .focus-ring {
+    @apply focus:outline-none;
+  }
+  .focus-ring:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+  .focus-brand {
+    @apply focus:outline-none;
+  }
+  .focus-brand:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+}
+
+@layer utilities {
+  /* ── Triangle pattern (monochrome) ──────────────────────────────── */
+  /* Opacity is per-mode via CSS vars: light needs more (dark text on near-white),
+     dark needs less (white on black reaches perception threshold sooner). */
+  .triangle-pattern {
+    background-image:
+      linear-gradient(45deg,  transparent 25%, rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 25%),
+      linear-gradient(-45deg, transparent 25%, rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 25%),
+      linear-gradient(45deg,  rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 75%, transparent 75%),
+      linear-gradient(-45deg, rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 75%, transparent 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  }
+  /* Larger scale for hero/empty state variety */
+  .triangle-pattern-hero {
+    background-image:
+      linear-gradient(45deg,  transparent 25%, rgb(var(--color-text-primary) / var(--triangle-hero-opacity, 0.04)) 25%),
+      linear-gradient(-45deg, transparent 25%, rgb(var(--color-text-primary) / var(--triangle-hero-opacity, 0.04)) 25%),
+      linear-gradient(45deg,  rgb(var(--color-text-primary) / var(--triangle-hero-opacity, 0.04)) 75%, transparent 75%),
+      linear-gradient(-45deg, rgb(var(--color-text-primary) / var(--triangle-hero-opacity, 0.04)) 75%, transparent 75%);
+    background-size: 40px 40px;
+    background-position: 0 0, 0 20px, 20px -20px, -20px 0px;
+  }
+
+  /* ── Diagonal signal line (45deg, logo-aligned accent) ─────────────── */
+  .signal-line {
+    position: relative;
+  }
+  .signal-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgb(var(--color-border-default) / 0.6) 20%,
+      rgb(var(--color-border-default) / 0.9) 50%,
+      rgb(var(--color-border-default) / 0.6) 80%,
+      transparent 100%
+    );
+    transform: rotate(-45deg);
+    transform-origin: left center;
+  }
+
+  /* ── Diagonal top border (neutral) ───────────────────────────────── */
+  .triangle-border { position: relative; }
+  .triangle-border::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgb(var(--color-border)) 50%,
+      transparent 100%);
+  }
+
+  /* ── Canvas gradient (default page: subtle vertical depth) ───────── */
+  .bg-gradient-canvas {
+    background: linear-gradient(180deg,
+      rgb(var(--color-bg-canvas)) 0%,
+      rgb(var(--color-bg-surface-muted) / 0.05) 50%,
+      rgb(var(--color-bg-canvas)) 100%
+    );
+  }
+
+  /* ── Subtle neutral gradients (hero / sections) ─────────────────── */
+  .bg-gradient-brand {
+    background: linear-gradient(180deg,
+      rgb(var(--color-border) / 0.15) 0%,
+      rgb(var(--color-bg-primary)) 60%
+    );
+  }
+  .bg-gradient-hero {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border-default) / 0.12) 0%,
+      rgb(var(--color-bg-canvas)) 35%,
+      rgb(var(--color-bg-surface-muted) / 0.08) 70%,
+      rgb(var(--color-bg-canvas)) 100%
+    );
+  }
+  .dark .bg-gradient-hero {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border-default) / 0.15) 0%,
+      rgb(var(--color-bg-canvas)) 35%,
+      rgb(var(--color-bg-surface-muted) / 0.10) 70%,
+      rgb(var(--color-bg-canvas)) 100%
+    );
+  }
+  .bg-duotone-subtle {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.08) 0%,
+      rgb(var(--color-bg-primary)) 50%,
+      rgb(var(--color-border) / 0.05) 100%
+    );
+  }
+  .bg-duotone-hero {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.12) 0%,
+      rgb(var(--color-bg-primary)) 40%,
+      rgb(var(--color-border) / 0.06) 100%
+    );
+  }
+  .dark .bg-duotone-subtle {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.12) 0%,
+      rgb(var(--color-bg-primary)) 50%,
+      rgb(var(--color-border) / 0.08) 100%
+    );
+  }
+  .dark .bg-duotone-hero {
+    background: linear-gradient(135deg,
+      rgb(var(--color-border) / 0.15) 0%,
+      rgb(var(--color-bg-primary)) 40%,
+      rgb(var(--color-border) / 0.10) 100%
+    );
+  }
+
+  /* ── Radial hero gradient — signature Particle hero moment ─────────
+     Light: bright center, soft vignette at edges (spotlight on content).
+     Dark: radial bloom from top-center (overhead light source in darkness).
+     Pair with .triangle-pattern-hero for the full Particle hero look.     */
+  .bg-gradient-radial-hero {
+    background:
+      radial-gradient(
+        ellipse 120% 80% at 50% 0%,
+        rgb(255 255 255) 0%,
+        rgb(var(--color-bg-canvas)) 45%,
+        rgb(var(--color-bg-surface-muted)) 100%
+      );
+  }
+  .dark .bg-gradient-radial-hero {
+    background:
+      radial-gradient(
+        ellipse 100% 55% at 50% -5%,
+        rgb(var(--color-border-strong) / 0.22) 0%,
+        rgb(var(--color-border-default) / 0.08) 45%,
+        transparent 72%
+      );
+  }
+
+  /* ── Noise texture (premium surface grain) ──────────────────────────
+     Adds imperceptible physical grain that elevates monochrome surfaces
+     from "flat digital" to "handcrafted premium". Use on hero sections
+     and glass panels only — never on form controls or tables.           */
+  .texture-noise {
+    position: relative;
+  }
+  .texture-noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 128px 128px;
+  }
+  .dark .texture-noise::after {
+    opacity: 0.045;
+  }
+
+  /* ── Clipped corner — logo-aligned angular CTA accent ───────────────
+     Clips the top-right corner at 8px, echoing the logo's triangle
+     geometry. Use on primary CTAs and featured card headers.            */
+  .clip-corner-tr {
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%);
+  }
+  .clip-corner-tr-sm {
+    clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 0 100%);
+  }
+  .clip-corner-tr-lg {
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+  }
+
+  /* ── Card shine ──────────────────────────────────────────────────── */
+  /* Light: faint dark veil at top = shadow cast from above (sun overhead physics) */
+  /* Dark: white rim at top = light source catches the card edge */
+  .card-shine {
+    position: relative;
+  }
+  .card-shine::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+      rgb(0 0 0 / 0.025) 0%,
+      transparent 15%
+    );
+  }
+  .dark .card-shine::before {
+    background: linear-gradient(180deg,
+      rgb(255 255 255 / 0.06) 0%,
+      transparent 12%
+    );
+  }
+
+  /* ── Edge highlight (1px top rim — light source above) ─────────── */
+  /* Light: subtle dark veil at top (shadow from above); Dark: white rim (single overhead light) */
+  .edge-highlight {
+    box-shadow: inset 0 1px 0 0 rgb(0 0 0 / 0.05);
+  }
+  .dark .edge-highlight {
+    box-shadow: inset 0 1px 0 0 rgb(255 255 255 / 0.07);
+  }
+
+  /* ── Glow border (neutral) ───────────────────────────────────────── */
+  .border-glow {
+    box-shadow: 0 0 0 1px rgb(var(--color-border-hover)),
+                0 0 16px rgb(var(--color-text-primary) / 0.06);
+  }
+
+  /* ── Focus: 2px + 2px offset halo ─────────────────────────────────── */
+  .focus-triangle {
+    @apply focus:outline-none;
+  }
+  .focus-triangle:focus-visible {
+    box-shadow: var(--focus-ring);
+  }
+
+  /* ── Border elevation ─────────────────────────────────────────────── */
+  .border-elevated {
+    box-shadow:
+      0 0 0 1px rgb(var(--color-border)),
+      0 1px 2px rgb(var(--color-text-primary) / 0.04),
+      0 4px 12px rgb(var(--color-text-primary) / 0.06);
+  }
+  /* Dark: drop shadows are invisible on dark — use rim + ambient spread instead */
+  .dark .border-elevated {
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.06),             /* outer rim — edge in darkness */
+      inset 0 1px 0 0 rgb(255 255 255 / 0.07),        /* inner top highlight */
+      0 4px 32px rgb(0 0 0 / 0.55),                   /* deep ambient */
+      0 1px 4px rgb(0 0 0 / 0.30);                    /* contact shadow */
+  }
+
+  /* ── Row selection (neutral) ────────────────────────────────────── */
+  .row-selected {
+    background-color: rgb(var(--color-border) / 0.4);
+    box-shadow: inset 2px 0 0 rgb(var(--color-text-primary));
+  }
+  .dark .row-selected {
+    background-color: rgb(var(--color-border) / 0.5);
+    box-shadow: inset 2px 0 0 rgb(var(--color-text-primary));
+  }
+
+  /* ── Dark mode: table block (muted borders, correct surfaces) ───── */
+  .dark .table-block {
+    border-color: rgb(var(--color-border-subtle));
+  }
+  .dark .table-toolbar {
+    border-bottom-color: rgb(var(--color-border-subtle));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-toolbar-quick {
+    border-top-color: rgb(var(--color-border-subtle));
+  }
+  .dark .table-pagination {
+    border-top-color: rgb(var(--color-border-subtle));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-container {
+    border-color: rgb(var(--color-border-table));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-container .table-header,
+  .dark thead.table-header {
+    border-bottom-color: rgb(var(--color-border-table));
+    background-color: rgb(var(--color-bg-surface));
+  }
+  .dark .table-container .table-row,
+  .dark tbody tr.table-row {
+    border-bottom-color: rgb(var(--color-border-table));
+  }
+
+  /* ── Highlight / emphasis text mark ─────────────────────────────── */
+  .text-highlight {
+    background-color: rgb(var(--color-highlight) / 0.7);
+    color: rgb(var(--color-highlight-text));
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  /* ── Data visualization color utilities ─────────────────────────── */
+  .text-data-1 { color: rgb(var(--color-data-1)); }
+  .text-data-2 { color: rgb(var(--color-data-2)); }
+  .text-data-3 { color: rgb(var(--color-data-3)); }
+  .text-data-4 { color: rgb(var(--color-data-4)); }
+  .text-data-5 { color: rgb(var(--color-data-5)); }
+  .text-data-6 { color: rgb(var(--color-data-6)); }
+  .bg-data-1   { background-color: rgb(var(--color-data-1)); }
+  .bg-data-2   { background-color: rgb(var(--color-data-2)); }
+  .bg-data-3   { background-color: rgb(var(--color-data-3)); }
+  .bg-data-4   { background-color: rgb(var(--color-data-4)); }
+  .bg-data-5   { background-color: rgb(var(--color-data-5)); }
+  .bg-data-6   { background-color: rgb(var(--color-data-6)); }
+}

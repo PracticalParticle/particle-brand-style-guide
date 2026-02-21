@@ -1,0 +1,142 @@
+import { Meta, Description, Primary, Controls, Stories } from '@storybook/blocks';
+
+<Meta title="Design System/Style Guide" />
+
+# Particle Design System — Style Guide
+
+A single source of truth for components, tokens, and patterns used across Particle Crypto Security LTD and BloxChain Protocol.
+
+---
+
+## 1. Foundation
+
+### Design Tokens
+
+Use theme-aware tokens instead of raw colors or spacing values.
+
+| Category | Tailwind classes | Usage |
+|----------|------------------|--------|
+| **Backgrounds** | `bg-primary`, `bg-secondary`, `bg-tertiary` | Page, cards, subtle sections |
+| **Text** | `text-text-primary`, `text-text-secondary`, `text-text-tertiary`, `text-text-inverse` | Body, labels, placeholders, text on dark |
+| **Borders** | `border-default`, `border-hover`, `border-focus` | Default, hover, and focus borders |
+| **Brand** | `bg-primary`, `text-primary`, `accent-primary`, `ring-primary` | CTAs, links, focus rings, checkbox/radio accent |
+| **Semantic** | `success`, `error`, `warning`, `info` | Status, validation, alerts |
+
+### Typography
+
+- **Font**: Inter (sans), JetBrains Mono (mono).
+- **Scale**: `text-xs` … `text-5xl` (see Design Tokens for full scale).
+- Prefer semantic text colors: `text-text-primary` for body, `text-text-secondary` for supporting text.
+
+### Spacing & layout
+
+- Use the spacing scale (`p-4`, `gap-3`, `space-y-2`, etc.) for consistency.
+- Form controls: `space-y-1.5` between label/helper and `gap-2` between control and label.
+
+### Theme (light / dark)
+
+- Toggle via Storybook toolbar or `dark` class on a parent.
+- All tokens switch with theme; avoid hard-coded hex values.
+
+---
+
+## 2. Component inventory
+
+### Form controls
+
+| Component | Purpose | Key tokens |
+|-----------|---------|------------|
+| [Checkbox](/story/components-checkbox--default) | Multi-select, agreements | `border-default`, `accent-primary`, focus ring |
+| [Radio](/story/components-radio--default) | Single choice from list | Same as Checkbox |
+| [Switch](/story/components-switch--default) | Boolean toggle | `bg-tertiary`, `peer-checked:bg-primary` |
+| [Input](/story/components-input--default) | Text entry | `border-default`, `focus:ring-primary`, `focus:border-focus` |
+| [Select](/story/components-select--default) | Dropdown choice | Same as Input |
+
+### Feedback & overlay
+
+| Component | Purpose |
+|-----------|--------|
+| [Alert](/story/components-alert--default) | Inline status (success, error, warning, info) |
+| [Modal](/story/components-modal--default) | Dialogs and confirmations |
+| [Popover](/story/components-popover--default) | Contextual content (menus, hints, cards) |
+| [ActionSheet](/story/components-actionsheet--default) | Mobile-friendly bottom sheet (3+ actions) |
+| [Tooltip](/story/components-tooltip--default) | Short hints (default, light, subtle variants); placement-based animation |
+
+### Data & layout
+
+| Component | Purpose |
+|-----------|--------|
+| [Button](/story/components-button--default) | Actions (primary, secondary, outline, danger) |
+| [Badge](/story/components-badge--default) | Labels and counts |
+| [Card](/story/components-card--default) | Content containers |
+| [Table](/story/components-table--default) | Tabular data |
+| [Breadcrumbs](/story/components-breadcrumbs--default) | Navigation trail |
+| [EmptyState](/story/components-empty-state--default) | Empty lists / no data |
+| [Skeleton](/story/components-skeleton--default) | Loading placeholders |
+| [Spinner](/story/components-spinner--default) | Loading indicator |
+
+### Brand
+
+| Asset | Purpose |
+|-------|--------|
+| [Introduction](/story/brand-introduction--docs) | Brand section overview and guidelines |
+| [Logo](/story/brand-logo--default) | Particle / BloxChain logo (variants, sizes, download) |
+| [Social & Open Graph](/story/brand-social-open-graph--default) | Link preview dimensions (1200×630, 1200×675) and examples |
+| [Favicon](/story/brand-favicon--default) | Browser favicon sizes (16, 32, 48, 64) and download |
+
+---
+
+## 3. Form controls pattern
+
+All form controls in this system follow the same structure:
+
+- **Container**: `flex flex-col space-y-1.5`
+- **Row**: control + label with `flex items-start gap-2` (or `items-center` for Switch)
+- **Label**: `text-sm font-medium text-text-primary` (and `cursor-pointer` where it toggles the control)
+- **Helper text**: `text-sm text-text-tertiary ml-6` (or equivalent)
+- **Error**: `text-sm text-error ml-6` (and `border-error` / `focus:ring-error` on the control)
+
+Checkbox and Radio use:
+
+- Border: `border-2 border-default`, hover: `hover:border-hover`
+- Checked/accent: `accent-primary`
+- Focus: `focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-0` (and `focus-visible:*` for accessibility)
+- Disabled: `disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:border-default`
+
+---
+
+## 4. Quick reference
+
+### Common patterns
+
+```tsx
+// Page background
+<div className="min-h-screen bg-primary">  // or bg-secondary for cards
+
+// Card with border
+<Card className="border border-default/25">
+
+// Form label + helper
+<label className="text-sm font-medium text-text-primary">Label</label>
+<p className="text-sm text-text-tertiary">Helper text</p>
+
+// Error state
+<p className="text-sm text-error">Error message</p>
+<input className="border-error focus:ring-error" />
+```
+
+### Links to docs
+
+- [Introduction](/story/introduction--docs) — Overview and getting started
+- [Design Tokens](/story/design-system-design-tokens--colors) — Colors, typography, spacing, radius, shadows
+- Use the **sidebar** to open any component story and its docs
+
+---
+
+## 5. Accessibility
+
+- Use semantic HTML and `aria-*` where needed (e.g. `aria-invalid`, `aria-label` for icon-only controls).
+- Focus: use `focus-visible:ring-*` so keyboard focus is visible and mouse focus can be minimal.
+- Contrast: theme tokens are chosen for WCAG 2.1 AA; prefer `text-text-primary` on `bg-primary`/`bg-secondary` for body text.
+
+This style guide and the linked stories form the **comprehensive reference** for the Particle design system.
