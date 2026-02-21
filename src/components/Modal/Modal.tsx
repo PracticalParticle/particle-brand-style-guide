@@ -113,28 +113,24 @@ export const Modal: React.FC<ModalProps> = ({
     full: 'max-w-full mx-4 min-w-0',
   }
 
-  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (closeOnOverlayClick && e.target === e.currentTarget) {
-      onClose()
-    }
-  }
-
   const isAlertDialog = variant === 'danger' || variant === 'confirmation'
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-      onClick={handleOverlayClick}
     >
-      {/* Backdrop — neutral overlay, minimal blur */}
+      {/* Backdrop — neutral overlay, minimal blur; click closes when closeOnOverlayClick */}
       <div
         className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-[2px] transition-opacity"
         aria-hidden
+        role="presentation"
+        onClick={closeOnOverlayClick ? onClose : undefined}
       />
       
       {/* Modal — glass surface (tokens: --glass-bg-opacity, --glass-blur) */}
       <div
         ref={dialogRef}
+        onClick={(e) => e.stopPropagation()}
         className={cn(
           'relative z-50 w-full flex flex-col',
           'rounded-overlay surface-glass',

@@ -13,7 +13,7 @@ export interface TooltipProps {
   content: React.ReactNode
   children: React.ReactElement
   placement?: TooltipPlacement
-  /** Flip placement when there's not enough space. Default true. */
+  /** When true (default), apply viewport padding when positioning; placement may flip to stay in view. When false, no padding. */
   collisionPadding?: boolean
   delay?: number
   disabled?: boolean
@@ -165,6 +165,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 
   const show = () => {
     if (disabled) return
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
     timeoutRef.current = setTimeout(() => setIsVisible(true), delay)
   }
 

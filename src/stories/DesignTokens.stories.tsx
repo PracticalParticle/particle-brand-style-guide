@@ -246,7 +246,7 @@ export const Colors: Story = {
     }
 
     const ColorCard = ({ name, cssVar, lightHex, darkHex, usage, tailwindClass }: ColorCardProps) => (
-      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words">
+      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words" tabIndex={0} role="region" aria-label={`Color token: ${name}`}>
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="font-semibold text-text-primary mb-1 break-words">{name}</div>
@@ -289,7 +289,7 @@ export const Colors: Story = {
     }
 
     const BrandColorCard = ({ color }: { color: BrandColor }) => (
-      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words">
+      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words" tabIndex={0} role="region" aria-label={`Brand color: ${color.name}`}>
         <div className="min-w-0">
           <div className="font-semibold text-text-primary mb-1 capitalize break-words">{color.name}</div>
           <div className="text-sm text-text-secondary mb-2 break-words">{color.usage}</div>
@@ -344,7 +344,7 @@ export const Colors: Story = {
     }
 
     const SemanticColorCard = ({ color }: { color: SemanticColor }) => (
-      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words">
+      <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4 min-w-0 min-h-0 max-h-[28rem] overflow-y-auto break-words" tabIndex={0} role="region" aria-label={`Semantic color: ${color.name}`}>
         <div className="min-w-0">
           <div className="font-semibold text-text-primary mb-1 capitalize break-words">{color.name}</div>
           <div className="text-sm text-text-secondary mb-2 break-words">{color.usage}</div>

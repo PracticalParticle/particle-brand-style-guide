@@ -77,7 +77,8 @@ export const Combobox: React.FC<ComboboxProps> = ({
     setOpen(false)
   }
 
-  const getOptionId = (optValue: string) => `${id}-option-${optValue}`
+  // Use index-based IDs so option values (which may contain spaces/special chars) don't produce invalid IDs
+  const getOptionId = (index: number) => `${id}-option-${index}`
 
   const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Escape') { setOpen(false); return }
@@ -94,13 +95,16 @@ export const Combobox: React.FC<ComboboxProps> = ({
       return
     }
     setActiveIndex(next)
-    const optEl = listRef.current?.querySelector<HTMLElement>(`[id="${getOptionId(enabledFiltered[next]!.value)}"]`)
+    const activeIndexInFiltered = filtered.findIndex((o) => o.value === enabledFiltered[next]!.value)
+    const optEl = listRef.current?.querySelector<HTMLElement>(`[id="${getOptionId(activeIndexInFiltered)}"]`)
     optEl?.scrollIntoView({ block: 'nearest' })
   }
 
-  const activeOptionId = activeIndex >= 0 && enabledFiltered[activeIndex]
-    ? getOptionId(enabledFiltered[activeIndex]!.value)
-    : undefined
+  const activeFilteredIndex =
+    activeIndex >= 0 && enabledFiltered[activeIndex]
+      ? filtered.findIndex((o) => o.value === enabledFiltered[activeIndex]!.value)
+      : -1
+  const activeOptionId = activeFilteredIndex >= 0 ? getOptionId(activeFilteredIndex) : undefined
 
   const trigger = (
     <button
@@ -143,6 +147,7 @@ export const Combobox: React.FC<ComboboxProps> = ({
           aria-controls={listboxId}
           aria-activedescendant={activeOptionId}
           aria-expanded={open}
+          aria-label={label ? `Search ${label}` : 'Search options'}
           value={query}
           onChange={(e) => { setQuery(e.target.value); setActiveIndex(-1) }}
           placeholder={searchPlaceholder}
@@ -157,12 +162,12 @@ export const Combobox: React.FC<ComboboxProps> = ({
         {filtered.length === 0 ? (
           <li className="px-3 py-4 text-sm text-text-tertiary text-center">{emptyMessage}</li>
         ) : (
-          filtered.map((opt) => {
+          filtered.map((opt, index) => {
             const isActive = activeIndex >= 0 && enabledFiltered[activeIndex]?.value === opt.value
             return (
               <li
                 key={opt.value}
-                id={getOptionId(opt.value)}
+                id={getOptionId(index)}
                 role="option"
                 aria-selected={value === opt.value}
                 aria-disabled={opt.disabled}

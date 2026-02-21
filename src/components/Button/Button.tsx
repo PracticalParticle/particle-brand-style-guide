@@ -110,8 +110,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const srLabel = typeof children === 'string' ? children : undefined
 
     // Compute aria-label: for icon-only buttons use srLabel; loading state
-    // will render a sr-only span instead, so don't double-up
-    const computedAriaLabel = iconOnly ? (props['aria-label'] ?? srLabel) : props['aria-label']
+    // will render a sr-only span instead, so don't double-up.
+    // Ensure icon-only or loading buttons always have an accessible name (fallback for screen readers).
+    const computedAriaLabel =
+      iconOnly ? (props['aria-label'] ?? srLabel) : props['aria-label']
+    const needsAccessibleName = iconOnly || isLoading
+    const ariaLabel =
+      computedAriaLabel ?? (needsAccessibleName ? 'Button' : undefined)
 
     const { 'aria-label': _ariaLabel, type = 'button', ...restProps } = props
 
@@ -129,7 +134,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className
         )}
         disabled={disabled || isLoading}
-        aria-label={computedAriaLabel}
+        aria-label={ariaLabel}
         {...restProps}
       >
         {isLoading ? (
@@ -146,7 +151,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               aria-hidden="true"
             />
             {/* Announce label to screen readers while visually showing spinner */}
-            {srLabel && !computedAriaLabel && (
+            {srLabel && !ariaLabel && (
               <span className="sr-only">{srLabel}</span>
             )}
           </>

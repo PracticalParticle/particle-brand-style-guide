@@ -17,6 +17,11 @@ type TabsContextValue = {
 
 const TabsContext = createContext<TabsContextValue | null>(null)
 
+/** Sanitize a tab value for use in element IDs (no spaces or invalid chars for aria-controls/labels). */
+function sanitizeIdSegment(value: string): string {
+  return value.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '_') || 'tab'
+}
+
 function useTabs() {
   const ctx = useContext(TabsContext)
   if (!ctx) throw new Error('Tabs components must be used within a Tabs root')
@@ -45,8 +50,8 @@ export const Tabs: React.FC<TabsProps> = ({
   const idBase = useId().replace(/:/g, '')
   const tabIdPrefix = `tabs-${idBase}-tab`
   const panelIdPrefix = `tabs-${idBase}-panel`
-  const getTabId = useCallback((v: string) => `${tabIdPrefix}-${v}`, [tabIdPrefix])
-  const getPanelId = useCallback((v: string) => `${panelIdPrefix}-${v}`, [panelIdPrefix])
+  const getTabId = useCallback((v: string) => `${tabIdPrefix}-${sanitizeIdSegment(v)}`, [tabIdPrefix])
+  const getPanelId = useCallback((v: string) => `${panelIdPrefix}-${sanitizeIdSegment(v)}`, [panelIdPrefix])
 
   const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map())
   const registerTab = useCallback((v: string, el: HTMLButtonElement | null) => {

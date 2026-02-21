@@ -59,12 +59,9 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
   ) => {
     const [imgFailed, setImgFailed] = React.useState(false)
 
-    // Reset failed state whenever the src URL changes
-    const prevSrcRef = React.useRef(src)
-    if (prevSrcRef.current !== src) {
-      prevSrcRef.current = src
+    React.useEffect(() => {
       setImgFailed(false)
-    }
+    }, [src])
 
     const showImg = Boolean(src && !imgFailed)
 
@@ -72,11 +69,15 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     const displayFallback: React.ReactNode =
       fallback ?? (children ?? (name ? getInitials(name) : '?'))
 
+    // Accessible name: alt, name, or fallback text when it's a string (so screen readers get an alternative when showing fallback)
+    const ariaLabel =
+      alt || name || (typeof displayFallback === 'string' ? displayFallback : undefined)
+
     return (
       <div
         ref={ref}
         role="img"
-        aria-label={alt || name || undefined}
+        aria-label={ariaLabel}
         className={cn(
           'inline-flex items-center justify-center font-medium shrink-0 overflow-hidden',
           'bg-tertiary-lighter border border-border',
@@ -97,7 +98,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
             onError={() => setImgFailed(true)}
           />
         ) : (
-          <span className="select-none" aria-hidden>
+          <span className="select-none" aria-hidden={!!ariaLabel}>
             {displayFallback}
           </span>
         )}

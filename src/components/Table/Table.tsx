@@ -184,6 +184,15 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
         )}
       </span>
     )
+    const ariaSort =
+      sortable && sortDirection !== null
+        ? sortDirection === 'asc'
+          ? 'ascending'
+          : 'descending'
+        : sortable
+          ? 'other'
+          : undefined
+
     return (
       <th
         ref={ref}
@@ -193,7 +202,17 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
           className
         )}
         {...(isButton
-          ? { onClick: onSort, onKeyDown: (e: React.KeyboardEvent) => (e.key === 'Enter' || e.key === ' ') && onSort?.(), role: 'button', tabIndex: 0 }
+          ? {
+              onClick: onSort,
+              onKeyDown: (e: React.KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  onSort?.()
+                }
+              },
+              tabIndex: 0,
+              'aria-sort': ariaSort,
+            }
           : {})}
         {...props}
       >
