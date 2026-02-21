@@ -236,10 +236,12 @@ export default {
         7.5: '1.875rem',
       },
       borderRadius: {
-        card:    'var(--radius-base, 10px)',
-        control: 'var(--radius-control, 6px)',
-        inset:   'var(--radius-inset, 4px)',
-        pill:    'var(--radius-pill, 9999px)',
+        structural: 'var(--radius-structural, 2px)',  /* nav, sidebar, table headers — sharp, system-level */
+        inset:      'var(--radius-inset, 4px)',
+        control:    'var(--radius-control, 6px)',
+        card:       'var(--radius-base, 10px)',
+        overlay:    'var(--radius-overlay, 12px)',    /* modals, drawers — floating */
+        pill:       'var(--radius-pill, 9999px)',
         none:  '0',
         xs:    '0.125rem',
         sm:    '0.25rem',
@@ -266,22 +268,42 @@ export default {
         'span-16': 'span 16 / span 16',
       },
       boxShadow: {
-        subtle:   '0 1px 2px rgba(0,0,0,0.04)',
-        elevated: '0 8px 30px rgba(5,5,9,0.08), 0 2px 8px rgba(5,5,9,0.04)',
-        'elevated-strong': '0 12px 40px rgba(5,5,9,0.12), 0 4px 12px rgba(5,5,9,0.06)',
-        sm:    '0 1px 2px 0 rgb(5 5 9 / 0.06)',
-        base:  '0 1px 3px 0 rgb(8 12 34 / 0.1), 0 1px 2px -1px rgb(8 12 34 / 0.06)',
-        md:    '0 4px 6px -1px rgb(8 12 34 / 0.08), 0 2px 4px -2px rgb(8 12 34 / 0.04)',
-        lg:    '0 10px 24px -4px rgb(8 12 34 / 0.12), 0 4px 8px -4px rgb(8 12 34 / 0.06)',
-        xl:    '0 20px 40px -8px rgb(8 12 34 / 0.16), 0 8px 16px -4px rgb(8 12 34 / 0.08)',
-        '2xl': '0 32px 64px -12px rgb(8 12 34 / 0.28)',
-        inner: 'inset 0 2px 4px 0 rgb(5 5 9 / 0.06)',
+        subtle:   '0 1px 2px rgb(var(--color-shadow) / 0.04)',
+        elevated: '0 8px 30px rgb(var(--color-shadow) / 0.08), 0 2px 8px rgb(var(--color-shadow) / 0.04)',
+        'elevated-strong': '0 12px 40px rgb(var(--color-shadow) / 0.12), 0 4px 12px rgb(var(--color-shadow) / 0.06)',
+        sm:    '0 1px 2px 0 rgb(var(--color-shadow) / 0.06)',
+        base:  '0 1px 3px 0 rgb(var(--color-shadow) / 0.1), 0 1px 2px -1px rgb(var(--color-shadow) / 0.06)',
+        md:    '0 4px 6px -1px rgb(var(--color-shadow) / 0.08), 0 2px 4px -2px rgb(var(--color-shadow) / 0.04)',
+        lg:    '0 10px 24px -4px rgb(var(--color-shadow) / 0.12), 0 4px 8px -4px rgb(var(--color-shadow) / 0.06)',
+        xl:    '0 20px 40px -8px rgb(var(--color-shadow) / 0.16), 0 8px 16px -4px rgb(var(--color-shadow) / 0.08)',
+        '2xl': '0 32px 64px -12px rgb(var(--color-shadow) / 0.28)',
+        inner: 'inset 0 2px 4px 0 rgb(var(--color-shadow) / 0.06)',
         'glow-dark': '0 0 0 1px rgb(var(--color-border)), 0 4px 24px rgb(var(--color-text-primary) / 0.08)',
+        'elevated-dark': '0 8px 30px rgb(var(--color-shadow) / 0.25), 0 2px 8px rgb(var(--color-shadow) / 0.15)',
+        /* Modal: clearly floating — deep shadow in light, rim+ambient in dark */
+        'modal': '0 0 0 1px rgb(var(--color-shadow) / 0.06), 0 4px 16px rgb(var(--color-shadow) / 0.10), 0 24px 64px rgb(var(--color-shadow) / 0.16)',
+        'modal-dark': '0 0 0 1px rgb(255 255 255 / 0.07), inset 0 1px 0 0 rgb(255 255 255 / 0.07), 0 4px 48px rgb(0 0 0 / 0.65)',
+        /* Card featured: stronger presence for highlighted cards */
+        'card-featured': '0 4px 16px rgb(var(--color-shadow) / 0.10), 0 1px 4px rgb(var(--color-shadow) / 0.06)',
+      },
+      /* Glass blur and saturate: used via CSS vars in .surface-glass / .card-glass */
+      backdropBlur: {
+        glass: 'var(--glass-blur, 18px)',
+      },
+      backdropSaturate: {
+        glass: 'var(--glass-saturate, 1.6)',
       },
       backgroundImage: {
-        'triangle-pattern': 'linear-gradient(45deg, transparent 25%, rgb(var(--color-text-primary) / 0.03) 25%), linear-gradient(-45deg, transparent 25%, rgb(var(--color-text-primary) / 0.03) 25%), linear-gradient(45deg, rgb(var(--color-text-primary) / 0.03) 75%, transparent 75%), linear-gradient(-45deg, rgb(var(--color-text-primary) / 0.03) 75%, transparent 75%)',
+        'triangle-pattern': 'linear-gradient(45deg, transparent 25%, rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 25%), linear-gradient(-45deg, transparent 25%, rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 25%), linear-gradient(45deg, rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 75%, transparent 75%), linear-gradient(-45deg, rgb(var(--color-text-primary) / var(--triangle-opacity, 0.03)) 75%, transparent 75%)',
         'gradient-brand': 'linear-gradient(180deg, rgb(var(--color-border) / 0.15) 0%, transparent 60%)',
         'gradient-hero':  'linear-gradient(180deg, rgb(var(--color-border) / 0.12) 0%, transparent 60%)',
+        'gradient-canvas': 'linear-gradient(180deg, rgb(var(--color-bg-canvas)) 0%, rgb(var(--color-bg-surface-muted) / 0.05) 50%, rgb(var(--color-bg-canvas)) 100%)',
+      },
+      /* Layer opacities: use as bg-bg-surface/95 or with opacity-*; vars in globals */
+      opacity: {
+        'layer-overlay': 'var(--layer-surface-overlay)',
+        'layer-soft': 'var(--layer-surface-soft)',
+        'layer-muted': 'var(--layer-muted-overlay)',
       },
       transitionTimingFunction: {
         // Phase 7: modern SaaS standard

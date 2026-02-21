@@ -85,7 +85,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
       />
       <div
         className={cn(
-          'relative z-50 w-full rounded-t-2xl sm:rounded-2xl bg-secondary shadow-2xl',
+          'relative z-50 w-full rounded-t-2xl sm:rounded-2xl shadow-2xl surface-glass',
           'flex flex-col max-h-[85vh] sm:max-h-[min(85vh,32rem)]',
           'animate-sheet-in',
           className

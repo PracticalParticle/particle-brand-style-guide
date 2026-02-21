@@ -26,20 +26,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const hasError = !!error
 
     const baseStyles = [
-      'flex h-10 w-full rounded-control border',
+      'flex min-h-[44px] h-10 w-full rounded-control border',
       'bg-bg-secondary px-3 py-2 text-sm text-text-primary',
       'transition-all duration-normal ease-out',
       'placeholder:text-text-muted placeholder:opacity-100',
-      'focus:outline-none',
+      'focus-ring',
       'disabled:cursor-not-allowed disabled:opacity-40 disabled:bg-bg-tertiary',
       'file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-text-primary',
       'border-border',
     ].join(' ')
 
-    /* Focus: 2px halo (neutral); error: subtle red border, same halo */
     const borderStyles = hasError
-      ? 'border border-error focus:shadow-[0_0_0_2px_rgb(var(--color-bg-primary)),0_0_0_4px_rgb(var(--color-text-primary))]'
-      : 'hover:border-border-hover focus:border-border-focus focus:shadow-[0_0_0_2px_rgb(var(--color-bg-primary)),0_0_0_4px_rgb(var(--color-text-primary))]'
+      ? 'border border-error'
+      : 'hover:border-border-hover focus:border-border-focus'
 
     const iconPadding = {
       left: leftIcon ? 'pl-10' : '',

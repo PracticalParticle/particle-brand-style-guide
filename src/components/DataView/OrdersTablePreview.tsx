@@ -3,7 +3,7 @@
  * Used by Data View / TableView story and ComponentShowcase.
  */
 
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell, type SortDirection } from '../Table/Table'
 import { TableToolbar } from '../Table/TableToolbar'
 import { TablePagination } from '../Table/TablePagination'

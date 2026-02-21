@@ -18,7 +18,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
           <label
             htmlFor={radioId}
             className={cn(
-              'flex items-center gap-2 cursor-pointer',
+              'flex items-center gap-2 cursor-pointer min-h-[44px] py-1',
               disabled && 'cursor-not-allowed opacity-50'
             )}
           >

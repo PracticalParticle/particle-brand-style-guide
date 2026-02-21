@@ -31,38 +31,37 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       // Brand — electric indigo
       default: 'bg-tertiary text-text-inverse',
 
-      // Primary — deep navy / dark surface
+      // Primary — dark surface in dark mode, bg-primary in light.
       primary: [
         'bg-primary text-text-inverse',
         'dark:bg-bg-tertiary dark:text-text-primary dark:border dark:border-border',
-      ].join(' '),
+      ].join(' '),  // bg-primary → bg-bg-tertiary in dark (different token, needs explicit override)
 
-      // Status — tinted surfaces with bordered style
+      // Status — tinted surfaces with bordered style.
+      // text-* and border-* use CSS vars that already adapt per mode — no dark: duplicate needed.
+      // Only background overrides dark mode (different formula: opacity vs solid-light).
       success: [
         'bg-success-light text-success border border-success/20',
-        'dark:bg-success/15 dark:text-success dark:border-success/25',
+        'dark:bg-success/15',
       ].join(' '),
 
       warning: [
         'bg-warning-light text-warning border border-warning/20',
-        'dark:bg-warning/15 dark:text-warning dark:border-warning/25',
+        'dark:bg-warning/15',
       ].join(' '),
 
       error: [
         'bg-error-light text-error border border-error/20',
-        'dark:bg-error/15 dark:text-error dark:border-error/25',
+        'dark:bg-error/15',
       ].join(' '),
 
       info: [
         'bg-info-light text-info border border-info/20',
-        'dark:bg-tertiary/15 dark:text-tertiary-on-dark dark:border-tertiary-on-dark/25',
+        'dark:bg-tertiary/15',
       ].join(' '),
 
-      // Outline — minimal ring
-      outline: [
-        'border border-border text-text-secondary bg-transparent',
-        'dark:border-border dark:text-text-secondary',
-      ].join(' '),
+      // Outline — minimal ring. text-text-secondary already adapts via CSS var.
+      outline: 'border border-border text-text-secondary bg-transparent',
     }
 
     const sizes = {

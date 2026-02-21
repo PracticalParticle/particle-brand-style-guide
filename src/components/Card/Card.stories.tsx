@@ -502,7 +502,7 @@ export const PricingCard: Story = {
               <CardTitle className="text-lg sm:text-2xl">{plan.name}</CardTitle>
               <div className="mt-3 sm:mt-4 flex flex-wrap items-baseline justify-center gap-x-1">
                 <span className="text-2xl sm:text-4xl font-bold">{plan.price}</span>
-                <span className={`text-sm sm:text-base ${plan.popular ? 'text-text-inverse/80' : 'text-text-secondary'}`}>/month</span>
+                <span className={`text-sm sm:text-base ${plan.popular ? 'text-text-inverse/90' : 'text-text-secondary'}`}>/month</span>
               </div>
             </CardHeader>
             <CardContent>

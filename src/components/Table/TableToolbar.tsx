@@ -21,17 +21,6 @@ const ClearIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-const SortAscIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <path d="m18 15-6-6-6 6" />
-  </svg>
-)
-const SortDescIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <path d="m6 9 6 6 6-6" />
-  </svg>
-)
-
 export interface TableToolbarFilterOption {
   value: string
   label: string
@@ -145,31 +134,32 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   return (
     <div
       className={cn(
-        'table-toolbar rounded-t-lg border-b border-default dark:border-subtle bg-bg-secondary',
-        'flex flex-col gap-0',
+        'table-toolbar rounded-t-lg bg-bg-secondary flex flex-col',
         className
       )}
     >
       {/* Row 1: Search, Filter toggle, chips, Clear, Sort, actions */}
       <div
         className={cn(
-          'flex flex-nowrap items-center gap-2 min-w-0',
-          'px-2 py-2 xs:px-3 sm:px-4 sm:py-2.5',
+          'flex flex-nowrap items-center gap-3 min-w-0',
+          'px-3 py-2.5 sm:px-4 sm:py-3',
           'min-h-[2.75rem] sm:min-h-[3rem]',
-          'overflow-x-auto overflow-y-hidden'
+          'overflow-x-auto overflow-y-hidden',
+          /* Bottom border only when this row is the last (no quick filters, and no open filter row) */
+          !hasQuickFilters && (!hasMultiFilters || !filterRowOpen) && 'border-b border-border'
         )}
       >
-        {/* Search */}
+        {/* Search — aligned height with toolbar controls */}
         {onSearchChange !== undefined && (
-          <div className="w-[8.5rem] min-w-[8.5rem] xs:w-[10rem] sm:w-[12rem] shrink-0">
+          <div className="w-[10rem] min-w-[10rem] sm:w-[14rem] shrink-0">
             <Input
               type="search"
               placeholder={searchPlaceholder}
               value={searchValue}
               onChange={(e) => onSearchChange(e.target.value)}
-              leftIcon={<SearchIcon className="h-4 w-4 text-text-tertiary" />}
-              className="h-9 text-sm"
-              aria-label="Search"
+              leftIcon={<SearchIcon className="h-4 w-4 text-text-muted" />}
+              className="h-9 min-h-[2.25rem] text-sm rounded-control"
+              aria-label="Search table"
             />
           </div>
         )}
@@ -183,7 +173,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               ariaLabelActive={`Filters (${activeFilterCount} active)`}
               expanded={filterRowOpen}
               onClick={() => setFilterRowOpen((o) => !o)}
-              className={filterRowOpen ? 'border-border-focus' : ''}
+              className={cn('h-9 w-9 shrink-0', filterRowOpen && 'ring-2 ring-border-focus ring-offset-2 ring-offset-bg-secondary')}
             />
             {filterChips.length > 0 && (
               <div className="flex flex-wrap items-center gap-1.5 min-w-0 overflow-x-auto">
@@ -229,7 +219,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
                 size="sm"
                 iconOnly
                 onClick={handleClearAll}
-                className="h-9 w-9 text-text-tertiary hover:text-text-primary"
+                className="h-9 w-9 shrink-0 text-text-muted hover:text-text-primary"
                 aria-label="Clear all filters"
               >
                 <ClearIcon className="h-4 w-4" />
@@ -240,10 +230,10 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
 
         {children}
 
-        {/* Sort */}
+        {/* Sort by — single dropdown (direction handled by column header or parent) */}
         {sortConfig && sortConfig.options.length > 0 && (
-          <div className="flex items-center gap-2 shrink-0">
-            <label htmlFor="toolbar-sort-by" className="text-xs font-medium text-text-tertiary whitespace-nowrap sr-only sm:not-sr-only">
+          <div className="flex items-center shrink-0">
+            <label htmlFor="toolbar-sort-by" className="sr-only">
               Sort by
             </label>
             <Select
@@ -251,7 +241,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               size="sm"
               value={sortConfig.sortKey}
               onChange={(e) => sortConfig.onSortChange(e.target.value, sortConfig.sortDir)}
-              className="min-w-[8rem] w-[8.5rem] sm:w-[9rem] [&_select]:h-9 [&_select]:text-xs [&_select]:py-1.5"
+              className="min-w-[7rem] w-[8rem] sm:w-[9rem] [&_select]:h-9 [&_select]:text-xs [&_select]:py-1.5"
               aria-label="Sort by"
             >
               {sortConfig.options.map((opt) => (
@@ -260,31 +250,10 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
                 </option>
               ))}
             </Select>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              iconOnly
-              onClick={() =>
-                sortConfig.onSortChange(
-                  sortConfig.sortKey,
-                  sortConfig.sortDir === 'asc' ? 'desc' : 'asc'
-                )
-              }
-              className="h-8 w-8 text-text-tertiary hover:text-text-primary"
-              aria-label={sortConfig.sortDir === 'asc' ? 'Sort descending' : 'Sort ascending'}
-              title={sortConfig.sortDir === 'asc' ? 'Descending' : 'Ascending'}
-            >
-              {sortConfig.sortDir === 'asc' ? (
-                <SortAscIcon className="h-4 w-4" />
-              ) : (
-                <SortDescIcon className="h-4 w-4" />
-              )}
-            </Button>
           </div>
         )}
 
-        <div className="flex-1 min-w-2 shrink-0" aria-hidden />
+        <div className="flex-1 min-w-4 shrink-0" aria-hidden />
 
         {actions && (
           <div className="flex shrink-0 items-center gap-2">
@@ -301,16 +270,17 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
           onValuesChange={filtersConfig!.onValuesChange}
           onClearAll={handleClearAll}
           rowLabel="Filters"
+          className={!hasQuickFilters ? 'border-b border-border' : undefined}
         />
       )}
 
-      {/* Row 3: Quick filter badges */}
+      {/* Row 3: Quick filter badges — border below (above column headers), not above */}
       {hasQuickFilters && (
         <div
           className={cn(
             'table-toolbar-quick flex flex-wrap items-center gap-x-2 gap-y-1.5',
             'px-2 py-2 xs:px-3 sm:px-4 sm:py-3',
-            'border-t border-default dark:border-subtle'
+            'border-b border-border'
           )}
         >
           {quickFilters.label && (

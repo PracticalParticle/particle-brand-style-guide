@@ -52,7 +52,7 @@ export const FilterInlineRow: React.FC<FilterInlineRowProps> = ({
       className={cn(
         'flex flex-wrap items-center gap-x-4 gap-y-2',
         'px-2 py-2 xs:px-3 sm:px-4 sm:py-2.5',
-        'border-t border-default bg-bg-tertiary/30',
+        'bg-bg-surface-muted/50 dark:bg-bg-surface-muted/30',
         className
       )}
       role="region"

@@ -29,13 +29,10 @@ const sizeMap: Record<string, string> = {
   256: 'w-64',
 }
 
-/** Brand blue for logo tertiary (theme tertiary is monochrome). logo.svg uses currentColor. */
-const LOGO_TERTIARY_BLUE = '#1F4ED8'
-
-/** Variant → Tailwind color (logo.svg uses currentColor). No fill/stroke overrides. */
+/** Variant → Tailwind color (logo.svg uses currentColor). Monochrome only; tertiary = brand primary. */
 const colorClassByVariant: Record<string, string> = {
   light: 'text-white',
-  tertiary: '', // set via style below
+  tertiary: 'text-btn-primary',
   dark: 'text-primary',
   default: 'text-text-primary',
 }
@@ -58,14 +55,12 @@ export const Logo: React.FC<LogoProps> = ({
 }) => {
   const sizeClass = sizeMap[String(size)] ?? 'w-24'
   const colorClass = colorClassByVariant[variant] ?? colorClassByVariant.default
-  const isTertiary = variant === 'tertiary'
 
   return (
     <span
       className={cn('inline-block shrink-0', sizeClass, colorClass, className)}
       style={{
         aspectRatio: LOGO_ASPECT_RATIO,
-        ...(isTertiary ? { color: LOGO_TERTIARY_BLUE } : {}),
         ...style,
       }}
       {...props}

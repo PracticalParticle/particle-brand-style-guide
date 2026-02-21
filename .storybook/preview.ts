@@ -97,6 +97,20 @@ const preview: Preview = {
     (Story, context) => {
       const theme = context.globals.theme || 'light'
 
+      // Apply theme synchronously before first paint to avoid flash
+      if (typeof document !== 'undefined') {
+        const htmlEl = document.documentElement
+        const bodyEl = document.body
+        const isDark = theme === 'dark'
+        if (isDark) {
+          htmlEl.classList.add('dark')
+          if (bodyEl) bodyEl.classList.add('dark')
+        } else {
+          htmlEl.classList.remove('dark')
+          if (bodyEl) bodyEl.classList.remove('dark')
+        }
+      }
+
       const ThemeEffect = ({ themeValue }: { themeValue: string }) => {
         React.useEffect(() => {
           if (typeof document === 'undefined') return
@@ -105,7 +119,6 @@ const preview: Preview = {
           const htmlElement = document.documentElement
           const bodyElement = document.body
 
-          // Always apply theme to html/body so docs and canvas both get correct text/background
           if (currentIsDark) {
             htmlElement.classList.add('dark')
             bodyElement.classList.add('dark')
@@ -114,7 +127,8 @@ const preview: Preview = {
             bodyElement.classList.remove('dark')
           }
 
-          // Ensure docs canvas area uses theme background
+          localStorage.setItem('particle-theme', themeValue)
+
           const root = document.getElementById('storybook-root')
           const canvasContainer = root?.closest('.sbdocs-preview') as HTMLElement | null
           if (canvasContainer) {

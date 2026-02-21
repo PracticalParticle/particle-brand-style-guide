@@ -42,6 +42,14 @@ export const Colors: Story = {
           usage: 'Hovers, subtle surfaces',
           tailwindClass: 'bg-surface-muted / bg-bg-tertiary',
         },
+        {
+          name: 'bg-elevated',
+          cssVar: '--color-bg-elevated',
+          lightHex: '#FFFFFF',
+          darkHex: '#191C22',
+          usage: 'Modals, floating panels',
+          tailwindClass: 'bg-elevated / bg-bg-elevated',
+        },
       ],
       text: [
         {
@@ -101,6 +109,22 @@ export const Colors: Story = {
           darkHex: '#A3A3A3',
           usage: 'Neutral focus ring (no brand color)',
           tailwindClass: 'border-border-focus',
+        },
+        {
+          name: 'border-subtle',
+          cssVar: '--color-border-subtle',
+          lightHex: '#F1F5F9',
+          darkHex: '#1F242B',
+          usage: 'Very light dividers',
+          tailwindClass: 'border-border-subtle',
+        },
+        {
+          name: 'border-table',
+          cssVar: '--color-border-table',
+          lightHex: '#E5E7EB',
+          darkHex: '#181C22',
+          usage: 'Table row/header borders',
+          tailwindClass: 'border-border-table',
         },
       ],
     }
@@ -450,6 +474,92 @@ export const Colors: Story = {
             ))}
           </div>
         </section>
+
+        {/* Backdrop, Highlight, Data, Skeleton, Glass, Layer, Focus */}
+        <section className="space-y-6">
+          <h2 className="text-2xl font-semibold text-text-primary mb-2">More tokens</h2>
+          <p className="text-sm text-text-secondary mb-6">
+            Backdrop, highlight, data viz, skeleton, glass, layer opacities, and focus. Use for overlays, emphasis, charts, loading states, and glass panels.
+          </p>
+
+          <div>
+            <h3 className="text-lg font-medium text-text-primary mb-4">Backdrop</h3>
+            <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
+              <div className="text-sm text-text-secondary">
+                <code className="bg-bg-tertiary px-1 py-0.5 rounded">--color-backdrop</code>, <code className="bg-bg-tertiary px-1 py-0.5 rounded">--color-backdrop-opacity-light</code> / <code className="bg-bg-tertiary px-1 py-0.5 rounded">--color-backdrop-opacity-dark</code>
+              </div>
+              <p className="text-xs text-text-tertiary">Modal/overlay dim. Classes: <code className="bg-bg-tertiary px-1 rounded">bg-backdrop</code>, <code className="bg-bg-tertiary px-1 rounded">bg-backdrop-dark</code>.</p>
+              <div className="flex gap-4 mt-3">
+                <div className="h-14 w-24 rounded bg-backdrop border border-border" />
+                <div className="h-14 w-24 rounded bg-backdrop-dark border border-border" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-text-primary mb-4">Highlight (emphasis)</h3>
+            <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
+              <div className="text-sm text-text-secondary">
+                <code className="bg-bg-tertiary px-1 py-0.5 rounded">--color-highlight</code>, <code className="bg-bg-tertiary px-1 py-0.5 rounded">--color-highlight-text</code>
+              </div>
+              <p className="text-xs text-text-tertiary">Search match, emphasis. Classes: <code className="bg-bg-tertiary px-1 rounded">bg-highlight</code>, <code className="bg-bg-tertiary px-1 rounded">text-highlight</code>, <code className="bg-bg-tertiary px-1 rounded">.text-highlight</code>.</p>
+              <p className="text-sm bg-highlight text-highlight-text px-2 py-1 rounded inline-block">Example highlight</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-text-primary mb-4">Data viz (1–6)</h3>
+            <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
+              <p className="text-xs text-text-tertiary">Charts, series. <code className="bg-bg-tertiary px-1 rounded">bg-data-1</code> … <code className="bg-bg-tertiary px-1 rounded">bg-data-6</code>, <code className="bg-bg-tertiary px-1 rounded">text-data-1</code> … <code className="bg-bg-tertiary px-1 rounded">text-data-6</code>.</p>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <div className="h-8 w-12 rounded bg-data-1 border border-border" title="data-1" />
+                <div className="h-8 w-12 rounded bg-data-2 border border-border" title="data-2" />
+                <div className="h-8 w-12 rounded bg-data-3 border border-border" title="data-3" />
+                <div className="h-8 w-12 rounded bg-data-4 border border-border" title="data-4" />
+                <div className="h-8 w-12 rounded bg-data-5 border border-border" title="data-5" />
+                <div className="h-8 w-12 rounded bg-data-6 border border-border" title="data-6" />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-text-primary mb-4">Skeleton</h3>
+            <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
+              <div className="text-sm text-text-secondary"><code className="bg-bg-tertiary px-1 py-0.5 rounded">--color-skeleton</code></div>
+              <p className="text-xs text-text-tertiary">Loading placeholders. Class: <code className="bg-bg-tertiary px-1 rounded">bg-skeleton</code>.</p>
+              <div className="h-8 w-32 rounded bg-skeleton mt-2" />
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-text-primary mb-4">Glass</h3>
+            <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
+              <div className="text-sm text-text-secondary">
+                <code className="bg-bg-tertiary px-1 py-0.5 rounded">--glass-bg-opacity</code>, <code className="bg-bg-tertiary px-1 py-0.5 rounded">--glass-blur</code>, <code className="bg-bg-tertiary px-1 py-0.5 rounded">--glass-border-opacity</code>
+              </div>
+              <p className="text-xs text-text-tertiary">Light/dark values. Usage: <code className="bg-bg-tertiary px-1 rounded">.surface-glass</code>, <code className="bg-bg-tertiary px-1 rounded">.card-glass</code>.</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-text-primary mb-4">Layer opacities</h3>
+            <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
+              <div className="text-sm text-text-secondary">
+                <code className="bg-bg-tertiary px-1 py-0.5 rounded">--layer-surface-overlay</code> (0.95), <code className="bg-bg-tertiary px-1 py-0.5 rounded">--layer-surface-soft</code> (0.9), <code className="bg-bg-tertiary px-1 py-0.5 rounded">--layer-muted-overlay</code> (0.8)
+              </div>
+              <p className="text-xs text-text-tertiary">Usage: <code className="bg-bg-tertiary px-1 rounded">opacity-layer-overlay</code>, <code className="bg-bg-tertiary px-1 rounded">bg-bg-surface/95</code>.</p>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-medium text-text-primary mb-4">Focus ring</h3>
+            <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
+              <div className="text-sm text-text-secondary"><code className="bg-bg-tertiary px-1 py-0.5 rounded">--focus-ring</code>, <code className="bg-bg-tertiary px-1 py-0.5 rounded">--focus-ring-offset</code></div>
+              <p className="text-xs text-text-tertiary">Usage: <code className="bg-bg-tertiary px-1 rounded">.focus-ring</code> on interactive elements.</p>
+              <button type="button" className="px-3 py-2 border border-border rounded-control focus-ring bg-bg-secondary text-text-primary text-sm">Focus me</button>
+            </div>
+          </div>
+        </section>
       </div>
     )
   },
@@ -732,6 +842,97 @@ export const SurfaceOnGradient: Story = {
           backdrop blur is removed. See <code className="font-mono bg-bg-tertiary px-1 py-0.5 rounded">docs/THEME_SYSTEM.md</code> and{' '}
           <code className="font-mono bg-bg-tertiary px-1 py-0.5 rounded">prefers-reduced-transparency</code> in globals.css.
         </p>
+      </section>
+    </div>
+  ),
+}
+
+export const SurfacesAndDepth: Story = {
+  render: () => (
+    <div className="p-8 space-y-12 w-full min-h-screen">
+      <div>
+        <h1 className="text-3xl font-bold mb-2 text-text-primary">Surfaces and Depth</h1>
+        <p className="text-text-secondary mb-4">
+          Layer opacities, glass tokens, neutral gradients, and edge highlights. Use <strong>solid</strong> for content cards and forms;
+          <strong> glass</strong> for overlays and nav; <strong>translucent</strong> layers and <strong>gradients</strong> for depth without color.
+        </p>
+      </div>
+
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold text-text-primary">Layer opacities (translucent surfaces)</h2>
+        <p className="text-sm text-text-secondary">
+          Use these as <strong>background alpha modifiers</strong> (e.g. <code className="bg-bg-tertiary px-1 py-0.5 rounded font-mono">bg-bg-surface/95</code>) — not as element-level opacity — so text inside keeps full contrast.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="p-4 rounded-lg border border-border bg-bg-surface/95">
+            <code className="text-sm font-mono text-text-secondary">--layer-surface-overlay</code>
+            <p className="text-xs text-text-secondary mt-1">0.95 — cards on canvas, modals</p>
+            <p className="text-xs text-text-muted mt-0.5">bg-bg-surface/95</p>
+          </div>
+          <div className="p-4 rounded-lg border border-border bg-bg-surface/90">
+            <code className="text-sm font-mono text-text-secondary">--layer-surface-soft</code>
+            <p className="text-xs text-text-secondary mt-1">0.90 — softer overlay</p>
+            <p className="text-xs text-text-muted mt-0.5">bg-bg-surface/90</p>
+          </div>
+          <div className="p-4 rounded-lg border border-border bg-bg-surface-muted/80">
+            <code className="text-sm font-mono text-text-secondary">--layer-muted-overlay</code>
+            <p className="text-xs text-text-secondary mt-1">0.80 — hover, secondary panels</p>
+            <p className="text-xs text-text-muted mt-0.5">bg-bg-surface-muted/80</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold text-text-primary">Glass tokens</h2>
+        <div className="p-4 rounded-lg border border-border surface-glass max-w-xl">
+          <code className="text-sm font-mono text-text-secondary">.surface-glass</code> / <code className="text-sm font-mono text-text-secondary">.card-glass</code>
+          <p className="text-xs text-text-tertiary mt-2">
+            CSS: <code>--glass-bg-opacity</code>, <code>--glass-blur</code>, <code>--glass-border-opacity</code>. Use for nav, modals, ActionSheet.
+          </p>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold text-text-primary">Neutral gradients</h2>
+        <div className="space-y-4">
+          <div className="bg-gradient-canvas rounded-xl p-6 min-h-[120px]">
+            <code className="text-sm font-mono text-text-secondary">.bg-gradient-canvas</code>
+            <p className="text-xs text-text-tertiary mt-1">Default page background — subtle vertical depth</p>
+          </div>
+          <div className="bg-gradient-hero triangle-pattern-hero rounded-xl p-6 min-h-[120px]">
+            <code className="text-sm font-mono text-text-secondary">.bg-gradient-hero</code> + <code className="text-sm font-mono text-text-secondary">.triangle-pattern-hero</code>
+            <p className="text-xs text-text-tertiary mt-1">Hero / intro — Particle signature look</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold text-text-primary">Edge highlight &amp; card shine</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <Card variant="default" padding="md">
+            <CardTitle>Default card</CardTitle>
+            <CardDescription>Uses <code className="bg-bg-tertiary px-1 rounded text-xs">edge-highlight</code> and <code className="bg-bg-tertiary px-1 rounded text-xs">card-shine</code> for premium feel.</CardDescription>
+          </Card>
+          <div className="p-4 rounded-lg border border-border bg-btn-primary text-text-inverse edge-highlight flex flex-col justify-center">
+            <code className="text-sm font-mono text-text-inverse/90">.edge-highlight</code>
+            <p className="text-xs text-text-inverse/80 mt-1">1px top highlight (dark mode focus)</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <h2 className="text-xl font-semibold text-text-primary">Triangle motif &amp; signal line</h2>
+        <div className="space-y-4">
+          <div className="triangle-pattern rounded-xl p-6 min-h-[80px]">
+            <code className="text-sm font-mono text-text-secondary">.triangle-pattern</code> — 2–3% opacity, 20px scale
+          </div>
+          <div className="triangle-pattern-hero rounded-xl p-6 min-h-[80px]">
+            <code className="text-sm font-mono text-text-secondary">.triangle-pattern-hero</code> — 1–2% opacity, 40px scale
+          </div>
+          <div className="signal-line h-12 rounded-lg border border-border bg-bg-secondary flex items-center justify-center">
+            <code className="text-sm font-mono text-text-secondary">.signal-line</code> — 45° diagonal accent (logo-aligned)
+          </div>
+        </div>
       </section>
     </div>
   ),

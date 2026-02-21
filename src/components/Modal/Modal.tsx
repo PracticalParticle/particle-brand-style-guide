@@ -83,11 +83,12 @@ export const Modal: React.FC<ModalProps> = ({
         aria-hidden
       />
       
-      {/* Modal — professional SaaS: clear hierarchy, minimal chrome */}
+      {/* Modal — glass surface (tokens: --glass-bg-opacity, --glass-blur) */}
       <div
         className={cn(
           'relative z-50 w-full flex flex-col',
-          'rounded-lg border border-default bg-secondary shadow-lg',
+          'rounded-overlay surface-glass',
+          'shadow-modal dark:shadow-modal-dark',
           'min-h-[12rem] max-h-[90vh]',
           'transform transition-all',
           sizes[size]
@@ -96,13 +97,13 @@ export const Modal: React.FC<ModalProps> = ({
         aria-modal="true"
         aria-labelledby={title ? 'modal-title' : undefined}
       >
-        {/* Header — title only, no decorative icons; easy to dismiss */}
+        {/* Header — transparent so glass surface shows through; border separates from content */}
         {(title || showCloseButton) && (
           <div
             className={cn(
               'flex items-center justify-between gap-4 shrink-0',
-              'px-5 py-4 sm:px-6 rounded-t-lg',
-              'bg-secondary'
+              'px-5 py-4 sm:px-6 rounded-t-overlay',
+              'border-b border-border'
             )}
           >
             {title && (
@@ -131,7 +132,7 @@ export const Modal: React.FC<ModalProps> = ({
           </div>
         )}
 
-        {/* Content — concise, scrollable */}
+        {/* Content — scrollable, inherits glass background from parent */}
         <div className="p-5 sm:p-6 overflow-y-auto flex-1 min-h-0 text-text-primary">
           {children}
         </div>

@@ -22,26 +22,28 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
   ) => {
     const baseStyles = [
       'rounded-card transition-all duration-normal ease-out',
-      'bg-bg-secondary text-text-primary min-w-0 w-full break-words',
+      'text-text-primary min-w-0 w-full break-words',
       'flex flex-col min-h-0',
     ].join(' ')
 
     const variants = {
-      /* Default: subtle shadow only, no border */
-      default: 'shadow-subtle border-0',
+      /* Default: subtle shadow, edge highlight, optional card-shine */
+      default: [
+        'bg-bg-secondary shadow-subtle border-0',
+        'edge-highlight card-shine',
+      ].join(' '),
 
       /* Outlined: border only, no shadow */
       outlined: 'border border-border shadow-none bg-bg-secondary',
 
-      /* Elevated: clearly raised with stronger shadow */
+      /* Elevated: clearly raised with stronger shadow + edge highlight */
       elevated: [
-        'border-0 shadow-elevated',
-        'dark:shadow-[0_8px_30px_rgba(0,0,0,0.25),0_2px_8px_rgba(0,0,0,0.15)]',
+        'bg-bg-secondary border-0 shadow-elevated dark:shadow-elevated-dark edge-highlight card-shine',
       ].join(' '),
 
       /* Filled: solid block; all text inverse for visibility. Buttons get inverse context in all modes. */
       filled: [
-        'border-0 bg-btn-primary text-text-inverse shadow-elevated',
+        'border-0 bg-btn-primary text-text-inverse shadow-elevated edge-highlight',
         '[&_.card-title]:!text-text-inverse [&_.card-description]:!text-white/90',
         '[&_p]:text-white/90',
         /* All buttons: force inverse text so they’re visible on the card in light and dark */
@@ -63,10 +65,8 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         '[&_button[data-variant="danger"]]:!text-text-inverse [&_button[data-variant="danger"]]:!border-text-inverse/70',
       ].join(' '),
 
-      /* Glass: translucent + backdrop blur */
-      glass: [
-        'bg-white/70 dark:bg-bg-secondary/50 backdrop-blur-xl border border-border/60 shadow-subtle',
-      ].join(' '),
+      /* Glass: tokenized surface (--glass-bg-opacity, --glass-blur, --glass-border) */
+      glass: 'card-glass shadow-subtle',
 
       /* On-gradient: near-opaque surface for use on gradient backgrounds */
       'on-gradient': [

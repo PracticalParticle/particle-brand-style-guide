@@ -126,32 +126,36 @@ export const Welcome: Story = {
     const auditRef = useRef<HTMLDivElement>(null)
 
     return (
-      <div ref={auditRef} className="p-6 sm:p-8 lg:p-12 max-w-5xl mx-auto space-y-12 min-h-screen w-full">
-        {/* Hero – professional brand with logos */}
-        <header className="text-center space-y-8">
-          <div className="flex flex-col items-center gap-6">
-            <Logo
-              size="xl"
-              variant="default"
-              role="img"
-              aria-label="Particle Crypto Security LTD logo"
-              className="shrink-0"
-            />
-            <div className="space-y-2">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary">
-                Particle Crypto Security LTD
-              </h1>
-              <p className="text-lg sm:text-xl text-text-secondary font-medium">
-                Design System & Style Guide
-              </p>
+      <div ref={auditRef} className="min-h-screen w-full bg-gradient-canvas">
+        <div className="p-6 sm:p-8 lg:p-12 max-w-5xl mx-auto space-y-12">
+          {/* Hero – gradient + triangle pattern (Particle signature) */}
+          <header
+            className="relative rounded-card overflow-hidden bg-gradient-hero triangle-pattern-hero -mx-2 sm:-mx-4 lg:-mx-12 px-6 sm:px-8 lg:px-12 py-12 sm:py-16 text-center space-y-8"
+            aria-label="Particle Design System"
+          >
+            <div className="relative flex flex-col items-center gap-6">
+              <Logo
+                size="xl"
+                variant="default"
+                role="img"
+                aria-label="Particle Crypto Security LTD logo"
+                className="shrink-0"
+              />
+              <div className="space-y-2">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary">
+                  Particle Crypto Security LTD
+                </h1>
+                <p className="text-lg sm:text-xl text-text-secondary font-medium">
+                  Design System & Style Guide
+                </p>
+              </div>
             </div>
-          </div>
-          <p className="text-base text-text-secondary max-w-2xl mx-auto">
-            A comprehensive design system for enterprise security applications. Built for{' '}
-            <strong className="text-text-primary">BloxChain Protocol</strong> — compliance framework
-            for regulated smart accounts.
-          </p>
-        </header>
+            <p className="text-base text-text-secondary max-w-2xl mx-auto relative">
+              A comprehensive design system for enterprise security applications. Built for{' '}
+              <strong className="text-text-primary">BloxChain Protocol</strong> — compliance framework
+              for regulated smart accounts.
+            </p>
+          </header>
 
         <Divider variant="default" />
 
@@ -360,6 +364,7 @@ export const Welcome: Story = {
             <div className="text-sm text-text-secondary">2.1 AA Compliant</div>
           </Card>
         </section>
+        </div>
       </div>
     )
   },

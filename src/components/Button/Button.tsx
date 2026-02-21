@@ -45,9 +45,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ].join(' ')
 
     const variants = {
-      /* Primary: black block (light) / white block (dark) */
+      /* Primary: black block (light) / white block (dark) + edge highlight */
       primary: [
-        'bg-btn-primary text-text-inverse shadow-sm',
+        'bg-btn-primary text-text-inverse shadow-sm edge-highlight',
         'hover:bg-btn-primary-hover hover:-translate-y-px hover:shadow',
         'active:bg-btn-primary-active active:translate-y-0 active:shadow-sm',
       ].join(' '),

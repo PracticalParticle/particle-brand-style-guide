@@ -52,11 +52,11 @@ export const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
       error:   'bg-error',
     }
 
-    // Shimmer overlay: gradient swept across the bar
+    // Shimmer overlay: gradient swept across the bar (theme-aware)
     const shimmerStyle = animated
       ? {
           backgroundImage:
-            'linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.18) 50%, transparent 100%)',
+            'linear-gradient(90deg, transparent 0%, rgb(var(--color-text-inverse) / 0.18) 50%, transparent 100%)',
           backgroundSize: '200% 100%',
         }
       : {}

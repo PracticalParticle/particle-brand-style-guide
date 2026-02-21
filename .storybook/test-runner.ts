@@ -63,8 +63,12 @@ const config: TestRunnerConfig = {
     await page.evaluate(() => {
       document.documentElement.classList.add('dark')
       document.body.classList.add('dark')
+      // Force a style recalculation to ensure CSS custom properties are fully resolved
+      // before axe-core samples computed colors (avoids false positives from stale CSS var values)
+      void document.documentElement.offsetHeight
     })
-    await page.waitForTimeout(500)
+    // Wait long enough for: CSS transitions (200ms max) + custom property propagation + paint
+    await page.waitForTimeout(1200)
 
     const darkResults = await runAxe()
     const darkViolations = formatViolations(darkResults.violations, 'dark')

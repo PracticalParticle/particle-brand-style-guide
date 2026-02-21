@@ -17,13 +17,14 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
         <div className="form-row">
           <label
             htmlFor={switchId}
-            className="flex items-center gap-3 cursor-pointer"
+            className="flex items-center gap-3 cursor-pointer min-h-[44px] py-2"
           >
             <span className="relative inline-flex items-center">
               <input
                 ref={ref}
                 type="checkbox"
                 id={switchId}
+                role="switch"
                 className="sr-only peer"
                 aria-invalid={hasError}
                 aria-describedby={error ? `${switchId}-error` : helperText ? `${switchId}-helper` : undefined}
