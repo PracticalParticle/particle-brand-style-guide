@@ -143,11 +143,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const triggerRef = useRef<HTMLElement>(null)
   const tooltipId = useId()
 
-  useLayoutEffect(() => {
-    if (!isVisible || !tooltipRef.current || !triggerRef.current) {
-      setPosition(null)
-      return
-    }
+  const updatePosition = React.useCallback(() => {
+    if (!tooltipRef.current || !triggerRef.current) return
     const tooltipEl = tooltipRef.current
     const triggerEl = triggerRef.current
     const triggerRect = triggerEl.getBoundingClientRect()
@@ -161,7 +158,29 @@ export const Tooltip: React.FC<TooltipProps> = ({
     )
     setPosition({ top: result.top, left: result.left })
     setEffectivePlacement(result.placement)
-  }, [isVisible, placement, collisionPadding])
+  }, [placement, collisionPadding])
+
+  useLayoutEffect(() => {
+    if (!isVisible) {
+      setPosition(null)
+      return
+    }
+    updatePosition()
+  }, [isVisible, updatePosition])
+
+  // Recompute position on scroll/resize so tooltip stays aligned when page or container moves
+  useEffect(() => {
+    if (!isVisible) return
+    const handleUpdate = () => {
+      requestAnimationFrame(updatePosition)
+    }
+    window.addEventListener('resize', handleUpdate)
+    window.addEventListener('scroll', handleUpdate, true)
+    return () => {
+      window.removeEventListener('resize', handleUpdate)
+      window.removeEventListener('scroll', handleUpdate, true)
+    }
+  }, [isVisible, updatePosition])
 
   const show = () => {
     if (disabled) return

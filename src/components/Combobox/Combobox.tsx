@@ -15,6 +15,7 @@ const CheckIcon = ({ className }: { className?: string }) => (
 )
 
 export interface ComboboxOption {
+  /** Unique value for this option (used for selection and React keys). Must be unique across options. */
   value: string
   label: string
   disabled?: boolean
@@ -91,13 +92,19 @@ export const Combobox: React.FC<ComboboxProps> = ({
     else if (e.key === 'Home') next = 0
     else if (e.key === 'End') next = enabledFiltered.length - 1
     else if (e.key === 'Enter' && activeIndex >= 0) {
-      handleSelect(enabledFiltered[activeIndex]!.value)
+      const option = enabledFiltered[activeIndex]
+      if (option) handleSelect(option.value)
       return
     }
+    // Clamp in case options shrank while open (e.g. filter change)
+    next = Math.max(0, Math.min(next, enabledFiltered.length - 1))
     setActiveIndex(next)
-    const activeIndexInFiltered = filtered.findIndex((o) => o.value === enabledFiltered[next]!.value)
-    const optEl = listRef.current?.querySelector<HTMLElement>(`[id="${getOptionId(activeIndexInFiltered)}"]`)
-    optEl?.scrollIntoView({ block: 'nearest' })
+    const option = enabledFiltered[next]
+    const activeIndexInFiltered = option ? filtered.findIndex((o) => o.value === option.value) : -1
+    if (activeIndexInFiltered >= 0) {
+      const optEl = listRef.current?.querySelector<HTMLElement>(`[id="${getOptionId(activeIndexInFiltered)}"]`)
+      optEl?.scrollIntoView({ block: 'nearest' })
+    }
   }
 
   const activeFilteredIndex =
