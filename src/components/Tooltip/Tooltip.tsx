@@ -193,6 +193,15 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setIsVisible(false)
   }
 
+  // When disabled becomes true, clear pending show timer and hide to avoid stale visibility/ARIA
+  useEffect(() => {
+    if (disabled) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+      setIsVisible(false)
+    }
+  }, [disabled])
+
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
@@ -263,7 +272,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         onMouseLeave: (e: React.MouseEvent) => { existingOnMouseLeave?.(e); hide() },
         onFocus: (e: React.FocusEvent) => { existingOnFocus?.(e); show() },
         onBlur: (e: React.FocusEvent) => { existingOnBlur?.(e); hide() },
-        'aria-describedby': isVisible ? tooltipId : undefined,
+        'aria-describedby': isVisible && !disabled ? tooltipId : undefined,
       })}
       {usePortal && typeof document !== 'undefined'
         ? createPortal(tooltipContent, document.body)
