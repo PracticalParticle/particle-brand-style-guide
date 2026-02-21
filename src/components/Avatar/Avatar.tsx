@@ -11,18 +11,25 @@ function getInitials(name: string, maxWords = 2): string {
     .toUpperCase()
 }
 
-export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Image URL. When missing, fallback (initials or children) is shown. */
-  src?: string | null
-  /** Alt text for the image (required when src is provided for accessibility). */
+type AvatarPropsWithSrc = {
+  src: string
+  /** Alt text is required when src is provided. */
+  alt: string
+}
+
+type AvatarPropsWithoutSrc = {
+  src?: null
   alt?: string
+}
+
+export type AvatarProps = React.HTMLAttributes<HTMLDivElement> & (AvatarPropsWithSrc | AvatarPropsWithoutSrc) & {
   /** Name used to generate initials when src is missing or fails to load. */
   name?: string
   /** Size variant */
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   /** Shape */
   shape?: 'circle' | 'rounded'
-  /** Optional custom fallback (e.g. icon). When not provided, initials from name or "?" are used. */
+  /** Optional custom fallback (e.g. icon or element). When not provided, initials from name or "?" are used. */
   fallback?: React.ReactNode
 }
 
@@ -51,9 +58,19 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
     ref
   ) => {
     const [imgFailed, setImgFailed] = React.useState(false)
+
+    // Reset failed state whenever the src URL changes
+    const prevSrcRef = React.useRef(src)
+    if (prevSrcRef.current !== src) {
+      prevSrcRef.current = src
+      setImgFailed(false)
+    }
+
     const showImg = Boolean(src && !imgFailed)
-    const initials = name ? getInitials(name) : (children ? String(children).slice(0, 2).toUpperCase() : '?')
-    const displayFallback = fallback ?? initials
+
+    // Prefer explicit fallback, then children (rendered directly), then name initials, then "?"
+    const displayFallback: React.ReactNode =
+      fallback ?? (children ?? (name ? getInitials(name) : '?'))
 
     return (
       <div

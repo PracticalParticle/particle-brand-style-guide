@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react'
+import React, { useState, useRef, useLayoutEffect, useEffect, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/utils/cn'
 
@@ -141,6 +141,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const tooltipRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<HTMLElement>(null)
+  const tooltipId = useId()
 
   useLayoutEffect(() => {
     if (!isVisible || !tooltipRef.current || !triggerRef.current) {
@@ -162,12 +163,12 @@ export const Tooltip: React.FC<TooltipProps> = ({
     setEffectivePlacement(result.placement)
   }, [isVisible, placement, collisionPadding])
 
-  const handleMouseEnter = () => {
+  const show = () => {
     if (disabled) return
     timeoutRef.current = setTimeout(() => setIsVisible(true), delay)
   }
 
-  const handleMouseLeave = () => {
+  const hide = () => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
     setIsVisible(false)
   }
@@ -183,6 +184,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   const tooltipContent = isVisible && !disabled && (
     <div
       ref={tooltipRef}
+      id={tooltipId}
       className={cn(
         'fixed z-50 text-sm pointer-events-none',
         'px-[var(--tooltip-padding-x)] py-[var(--tooltip-padding-y)]',
@@ -217,12 +219,31 @@ export const Tooltip: React.FC<TooltipProps> = ({
     </div>
   )
 
+  // Compose existing trigger props with our handlers/ref
+  const childProps = children.props as Record<string, unknown>
+  const existingOnMouseEnter = childProps.onMouseEnter as React.MouseEventHandler | undefined
+  const existingOnMouseLeave = childProps.onMouseLeave as React.MouseEventHandler | undefined
+  const existingOnFocus = childProps.onFocus as React.FocusEventHandler | undefined
+  const existingOnBlur = childProps.onBlur as React.FocusEventHandler | undefined
+  const existingRef = (children as React.ReactElement & { ref?: React.Ref<unknown> }).ref
+
+  const mergeRefs = (...refs: React.Ref<unknown>[]) => (node: unknown) => {
+    refs.forEach((r) => {
+      if (!r) return
+      if (typeof r === 'function') r(node)
+      else (r as React.MutableRefObject<unknown>).current = node
+    })
+  }
+
   return (
     <>
       {React.cloneElement(children, {
-        ref: triggerRef,
-        onMouseEnter: handleMouseEnter,
-        onMouseLeave: handleMouseLeave,
+        ref: mergeRefs(triggerRef as React.Ref<unknown>, existingRef as React.Ref<unknown>),
+        onMouseEnter: (e: React.MouseEvent) => { existingOnMouseEnter?.(e); show() },
+        onMouseLeave: (e: React.MouseEvent) => { existingOnMouseLeave?.(e); hide() },
+        onFocus: (e: React.FocusEvent) => { existingOnFocus?.(e); show() },
+        onBlur: (e: React.FocusEvent) => { existingOnBlur?.(e); hide() },
+        'aria-describedby': isVisible ? tooltipId : undefined,
       })}
       {usePortal && typeof document !== 'undefined'
         ? createPortal(tooltipContent, document.body)

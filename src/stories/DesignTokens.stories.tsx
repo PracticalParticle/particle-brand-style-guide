@@ -607,7 +607,7 @@ export const Typography: Story = {
               <div key={name} className="p-6 bg-bg-secondary rounded-lg border border-border">
                 <div className="flex items-baseline gap-4">
                   <div className="text-sm text-text-secondary font-mono w-20">{name}</div>
-                  <div className={`text-${name} text-text-primary`}>
+                  <div className="text-text-primary" style={{ fontSize: size, lineHeight }}>
                     The quick brown fox jumps over the lazy dog
                   </div>
                 </div>
@@ -674,7 +674,7 @@ export const Spacing: Story = {
             <div className="w-20 text-xs text-text-tertiary">{px}</div>
             <div className="flex-1">
               <div
-                className="h-8 bg-primary-500 rounded"
+                className="h-8 bg-primary rounded"
                 style={{ width: value }}
               />
             </div>

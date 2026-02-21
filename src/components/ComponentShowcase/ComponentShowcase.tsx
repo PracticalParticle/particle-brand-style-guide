@@ -158,8 +158,8 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
       <AppPanel title="Form controls">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl">
           <div className="space-y-3 sm:col-span-2">
-            <Input id={`${idPrefix}-name`} placeholder="Full name" fullWidth />
-            <Input id={`${idPrefix}-email`} placeholder="Email" type="email" fullWidth />
+            <Input id={`${idPrefix}-name`} label="Full name" placeholder="Full name" fullWidth />
+            <Input id={`${idPrefix}-email`} label="Email" placeholder="Email" type="email" fullWidth />
           </div>
           <div className="space-y-3">
             <Select
@@ -173,7 +173,7 @@ export const ComponentShowcase: React.FC<ComponentShowcaseProps> = ({
               <option value="editor">Editor</option>
               <option value="viewer">Viewer</option>
             </Select>
-            <FileInput id={`${idPrefix}-avatar`} placeholder="Upload avatar" />
+            <FileInput id={`${idPrefix}-avatar`} label="Avatar" placeholder="Upload avatar" />
           </div>
           <div className="space-y-3">
             <p className="text-xs font-medium text-text-primary">Notifications</p>

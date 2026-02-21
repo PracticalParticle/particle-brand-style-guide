@@ -124,7 +124,13 @@ export function OrdersTablePreview({ showModal = true, className = '' }: OrdersT
                 </TableRow>
               ) : (
                 pageData.map((order) => (
-                  <TableRow key={order.id} hover interactive onClick={() => setSelectedOrder(order)}>
+                  <TableRow
+                    key={order.id}
+                    hover
+                    interactive={showModal}
+                    onClick={showModal ? () => setSelectedOrder(order) : undefined}
+                    aria-label={showModal ? `View order ${order.id}` : undefined}
+                  >
                     <TableCell className="font-medium text-text-primary whitespace-nowrap">{order.id}</TableCell>
                     <TableCell className="min-w-0">{order.customer}</TableCell>
                     <TableCell className="whitespace-nowrap">{order.date}</TableCell>

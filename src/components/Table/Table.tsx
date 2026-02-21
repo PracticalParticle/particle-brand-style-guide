@@ -108,15 +108,25 @@ export interface TableRowProps extends React.HTMLAttributes<HTMLTableRowElement>
 }
 
 export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
-  ({ className, hover = false, interactive = false, selected = false, children, ...props }, ref) => {
+  ({ className, hover = false, interactive = false, selected = false, children, onClick, onKeyDown, ...props }, ref) => {
+    const handleKeyDown = interactive
+      ? (e: React.KeyboardEvent<HTMLTableRowElement>) => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick?.(e as unknown as React.MouseEvent<HTMLTableRowElement>) }
+          onKeyDown?.(e)
+        }
+      : onKeyDown
+
     return (
       <tr
         ref={ref}
         aria-selected={selected || undefined}
+        tabIndex={interactive ? 0 : undefined}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
         className={cn(
           'table-row border-b border-border dark:border-table transition-colors duration-brand ease-brand',
           hover && 'hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08]',
-          interactive && 'cursor-pointer hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08]',
+          interactive && 'cursor-pointer hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-border-focus',
           selected && 'row-selected',
           className
         )}

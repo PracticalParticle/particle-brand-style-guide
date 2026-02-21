@@ -12,6 +12,7 @@ type TabsContextValue = {
   getTabId: (value: string) => string
   getPanelId: (value: string) => string
   registerTab: (value: string, el: HTMLButtonElement | null) => void
+  tabRefs: React.MutableRefObject<Map<string, HTMLButtonElement>>
 }
 
 const TabsContext = createContext<TabsContextValue | null>(null)
@@ -64,6 +65,7 @@ export const Tabs: React.FC<TabsProps> = ({
     getTabId,
     getPanelId,
     registerTab,
+    tabRefs,
   }
   const isVertical = orientation === 'vertical'
   return (
@@ -97,7 +99,8 @@ function getTabValuesFromChildren(children: React.ReactNode): string[] {
 
 export const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
   ({ className, children, onKeyDown, ...props }, ref) => {
-    const { value: selectedValue, onChange, orientation, variant } = useTabs()
+    const ctx = useTabs()
+    const { value: selectedValue, onChange, orientation, variant } = ctx
     const isVertical = orientation === 'vertical'
     const values = getTabValuesFromChildren(children)
 
@@ -130,6 +133,7 @@ export const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (values.length === 0) { onKeyDown?.(e); return }
+      const { tabRefs: refs } = ctx
       const i = values.indexOf(selectedValue)
       let next: number | null = null
       if (orientation === 'horizontal') {
@@ -144,7 +148,10 @@ export const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(
       if (next !== null) {
         e.preventDefault()
         const clamped = Math.max(0, Math.min(next, values.length - 1))
-        onChange(values[clamped]!)
+        const nextValue = values[clamped]!
+        onChange(nextValue)
+        // Move DOM focus to the newly selected tab
+        refs.current.get(nextValue)?.focus()
       }
       onKeyDown?.(e)
     }

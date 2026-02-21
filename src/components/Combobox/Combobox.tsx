@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useId } from 'react'
 import { cn } from '@/utils/cn'
 import { Popover } from '@/components/Popover'
 
@@ -49,19 +49,25 @@ export const Combobox: React.FC<ComboboxProps> = ({
   className,
   id: providedId,
 }) => {
-  const id = providedId || `combobox-${Math.random().toString(36).slice(2, 9)}`
+  const generatedId = useId()
+  const id = providedId || `combobox-${generatedId}`
+  const listboxId = `${id}-listbox`
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [activeIndex, setActiveIndex] = useState<number>(-1)
   const inputRef = useRef<HTMLInputElement>(null)
+  const listRef = useRef<HTMLUListElement>(null)
 
   const selected = options.find((o) => o.value === value)
   const filtered = query.trim()
     ? options.filter((o) => o.label.toLowerCase().includes(query.toLowerCase()))
     : options
+  const enabledFiltered = filtered.filter((o) => !o.disabled)
 
   useEffect(() => {
     if (open) {
       setQuery('')
+      setActiveIndex(-1)
       setTimeout(() => inputRef.current?.focus(), 0)
     }
   }, [open])
@@ -71,12 +77,38 @@ export const Combobox: React.FC<ComboboxProps> = ({
     setOpen(false)
   }
 
+  const getOptionId = (optValue: string) => `${id}-option-${optValue}`
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') { setOpen(false); return }
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter'].includes(e.key)) return
+    e.preventDefault()
+    if (enabledFiltered.length === 0) return
+    let next = activeIndex
+    if (e.key === 'ArrowDown') next = Math.min(enabledFiltered.length - 1, activeIndex + 1)
+    else if (e.key === 'ArrowUp') next = Math.max(0, activeIndex - 1)
+    else if (e.key === 'Home') next = 0
+    else if (e.key === 'End') next = enabledFiltered.length - 1
+    else if (e.key === 'Enter' && activeIndex >= 0) {
+      handleSelect(enabledFiltered[activeIndex]!.value)
+      return
+    }
+    setActiveIndex(next)
+    const optEl = listRef.current?.querySelector<HTMLElement>(`[id="${getOptionId(enabledFiltered[next]!.value)}"]`)
+    optEl?.scrollIntoView({ block: 'nearest' })
+  }
+
+  const activeOptionId = activeIndex >= 0 && enabledFiltered[activeIndex]
+    ? getOptionId(enabledFiltered[activeIndex]!.value)
+    : undefined
+
   const trigger = (
     <button
       type="button"
       id={id}
       aria-haspopup="listbox"
       aria-expanded={open}
+      aria-controls={open ? listboxId : undefined}
       disabled={disabled}
       className={cn(
         'relative flex h-10 w-full items-center rounded-lg border border-border bg-bg-secondary px-3 py-2 pr-10 text-left text-sm text-text-primary',
@@ -106,38 +138,48 @@ export const Combobox: React.FC<ComboboxProps> = ({
         <input
           ref={inputRef}
           type="text"
+          role="combobox"
+          aria-autocomplete="list"
+          aria-controls={listboxId}
+          aria-activedescendant={activeOptionId}
+          aria-expanded={open}
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => { setQuery(e.target.value); setActiveIndex(-1) }}
           placeholder={searchPlaceholder}
           className={cn(
             'w-full rounded-md border border-border bg-bg-secondary px-3 py-2 text-sm text-text-primary placeholder:text-text-tertiary',
             'focus:outline-none focus:ring-2 focus:ring-border-focus/20 focus:border-border-focus'
           )}
-          onKeyDown={(e) => e.key === 'Escape' && setOpen(false)}
+          onKeyDown={handleSearchKeyDown}
         />
       </div>
-      <ul role="listbox" className="py-1 overflow-auto flex-1">
+      <ul ref={listRef} id={listboxId} role="listbox" className="py-1 overflow-auto flex-1">
         {filtered.length === 0 ? (
           <li className="px-3 py-4 text-sm text-text-tertiary text-center">{emptyMessage}</li>
         ) : (
-          filtered.map((opt) => (
-            <li
-              key={opt.value}
-              role="option"
-              aria-selected={value === opt.value}
-              aria-disabled={opt.disabled}
-              className={cn(
-                'flex items-center gap-2 px-3 py-2 cursor-pointer text-sm text-text-primary transition-colors',
-                value === opt.value && 'bg-bg-tertiary text-text-primary',
-                value !== opt.value && 'hover:bg-bg-tertiary',
-                opt.disabled && 'opacity-50 cursor-not-allowed pointer-events-none'
-              )}
-              onClick={() => !opt.disabled && handleSelect(opt.value)}
-            >
-              <span className="flex-1 truncate">{opt.label}</span>
-              {value === opt.value && <CheckIcon className="w-4 h-4 shrink-0 text-primary" />}
-            </li>
-          ))
+          filtered.map((opt) => {
+            const isActive = activeIndex >= 0 && enabledFiltered[activeIndex]?.value === opt.value
+            return (
+              <li
+                key={opt.value}
+                id={getOptionId(opt.value)}
+                role="option"
+                aria-selected={value === opt.value}
+                aria-disabled={opt.disabled}
+                className={cn(
+                  'flex items-center gap-2 px-3 py-2 cursor-pointer text-sm text-text-primary transition-colors',
+                  (value === opt.value || isActive) && 'bg-bg-tertiary text-text-primary',
+                  value !== opt.value && !isActive && 'hover:bg-bg-tertiary',
+                  opt.disabled && 'opacity-50 cursor-not-allowed pointer-events-none'
+                )}
+                onClick={() => !opt.disabled && handleSelect(opt.value)}
+                onMouseEnter={() => !opt.disabled && setActiveIndex(enabledFiltered.findIndex((o) => o.value === opt.value))}
+              >
+                <span className="flex-1 truncate">{opt.label}</span>
+                {value === opt.value && <CheckIcon className="w-4 h-4 shrink-0 text-primary" />}
+              </li>
+            )
+          })
         )}
       </ul>
     </div>

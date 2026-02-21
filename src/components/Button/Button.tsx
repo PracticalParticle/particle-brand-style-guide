@@ -106,9 +106,19 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const showChildren = !iconOnly && children
 
+    // Derive a text label for screen readers when children is a string
+    const srLabel = typeof children === 'string' ? children : undefined
+
+    // Compute aria-label: for icon-only buttons use srLabel; loading state
+    // will render a sr-only span instead, so don't double-up
+    const computedAriaLabel = iconOnly ? (props['aria-label'] ?? srLabel) : props['aria-label']
+
+    const { 'aria-label': _ariaLabel, type = 'button', ...restProps } = props
+
     return (
       <button
         ref={ref}
+        type={type}
         data-variant={variant}
         className={cn(
           baseStyles,
@@ -119,22 +129,27 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           className
         )}
         disabled={disabled || isLoading}
-        aria-label={
-          iconOnly && typeof children === 'string' ? children : undefined
-        }
-        {...props}
+        aria-label={computedAriaLabel}
+        {...restProps}
       >
         {isLoading ? (
-          <Spinner
-            variant={variant === 'primary' ? 'white' : 'primary'}
-            size={
-              size === 'xs' || size === 'sm'
-                ? 'sm'
-                : size === 'lg' || size === 'xl'
-                  ? 'lg'
-                  : 'md'
-            }
-          />
+          <>
+            <Spinner
+              variant={variant === 'primary' ? 'white' : 'primary'}
+              size={
+                size === 'xs' || size === 'sm'
+                  ? 'sm'
+                  : size === 'lg' || size === 'xl'
+                    ? 'lg'
+                    : 'md'
+              }
+              aria-hidden="true"
+            />
+            {/* Announce label to screen readers while visually showing spinner */}
+            {srLabel && !computedAriaLabel && (
+              <span className="sr-only">{srLabel}</span>
+            )}
+          </>
         ) : (
           <>
             {leftIcon && (

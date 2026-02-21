@@ -52,7 +52,6 @@ const config: TestRunnerConfig = {
     const runAxe = () =>
       new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
-        .withRules(['color-contrast'])
         .analyze()
 
     // 1) Run axe in current (light) theme — toolbar default is light and test-runner doesn’t set theme

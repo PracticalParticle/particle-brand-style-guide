@@ -17,7 +17,10 @@ export interface SegmentedControlProps<T extends string = string> {
   disabled?: boolean
   fullWidth?: boolean
   className?: string
+  /** Accessible label for the radiogroup — one of these is required. */
   name?: string
+  'aria-label'?: string
+  'aria-labelledby'?: string
 }
 
 export function SegmentedControl<T extends string = string>({
@@ -29,6 +32,8 @@ export function SegmentedControl<T extends string = string>({
   fullWidth = false,
   className,
   name,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
 }: SegmentedControlProps<T>) {
   const containerRef = useRef<HTMLDivElement>(null)
   const buttonRefs = useRef<Map<string, HTMLButtonElement>>(new Map())
@@ -52,11 +57,32 @@ export function SegmentedControl<T extends string = string>({
     lg: 'px-4 py-2 text-sm',
   }[size]
 
+  const enabledValues = options.filter((o) => !(disabled || o.disabled)).map((o) => o.value)
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return
+    e.preventDefault()
+    const currentIndex = enabledValues.indexOf(value)
+    let nextIndex = currentIndex
+    if (e.key === 'ArrowLeft') nextIndex = Math.max(0, currentIndex - 1)
+    else if (e.key === 'ArrowRight') nextIndex = Math.min(enabledValues.length - 1, currentIndex + 1)
+    else if (e.key === 'Home') nextIndex = 0
+    else if (e.key === 'End') nextIndex = enabledValues.length - 1
+
+    const nextValue = enabledValues[nextIndex]
+    if (nextValue !== undefined && nextValue !== value) {
+      onValueChange(nextValue as T)
+      buttonRefs.current.get(nextValue)?.focus()
+    }
+  }
+
   return (
     <div
       ref={containerRef}
       role="radiogroup"
-      aria-label={name}
+      aria-label={ariaLabel ?? name}
+      aria-labelledby={ariaLabelledBy}
+      onKeyDown={handleKeyDown}
       className={cn(
         'relative inline-flex rounded-control border border-border bg-bg-tertiary',
         containerPad,
@@ -92,6 +118,7 @@ export function SegmentedControl<T extends string = string>({
             aria-checked={isSelected}
             aria-disabled={isDisabled}
             disabled={isDisabled}
+            tabIndex={isSelected ? 0 : -1}
             className={cn(
               'relative z-10 flex flex-1 items-center justify-center gap-1.5',
               'font-medium rounded-inset select-none',

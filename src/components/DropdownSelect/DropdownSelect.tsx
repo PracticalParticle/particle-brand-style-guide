@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useId } from 'react'
 import { cn } from '@/utils/cn'
 import { Popover } from '@/components/Popover'
 
@@ -99,14 +99,46 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
     },
     ref
   ) => {
-    const id = providedId || `dropdown-select-${Math.random().toString(36).slice(2, 9)}`
+    const generatedId = useId()
+    const id = providedId || `dropdown-select-${generatedId}`
+    const listboxId = `${id}-listbox`
     const [open, setOpen] = useState(false)
+    const [activeIndex, setActiveIndex] = useState<number>(-1)
     const flatOptions = flattenOptions(options)
     const selected = flatOptions.find((o) => o.value === value)
+    const listRef = useRef<HTMLUListElement>(null)
+
+    const enabledFlat = flatOptions.filter((o) => !o.disabled)
 
     const handleSelect = (optionValue: string) => {
       onValueChange?.(optionValue)
       setOpen(false)
+    }
+
+    const getOptionId = (optValue: string) => `${id}-option-${optValue}`
+
+    const handleListKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === 'Escape') { setOpen(false); return }
+      if (!['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', ' '].includes(e.key)) return
+      e.preventDefault()
+      const currentEnabled = enabledFlat
+      if (currentEnabled.length === 0) return
+      const currentIdx = activeIndex < 0
+        ? currentEnabled.findIndex((o) => o.value === value)
+        : activeIndex
+      let nextIdx = currentIdx
+      if (e.key === 'ArrowDown') nextIdx = Math.min(currentEnabled.length - 1, currentIdx + 1)
+      else if (e.key === 'ArrowUp') nextIdx = Math.max(0, currentIdx - 1)
+      else if (e.key === 'Home') nextIdx = 0
+      else if (e.key === 'End') nextIdx = currentEnabled.length - 1
+      else if ((e.key === 'Enter' || e.key === ' ') && currentIdx >= 0) {
+        handleSelect(currentEnabled[currentIdx]!.value)
+        return
+      }
+      setActiveIndex(nextIdx)
+      // Scroll active option into view
+      const optEl = listRef.current?.querySelector<HTMLElement>(`[id="${getOptionId(currentEnabled[nextIdx]!.value)}"]`)
+      optEl?.scrollIntoView({ block: 'nearest' })
     }
 
     const triggerButton = (
@@ -117,6 +149,7 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-labelledby={label ? `${id}-label` : undefined}
+        aria-controls={open ? listboxId : undefined}
         disabled={disabled}
         className={cn(
           'relative flex w-full items-center rounded-lg border border-border bg-bg-secondary text-left text-text-primary transition-colors',
@@ -144,28 +177,38 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
       </button>
     )
 
+    const activeOptionId = activeIndex >= 0 && enabledFlat[activeIndex]
+      ? getOptionId(enabledFlat[activeIndex]!.value)
+      : undefined
+
     const panelContent = (
       <ul
+        ref={listRef}
+        id={listboxId}
         role="listbox"
-        aria-labelledby={id}
+        aria-labelledby={label ? `${id}-label` : id}
+        aria-activedescendant={activeOptionId}
+        tabIndex={-1}
         className="py-1 max-h-[min(20rem,70vh)] overflow-auto outline-none"
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') setOpen(false)
-        }}
+        onKeyDown={handleListKeyDown}
       >
         {options.map((item, groupIndex) => {
+          const groupLabelId = `${id}-group-${groupIndex}`
           if (isOptionGroup(item)) {
             return (
-              <li key={groupIndex} role="group" className="py-0">
-                <div className="px-3 py-1.5 text-xs font-medium text-text-tertiary uppercase tracking-wider">
+              <li key={groupIndex} role="group" aria-labelledby={groupLabelId} className="py-0">
+                <div id={groupLabelId} className="px-3 py-1.5 text-xs font-medium text-text-tertiary uppercase tracking-wider">
                   {item.label}
                 </div>
                 {item.options.map((opt) => (
                   <OptionItem
                     key={opt.value}
                     option={opt}
+                    optionId={getOptionId(opt.value)}
                     selected={value === opt.value}
+                    active={activeIndex >= 0 && enabledFlat[activeIndex]?.value === opt.value}
                     onSelect={() => handleSelect(opt.value)}
+                    onHover={() => setActiveIndex(enabledFlat.findIndex((o) => o.value === opt.value))}
                     size={size}
                   />
                 ))}
@@ -176,8 +219,11 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
             <OptionItem
               key={item.value}
               option={item}
+              optionId={getOptionId(item.value)}
               selected={value === item.value}
+              active={activeIndex >= 0 && enabledFlat[activeIndex]?.value === item.value}
               onSelect={() => handleSelect(item.value)}
+              onHover={() => setActiveIndex(enabledFlat.findIndex((o) => o.value === item.value))}
               size={size}
             />
           )
@@ -191,7 +237,18 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
       </div>
     )
 
-    const trigger = customTrigger ?? triggerButton
+    // Inject required ARIA props into custom trigger
+    const resolvedTrigger = customTrigger != null
+      ? React.isValidElement(customTrigger)
+        ? React.cloneElement(customTrigger as React.ReactElement, {
+            id,
+            'aria-haspopup': 'listbox',
+            'aria-expanded': open,
+            'aria-labelledby': label ? `${id}-label` : undefined,
+            'aria-controls': open ? listboxId : undefined,
+          })
+        : <span>{customTrigger}</span>
+      : triggerButton
 
     return (
       <div className={cn('form-container', fullWidth && 'w-full')}>
@@ -204,11 +261,11 @@ export const DropdownSelect = React.forwardRef<HTMLButtonElement, DropdownSelect
           placement={placement}
           trigger="click"
           open={open}
-          onOpenChange={setOpen}
+          onOpenChange={(o) => { setOpen(o); if (!o) setActiveIndex(-1) }}
           content={wrappedContent}
           className="p-0 min-w-0 max-w-[min(calc(100vw-2rem),20rem)]"
         >
-          {React.isValidElement(trigger) ? trigger : <span>{trigger}</span>}
+          {resolvedTrigger}
         </Popover>
       </div>
     )
@@ -219,18 +276,25 @@ DropdownSelect.displayName = 'DropdownSelect'
 
 function OptionItem({
   option,
+  optionId,
   selected,
+  active,
   onSelect,
+  onHover,
   size,
 }: {
   option: DropdownSelectOption
+  optionId: string
   selected: boolean
+  active: boolean
   onSelect: () => void
+  onHover: () => void
   size: 'sm' | 'md' | 'lg'
 }) {
   const isDisabled = option.disabled
   return (
     <li
+      id={optionId}
       role="option"
       aria-selected={selected}
       aria-disabled={isDisabled}
@@ -238,11 +302,12 @@ function OptionItem({
         'flex items-center gap-2 px-3 py-2 cursor-pointer text-sm text-text-primary transition-colors',
         size === 'sm' && 'py-1.5 text-xs',
         size === 'lg' && 'py-2.5 text-base',
-        selected && 'bg-bg-tertiary text-text-primary',
-        !selected && 'hover:bg-bg-tertiary',
+        (selected || active) && 'bg-bg-tertiary text-text-primary',
+        !selected && !active && 'hover:bg-bg-tertiary',
         isDisabled && 'opacity-50 cursor-not-allowed pointer-events-none'
       )}
       onClick={() => !isDisabled && onSelect()}
+      onMouseEnter={() => !isDisabled && onHover()}
     >
       {option.icon && <span className="shrink-0 text-text-tertiary">{option.icon}</span>}
       <span className="flex-1 truncate">{option.label}</span>

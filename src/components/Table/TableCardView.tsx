@@ -51,7 +51,6 @@ export function TableCardView<T extends object>({
           : 'flex flex-col gap-3',
         className
       )}
-      role="list"
     >
       {items.map((item, index) => {
         const key = getKey(item, index)
@@ -65,15 +64,23 @@ export function TableCardView<T extends object>({
               .filter(Boolean)
           : [getValue(item, columns[0]?.key ?? '')]
 
+        const isInteractive = !!onRowClick
         return (
           <Card
             key={key}
             variant="outlined"
             padding="md"
-            interactive={!!onRowClick}
-            onClick={onRowClick ? () => onRowClick(item) : undefined}
-            className={cn(onRowClick && 'cursor-pointer')}
-            role="listitem"
+            interactive={isInteractive}
+            onClick={isInteractive ? () => onRowClick(item) : undefined}
+            onKeyDown={isInteractive ? (e: React.KeyboardEvent) => {
+              if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onRowClick(item) }
+            } : undefined}
+            className={cn(isInteractive && 'cursor-pointer')}
+            role={isInteractive ? 'button' : 'listitem'}
+            tabIndex={isInteractive ? 0 : undefined}
+            aria-label={isInteractive && primaryCols.length > 0
+              ? String(getValue(item, primaryCols[0]!.key) ?? '')
+              : undefined}
           >
             <CardHeader className="mb-2 sm:mb-3">
               <CardTitle className="text-base sm:text-lg line-clamp-2">

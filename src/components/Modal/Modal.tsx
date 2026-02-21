@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useId } from 'react'
 import { cn } from '@/utils/cn'
 import { Button } from '@/components/Button'
 import { Stepper } from '@/components/Stepper'
@@ -29,6 +29,10 @@ export const Modal: React.FC<ModalProps> = ({
   closeOnOverlayClick = true,
   closeOnEscape = true,
 }) => {
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<Element | null>(null)
+  const titleId = useId()
+
   useEffect(() => {
     if (!isOpen || !closeOnEscape) return
 
@@ -42,16 +46,61 @@ export const Modal: React.FC<ModalProps> = ({
     return () => document.removeEventListener('keydown', handleEscape)
   }, [isOpen, closeOnEscape, onClose])
 
+  // Preserve existing body overflow
+  useEffect(() => {
+    if (!isOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [isOpen])
+
+  // Capture trigger and restore focus on close
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden'
+      triggerRef.current = document.activeElement
     } else {
-      document.body.style.overflow = ''
+      const trigger = triggerRef.current as HTMLElement | null
+      trigger?.focus()
+      triggerRef.current = null
+    }
+  }, [isOpen])
+
+  // Focus trap
+  useEffect(() => {
+    if (!isOpen) return
+    const dialog = dialogRef.current
+    if (!dialog) return
+
+    const FOCUSABLE = [
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])',
+    ].join(',')
+
+    const handleTrap = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      const focusable = Array.from(dialog.querySelectorAll<HTMLElement>(FOCUSABLE))
+      if (focusable.length === 0) return
+      const first = focusable[0]!
+      const last = focusable[focusable.length - 1]!
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus() }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus() }
+      }
     }
 
-    return () => {
-      document.body.style.overflow = ''
-    }
+    // Move initial focus into the dialog
+    const firstFocusable = dialog.querySelector<HTMLElement>(FOCUSABLE)
+    firstFocusable?.focus()
+
+    document.addEventListener('keydown', handleTrap)
+    return () => document.removeEventListener('keydown', handleTrap)
   }, [isOpen])
 
   if (!isOpen) return null
@@ -85,6 +134,7 @@ export const Modal: React.FC<ModalProps> = ({
       
       {/* Modal — glass surface (tokens: --glass-bg-opacity, --glass-blur) */}
       <div
+        ref={dialogRef}
         className={cn(
           'relative z-50 w-full flex flex-col',
           'rounded-overlay surface-glass',
@@ -95,7 +145,7 @@ export const Modal: React.FC<ModalProps> = ({
         )}
         role={isAlertDialog ? 'alertdialog' : 'dialog'}
         aria-modal="true"
-        aria-labelledby={title ? 'modal-title' : undefined}
+        aria-labelledby={title ? titleId : undefined}
       >
         {/* Header — transparent so glass surface shows through; border separates from content */}
         {(title || showCloseButton) && (
@@ -108,7 +158,7 @@ export const Modal: React.FC<ModalProps> = ({
           >
             {title && (
               <h2
-                id="modal-title"
+                id={titleId}
                 className="text-lg font-semibold tracking-tight text-text-primary truncate"
               >
                 {title}

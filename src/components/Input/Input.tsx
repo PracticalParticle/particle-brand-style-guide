@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { cn } from '@/utils/cn'
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -22,7 +22,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     id,
     ...props
   }, ref) => {
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`
+    const generatedId = useId()
+    const inputId = id || `input-${generatedId}`
     const hasError = !!error
 
     const baseStyles = [
@@ -104,7 +105,8 @@ export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextArea
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ className, label, error, helperText, fullWidth = false, id, ...props }, ref) => {
-    const inputId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`
+    const generatedId = useId()
+    const inputId = id || `textarea-${generatedId}`
     const hasError = !!error
 
     const baseStyles = [
