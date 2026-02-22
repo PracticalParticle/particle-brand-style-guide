@@ -289,10 +289,12 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
             </span>
           )}
           <div className="flex flex-wrap items-center gap-1.5 min-w-0" role="group" aria-label={quickFilters.label ?? 'Quick filters'}>
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               onClick={() => quickFilters.onChange('')}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
+              className="rounded-full shrink-0 min-w-[3.25rem]"
               aria-pressed={!quickFilters.value}
             >
               <Badge
@@ -305,13 +307,15 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               >
                 {quickFilters.allLabel ?? 'All'}
               </Badge>
-            </button>
+            </Button>
             {quickFilters.options.map((opt) => (
-              <button
+              <Button
                 key={opt.value}
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={() => quickFilters.onChange(opt.value)}
-                className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
+                className="rounded-full shrink-0 min-w-[3.25rem]"
                 aria-pressed={quickFilters.value === opt.value}
               >
                 <Badge
@@ -324,7 +328,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
                 >
                   {opt.label}
                 </Badge>
-              </button>
+              </Button>
             ))}
           </div>
         </div>

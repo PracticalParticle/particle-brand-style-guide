@@ -43,7 +43,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
     )
     if (container) {
       return (
-        <div className="table-container -mt-px border-x border-b border-border dark:border-table bg-bg-secondary min-w-0 w-full">
+        <div className="table-container -mt-px border-x border-b border-border bg-bg-secondary min-w-0 w-full">
           {tableEl}
         </div>
       )
@@ -64,7 +64,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
       <thead
         ref={ref}
         className={cn(
-          'table-header border-b border-border dark:border-table bg-bg-secondary',
+          'table-header border-b border-border bg-bg-secondary',
           'text-left text-sm font-semibold text-text-primary',
           className
         )}
@@ -124,7 +124,7 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
         onClick={onClick}
         onKeyDown={handleKeyDown}
         className={cn(
-          'table-row border-b border-border dark:border-table transition-colors duration-brand ease-brand',
+          'table-row border-b border-border transition-colors duration-brand ease-brand',
           hover && 'hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08]',
           interactive && 'cursor-pointer hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-border-focus',
           selected && 'row-selected',

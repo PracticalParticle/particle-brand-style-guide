@@ -39,7 +39,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const baseStyles = [
       'inline-flex items-center justify-center font-medium rounded-control',
       'transition-all duration-normal ease-out',
-      'focus-ring',
+      'focus-ring-subtle',
       'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none',
       'select-none',
     ].join(' ')
@@ -50,6 +50,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         'bg-btn-primary text-text-inverse shadow-sm edge-highlight',
         'hover:bg-btn-primary-hover hover:-translate-y-px hover:shadow',
         'active:bg-btn-primary-active active:translate-y-0 active:shadow-sm',
+        'focus-visible:bg-btn-primary-hover',
       ].join(' '),
 
       /* Secondary: outline, fill on hover */
@@ -57,6 +58,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         'bg-transparent border border-border text-text-primary',
         'hover:bg-bg-tertiary hover:border-border-hover hover:-translate-y-px hover:shadow-sm',
         'active:translate-y-0 active:shadow-none active:bg-bg-tertiary',
+        'focus-visible:bg-bg-tertiary',
       ].join(' '),
 
       /* Danger: semantic error colors — use for destructive actions */
@@ -64,6 +66,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         'bg-error-light text-error border border-error/30',
         'hover:bg-error/10 hover:border-error/50 hover:shadow-sm',
         'active:bg-error/15 active:scale-[0.98]',
+        'focus-visible:bg-error/10 dark:focus-visible:bg-error/25',
         'dark:bg-error/15 dark:text-error dark:border-error/25',
         'dark:hover:bg-error/25 dark:hover:border-error/40',
       ].join(' '),
@@ -72,13 +75,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ghost: [
         'bg-transparent text-text-primary',
         'hover:bg-bg-tertiary active:bg-bg-tertiary active:scale-[0.98]',
+        'focus-visible:bg-bg-tertiary',
       ].join(' '),
 
-      /* Outline: 1px border, light fill on hover */
+      /* Outline: 1px border, light fill on hover; dark mode: visible border */
       outline: [
         'border border-border text-text-primary bg-transparent',
         'hover:border-border-hover hover:bg-bg-tertiary hover:-translate-y-px',
         'active:translate-y-0 active:bg-bg-tertiary',
+        'focus-visible:bg-bg-tertiary',
+        'dark:border-[rgb(var(--color-text-muted)/0.55)] dark:hover:border-[rgb(var(--color-text-muted)/0.75)]',
       ].join(' '),
 
       /* Link: text only */
@@ -165,7 +171,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {leftIcon}
               </span>
             )}
-            {showChildren && <span>{children}</span>}
+            {showChildren && (
+              <span className="inline-flex items-center gap-2 min-w-0">
+                {children}
+              </span>
+            )}
             {rightIcon && (
               <span
                 className={cn('flex-shrink-0', iconSizes[size])}

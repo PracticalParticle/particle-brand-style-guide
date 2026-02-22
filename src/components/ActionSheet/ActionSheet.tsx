@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useRef, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { cn } from '@/utils/cn'
+import { Button } from '@/components/Button'
 
 export interface ActionSheetItemProps {
   label: string
@@ -17,8 +18,8 @@ export interface ActionSheetProps {
   title?: string
   /** Accessible label when title is omitted. One of title or ariaLabel should be provided. */
   ariaLabel?: string
-  /** List of actions. Use 3+ for typical action sheet pattern. */
-  actions: ActionSheetItemProps[]
+  /** List of actions. Omit or pass [] when using children for custom content. */
+  actions?: ActionSheetItemProps[]
   /** Cancel button label. Set to empty to hide. */
   cancelLabel?: string
   /** Show handle bar at top (common on mobile). Default true. */
@@ -38,7 +39,7 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
   onClose,
   title,
   ariaLabel,
-  actions,
+  actions = [],
   cancelLabel = 'Cancel',
   showHandle = true,
   closeOnBackdrop = true,
@@ -168,29 +169,31 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
           {children ?? (
             <div className="space-y-0.5">
               {actions.map((action, index) => (
-                <button
+                <Button
                   key={index}
                   type="button"
+                  variant={action.variant === 'danger' ? 'danger' : 'ghost'}
+                  fullWidth
                   disabled={action.disabled}
                   onClick={() => {
                     action.onClick?.()
                     onClose()
                   }}
+                  leftIcon={
+                    action.icon ? (
+                      <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-current">
+                        {action.icon}
+                      </span>
+                    ) : undefined
+                  }
                   className={cn(
-                    'w-full flex items-center gap-3 rounded-xl px-4 py-3 text-left transition-colors',
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary',
+                    'justify-start gap-3 rounded-xl px-4 py-3 text-left h-auto min-h-0',
                     action.variant === 'danger'
                       ? 'text-error hover:bg-error-light/20 active:bg-error-light/30'
-                      : 'text-text-primary hover:bg-default/30 active:bg-default/50',
-                    action.disabled && 'opacity-50 cursor-not-allowed pointer-events-none'
+                      : 'text-text-primary hover:bg-default/30 active:bg-default/50'
                   )}
                 >
-                  {action.icon && (
-                    <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center text-current">
-                      {action.icon}
-                    </span>
-                  )}
-                  <span className="flex-1 min-w-0">
+                  <span className="flex-1 min-w-0 text-left">
                     <span className="block font-medium">{action.label}</span>
                     {action.description && (
                       <span className="block text-sm text-text-tertiary mt-0.5">
@@ -198,24 +201,22 @@ export const ActionSheet: React.FC<ActionSheetProps> = ({
                       </span>
                     )}
                   </span>
-                </button>
+                </Button>
               ))}
             </div>
           )}
         </div>
         {cancelLabel && (
           <div className="p-2 sm:p-4 pt-0 border-t border-default/20">
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              fullWidth
               onClick={onClose}
-              className={cn(
-                'w-full py-3 rounded-xl font-medium text-text-primary',
-                'bg-default/30 hover:bg-default/50 active:bg-default/70',
-                'focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
-              )}
+              className="py-3 rounded-xl font-medium bg-default/30 hover:bg-default/50 active:bg-default/70"
             >
               {cancelLabel}
-            </button>
+            </Button>
           </div>
         )}
       </div>

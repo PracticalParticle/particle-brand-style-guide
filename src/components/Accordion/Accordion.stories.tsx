@@ -72,3 +72,19 @@ export const AllCollapsed: Story = {
     </Accordion>
   ),
 }
+
+/** Single panel (collapsible-style): use one AccordionItem when you need one expand/collapse section instead of a separate Collapsible component. */
+export const SinglePanel: Story = {
+  render: () => (
+    <Accordion type="single" className="w-full min-w-[20rem] max-w-md">
+      <AccordionItem value="panel" className="border-b-0">
+        <AccordionTrigger value="panel" className="rounded-t-lg">
+          Branding & description
+        </AccordionTrigger>
+        <AccordionContent value="panel" className="rounded-b-lg">
+          Optional branding and description fields. Use this pattern for “Advanced options” or any single collapsible section.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  ),
+}

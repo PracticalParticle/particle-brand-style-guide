@@ -95,6 +95,12 @@ const preview: Preview = {
       }, React.createElement(Story))
     },
     (Story, context) => {
+      // Let stories that use ThemeProvider (e.g. ThemeToggle) control the theme themselves.
+      // Otherwise the toolbar theme would overwrite the in-story toggle on every re-render.
+      if (context.parameters.useThemeProvider) {
+        return React.createElement(Story)
+      }
+
       const theme = context.globals.theme || 'light'
 
       // Apply theme synchronously before first paint to avoid flash

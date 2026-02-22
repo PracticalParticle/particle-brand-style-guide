@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { cn } from '@/utils/cn'
+import { Button } from '@/components/Button'
 import { ToastContext, type ToastItem, type ToastOptions, type ToastVariant } from './useToast'
 
 let idCounter = 0
@@ -136,16 +137,19 @@ function ToastItem({ item, onDismiss }: { item: ToastItem; onDismiss: () => void
         {item.title && <p className="font-semibold text-sm mb-0.5">{item.title}</p>}
         <p className="text-sm">{item.message}</p>
       </div>
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="xs"
+        iconOnly
         onClick={onDismiss}
-        className="shrink-0 p-1 rounded hover:bg-bg-tertiary/50 transition-colors opacity-70 hover:opacity-100"
         aria-label="Dismiss notification"
+        className="shrink-0 opacity-70 hover:opacity-100"
       >
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
-      </button>
+      </Button>
     </div>
   )
 }

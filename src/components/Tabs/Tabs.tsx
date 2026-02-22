@@ -255,7 +255,9 @@ export const Tab = React.forwardRef<HTMLButtonElement, TabProps>(
         onClick={handleClick}
         {...props}
       >
-        {children}
+        <span className="inline-flex items-center justify-center gap-2 min-w-0">
+          {children}
+        </span>
       </button>
     )
   }
