@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { cn } from '@/utils/cn'
 
 export interface FeatureItem {
@@ -44,6 +44,7 @@ export const Features: React.FC<FeaturesProps> = ({
   className,
   ...props
 }) => {
+  const headingId = useId()
   const gridCols = {
     2: 'sm:grid-cols-2',
     3: 'sm:grid-cols-2 lg:grid-cols-3',
@@ -110,7 +111,7 @@ export const Features: React.FC<FeaturesProps> = ({
         withBackgroundPattern && 'bg-bg-surface-muted',
         className
       )}
-      aria-labelledby={title ? 'features-heading' : undefined}
+      aria-labelledby={title ? headingId : undefined}
       {...props}
     >
       <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto relative z-10">
@@ -118,7 +119,7 @@ export const Features: React.FC<FeaturesProps> = ({
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
             {title && (
               <h2
-                id="features-heading"
+                id={headingId}
                 className="text-heading-2 text-text-primary"
               >
                 {title}

@@ -17,15 +17,19 @@
   "dependencies": {
     "@radix-ui/react-context-menu": "^2.2.0",
     "clsx": "^2.1.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-markdown": "^10.1.0",
     "react-to-print": "^3.3.0",
     "remark-directive": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^2.2.0"
   },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "@axe-core/playwright": "^4.11.1",
     "@eslint/js": "^9.15.0",
     "@storybook/addon-a11y": "^8.6.17",

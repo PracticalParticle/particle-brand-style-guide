@@ -375,6 +375,14 @@ export default {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-100%)' },
         },
+        'drawer-in-right': {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0)' },
+        },
+        'drawer-out-right': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
         wave: {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.5' },
@@ -512,6 +520,8 @@ export default {
         'sheet-out': 'sheet-out 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
         'drawer-in-left': 'drawer-in-left 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
         'drawer-out-left': 'drawer-out-left 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
+        'drawer-in-right': 'drawer-in-right 0.3s cubic-bezier(0.32, 0.72, 0, 1)',
+        'drawer-out-right': 'drawer-out-right 0.25s cubic-bezier(0.32, 0.72, 0, 1)',
         wave: 'wave 1.6s ease-in-out infinite',
         'spinner-logo-left': 'spinner-logo-left 3.2s ease-in-out infinite',
         'spinner-logo-right': 'spinner-logo-right 3.2s ease-in-out infinite',

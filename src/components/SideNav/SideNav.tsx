@@ -39,6 +39,8 @@ type LinkComponentProps = {
   to: string
   children: React.ReactNode
   className?: string
+  onClick?: () => void
+  'aria-current'?: 'page' | undefined
 }
 
 export interface SideNavRootProps {
@@ -86,6 +88,8 @@ interface SideNavContextValue {
   activeId: string | null
   linkComponent: ((props: LinkComponentProps) => React.ReactNode) | undefined
   itemStyles: (item: SideNavItem) => string
+  /** When set (e.g. in drawer), called when user activates an item so drawer can close. */
+  onDrawerNavigate?: (id: string) => void
 }
 
 const SideNavContext = createContext<SideNavContextValue | null>(null)
@@ -146,10 +150,17 @@ function NavItemInner({ item, context }: { item: SideNavItem; context: SideNavCo
     )
   }
 
+  const handleNavigate = () => context.onDrawerNavigate?.(item.id)
+
   if (item.to && context.linkComponent) {
     const Link = context.linkComponent
     return (
-      <Link to={item.to} className={baseClass} aria-current={isActive ? 'page' : undefined}>
+      <Link
+        to={item.to}
+        className={baseClass}
+        aria-current={isActive ? 'page' : undefined}
+        onClick={handleNavigate}
+      >
         <ItemContent item={item} />
       </Link>
     )
@@ -157,7 +168,12 @@ function NavItemInner({ item, context }: { item: SideNavItem; context: SideNavCo
 
   if (item.href) {
     return (
-      <a href={item.href} className={baseClass} aria-current={isActive ? 'page' : undefined}>
+      <a
+        href={item.href}
+        className={baseClass}
+        aria-current={isActive ? 'page' : undefined}
+        onClick={handleNavigate}
+      >
         <ItemContent item={item} />
       </a>
     )
@@ -169,7 +185,10 @@ function NavItemInner({ item, context }: { item: SideNavItem; context: SideNavCo
       variant="ghost"
       size="sm"
       fullWidth
-      onClick={item.onClick}
+      onClick={() => {
+        item.onClick?.()
+        handleNavigate()
+      }}
       className={cn(baseClass, 'justify-start')}
       aria-current={isActive ? 'page' : undefined}
     >
@@ -316,7 +335,7 @@ export function SideNavRoot({
           <div className={cn('flex flex-col', mobileOnlyHideClass)}>
             <DropdownSelect
               id={`sidenav-mobile-${ariaLabel.replace(/\s/g, '-')}`}
-              aria-label={ariaLabel}
+              label={ariaLabel}
               value={activeId ?? undefined}
               onValueChange={(value) => onItemSelect?.(value)}
               placeholder={mobileTriggerLabel}
@@ -332,8 +351,19 @@ export function SideNavRoot({
     }
 
     // drawer (mobile or sliding layout)
+    const drawerContextValue: SideNavContextValue = useMemo(
+      () => ({
+        ...contextValue,
+        onDrawerNavigate: (id) => {
+          onItemSelect?.(id)
+          setDrawerOpen(false)
+        },
+      }),
+      [contextValue, onItemSelect]
+    )
+
     return (
-      <SideNavContext.Provider value={contextValue}>
+      <SideNavContext.Provider value={drawerContextValue}>
         <div className={cn('flex flex-col', mobileOnlyHideClass)}>
           <Button
             variant="outline"
@@ -377,17 +407,13 @@ export function SideNavRoot({
                               </p>
                             )}
                             {section.items.map((item) => (
-                              <div key={item.id} onClick={() => { onItemSelect?.(item.id); setDrawerOpen(false) }}>
-                                <NavItemInner item={item} context={contextValue} />
-                              </div>
+                              <NavItemInner key={item.id} item={item} context={drawerContextValue} />
                             ))}
                           </div>
                         </React.Fragment>
                       ))
                     : flatItems.map((item) => (
-                        <div key={item.id} onClick={() => { onItemSelect?.(item.id); setDrawerOpen(false) }}>
-                          <NavItemInner item={item} context={contextValue} />
-                        </div>
+                        <NavItemInner key={item.id} item={item} context={drawerContextValue} />
                       ))}
                 </div>
               </nav>

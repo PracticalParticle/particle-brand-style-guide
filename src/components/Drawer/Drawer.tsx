@@ -116,7 +116,7 @@ export const Drawer: React.FC<DrawerProps> = ({
 
   const isLeft = side === 'left'
   const content = (
-    <div className="fixed inset-0 z-50 flex">
+    <div className={cn('fixed inset-0 z-50 flex', !isLeft && 'justify-end')}>
       <div
         className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-sm transition-opacity"
         aria-hidden
@@ -126,28 +126,39 @@ export const Drawer: React.FC<DrawerProps> = ({
       <div
         ref={panelRef}
         className={cn(
-          'relative z-50 h-full flex flex-col shadow-2xl surface-glass animate-drawer-in-left',
-          isLeft ? 'rounded-r-2xl' : 'rounded-l-2xl',
+          'relative z-50 h-full flex flex-col shadow-2xl surface-glass',
+          isLeft ? 'rounded-r-2xl animate-drawer-in-left' : 'rounded-l-2xl animate-drawer-in-right',
           className
         )}
-        style={{
-          width,
-          [isLeft ? 'left' : 'right']: 0,
-        }}
+        style={{ width }}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         aria-label={!title ? ariaLabel : undefined}
         onClick={(e) => e.stopPropagation()}
       >
-        {title && (
-          <h2
-            id={titleId}
-          >
-            {title}
-          </h2>
+        {(title || true) && (
+          <div className="flex items-center justify-between gap-2 shrink-0 p-4 pb-2">
+            {title ? (
+              <h2 id={titleId} className="text-lg font-semibold text-text-primary">
+                {title}
+              </h2>
+            ) : (
+              <span className="flex-1" aria-hidden />
+            )}
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-control p-2 text-text-muted hover:bg-bg-tertiary hover:text-text-primary transition-colors -m-2"
+              aria-label="Close"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
+                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+          </div>
         )}
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden p-4">
+        <div className="flex-1 flex flex-col min-h-0 overflow-hidden p-4 pt-0">
           {children}
         </div>
       </div>

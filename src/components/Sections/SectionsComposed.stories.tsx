@@ -98,12 +98,12 @@ export const FullPageExample: Story = {
         </MediaSection>
 
         <ComingSoon
-          variant="section"
+          variant="gradient"
           size="md"
           title="Regulated token analytics"
           description="Charts, compliance metrics, and audit trails will be available here."
           badge={<Badge variant="outline">Q2 2025</Badge>}
-          action={<Button variant="secondary">Notify me</Button>}
+          primaryAction={<Button variant="secondary">Notify me</Button>}
         />
       </SectionContainer>
     </div>

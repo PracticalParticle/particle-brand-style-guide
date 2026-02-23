@@ -227,11 +227,21 @@ export const Popover: React.FC<PopoverProps> = ({
   )
 
   const isFragment = React.isValidElement(children) && children.type === React.Fragment
+  const child = React.isValidElement(children) ? children : null
   const triggerProps = {
     ref: triggerRef,
-    onClick: trigger === 'click' ? handleToggle : undefined,
-    onMouseEnter: handleMouseEnter,
-    onMouseLeave: handleMouseLeave,
+    onClick: (e: React.MouseEvent) => {
+      (child?.props as { onClick?: (e: React.MouseEvent) => void })?.onClick?.(e)
+      if (trigger === 'click') handleToggle()
+    },
+    onMouseEnter: (e: React.MouseEvent) => {
+      (child?.props as { onMouseEnter?: (e: React.MouseEvent) => void })?.onMouseEnter?.(e)
+      handleMouseEnter()
+    },
+    onMouseLeave: (e: React.MouseEvent) => {
+      (child?.props as { onMouseLeave?: (e: React.MouseEvent) => void })?.onMouseLeave?.(e)
+      handleMouseLeave()
+    },
   }
   const triggerNode = isFragment ? (
     <span className="inline-block" {...triggerProps}>

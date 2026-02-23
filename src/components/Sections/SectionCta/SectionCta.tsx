@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { cn } from '@/utils/cn'
 
 export interface SectionCtaProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
@@ -28,6 +28,7 @@ export const SectionCta: React.FC<SectionCtaProps> = ({
   children,
   ...props
 }) => {
+  const titleId = useId()
   const paddingY = {
     sm: 'py-8',
     md: 'py-10 sm:py-12',
@@ -53,12 +54,12 @@ export const SectionCta: React.FC<SectionCtaProps> = ({
   return (
     <section
       className={wrapperClass}
-      aria-labelledby="section-cta-title"
+      aria-labelledby={titleId}
       {...props}
     >
       <div className="relative z-10 max-w-2xl mx-auto">
         <h2
-          id="section-cta-title"
+          id={titleId}
           className={cn('text-text-primary font-semibold', titleSizes[size])}
         >
           {title}
