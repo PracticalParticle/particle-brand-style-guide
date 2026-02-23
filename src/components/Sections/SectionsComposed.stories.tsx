@@ -41,7 +41,7 @@ const meta: Meta = {
     layout: 'padded',
     docs: {
       description: {
-        story: 'Compose sections with `SectionContainer` for a full landing layout. Import styles: `@particle-crypto/style-guide/styles.css`.',
+        component: 'Compose sections with `SectionContainer` for a full landing layout. Import styles: `@particle-crypto/style-guide/styles.css`.',
       },
     },
   },
@@ -102,7 +102,7 @@ export const FullPageExample: Story = {
           size="md"
           title="Regulated token analytics"
           description="Charts, compliance metrics, and audit trails will be available here."
-          badge={<Badge variant="outline">Q2 2025</Badge>}
+          badge={<Badge variant="outline">Coming soon</Badge>}
           primaryAction={<Button variant="secondary">Notify me</Button>}
         />
       </SectionContainer>
@@ -118,8 +118,9 @@ export const WithSectionHeaderAndMedia: Story = {
           title="Connect with us"
           subtitle="Ready to get started? Our team is here to help."
           alignment="center"
-          children={<Button variant="primary">Contact</Button>}
-        />
+        >
+          <Button variant="primary">Contact</Button>
+        </SectionHeader>
         <MediaSection
           title="Watch the overview"
           subtitle="A quick introduction."

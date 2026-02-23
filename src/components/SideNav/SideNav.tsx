@@ -258,6 +258,17 @@ export function SideNavRoot({
     [activeId, linkComponent, itemStyles]
   )
 
+  const drawerContextValue: SideNavContextValue = useMemo(
+    () => ({
+      ...contextValue,
+      onDrawerNavigate: (id) => {
+        onItemSelect?.(id)
+        setDrawerOpen(false)
+      },
+    }),
+    [contextValue, onItemSelect]
+  )
+
   const navAriaLabel = `${ariaLabel} menu`
   const desktopNav = (
     <aside
@@ -313,22 +324,6 @@ export function SideNavRoot({
         }))
       : flatItems.map((i) => ({ value: i.id, label: i.label, icon: i.icon, disabled: i.disabled }))
 
-    const drawerCloseButton = (
-      <Button
-        type="button"
-        variant="ghost"
-        size="md"
-        iconOnly
-        onClick={() => setDrawerOpen(false)}
-        aria-label="Close menu"
-        className="shrink-0 -m-2"
-      >
-        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
-          <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </Button>
-    )
-
     if (mobileMode === 'dropdown' && !isSliding) {
       return (
         <SideNavContext.Provider value={contextValue}>
@@ -351,17 +346,6 @@ export function SideNavRoot({
     }
 
     // drawer (mobile or sliding layout)
-    const drawerContextValue: SideNavContextValue = useMemo(
-      () => ({
-        ...contextValue,
-        onDrawerNavigate: (id) => {
-          onItemSelect?.(id)
-          setDrawerOpen(false)
-        },
-      }),
-      [contextValue, onItemSelect]
-    )
-
     return (
       <SideNavContext.Provider value={drawerContextValue}>
         <div className={cn('flex flex-col', mobileOnlyHideClass)}>
@@ -383,6 +367,7 @@ export function SideNavRoot({
           <Drawer
             isOpen={drawerOpen}
             onClose={() => setDrawerOpen(false)}
+            title={ariaLabel}
             closeOnBackdrop
             closeOnEscape
             ariaLabel={ariaLabel}
@@ -390,11 +375,7 @@ export function SideNavRoot({
           >
             {/* -m-4 counteracts Drawer's p-4 so scrollbar can sit on panel edge */}
             <div className="flex flex-col h-full min-h-0 -m-4 overflow-hidden">
-              <div className="flex items-center justify-between gap-2 shrink-0 px-4 pt-4 pb-3 border-b border-border">
-                <span className="text-sm font-semibold text-text-primary">{ariaLabel}</span>
-                {drawerCloseButton}
-              </div>
-              <nav className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain min-w-0" aria-label={navAriaLabel}>
+              <nav className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain min-w-0 pt-4" aria-label={navAriaLabel}>
                 <div className="flex flex-col gap-1 px-4 pt-4 pb-4 min-w-0">
                   {sections.length > 0
                     ? sections.map((section, idx) => (
@@ -420,10 +401,10 @@ export function SideNavRoot({
               {drawerFooter != null && (
                 <div
                   className={cn(
-                    'shrink-0 w-full min-w-0 py-3 pl-4 pr-4 flex flex-col overflow-visible',
-                    footerAlign === 'start' && 'justify-start',
-                    footerAlign === 'end' && 'justify-end',
-                    footerAlign === 'stretch' && 'justify-end'
+                    'w-full min-w-0 py-3 pl-4 pr-4 flex flex-col overflow-visible',
+                    footerAlign === 'start' && 'shrink-0 justify-start',
+                    footerAlign === 'end' && 'shrink-0 justify-end',
+                    footerAlign === 'stretch' && 'flex-1 justify-end'
                   )}
                 >
                   <div className="w-full min-w-0 overflow-visible">{drawerFooter}</div>
@@ -498,6 +479,8 @@ export function SideNavItemComponent({
     disabled && 'opacity-50 pointer-events-none'
   )
 
+  const handleNavigate = () => context.onDrawerNavigate?.(id)
+
   if (disabled) {
     return (
       <span className={baseClass} aria-disabled="true">
@@ -508,14 +491,14 @@ export function SideNavItemComponent({
   if (to && context.linkComponent) {
     const Link = context.linkComponent
     return (
-      <Link to={to} className={baseClass} aria-current={isActive ? 'page' : undefined}>
+      <Link to={to} className={baseClass} aria-current={isActive ? 'page' : undefined} onClick={handleNavigate}>
         <ItemContent item={item} />
       </Link>
     )
   }
   if (href) {
     return (
-      <a href={href} className={baseClass} aria-current={isActive ? 'page' : undefined}>
+      <a href={href} className={baseClass} aria-current={isActive ? 'page' : undefined} onClick={handleNavigate}>
         <ItemContent item={item} />
       </a>
     )
@@ -526,7 +509,10 @@ export function SideNavItemComponent({
       variant="ghost"
       size="sm"
       fullWidth
-      onClick={onClick}
+      onClick={() => {
+        onClick?.()
+        handleNavigate()
+      }}
       className={cn(baseClass, 'justify-start')}
       aria-current={isActive ? 'page' : undefined}
     >
