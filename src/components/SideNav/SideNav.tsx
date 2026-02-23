@@ -109,8 +109,8 @@ function flattenSections(sections: SideNavSection[]): SideNavItem[] {
 }
 
 function flattenItems(items: SideNavItem[] | undefined, sections: SideNavSection[] | undefined): SideNavItem[] {
-  if (items?.length) return items
   if (sections?.length) return flattenSections(sections)
+  if (items?.length) return items
   return []
 }
 
@@ -317,11 +317,12 @@ export function SideNavRoot({
   // Mobile: dropdown or drawer (or sliding layout: always trigger + drawer)
   if ((mobileMode !== 'none' || isSliding) && flatItems.length > 0) {
     const mobileTriggerLabel = flatItems.find((i) => i.id === activeId)?.label ?? 'Menu'
-    const dropdownOptions = sections.length
-      ? sections.map((sec) => ({
-          label: sec.title ?? '',
+    const hasSectionsWithTitle = sections.length > 0 && sections.every((sec) => sec.title != null && sec.title !== '')
+    const dropdownOptions = sections.length && hasSectionsWithTitle
+      ? (sections.map((sec) => ({
+          label: sec.title!,
           options: sec.items.map((i) => ({ value: i.id, label: i.label, icon: i.icon, disabled: i.disabled })),
-        }))
+        })) as Parameters<typeof DropdownSelect>[0]['options'])
       : flatItems.map((i) => ({ value: i.id, label: i.label, icon: i.icon, disabled: i.disabled }))
 
     if (mobileMode === 'dropdown' && !isSliding) {
@@ -334,7 +335,7 @@ export function SideNavRoot({
               value={activeId ?? undefined}
               onValueChange={(value) => onItemSelect?.(value)}
               placeholder={mobileTriggerLabel}
-              options={sections.length ? dropdownOptions : dropdownOptions.flatMap((o) => ('options' in o ? o.options : [o]))}
+              options={dropdownOptions}
               fullWidth
               size="md"
               className="bg-bg-primary border-border"
