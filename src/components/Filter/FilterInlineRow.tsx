@@ -50,8 +50,8 @@ export const FilterInlineRow: React.FC<FilterInlineRowProps> = ({
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center gap-x-4 gap-y-2',
-        'px-2 py-2 xs:px-3 sm:px-4 sm:py-2.5',
+        'flex flex-wrap items-center gap-x-3 gap-y-2',
+        'px-3 py-2 sm:px-4 sm:py-2.5',
         'bg-bg-surface-muted/50 dark:bg-bg-surface-muted/30',
         className
       )}
