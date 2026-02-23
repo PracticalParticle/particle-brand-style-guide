@@ -33,14 +33,14 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
               <div
                 className={cn(
                   'relative w-11 h-6 shrink-0 rounded-full bg-border',
-                  'transition-all duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)]',
+                  'transition-all [transition-duration:220ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]',
                   'peer-focus:outline-none',
                   'peer-focus-visible:ring-2 peer-focus-visible:ring-border-focus peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-bg-primary',
                   'peer-checked:bg-tertiary peer-checked:after:translate-x-full',
                   'after:content-[""] after:absolute after:top-[2px] after:left-[2px]',
                   'after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow-sm',
                   'dark:peer-checked:after:bg-bg-canvas dark:peer-checked:after:shadow-md',
-                  'after:transition-[transform,background-color] after:duration-[220ms]',
+                  'after:transition-[transform,background-color] after:[transition-duration:220ms]',
                   hasError && 'peer-checked:bg-error',
                   className
                 )}

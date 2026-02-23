@@ -53,7 +53,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     const baseStyles = [
       'flex w-full min-h-0 border appearance-none items-center box-border',
       'bg-bg-secondary text-text-primary',
-      'transition-all duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)]',
+      'transition-all [transition-duration:220ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]',
       'focus-ring',
       'disabled:cursor-not-allowed disabled:opacity-40 disabled:bg-bg-tertiary',
       sizeStyles[size],

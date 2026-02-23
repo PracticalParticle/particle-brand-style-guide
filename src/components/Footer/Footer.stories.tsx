@@ -38,7 +38,7 @@ export const Default: Story = {
     copyright: (
       <>
         © 2025 Company Name. Built on{' '}
-        <a href="https://example.com" className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">
+        <a href="https://example.com" className="text-primary underline underline-offset-2 hover:underline" target="_blank" rel="noopener noreferrer">
           Protocol
         </a>
         .

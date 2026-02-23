@@ -2,7 +2,7 @@ import React from 'react'
 import { cn } from '@/utils/cn'
 import { Badge } from '@/components/Badge'
 
-export interface ComingSoonProps extends React.HTMLAttributes<HTMLElement> {
+export interface ComingSoonProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** Main heading; defaults to "Coming soon" */
   title?: React.ReactNode
   /** Supporting copy below the title */
@@ -26,6 +26,8 @@ export interface ComingSoonProps extends React.HTMLAttributes<HTMLElement> {
   titleGradient?: boolean
   /** Show subtle divider line at bottom */
   showDividerLine?: boolean
+  /** Optional logo/mark rendered directly above the content block, visually attached to the section */
+  logo?: React.ReactNode
   /** Extra content below actions */
   children?: React.ReactNode
 }
@@ -84,6 +86,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
   badge,
   titleGradient = false,
   showDividerLine = false,
+  logo,
   className,
   children,
   ...props
@@ -144,6 +147,11 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
 
       <div className="relative z-10">
         <div className="max-w-3xl mx-auto text-center">
+          {logo != null && (
+            <div className="mb-5 sm:mb-6 flex justify-center" aria-hidden>
+              {logo}
+            </div>
+          )}
           {badgeContent != null && (
             <div className="mb-5 sm:mb-6 flex justify-center">
               {badgeContent}

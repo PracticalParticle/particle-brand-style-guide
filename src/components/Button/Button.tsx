@@ -45,9 +45,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ].join(' ')
 
     const variants = {
-      /* Primary: black block (light) / white block (dark) + edge highlight */
+      /* Primary: black block (light) / white block (dark) + edge highlight. Border matches outline so paired buttons align. */
       primary: [
-        'bg-btn-primary text-text-inverse shadow-sm edge-highlight',
+        'bg-btn-primary text-text-inverse shadow-sm edge-highlight border border-transparent',
         'hover:bg-btn-primary-hover hover:-translate-y-px hover:shadow',
         'active:bg-btn-primary-active active:translate-y-0 active:shadow-sm',
         'focus-visible:bg-btn-primary-hover',
@@ -78,13 +78,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         'focus-visible:bg-bg-tertiary',
       ].join(' '),
 
-      /* Outline: 1px border, light fill on hover; dark mode: visible border */
+      /* Outline: 1px border, light fill on hover; dark mode border via globals.css [data-variant="outline"] */
       outline: [
         'border border-border text-text-primary bg-transparent',
         'hover:border-border-hover hover:bg-bg-tertiary hover:-translate-y-px',
         'active:translate-y-0 active:bg-bg-tertiary',
         'focus-visible:bg-bg-tertiary',
-        'dark:border-[rgb(var(--color-text-muted)/0.55)] dark:hover:border-[rgb(var(--color-text-muted)/0.75)]',
       ].join(' '),
 
       /* Link: text only */

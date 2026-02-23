@@ -130,7 +130,13 @@ export const Features: React.FC<FeaturesProps> = ({
               </p>
             )}
             {showHeaderDivider && (
-              <hr className="mt-8 border-0 border-t border-border" aria-hidden />
+              <hr
+                className={cn(
+                  'mt-8 border-0 border-t border-border',
+                  withBackgroundPattern && 'dark:border-[rgb(255_255_255/0.12)]'
+                )}
+                aria-hidden
+              />
             )}
           </div>
         )}

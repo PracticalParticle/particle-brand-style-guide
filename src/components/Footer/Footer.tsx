@@ -40,7 +40,8 @@ export const Footer: React.FC<FooterProps> = ({
     <footer
       role="contentinfo"
       className={cn(
-        'border-t border-border bg-bg-secondary/95 backdrop-blur-sm shadow-subtle',
+        'w-full border-t border-border shadow-subtle',
+        'bg-bg-secondary/75 backdrop-blur-md supports-[backdrop-filter]:bg-bg-secondary/60',
         variant === 'wide' && 'py-10',
         variant === 'minimal' && 'py-6',
         variant === 'default' && 'py-8',
@@ -48,7 +49,7 @@ export const Footer: React.FC<FooterProps> = ({
       )}
       {...props}
     >
-      <div className="container mx-auto px-4">
+      <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto max-w-[100rem]">
         {(columns && columns.length > 0) && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             {columns.map((col, i) => (

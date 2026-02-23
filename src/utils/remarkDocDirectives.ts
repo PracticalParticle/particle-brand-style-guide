@@ -55,7 +55,7 @@ const MAX_DOC_CARDS_COLS = 8
 export function remarkDocDirectives() {
   return (tree: Root) => {
     visit(tree, ['containerDirective', 'leafDirective'], (node, index, parent) => {
-      const n = node as DirectiveNode
+      const n = node as unknown as DirectiveNode
       n.data = n.data || {}
       const name = (n.name || '').trim()
       if (!name) {
@@ -88,7 +88,7 @@ export function remarkDocDirectives() {
           if (childNode.type === 'paragraph' && getParagraphText(child as ParagraphNode) === ':::') continue
           if (isDocCard(childNode)) {
             flushLoose()
-            cardNodes.push(child as DirectiveNode)
+            cardNodes.push(child as unknown as DirectiveNode)
           } else {
             loose.push(child as BlockContent)
           }

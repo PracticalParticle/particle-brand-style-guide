@@ -56,7 +56,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               <span
                 className={cn(
                   'inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-inset border-2',
-                  'transition-all duration-[220ms] ease-[cubic-bezier(0.16,1,0.3,1)]',
+                  'transition-all [transition-duration:220ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]',
                   'border-border bg-bg-secondary dark:bg-bg-secondary dark:border-border',
                   'hover:border-border-hover',
                   'peer-focus:outline-none',

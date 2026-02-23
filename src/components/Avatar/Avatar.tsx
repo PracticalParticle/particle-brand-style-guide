@@ -82,7 +82,7 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
           'inline-flex items-center justify-center font-medium shrink-0 overflow-hidden',
           'bg-tertiary-lighter border border-border',
           'text-tertiary dark:text-tertiary-on-dark',
-          'transition-colors duration-[220ms]',
+          'transition-colors [transition-duration:220ms]',
           shape === 'circle' && 'rounded-full',
           shape === 'rounded' && 'rounded-xl',
           sizeClasses[size],
