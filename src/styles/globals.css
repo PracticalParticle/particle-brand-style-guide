@@ -276,6 +276,7 @@
     min-height: 100vh;
     color-scheme: light;
     transition: background-color 0.2s ease, color 0.2s ease;
+    scrollbar-gutter: stable;
   }
 
   .dark {
@@ -300,12 +301,17 @@
     color: rgb(var(--color-text-primary));
   }
 
-  /* ── Custom scrollbar ────────────────────────────────────────────────*/
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
+  /* ── Custom scrollbar (aligned to right edge, not indented into content) ─ */
+  ::-webkit-scrollbar { width: 6px; height: 6px; margin: 0; }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0;
+    border: none;
+  }
   ::-webkit-scrollbar-thumb {
     background: rgb(var(--color-border));
     border-radius: 999px;
+    border: none;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: rgb(var(--color-border-hover));
@@ -567,6 +573,130 @@
       inset 0 -1px 0 0 rgb(0 0 0 / 0.25),          /* gravity edge */
       0 2px 8px rgb(0 0 0 / 0.30),                  /* contact shadow */
       0 8px 40px rgb(0 0 0 / 0.55);               /* deep ambient — dark room depth */
+  }
+
+  /* ── Section UI: icon wells, spotlight overlay (sections only) ───────── */
+  .icon-well {
+    border-radius: var(--radius-pill);
+    background-color: rgb(var(--color-bg-surface-muted) / 0.9);
+    padding: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(var(--color-text-muted));
+    transition: background-color var(--duration-normal) var(--ease-default);
+  }
+  .dark .icon-well {
+    background-color: rgb(var(--color-bg-surface-muted) / 0.8);
+  }
+  .icon-well-sm { padding: 0.5rem; }
+  .icon-well-md { padding: 0.75rem; }
+  .icon-well-lg { padding: 1rem; }
+
+  /* Spotlight overlay for hero/CTA sections — soft radial from top */
+  .section-spotlight {
+    position: relative;
+  }
+  .section-spotlight::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 100% 60% at 50% -10%,
+      rgb(255 255 255 / 0.14) 0%,
+      rgb(255 255 255 / 0.04) 40%,
+      transparent 65%
+    );
+  }
+  .dark .section-spotlight::before {
+    background: radial-gradient(
+      ellipse 100% 60% at 50% -10%,
+      rgb(255 255 255 / 0.06) 0%,
+      transparent 55%
+    );
+  }
+
+  /* Subtle section background pattern (for features, lists) — lower opacity than hero */
+  .section-pattern {
+    background-image:
+      linear-gradient(45deg,  transparent 25%, rgb(var(--color-text-primary) / 0.02) 25%),
+      linear-gradient(-45deg, transparent 25%, rgb(var(--color-text-primary) / 0.02) 25%),
+      linear-gradient(45deg,  rgb(var(--color-text-primary) / 0.02) 75%, transparent 75%),
+      linear-gradient(-45deg, rgb(var(--color-text-primary) / 0.02) 75%, transparent 75%);
+    background-size: 28px 28px;
+    background-position: 0 0, 0 14px, 14px -14px, -14px 0px;
+  }
+
+  /* Section background: blobs + long geometric lines. Solid base, no transparency. */
+  .section-bg-blobs-lines {
+    background-color: rgb(var(--color-bg-surface-muted));
+    background-image:
+      repeating-linear-gradient(
+        -35deg,
+        transparent,
+        transparent 80px,
+        rgb(var(--color-text-primary) / 0.06) 80px,
+        rgb(var(--color-text-primary) / 0.06) 81px
+      ),
+      repeating-linear-gradient(
+        55deg,
+        transparent,
+        transparent 100px,
+        rgb(var(--color-text-primary) / 0.045) 100px,
+        rgb(var(--color-text-primary) / 0.045) 101px
+      ),
+      radial-gradient(
+        ellipse 70% 60% at 5% 30%,
+        rgb(var(--color-text-primary) / 0.08) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 50% 70% at 95% 70%,
+        rgb(var(--color-text-primary) / 0.06) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 60% 50% at 50% 50%,
+        rgb(var(--color-text-primary) / 0.05) 0%,
+        transparent 50%
+      );
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-position: 0 0, 0 0, 0 0, 0 0, 0 0;
+  }
+  .dark .section-bg-blobs-lines {
+    background-color: rgb(var(--color-bg-surface-muted));
+    background-image:
+      repeating-linear-gradient(
+        -35deg,
+        transparent,
+        transparent 80px,
+        rgb(255 255 255 / 0.06) 80px,
+        rgb(255 255 255 / 0.06) 81px
+      ),
+      repeating-linear-gradient(
+        55deg,
+        transparent,
+        transparent 100px,
+        rgb(255 255 255 / 0.05) 100px,
+        rgb(255 255 255 / 0.05) 101px
+      ),
+      radial-gradient(
+        ellipse 70% 60% at 5% 30%,
+        rgb(255 255 255 / 0.07) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 50% 70% at 95% 70%,
+        rgb(255 255 255 / 0.06) 0%,
+        transparent 55%
+      ),
+      radial-gradient(
+        ellipse 60% 50% at 50% 50%,
+        rgb(255 255 255 / 0.05) 0%,
+        transparent 50%
+      );
   }
 
   /* ── Focus: 2px outline + 2px offset halo (neutral, strong visibility) ─ */
