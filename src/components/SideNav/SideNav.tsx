@@ -35,7 +35,7 @@ export interface SideNavResponsiveConfig {
   breakpoint?: 'sm' | 'md' | 'lg'
 }
 
-type LinkComponentProps = {
+export type LinkComponentProps = {
   to: string
   children: React.ReactNode
   className?: string
@@ -242,6 +242,16 @@ export function SideNavRoot({
   const breakpoint = config.breakpoint ?? 'md'
   const flatItems = useMemo(() => flattenItems(items, sections), [items, sections])
   const isSliding = layout === 'sliding'
+
+  if (typeof process !== 'undefined' && process.env.NODE_ENV !== 'production') {
+    const needsMobile = mobileMode !== 'none' || isSliding
+    if (needsMobile && flatItems.length === 0 && children != null) {
+      console.warn(
+        'SideNav: Using SideNav.Item children without items/sections disables mobile navigation (dropdown/drawer). ' +
+          'Pass items or sections for mobile, or set responsive={false} or mobile="none".'
+      )
+    }
+  }
 
   const itemStyles = useCallback(
     (item: SideNavItem) =>

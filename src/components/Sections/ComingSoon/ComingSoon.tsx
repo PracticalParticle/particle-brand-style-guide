@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { cn } from '@/utils/cn'
 import { Badge } from '@/components/Badge'
 
@@ -13,7 +13,7 @@ export interface ComingSoonProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   secondaryAction?: React.ReactNode
   /**
    * Visual style (all use solid backgrounds for WCAG contrast):
-   * - `gradient`: solid surface with subtle logo shapes (landing page)
+   * - `gradient`: dark geometric mesh background (landing page)
    * - `muted`: soft surface
    * - `minimal`: no background
    */
@@ -32,49 +32,104 @@ export interface ComingSoonProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   children?: React.ReactNode
 }
 
-/** Subtle logo triangle shapes for Coming Soon section background (theme-aware) */
-const LogoShapesBg: React.FC<{ className?: string }> = ({ className }) => (
-  <svg
-    width="184"
-    height="145"
-    viewBox="0 0 184 145"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-    aria-hidden
-  >
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M154.835 5.50982L164.913 0.515925L166.766 11.6095L176.141 67.7591L164.211 61.6595L156.688 16.6034L89.5761 49.8605L169.024 90.4807L166.42 74.8836L178.35 80.9833L180.954 96.5803L183.162 109.804L171.232 103.705L77.5631 55.8136L65.6329 49.7139L77.6461 43.761L154.835 5.50982Z"
-      fill="currentColor"
-      stroke="currentColor"
-      strokeWidth="1.03191"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M44.604 77.5569L42.7085 82.6045L38.4258 79.329L16.7489 62.75L22.927 60.9779L40.3212 74.2814L52.9437 40.667L11.8005 52.4681L17.8218 57.0733L11.6436 58.8454L5.6223 54.2402L0.517081 50.3355L6.69518 48.5635L55.2031 34.65L61.3813 32.8779L59.1218 38.895L44.604 77.5569Z"
-      fill="currentColor"
-      stroke="currentColor"
-      strokeWidth="1.03191"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M78.0453 90.6265L82.4609 84.6376L86.8765 90.6265L109.226 120.939H100.395L82.4609 96.6154L53.0557 136.498H111.866L105.658 128.078H114.489L120.697 136.498L125.961 143.638H117.13H47.7921H38.9609L44.2246 136.498L78.0453 90.6265Z"
-      fill="currentColor"
-      stroke="currentColor"
-      strokeWidth="1.03191"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+/** Node positions for network mesh (abstract web/blockchain) — viewBox 0 0 1600 900, 5×9 grid */
+const NETWORK_NODES: Array<[number, number]> = [
+  [120, 140], [280, 100], [440, 180], [600, 120], [760, 200], [920, 140], [1080, 220], [1240, 160], [1400, 200],
+  [100, 320], [260, 380], [420, 300], [580, 360], [740, 320], [900, 380], [1060, 340], [1220, 400], [1380, 320],
+  [180, 520], [340, 480], [500, 560], [660, 500], [820, 540], [980, 480], [1140, 560], [1300, 520], [1460, 540],
+  [140, 680], [300, 720], [460, 660], [620, 700], [780, 680], [940, 720], [1100, 660], [1260, 700], [1420, 680],
+  [200, 820], [400, 780], [600, 840], [800, 800], [1000, 820], [1200, 780], [1340, 720], [1500, 780], [1460, 840],
+]
+
+/** Edges: pairs of node indices (creates web/network connections) */
+const NETWORK_EDGES: Array<[number, number]> = (() => {
+  const out: Array<[number, number]> = []
+  const cols = 9
+  const rows = 5
+  const idx = (r: number, c: number) => r * cols + c
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const i = idx(r, c)
+      if (c < cols - 1) out.push([i, idx(r, c + 1)])
+      if (r < rows - 1) out.push([i, idx(r + 1, c)])
+      if (r < rows - 1 && c < cols - 1) out.push([i, idx(r + 1, c + 1)])
+      if (r < rows - 1 && c > 0) out.push([i, idx(r + 1, c - 1)])
+    }
+  }
+  return out
+})()
+
+/** Theme-aware network mesh background (web/blockchain abstract). Light: light bg + dark mesh. Dark: dark bg + light mesh. */
+const GeometricMeshBg: React.FC<{ className?: string }> = ({ className }) => {
+  const id = useId().replace(/:/g, '-')
+  const glowId = `softGlow-${id}`
+
+  return (
+    <svg
+      className={cn('absolute inset-0 w-full h-full', className)}
+      viewBox="0 0 1600 900"
+      preserveAspectRatio="xMidYMid slice"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id={`bgLight-${id}`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#ECEEF1" />
+          <stop offset="100%" stopColor="#E2E5E9" />
+        </linearGradient>
+        <linearGradient id={`bgDark-${id}`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#0A0A0A" />
+          <stop offset="100%" stopColor="#141414" />
+        </linearGradient>
+        <linearGradient id={`lineLight-${id}`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#0A0A0A" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#0A0A0A" stopOpacity="0.06" />
+        </linearGradient>
+        <linearGradient id={`lineDark-${id}`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0.05" />
+        </linearGradient>
+        <filter id={glowId}>
+          <feGaussianBlur stdDeviation="1.5" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* Light theme layer */}
+      <g className="dark:hidden">
+        <rect width="1600" height="900" fill={`url(#bgLight-${id})`} />
+      </g>
+      <g className="dark:hidden" stroke={`url(#lineLight-${id})`} strokeWidth="1.1" fill="none" filter={`url(#${glowId})`}>
+        {NETWORK_EDGES.map(([a, b], i) => (
+          <line key={i} x1={NETWORK_NODES[a][0]} y1={NETWORK_NODES[a][1]} x2={NETWORK_NODES[b][0]} y2={NETWORK_NODES[b][1]} />
+        ))}
+      </g>
+      <g className="dark:hidden" fill="#0A0A0A" fillOpacity="0.2">
+        {NETWORK_NODES.map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r={i % 4 === 0 ? 2.5 : 1.8} />
+        ))}
+      </g>
+
+      {/* Dark theme layer */}
+      <g className="hidden dark:block">
+        <rect width="1600" height="900" fill={`url(#bgDark-${id})`} />
+      </g>
+      <g className="hidden dark:block" stroke={`url(#lineDark-${id})`} strokeWidth="1.1" fill="none" filter={`url(#${glowId})`}>
+        {NETWORK_EDGES.map(([a, b], i) => (
+          <line key={i} x1={NETWORK_NODES[a][0]} y1={NETWORK_NODES[a][1]} x2={NETWORK_NODES[b][0]} y2={NETWORK_NODES[b][1]} />
+        ))}
+      </g>
+      <g className="hidden dark:block" fill="#FFFFFF" fillOpacity="0.15">
+        {NETWORK_NODES.map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r={i % 4 === 0 ? 2.5 : 1.8} />
+        ))}
+      </g>
+    </svg>
+  )
+}
 
 export const ComingSoon: React.FC<ComingSoonProps> = ({
   title = 'Coming soon',
@@ -115,7 +170,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
     'relative overflow-hidden rounded-card',
     paddingY[size],
     paddingX,
-    variant === 'gradient' && 'bg-bg-surface-muted edge-highlight',
+    variant === 'gradient' && 'edge-highlight',
     variant === 'muted' && 'bg-bg-surface-muted/80 edge-highlight',
     variant === 'minimal' && 'bg-transparent',
     className
@@ -127,21 +182,13 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
       aria-labelledby="coming-soon-title"
       {...props}
     >
-      {/* Subtle logo-shape background (gradient variant only) */}
+      {/* Geometric mesh background (gradient variant only) */}
       {variant === 'gradient' && (
         <div
           className="absolute inset-0 pointer-events-none z-0 overflow-hidden rounded-card"
           aria-hidden
         >
-          <div className="absolute -top-12 right-0 w-40 sm:w-48 opacity-[0.055] text-text-primary transform translate-x-1/4">
-            <LogoShapesBg className="w-full h-auto" />
-          </div>
-          <div className="absolute bottom-0 -left-16 w-36 sm:w-44 opacity-[0.045] text-text-primary transform -translate-x-1/4 rotate-180">
-            <LogoShapesBg className="w-full h-auto" />
-          </div>
-          <div className="absolute top-1/2 left-0 w-32 sm:w-40 opacity-[0.035] text-text-primary transform -translate-y-1/2 -translate-x-1/3">
-            <LogoShapesBg className="w-full h-auto" />
-          </div>
+          <GeometricMeshBg />
         </div>
       )}
 
@@ -160,7 +207,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
           <h1
             id="coming-soon-title"
             className={cn(
-              'font-bold tracking-tight text-text-primary leading-tight',
+              'font-bold tracking-tight leading-tight text-text-primary',
               titleGradient && 'text-gradient-brand',
               titleSizes[size]
             )}
@@ -170,7 +217,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
           {description && (
             <p
               className={cn(
-                'mt-4 sm:mt-5 text-text-secondary max-w-2xl mx-auto leading-relaxed',
+                'mt-4 sm:mt-5 max-w-2xl mx-auto leading-relaxed text-text-secondary',
                 subtitleSizes[size]
               )}
             >
