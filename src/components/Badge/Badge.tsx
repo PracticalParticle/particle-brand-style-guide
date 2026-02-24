@@ -23,7 +23,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ) => {
     const baseStyles = [
       'inline-flex items-center font-medium rounded-full',
-      'transition-colors duration-[220ms]',
+      'transition-colors [transition-duration:220ms]',
       'tracking-wide',
     ].join(' ')
 

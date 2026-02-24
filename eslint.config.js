@@ -6,7 +6,7 @@ import storybook from 'eslint-plugin-storybook'
 
 export default tseslint.config(
   {
-    ignores: ['dist/**', 'storybook-static/**', 'node_modules/**'],
+    ignores: ['dist/**', 'storybook-static/**', 'node_modules/**', '.playwright-browsers/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -44,7 +44,7 @@ export default tseslint.config(
       ],
       '@typescript-eslint/no-unused-vars': [
         'error',
-        { argsIgnorePattern: '^_' },
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
     },
   },

@@ -141,7 +141,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
       {/* Row 1: Search, Filter toggle, chips, Clear, Sort, actions */}
       <div
         className={cn(
-          'flex flex-nowrap items-center gap-3 min-w-0',
+          'flex flex-nowrap items-center justify-start gap-2 min-w-0',
           'px-3 py-2.5 sm:px-4 sm:py-3',
           'min-h-[2.75rem] sm:min-h-[3rem]',
           'overflow-x-auto overflow-y-hidden',
@@ -149,9 +149,9 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
           !hasQuickFilters && (!hasMultiFilters || !filterRowOpen) && 'border-b border-border'
         )}
       >
-        {/* Search — aligned height with toolbar controls */}
+        {/* Search — fixed width so it doesn't stretch */}
         {onSearchChange !== undefined && (
-          <div className="w-[10rem] min-w-[10rem] sm:w-[14rem] shrink-0">
+          <div className="w-[10rem] min-w-[10rem] max-w-[10rem] sm:w-[14rem] sm:min-w-[14rem] sm:max-w-[14rem] shrink-0">
             <Input
               type="search"
               placeholder={searchPlaceholder}
@@ -278,8 +278,8 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
       {hasQuickFilters && (
         <div
           className={cn(
-            'table-toolbar-quick flex flex-wrap items-center gap-x-2 gap-y-1.5',
-            'px-2 py-2 xs:px-3 sm:px-4 sm:py-3',
+            'table-toolbar-quick flex flex-wrap items-center justify-start gap-2',
+            'px-3 py-2 sm:px-4 sm:py-2.5',
             'border-b border-border'
           )}
         >
@@ -288,11 +288,13 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               {quickFilters.label}
             </span>
           )}
-          <div className="flex flex-wrap items-center gap-1.5 min-w-0" role="group" aria-label={quickFilters.label ?? 'Quick filters'}>
-            <button
+          <div className="flex flex-wrap items-center gap-2 min-w-0 w-fit" role="group" aria-label={quickFilters.label ?? 'Quick filters'}>
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
               onClick={() => quickFilters.onChange('')}
-              className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
+              className="rounded-full shrink-0 min-w-[3.25rem]"
               aria-pressed={!quickFilters.value}
             >
               <Badge
@@ -305,13 +307,15 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
               >
                 {quickFilters.allLabel ?? 'All'}
               </Badge>
-            </button>
+            </Button>
             {quickFilters.options.map((opt) => (
-              <button
+              <Button
                 key={opt.value}
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={() => quickFilters.onChange(opt.value)}
-                className="focus:outline-none focus-visible:ring-2 focus-visible:ring-tertiary focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-full shrink-0 min-w-[3.25rem] inline-flex justify-center"
+                className="rounded-full shrink-0 min-w-[3.25rem]"
                 aria-pressed={quickFilters.value === opt.value}
               >
                 <Badge
@@ -324,7 +328,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
                 >
                   {opt.label}
                 </Badge>
-              </button>
+              </Button>
             ))}
           </div>
         </div>

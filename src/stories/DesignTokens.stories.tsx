@@ -475,6 +475,45 @@ export const Colors: Story = {
           </div>
         </section>
 
+        {/* Brand palette (top 5) — identicons, contract/dapp logos */}
+        <section className="space-y-6">
+          <div>
+            <h2 className="text-2xl font-semibold text-text-primary mb-2">Brand palette (identicons)</h2>
+            <p className="text-sm text-text-secondary mb-6">
+              Top 5 system brand colors: blue, purple, black, white, gray. Used for contract/dapp generated logos (identicons).
+              CSS: <code className="bg-bg-tertiary px-1 py-0.5 rounded font-mono">--brand-palette-1</code> … <code className="bg-bg-tertiary px-1 py-0.5 rounded font-mono">--brand-palette-5</code>. Values switch automatically in light/dark mode.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
+            {[
+              { name: 'Blue', cssVar: '--brand-palette-1', lightHex: '#2563EB', darkHex: '#60A5FA' },
+              { name: 'Purple', cssVar: '--brand-palette-2', lightHex: '#7C3AED', darkHex: '#A78BFA' },
+              { name: 'Black', cssVar: '--brand-palette-3', lightHex: '#0A0A0A', darkHex: '#111827' },
+              { name: 'White', cssVar: '--brand-palette-4', lightHex: '#FFFFFF', darkHex: '#FAFAFA' },
+              { name: 'Gray', cssVar: '--brand-palette-5', lightHex: '#374151', darkHex: '#9CA3AF' },
+            ].map((item) => (
+              <div key={item.cssVar} className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-4" tabIndex={0} role="region" aria-label={`Brand palette: ${item.name}`}>
+                <div className="font-semibold text-text-primary">{item.name}</div>
+                <div className="text-xs font-mono text-text-tertiary">
+                  <code className="bg-bg-tertiary px-1 py-0.5 rounded">{item.cssVar}</code>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <div className="text-xs text-text-tertiary mb-1">Light</div>
+                    <div className="h-12 rounded-md border border-border" style={{ backgroundColor: item.lightHex }} />
+                    <div className="text-xs font-mono text-text-secondary mt-1">{item.lightHex}</div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-text-tertiary mb-1">Dark</div>
+                    <div className="h-12 rounded-md border border-border" style={{ backgroundColor: item.darkHex }} />
+                    <div className="text-xs font-mono text-text-secondary mt-1">{item.darkHex}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Backdrop, Highlight, Data, Skeleton, Glass, Layer, Focus */}
         <section className="space-y-6">
           <h2 className="text-2xl font-semibold text-text-primary mb-2">More tokens</h2>
@@ -556,7 +595,7 @@ export const Colors: Story = {
             <div className="p-4 sm:p-6 bg-bg-secondary rounded-lg border border-border space-y-2">
               <div className="text-sm text-text-secondary"><code className="bg-bg-tertiary px-1 py-0.5 rounded">--focus-ring</code>, <code className="bg-bg-tertiary px-1 py-0.5 rounded">--focus-ring-offset</code></div>
               <p className="text-xs text-text-tertiary">Usage: <code className="bg-bg-tertiary px-1 rounded">.focus-ring</code> on interactive elements.</p>
-              <button type="button" className="px-3 py-2 border border-border rounded-control focus-ring bg-bg-secondary text-text-primary text-sm">Focus me</button>
+              <Button type="button" variant="outline" size="sm">Focus me</Button>
             </div>
           </div>
         </section>

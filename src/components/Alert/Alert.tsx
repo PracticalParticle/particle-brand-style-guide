@@ -13,7 +13,7 @@ export const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ({ className, variant = 'default', title, children, onClose, icon, ...props }, ref) => {
     const baseStyles = [
       'relative rounded-card border p-4',
-      'transition-all duration-[220ms]',
+      'transition-all [transition-duration:220ms]',
     ].join(' ')
 
     const variants = {

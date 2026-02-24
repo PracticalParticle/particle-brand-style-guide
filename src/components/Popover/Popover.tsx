@@ -226,14 +226,34 @@ export const Popover: React.FC<PopoverProps> = ({
     </div>
   )
 
+  const isFragment = React.isValidElement(children) && children.type === React.Fragment
+  const child = React.isValidElement(children) ? children : null
+  const triggerProps = {
+    ref: triggerRef,
+    onClick: (e: React.MouseEvent) => {
+      (child?.props as { onClick?: (e: React.MouseEvent) => void })?.onClick?.(e)
+      if (trigger === 'click') handleToggle()
+    },
+    onMouseEnter: (e: React.MouseEvent) => {
+      (child?.props as { onMouseEnter?: (e: React.MouseEvent) => void })?.onMouseEnter?.(e)
+      handleMouseEnter()
+    },
+    onMouseLeave: (e: React.MouseEvent) => {
+      (child?.props as { onMouseLeave?: (e: React.MouseEvent) => void })?.onMouseLeave?.(e)
+      handleMouseLeave()
+    },
+  }
+  const triggerNode = isFragment ? (
+    <span className="inline-block" {...triggerProps}>
+      {children}
+    </span>
+  ) : (
+    React.isValidElement(children) ? React.cloneElement(children, triggerProps) : <span className="inline-block" {...triggerProps}>{children}</span>
+  )
+
   return (
     <>
-      {React.cloneElement(children, {
-        ref: triggerRef,
-        onClick: trigger === 'click' ? handleToggle : undefined,
-        onMouseEnter: handleMouseEnter,
-        onMouseLeave: handleMouseLeave,
-      })}
+      {triggerNode}
       {usePortal && typeof document !== 'undefined'
         ? createPortal(popoverContent, document.body)
         : popoverContent}

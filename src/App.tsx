@@ -5,10 +5,16 @@ import {
   Badge,
   Divider,
   ComponentShowcase,
+  AppHeader,
+  Logo,
 } from './components'
+import { DocumentPreviewPage } from './pages/DocumentPreviewPage'
+
+type View = 'home' | 'document'
 
 function App() {
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [view, setView] = useState<View>('home')
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light'
@@ -28,22 +34,44 @@ function App() {
     { name: 'Bg secondary', class: 'bg-bg-secondary border border-border' },
   ] as const
 
+  const headerLogo = (
+    <>
+      <div className="h-7 w-7 rounded-control bg-btn-primary dark:bg-bg-canvas flex items-center justify-center shadow-sm p-1 flex-shrink-0">
+        <Logo variant="light" size={24} className="text-white dark:text-text-primary" />
+      </div>
+      <span className="hidden sm:inline text-base font-bold text-text-primary truncate">
+        Particle Crypto Security
+      </span>
+    </>
+  )
+
   return (
     <div className="min-h-screen bg-bg-primary transition-colors">
-      <div className="max-w-6xl mx-auto p-6 sm:p-8 space-y-8">
-        {/* Header */}
-        <header className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-text-primary mb-2">
-              Particle Crypto Security LTD
-            </h1>
-            <p className="text-base sm:text-lg text-text-secondary">
-              BloxChain Protocol — Compliance Framework for Regulated Smart Accounts
-            </p>
-          </div>
+      <AppHeader
+        logo={headerLogo}
+        logoLayout="left"
+        actions={
           <Button onClick={toggleTheme} variant="outline" size="md">
             {theme === 'light' ? 'Dark mode' : 'Light mode'}
           </Button>
+        }
+        variant="default"
+        height="md"
+        sticky
+      />
+      <div className="max-w-6xl mx-auto p-6 sm:p-8 space-y-8">
+        {view === 'document' ? (
+          <DocumentPreviewPage onBack={() => setView('home')} />
+        ) : (
+          <>
+        {/* Hero */}
+        <header className="flex flex-col gap-2">
+          <h1 className="text-3xl sm:text-4xl font-bold text-text-primary">
+            Particle Crypto Security LTD
+          </h1>
+          <p className="text-base sm:text-lg text-text-secondary">
+            BloxChain Protocol — Compliance Framework for Regulated Smart Accounts
+          </p>
         </header>
 
         <Divider variant="default" />
@@ -64,6 +92,9 @@ function App() {
           </p>
           <div className="flex flex-wrap gap-3">
             <Button variant="primary">Get Started</Button>
+            <Button variant="outline" onClick={() => setView('document')}>
+              Document preview & PDF export
+            </Button>
             <Button
               variant="outline"
               onClick={() => window.open('http://localhost:6006', '_blank', 'noopener,noreferrer')}
@@ -128,6 +159,8 @@ function App() {
             ))}
           </div>
         </Card>
+          </>
+        )}
       </div>
     </div>
   )

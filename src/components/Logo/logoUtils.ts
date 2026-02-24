@@ -1,7 +1,6 @@
 /**
  * Logo export and download. Uses the canonical logo.svg; substitutes color only (no width overrides in app).
  */
-
 import logoSvgRaw from './logo.svg?raw'
 import { LOGO_VIEWBOX_WIDTH, LOGO_VIEWBOX_HEIGHT } from './logoConstants'
 
