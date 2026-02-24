@@ -172,6 +172,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
   children,
   ...props
 }) => {
+  const titleId = useId().replace(/:/g, '-')
   const hasActions = primaryAction ?? secondaryAction ?? action
   const badgeContent =
     badge !== undefined ? badge : <Badge variant="outline">Coming soon</Badge>
@@ -185,7 +186,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
           </div>
         )}
         <h1
-          id="coming-soon-title"
+          id={titleId}
           className={cn(
             'font-bold tracking-tight text-text-primary leading-tight',
             titleGradient && 'text-gradient-brand',
@@ -224,7 +225,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
           paddingX,
           className
         )}
-        aria-labelledby="coming-soon-title"
+        aria-labelledby={titleId}
         {...props}
       >
         {content}
@@ -242,7 +243,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
           paddingX,
           className
         )}
-        aria-labelledby="coming-soon-title"
+        aria-labelledby={titleId}
         {...props}
       >
         {content}
@@ -251,7 +252,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
   }
 
   return (
-    <div
+    <section
       className={cn(
         'relative overflow-hidden rounded-card',
         'edge-highlight',
@@ -259,7 +260,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
         paddingX,
         className
       )}
-      aria-labelledby="coming-soon-title"
+      aria-labelledby={titleId}
       {...props}
     >
       {/* Geometric mesh background */}
@@ -278,7 +279,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
           aria-hidden
         />
       )}
-    </div>
+    </section>
   )
 }
 

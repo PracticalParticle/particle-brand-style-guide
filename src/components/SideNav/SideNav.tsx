@@ -286,7 +286,7 @@ export function SideNavRoot({
         'flex flex-col shrink-0 min-h-0 overflow-hidden',
         widthClasses[width],
         variantClasses[variant],
-        !isSliding && breakpointHide[breakpoint],
+        !isSliding && mobileMode !== 'none' && breakpointHide[breakpoint],
         className
       )}
       aria-label={ariaLabel}

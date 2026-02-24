@@ -2,7 +2,7 @@ import React, { useId } from 'react'
 import { cn } from '@/utils/cn'
 import { Badge } from '@/components/Badge'
 
-export interface ComingSoonProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface ComingSoonProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
   /** Main heading; defaults to "Coming soon" */
   title?: React.ReactNode
   /** Supporting copy below the title */
@@ -163,6 +163,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
     lg: 'text-2xl',
   }
 
+  const titleId = useId().replace(/:/g, '-')
   const badgeContent =
     badge !== undefined ? badge : <Badge variant="outline">Coming soon</Badge>
 
@@ -179,7 +180,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
   return (
     <section
       className={wrapperClass}
-      aria-labelledby="coming-soon-title"
+      aria-labelledby={titleId}
       {...props}
     >
       {/* Geometric mesh background (gradient variant only) */}
@@ -195,7 +196,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
       <div className="relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           {logo != null && (
-            <div className="mb-5 sm:mb-6 flex justify-center" aria-hidden>
+            <div className="mb-5 sm:mb-6 flex justify-center">
               {logo}
             </div>
           )}
@@ -205,7 +206,7 @@ export const ComingSoon: React.FC<ComingSoonProps> = ({
             </div>
           )}
           <h1
-            id="coming-soon-title"
+            id={titleId}
             className={cn(
               'font-bold tracking-tight leading-tight text-text-primary',
               titleGradient && 'text-gradient-brand',
