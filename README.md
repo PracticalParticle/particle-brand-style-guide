@@ -126,6 +126,16 @@ Visit `http://localhost:6006` to view the interactive documentation.
 
 ## Consumption Guide
 
+### Using the style guide as a shared dependency (submodule)
+
+This repo is shared across multiple projects (e.g. website, app). **Do not copy the style guide into each project.** Use a git submodule (or file dependency) so there is a single source of truth.
+
+- **Add to a project**: Add this repo as a submodule, then in `package.json` use `"@particle-crypto/style-guide": "file:./particle-brand-style-guide"`. Build the style guide (`npm run build` in the submodule) then run `npm install` in the consumer.
+- **Get updates**: In the consumer repo, run `git submodule update --remote particle-brand-style-guide`, build the submodule, then `npm install`.
+- **Make changes**: Edit and push from the style guide repo; consumers update the submodule pointer and reinstall.
+
+See **[docs/SHARED_STYLE_GUIDE.md](./docs/SHARED_STYLE_GUIDE.md)** for step-by-step commands and options.
+
 ### Using the Theme in Other Projects
 
 To use the Particle theme system in other applications or websites:
