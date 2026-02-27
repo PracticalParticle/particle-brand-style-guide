@@ -126,9 +126,21 @@ Visit `http://localhost:6006` to view the interactive documentation.
 
 ## Consumption Guide
 
-### Using the Theme in Other Projects
+### Using the style guide as a shared dependency (submodule)
 
-To use the Particle theme system in other applications or websites:
+This repo is shared across multiple projects (e.g. website, app). **Do not copy the style guide into each project.** Use a git submodule (or file dependency) so there is a single source of truth.
+
+- **Add to a project**: Add this repo as a submodule, then in `package.json` use `"@particle-crypto/style-guide": "file:./particle-brand-style-guide"`. Build the style guide (`npm run build` in the submodule) then run `npm install` in the consumer.
+- **Get updates**: In the consumer repo, run `git submodule update --remote particle-brand-style-guide`, build the submodule, then `npm install`.
+- **Make changes**: Edit and push from the style guide repo; consumers update the submodule pointer and reinstall.
+
+See **[docs/SHARED_STYLE_GUIDE.md](./docs/SHARED_STYLE_GUIDE.md)** for step-by-step commands and options.
+
+### Using the Theme in Other Projects (fallback / non-submodule setup)
+
+If you cannot use this repo as a git submodule (for example in legacy projects or static sites), you can still reuse the Particle theme tokens directly in your app. This is a **fallback approach**; for new projects, prefer the shared submodule workflow above so there is a single source of truth.
+
+To use the Particle theme system in other applications or websites without a submodule:
 
 1. **Copy theme CSS variables**: Import `src/styles/globals.css` into your project
 2. **Use Tailwind config**: Copy the theme configuration from `tailwind.config.js` or create a preset

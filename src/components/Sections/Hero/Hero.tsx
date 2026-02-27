@@ -48,7 +48,6 @@ export const Hero: React.FC<HeroProps> = ({
     md: 'py-12 sm:py-16 lg:py-20',
     lg: 'py-16 sm:py-20 lg:py-24',
   }
-  const paddingX = 'px-4 sm:px-6 lg:px-8'
   const titleSizes = {
     sm: 'text-display-lg',
     md: 'text-display-xl',
@@ -65,7 +64,6 @@ export const Hero: React.FC<HeroProps> = ({
   const wrapperClass = cn(
     'relative overflow-hidden rounded-card',
     paddingY[size],
-    paddingX,
     variant === 'gradient' && 'bg-gradient-hero triangle-pattern-hero texture-noise section-spotlight edge-highlight',
     variant === 'muted' && 'bg-bg-surface-muted/60 edge-highlight',
     variant === 'minimal' && 'bg-transparent',
@@ -78,11 +76,13 @@ export const Hero: React.FC<HeroProps> = ({
       aria-labelledby="hero-title"
       {...props}
     >
-      <div className="relative z-10">
+      {/* Same outer column as other sections: max-w-6xl + horizontal padding */}
+      <div className="relative z-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        {/* Inner content column: narrower for readability, centered or left within the 6xl strip */}
         <div
           className={cn(
-            'max-w-4xl',
-            isCenter ? 'mx-auto text-center' : 'text-left'
+            'max-w-3xl',
+            isCenter ? 'mx-auto text-center' : 'mr-auto text-left'
           )}
         >
           {badge && (
@@ -114,9 +114,9 @@ export const Hero: React.FC<HeroProps> = ({
         {subtitle && (
           <p
             className={cn(
-              'mt-4 sm:mt-5 text-text-secondary font-medium max-w-2xl',
+              'mt-4 sm:mt-5 text-text-secondary font-medium',
               subtitleSizes[size],
-              isCenter ? 'mx-auto' : ''
+              isCenter && 'max-w-2xl mx-auto'
             )}
           >
             {subtitle}

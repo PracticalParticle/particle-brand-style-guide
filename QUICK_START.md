@@ -115,6 +115,4 @@ npm run lint
 
 ## Resources
 
-- [Brand Guidelines](./docs/BRAND_GUIDELINES.md)
-- [Implementation Plan](./docs/IMPLEMENTATION_PLAN.md)
 - [Storybook Documentation](http://localhost:6006)
