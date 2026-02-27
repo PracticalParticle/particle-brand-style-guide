@@ -21,6 +21,15 @@ export interface ComparisonSectionProps extends Omit<React.HTMLAttributes<HTMLEl
 }
 
 function CellContent({ value }: { value: ComparisonCellValue }) {
+  if (value === null || value === undefined) {
+    return (
+      <span className="inline-flex items-center justify-center text-text-tertiary">
+        <span aria-hidden="true">—</span>
+        <span className="sr-only">Not available</span>
+      </span>
+    )
+  }
+
   if (typeof value === 'boolean') {
     const label = value ? 'Yes' : 'No'
 
@@ -150,7 +159,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({
                         key={colIndex}
                         className="px-4 py-3 sm:px-5 sm:py-4 text-center text-text-secondary"
                       >
-                        <CellContent value={row.values[colIndex] ?? false} />
+                        <CellContent value={row.values[colIndex]} />
                       </td>
                     ))}
                   </tr>
@@ -187,9 +196,7 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({
                         {row.label}
                       </dt>
                       <dd className="text-text-primary shrink-0">
-                        <CellContent
-                          value={row.values[colIndex] ?? false}
-                        />
+                        <CellContent value={row.values[colIndex]} />
                       </dd>
                     </div>
                   ))}
