@@ -60,7 +60,7 @@ const NETWORK_EDGES: Array<[number, number]> = (() => {
 })()
 
 /** Theme-aware network mesh background (web/blockchain abstract). Light: light bg + dark mesh. Dark: dark bg + light mesh. */
-const GeometricMeshBg: React.FC<{ className?: string }> = ({ className }) => {
+export const GeometricMeshBg: React.FC<{ className?: string }> = ({ className }) => {
   const id = useId().replace(/:/g, '-')
   const glowId = `softGlow-${id}`
 
