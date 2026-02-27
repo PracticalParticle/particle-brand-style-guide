@@ -22,16 +22,24 @@ export interface ComparisonSectionProps extends Omit<React.HTMLAttributes<HTMLEl
 
 function CellContent({ value }: { value: ComparisonCellValue }) {
   if (typeof value === 'boolean') {
-    return value ? (
-      <span className="text-success inline-flex" aria-hidden>
-        <CheckIcon />
-      </span>
-    ) : (
-      <span className="text-text-tertiary inline-flex" aria-hidden>
-        <CrossIcon />
+    const label = value ? 'Yes' : 'No'
+
+    return (
+      <span className="inline-flex items-center justify-center gap-2">
+        <span
+          className={cn(
+            'inline-flex',
+            value ? 'text-success' : 'text-text-tertiary'
+          )}
+          aria-hidden="true"
+        >
+          {value ? <CheckIcon /> : <CrossIcon />}
+        </span>
+        <span className="sr-only">{label}</span>
       </span>
     )
   }
+
   return <span className="text-text-primary">{value}</span>
 }
 
@@ -131,15 +139,18 @@ export const ComparisonSection: React.FC<ComparisonSectionProps> = ({
                       rowIndex % 2 === 0 && 'bg-bg-secondary'
                     )}
                   >
-                    <td className="px-4 py-3 sm:px-5 sm:py-4 font-medium text-text-primary">
+                    <th
+                      scope="row"
+                      className="px-4 py-3 sm:px-5 sm:py-4 font-medium text-text-primary text-left"
+                    >
                       {row.label}
-                    </td>
-                    {row.values.slice(0, colCount).map((value, colIndex) => (
+                    </th>
+                    {Array.from({ length: colCount }).map((_, colIndex) => (
                       <td
                         key={colIndex}
                         className="px-4 py-3 sm:px-5 sm:py-4 text-center text-text-secondary"
                       >
-                        <CellContent value={value} />
+                        <CellContent value={row.values[colIndex] ?? false} />
                       </td>
                     ))}
                   </tr>

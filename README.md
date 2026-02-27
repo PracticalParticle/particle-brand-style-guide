@@ -136,9 +136,11 @@ This repo is shared across multiple projects (e.g. website, app). **Do not copy 
 
 See **[docs/SHARED_STYLE_GUIDE.md](./docs/SHARED_STYLE_GUIDE.md)** for step-by-step commands and options.
 
-### Using the Theme in Other Projects
+### Using the Theme in Other Projects (fallback / non-submodule setup)
 
-To use the Particle theme system in other applications or websites:
+If you cannot use this repo as a git submodule (for example in legacy projects or static sites), you can still reuse the Particle theme tokens directly in your app. This is a **fallback approach**; for new projects, prefer the shared submodule workflow above so there is a single source of truth.
+
+To use the Particle theme system in other applications or websites without a submodule:
 
 1. **Copy theme CSS variables**: Import `src/styles/globals.css` into your project
 2. **Use Tailwind config**: Copy the theme configuration from `tailwind.config.js` or create a preset
