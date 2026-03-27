@@ -15,12 +15,6 @@ const SearchIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-const ClearIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-    <path d="M18 6 6 18" /><path d="m6 6 12 12" />
-  </svg>
-)
-
 export interface TableToolbarFilterOption {
   value: string
   label: string
@@ -73,8 +67,6 @@ export interface TableToolbarProps {
   children?: React.ReactNode
 }
 
-const CLEAR_BUTTON_MIN_WIDTH = '2.5rem'
-
 export const TableToolbar: React.FC<TableToolbarProps> = ({
   searchValue = '',
   onSearchChange,
@@ -87,7 +79,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   onFilterChange,
   filterOptions = [],
   onClearAll,
-  hasActiveFilters: hasActiveFiltersProp,
+  hasActiveFilters: _hasActiveFiltersProp,
   actions,
   className,
   children,
@@ -97,22 +89,10 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
   const hasMultiFilters = filtersConfig && filtersConfig.fields.length > 0
   const hasLegacyFilter = filterLabel && filterOptions.length > 0 && onFilterChange !== undefined
 
-  const activeFromSearch = (searchValue?.trim() ?? '') !== ''
-  const activeFromMultiFilters = hasMultiFilters ? countActiveFilters(filtersConfig!.values) > 0 : false
-  const activeFromLegacy = hasLegacyFilter && (filterValue ?? '') !== ''
-  const activeFromQuick = quickFilters && (quickFilters.value ?? '') !== ''
-
-  const hasActiveFilters =
-    hasActiveFiltersProp ??
-    (activeFromSearch || activeFromMultiFilters || activeFromLegacy || activeFromQuick)
-
-  const showClearSlot = (onClearAll !== undefined || hasMultiFilters || quickFilters) && true
   const handleClearAll = () => {
     onSearchChange?.('')
     if (hasMultiFilters && filtersConfig) {
-      const next: Record<string, string> = {}
-      filtersConfig.fields.forEach((f) => { next[f.id] = '' })
-      filtersConfig.onValuesChange(next)
+      filtersConfig.onValuesChange({})
     }
     quickFilters?.onChange('')
     onClearAll?.()
@@ -120,7 +100,7 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
 
   const hasQuickFilters = quickFilters && quickFilters.options.length > 0
   const filterChips = hasMultiFilters ? getActiveFilterChips(filtersConfig!.fields, filtersConfig!.values) : []
-  const activeFilterCount = hasMultiFilters ? countActiveFilters(filtersConfig!.values) : 0
+  const activeFilterCount = hasMultiFilters ? countActiveFilters(filtersConfig!.values, filtersConfig!.fields) : 0
 
   const inlineFilterFields = hasMultiFilters
     ? filtersConfig!.fields.map((f) => ({
@@ -131,147 +111,130 @@ export const TableToolbar: React.FC<TableToolbarProps> = ({
       }))
     : []
 
+  const toolbarRowMinH = 'min-h-[2.75rem]'
+  const controlHeight = 'h-9 min-h-[2.25rem]'
+
   return (
     <div
       className={cn(
-        'table-toolbar rounded-t-lg bg-bg-secondary flex flex-col',
+        'table-toolbar rounded-t-lg bg-bg-secondary flex flex-col min-w-0',
         className
       )}
     >
-      {/* Row 1: Search, Filter toggle, chips, Clear, Sort, actions */}
+      {/* Row 1: Search + filter button + chips + sort. Single control height (2.25rem) for alignment. */}
       <div
         className={cn(
-          'flex flex-nowrap items-center justify-start gap-2 min-w-0',
+          'flex flex-wrap items-center content-center gap-y-3 gap-x-3 min-w-0 w-full',
           'px-3 py-2.5 sm:px-4 sm:py-3',
-          'min-h-[2.75rem] sm:min-h-[3rem]',
-          'overflow-x-auto overflow-y-hidden',
-          /* Bottom border only when this row is the last (no quick filters, and no open filter row) */
+          toolbarRowMinH,
           !hasQuickFilters && (!hasMultiFilters || !filterRowOpen) && 'border-b border-border'
         )}
       >
-        {/* Search — fixed width so it doesn't stretch */}
-        {onSearchChange !== undefined && (
-          <div className="w-[10rem] min-w-[10rem] max-w-[10rem] sm:w-[14rem] sm:min-w-[14rem] sm:max-w-[14rem] shrink-0">
-            <Input
-              type="search"
-              placeholder={searchPlaceholder}
-              value={searchValue}
-              onChange={(e) => onSearchChange(e.target.value)}
-              leftIcon={<SearchIcon className="h-4 w-4 text-text-muted" />}
-              className="h-9 min-h-[2.25rem] text-sm rounded-control"
-              aria-label="Search table"
-            />
-          </div>
-        )}
+        <div className="flex flex-wrap items-center content-center gap-y-3 gap-x-2 min-w-0 flex-1">
+          {onSearchChange !== undefined && (
+            <div className="w-[12rem] min-w-0 max-w-full sm:w-[14rem] shrink-0">
+              <Input
+                type="search"
+                placeholder={searchPlaceholder}
+                value={searchValue}
+                onChange={(e) => onSearchChange(e.target.value)}
+                leftIcon={<SearchIcon className="h-4 w-4 text-text-muted" />}
+                className={cn(controlHeight, 'text-sm rounded-control w-full')}
+                aria-label="Search table"
+              />
+            </div>
+          )}
 
-        {/* Filter toggle (opens inline row below) + chips */}
-        {hasMultiFilters && (
-          <div className="flex items-center gap-2 shrink-0 min-w-0">
-            <FilterButton
-              activeCount={activeFilterCount}
-              ariaLabel="Show filters"
-              ariaLabelActive={`Filters (${activeFilterCount} active)`}
-              expanded={filterRowOpen}
-              onClick={() => setFilterRowOpen((o) => !o)}
-              className={cn('h-9 w-9 shrink-0', filterRowOpen && 'ring-2 ring-border-focus ring-offset-2 ring-offset-bg-secondary')}
-            />
-            {filterChips.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 min-w-0 overflow-x-auto">
-                {filterChips.map((c) => (
-                  <FilterChip
-                    key={c.id}
-                    label={c.label}
-                    valueLabel={c.valueLabel}
-                    onRemove={() =>
-                      filtersConfig!.onValuesChange({ ...filtersConfig!.values, [c.id]: '' })
-                    }
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {!hasMultiFilters && hasLegacyFilter && (
-          <div className="min-w-[9rem] w-[10rem] sm:w-[11rem] shrink-0">
-            <Select
-              value={filterValue ?? ''}
-              onChange={(e) => onFilterChange?.(e.target.value)}
-              size="sm"
-              className="[&_select]:h-9 [&_select]:text-xs [&_select]:py-1.5"
-              aria-label={filterLabel ?? 'Filter'}
-            >
-              <option value="">All</option>
-              {filterOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  {opt.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-        )}
-
-        {showClearSlot && (
-          <div className="flex items-center shrink-0" style={{ minWidth: CLEAR_BUTTON_MIN_WIDTH }}>
-            {hasActiveFilters && (onClearAll !== undefined || hasMultiFilters || quickFilters) && (
-              <Button
+          {hasMultiFilters && (
+            <div className="flex flex-wrap items-center gap-2 shrink-0 min-w-0 max-w-full">
+              <FilterButton
+                activeCount={activeFilterCount}
+                ariaLabel="Show filters"
+                ariaLabelActive={`Filters (${activeFilterCount} active)`}
+                expanded={filterRowOpen}
+                onClick={() => setFilterRowOpen((o) => !o)}
                 variant="ghost"
+                className={filterRowOpen ? 'ring-2 ring-border-focus ring-offset-2 ring-offset-bg-secondary' : undefined}
+              />
+              {filterChips.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1.5 min-w-0">
+                  {filterChips.map((c) => (
+                    <FilterChip
+                      key={c.id}
+                      label={c.label}
+                      valueLabel={c.valueLabel}
+                      onRemove={() =>
+                        filtersConfig!.onValuesChange({ ...filtersConfig!.values, [c.id]: '' })
+                      }
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {!hasMultiFilters && hasLegacyFilter && (
+            <div className="min-w-0 w-[10rem] sm:w-[11rem] shrink-0">
+              <Select
+                value={filterValue ?? ''}
+                onChange={(e) => onFilterChange?.(e.target.value)}
                 size="sm"
-                iconOnly
-                onClick={handleClearAll}
-                className="h-9 w-9 shrink-0 text-text-muted hover:text-text-primary"
-                aria-label="Clear all filters"
+                className="[&_select]:h-9 [&_select]:min-h-[2.25rem] [&_select]:text-xs [&_select]:py-1.5"
+                aria-label={filterLabel ?? 'Filter'}
               >
-                <ClearIcon className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-        )}
+                <option value="">All</option>
+                {filterOptions.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          )}
 
-        {children}
+          {children}
 
-        {/* Sort by — single dropdown (direction handled by column header or parent) */}
-        {sortConfig && sortConfig.options.length > 0 && (
-          <div className="flex items-center shrink-0">
-            <label htmlFor="toolbar-sort-by" className="sr-only">
-              Sort by
-            </label>
-            <Select
-              id="toolbar-sort-by"
-              size="sm"
-              value={sortConfig.sortKey}
-              onChange={(e) => sortConfig.onSortChange(e.target.value, sortConfig.sortDir)}
-              className="min-w-[7rem] w-[8rem] sm:w-[9rem] [&_select]:h-9 [&_select]:text-xs [&_select]:py-1.5"
-              aria-label="Sort by"
-            >
-              {sortConfig.options.map((opt) => (
-                <option key={opt.key} value={opt.key}>
-                  {opt.label}
-                </option>
-              ))}
-            </Select>
-          </div>
-        )}
+          {sortConfig && sortConfig.options.length > 0 && (
+            <div className="flex items-center shrink-0">
+              <label htmlFor="toolbar-sort-by" className="sr-only">
+                Sort by
+              </label>
+              <Select
+                id="toolbar-sort-by"
+                size="sm"
+                value={sortConfig.sortKey}
+                onChange={(e) => sortConfig.onSortChange(e.target.value, sortConfig.sortDir)}
+                className="min-w-0 w-[8rem] sm:w-[9rem] [&_select]:h-9 [&_select]:min-h-[2.25rem] [&_select]:text-xs [&_select]:py-1.5"
+                aria-label="Sort by"
+              >
+                {sortConfig.options.map((opt) => (
+                  <option key={opt.key} value={opt.key}>
+                    {opt.label}
+                  </option>
+                ))}
+              </Select>
+            </div>
+          )}
+        </div>
 
-        <div className="flex-1 min-w-4 shrink-0" aria-hidden />
-
-        {actions && (
-          <div className="flex shrink-0 items-center gap-2">
+        {actions != null && (
+          <div className="flex shrink-0 items-center gap-2 ml-auto">
             {actions}
           </div>
         )}
       </div>
 
-      {/* Row 2: Expandable inline filters (no popover) */}
+      {/* Row 2: Expandable filter row — same min-height as row 1, controls use h-9 for alignment */}
       {hasMultiFilters && filterRowOpen && (
-        <FilterInlineRow
-          fields={inlineFilterFields}
-          values={filtersConfig!.values}
-          onValuesChange={filtersConfig!.onValuesChange}
-          onClearAll={handleClearAll}
-          rowLabel="Filters"
-          className={!hasQuickFilters ? 'border-b border-border' : undefined}
-        />
+        <div className={cn(toolbarRowMinH, 'flex flex-col justify-center', !hasQuickFilters && 'border-b border-border')}>
+          <FilterInlineRow
+            fields={inlineFilterFields}
+            values={filtersConfig!.values}
+            onValuesChange={filtersConfig!.onValuesChange}
+            onClearAll={handleClearAll}
+            rowLabel="Filters"
+          />
+        </div>
       )}
 
       {/* Row 3: Quick filter badges — border below (above column headers), not above */}

@@ -21,8 +21,8 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
     )
     const scrollStyle = scrollMaxHeight ? { maxHeight: scrollMaxHeight } : undefined
     const tableEl = (
-      <div 
-        className={scrollWrapperClass} 
+      <div
+        className={scrollWrapperClass}
         style={scrollStyle}
         tabIndex={scrollMaxHeight ? 0 : undefined}
         role={scrollMaxHeight ? 'region' : undefined}
@@ -43,7 +43,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
     )
     if (container) {
       return (
-        <div className="table-container -mt-px border-x border-b border-border bg-bg-secondary min-w-0 w-full">
+        <div className="table-container border-x border-b border-border bg-bg-secondary min-w-0 w-full">
           {tableEl}
         </div>
       )

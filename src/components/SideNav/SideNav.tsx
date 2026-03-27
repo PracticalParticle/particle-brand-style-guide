@@ -119,6 +119,12 @@ function flattenItems(items: SideNavItem[] | undefined, sections: SideNavSection
 // ---------------------------------------------------------------------------
 
 const iconSize = 'h-[18px] w-[18px] shrink-0'
+const navItemBaseClass =
+  'w-full flex items-center justify-start gap-2 px-2.5 py-2 rounded-control text-sm font-medium transition-all duration-brand ease-brand text-left border'
+const navItemActiveClass =
+  'bg-bg-secondary text-text-primary border-border shadow-subtle'
+const navItemInactiveClass =
+  'text-text-muted border-transparent hover:bg-bg-secondary/70 hover:text-text-primary hover:border-border'
 
 function ItemContent({ item }: { item: SideNavItem }) {
   return (
@@ -137,8 +143,8 @@ function ItemContent({ item }: { item: SideNavItem }) {
 function NavItemInner({ item, context }: { item: SideNavItem; context: SideNavContextValue }) {
   const isActive = context.activeId === item.id
   const baseClass = cn(
-    'w-full flex items-center justify-start gap-2 px-2 py-1.5 rounded-control text-sm font-medium transition text-left',
-    isActive ? 'bg-primary/20 text-primary' : 'text-text-muted hover:bg-bg-tertiary',
+    navItemBaseClass,
+    isActive ? navItemActiveClass : navItemInactiveClass,
     item.disabled && 'opacity-50 pointer-events-none'
   )
 
@@ -256,8 +262,8 @@ export function SideNavRoot({
   const itemStyles = useCallback(
     (item: SideNavItem) =>
       cn(
-        'w-full flex items-center justify-start gap-2 px-2 py-1.5 rounded-control text-sm font-medium transition text-left',
-        activeId === item.id ? 'bg-primary/20 text-primary' : 'text-text-muted hover:bg-bg-tertiary',
+        navItemBaseClass,
+        activeId === item.id ? navItemActiveClass : navItemInactiveClass,
         item.disabled && 'opacity-50 pointer-events-none'
       ),
     [activeId]
@@ -485,8 +491,8 @@ export function SideNavItemComponent({
   const item: SideNavItem = { id, label, icon, href, to, onClick, disabled, badge }
 
   const baseClass = cn(
-    'w-full flex items-center justify-start gap-2 px-2 py-1.5 rounded-control text-sm font-medium transition text-left',
-    isActive ? 'bg-primary/20 text-primary' : 'text-text-muted hover:bg-bg-tertiary',
+    navItemBaseClass,
+    isActive ? navItemActiveClass : navItemInactiveClass,
     disabled && 'opacity-50 pointer-events-none'
   )
 

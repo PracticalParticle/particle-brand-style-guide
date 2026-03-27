@@ -115,7 +115,8 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
               id={uniquePageSizeId}
               value={String(pageSize)}
               onChange={(e) => onPageSizeChange(Number(e.target.value))}
-              className="w-auto min-w-[4.5rem] [&_select]:h-8 [&_select]:py-1 [&_select]:pr-8"
+              size="md"
+              className="w-auto min-w-[5rem]"
             >
               {pageSizeOptions.map((size) => (
                 <option key={size} value={size}>

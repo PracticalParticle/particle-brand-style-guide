@@ -8,6 +8,7 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
   fullWidth?: boolean
+  onRightIconClick?: () => void
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -20,6 +21,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     rightIcon,
     fullWidth = false,
     id,
+    onRightIconClick,
     ...props
   }, ref) => {
     const generatedId = useId()
@@ -58,7 +60,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         )}
         <div className="relative">
           {leftIcon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 z-10 text-text-muted pointer-events-none">
               {leftIcon}
             </div>
           )}
@@ -73,9 +75,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
           {rightIcon && (
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted">
-              {rightIcon}
-            </div>
+            onRightIconClick ? (
+              <button
+                type="button"
+                onClick={onRightIconClick}
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-6 w-6 items-center justify-center rounded-full text-text-muted hover:bg-bg-tertiary hover:text-text-primary"
+                aria-label="Clear"
+              >
+                {rightIcon}
+              </button>
+            ) : (
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-text-muted pointer-events-none">
+                {rightIcon}
+              </div>
+            )
           )}
         </div>
         {error && (
