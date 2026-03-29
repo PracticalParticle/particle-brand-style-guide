@@ -61,6 +61,27 @@ export const lightTheme = {
   },
 } as const
 
+/**
+ * Surfaces and accents for print/PDF export only (always light).
+ * Centralizes hex values so {@link DocumentPreviewPage} print CSS stays aligned with neutrals.
+ * Link blue is an intentional exception for readable hyperlinks in PDFs (body UI stays monochrome).
+ */
+export const lightPrintPalette = {
+  paper: lightNeutrals.surface,
+  /** Standard PDF/web link color */
+  link: '#2563EB',
+  codeBlockBg: '#F3F4F6',
+  codeBlockBorder: lightNeutrals.border,
+  cardBackground: '#FAFBFC',
+  cardBorder: lightNeutrals.border,
+  calloutBackground: '#F0F1F3',
+  tableBorder: lightTheme.border.hover,
+  tableHeaderBg: '#EEF0F3',
+  tableRowStripe: '#FAFAFA',
+  /** Inline code chip on callout background */
+  inlineCodeOnCalloutBg: 'rgba(10, 10, 10, 0.06)',
+} as const
+
 export const darkTheme = {
   background: {
     primary: darkNeutrals.bgBase,
