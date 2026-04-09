@@ -50,7 +50,7 @@ export const FilterButton = React.forwardRef<HTMLButtonElement, FilterButtonProp
       size={size}
       iconOnly
       onClick={onClick}
-      className={cn('relative shrink-0', size === 'sm' && 'h-9 w-9', className)}
+      className={cn('relative shrink-0', size === 'sm' && 'h-9 min-h-[2.25rem] w-9', className)}
       aria-label={label}
       aria-expanded={expanded}
     >

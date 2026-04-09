@@ -624,7 +624,7 @@ export const Typography: Story = {
             </div>
             <div className="p-6 bg-bg-secondary rounded-lg border border-border">
               <div className="text-sm text-text-secondary mb-2">Monospace</div>
-              <div className="text-2xl font-mono">JetBrains Mono, Menlo, Monaco</div>
+              <div className="text-2xl font-mono">Roboto Mono, Menlo, Monaco</div>
             </div>
           </div>
         </div>

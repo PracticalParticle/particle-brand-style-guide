@@ -5,6 +5,13 @@ export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
   children: React.ReactNode
   /** Wrap table in a rounded container (use with TableToolbar/TablePagination). */
   container?: boolean
+  /**
+   * Container appearance when `container` is enabled.
+   * - `card`: rounded border + subtle shadow (standalone table)
+   * - `attached`: flat edges meant to attach to a `TableToolbar` above (classic)
+   * - `registry`: table body inside `TableRegistryShell` (shell provides the outer border)
+   */
+  containerVariant?: 'card' | 'attached' | 'registry'
   /** Use table-fixed layout for stable column widths (no content-based reflow). */
   fixed?: boolean
   /** Keep header row visible when scrolling vertically. Requires scroll container. */
@@ -14,15 +21,28 @@ export interface TableProps extends React.HTMLAttributes<HTMLTableElement> {
 }
 
 export const Table = React.forwardRef<HTMLTableElement, TableProps>(
-  ({ className, children, container = false, fixed = false, stickyHeader = false, scrollMaxHeight, ...props }, ref) => {
+  (
+    {
+      className,
+      children,
+      container = false,
+      containerVariant = 'card',
+      fixed = false,
+      stickyHeader = false,
+      scrollMaxHeight,
+      ...props
+    },
+    ref
+  ) => {
     const scrollWrapperClass = cn(
-      'w-full min-w-0 overflow-auto',
-      stickyHeader && '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:bg-bg-secondary [&_thead]:shadow-sm'
+      'w-full min-w-0 overflow-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]',
+      stickyHeader &&
+        '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:border-b [&_thead]:border-border-subtle [&_thead]:bg-brand-primary/[0.07] [&_thead]:shadow-sm dark:[&_thead]:bg-brand-primary/[0.14]'
     )
     const scrollStyle = scrollMaxHeight ? { maxHeight: scrollMaxHeight } : undefined
     const tableEl = (
-      <div 
-        className={scrollWrapperClass} 
+      <div
+        className={scrollWrapperClass}
         style={scrollStyle}
         tabIndex={scrollMaxHeight ? 0 : undefined}
         role={scrollMaxHeight ? 'region' : undefined}
@@ -42,8 +62,14 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
       </div>
     )
     if (container) {
+      const containerClass =
+        containerVariant === 'attached'
+          ? 'min-w-0 w-full border-x border-b border-border bg-bg-primary'
+          : containerVariant === 'registry'
+            ? 'min-w-0 w-full overflow-hidden rounded-2xl border border-border-subtle bg-bg-primary shadow-sm'
+            : 'min-w-0 w-full overflow-hidden rounded-2xl border border-border-subtle bg-bg-primary shadow-sm'
       return (
-        <div className="table-container -mt-px border-x border-b border-border bg-bg-secondary min-w-0 w-full">
+        <div className={cn('table-container', containerClass)}>
           {tableEl}
         </div>
       )
@@ -64,8 +90,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
       <thead
         ref={ref}
         className={cn(
-          'table-header border-b border-border bg-bg-secondary',
-          'text-left text-sm font-semibold text-text-primary',
+          'table-header border-b border-border-subtle bg-brand-primary/[0.07] text-left dark:bg-brand-primary/[0.14]',
           className
         )}
         {...props}
@@ -87,7 +112,10 @@ export const TableBody = React.forwardRef<HTMLTableSectionElement, TableBodyProp
     return (
       <tbody
         ref={ref}
-        className={cn('[&_tr:last-child]:border-0', className)}
+        className={cn(
+          'bg-bg-secondary/[0.35] dark:bg-bg-secondary/20 [&_tr:last-child]:border-0',
+          className
+        )}
         {...props}
       >
         {children}
@@ -124,9 +152,10 @@ export const TableRow = React.forwardRef<HTMLTableRowElement, TableRowProps>(
         onClick={onClick}
         onKeyDown={handleKeyDown}
         className={cn(
-          'table-row border-b border-border transition-colors duration-brand ease-brand',
-          hover && 'hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08]',
-          interactive && 'cursor-pointer hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08] focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-border-focus',
+          'table-row border-b border-border-subtle transition-colors duration-brand ease-brand',
+          hover && 'hover:bg-bg-secondary/50 dark:hover:bg-bg-secondary/40',
+          interactive &&
+            'cursor-pointer hover:bg-bg-secondary/50 dark:hover:bg-bg-secondary/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-border-focus',
           selected && 'row-selected',
           className
         )}
@@ -176,7 +205,10 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       <span className="inline-flex items-center gap-1.5 min-w-0">
         <span className="truncate">{children}</span>
         {sortable && (
-          <span className="inline-flex shrink-0 items-center justify-center w-4 h-4 text-text-secondary" aria-hidden>
+          <span
+            className="inline-flex shrink-0 items-center justify-center w-4 h-4 text-brand-primary/90 dark:text-brand-primary/85"
+            aria-hidden
+          >
             {sortDirection === 'asc' && <SortAscIcon className="h-4 w-4" />}
             {sortDirection === 'desc' && <SortDescIcon className="h-4 w-4" />}
             {sortDirection === null && <SortBothIcon className="h-4 w-4 opacity-50" />}
@@ -197,8 +229,9 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       <th
         ref={ref}
         className={cn(
-          'h-10 sm:h-12 px-2 sm:px-4 text-left align-middle font-semibold text-text-primary text-sm whitespace-nowrap',
-          isButton && 'cursor-pointer select-none hover:bg-tertiary/[0.05] dark:hover:bg-tertiary/[0.08] hover:text-text-primary transition-colors duration-brand ease-brand rounded-t',
+          'h-10 sm:h-12 px-2 sm:px-4 text-left align-middle text-[11px] font-semibold uppercase tracking-wide text-text-primary whitespace-nowrap',
+          isButton &&
+            'cursor-pointer select-none hover:bg-brand-primary/10 dark:hover:bg-brand-primary/20 transition-colors duration-brand ease-brand',
           className
         )}
         {...(isButton
@@ -233,7 +266,7 @@ export const TableCell = React.forwardRef<HTMLTableCellElement, TableCellProps>(
     return (
       <td
         ref={ref}
-        className={cn('px-2 py-2 sm:px-4 sm:py-3 align-middle text-sm text-text-secondary', className)}
+        className={cn('px-2 py-2 sm:px-4 sm:py-3 align-middle text-sm text-text-primary', className)}
         {...props}
       >
         {children}

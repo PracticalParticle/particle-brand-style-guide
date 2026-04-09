@@ -193,7 +193,7 @@ export default {
 
 **Typography:**
 - **Primary Font**: Inter (weights: 400, 500, 600, 700)
-- **Monospace**: JetBrains Mono
+- **Monospace**: Roboto Mono (Google Fonts)
 
 **Logo Usage:**
 - See Storybook Design Tokens story for logo variants and usage guidelines

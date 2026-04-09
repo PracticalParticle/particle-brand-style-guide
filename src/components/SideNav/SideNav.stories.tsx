@@ -18,7 +18,7 @@ const meta: Meta<typeof SideNav> = {
     docs: {
       description: {
         component:
-          'Side navigation menu with sections, icons, and responsive behavior. On small screens can show as a dropdown or drawer. Use linkComponent for React Router (e.g. Link) and items with `to`; use `href` for plain links or `onClick` for buttons.',
+          'Side navigation menu with sections, icons, and responsive behavior. On small screens can show as a dropdown or drawer. Use linkComponent for React Router (e.g. Link) and items with `to`; use `href` for plain links or `onClick` for buttons. Set `collapsed` for a desktop icon-only rail (md+): group titles are hidden, labels use tooltips on hover, and items stay centered without horizontal scroll.',
       },
     },
   },
@@ -51,6 +51,66 @@ export const WithSections: Story = {
     <div className="flex h-[320px]">
       <SideNav {...args} />
       <main className="flex-1 p-4 bg-bg-canvas text-text-muted text-sm">Main content area.</main>
+    </div>
+  ),
+}
+
+/** Desktop collapsed rail (md+): narrow column, icons only, section titles hidden; hover for full label. Resize viewport to ≥768px. */
+export const CollapsedRailSections: Story = {
+  args: {
+    sections: exampleSections,
+    activeId: 'security',
+    variant: 'bordered',
+    width: 'lg',
+    responsive: false,
+    collapsed: true,
+    ariaLabel: 'Settings',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Uses the `sections` API. With `collapsed`, group titles are omitted on md+ and nav items are icon-centered. Below md, layout is unchanged (use mobile drawer/dropdown stories for small screens).',
+      },
+    },
+    viewport: {
+      defaultViewport: 'responsive',
+    },
+  },
+  render: (args) => (
+    <div className="flex h-[360px] w-full min-w-0 overflow-hidden rounded-lg border border-border">
+      <SideNav {...args} />
+      <main className="min-w-0 flex-1 overflow-auto p-4 bg-bg-canvas text-text-muted text-sm">
+        Collapsed sidebar: hover an icon to see the label. No horizontal scroll inside the rail.
+      </main>
+    </div>
+  ),
+}
+
+/** Composition API (`SideNav.Section` / `SideNav.Item`) with collapsed rail — same behavior as `sections` + `collapsed`. */
+export const CollapsedRailComposition: Story = {
+  args: {
+    activeId: 'roles',
+    variant: 'default',
+    width: 'lg',
+    responsive: false,
+    collapsed: true,
+    ariaLabel: 'Workspace',
+  },
+  render: (args) => (
+    <div className="flex h-[360px] w-full min-w-0 overflow-hidden rounded-lg border border-border">
+      <SideNav {...args}>
+        {exampleSections.map((section) => (
+          <SideNav.Section key={section.title} title={section.title}>
+            {section.items.map((item) => (
+              <SideNav.Item key={item.id} {...item} />
+            ))}
+          </SideNav.Section>
+        ))}
+      </SideNav>
+      <main className="min-w-0 flex-1 overflow-auto p-4 bg-bg-canvas text-text-muted text-sm">
+        Composition pattern for apps that render sections as children (e.g. FullAppView).
+      </main>
     </div>
   ),
 }

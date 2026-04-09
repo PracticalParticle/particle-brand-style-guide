@@ -39,9 +39,7 @@ export const FilterInlineRow: React.FC<FilterInlineRowProps> = ({
   }
 
   const handleClearAll = () => {
-    const next: Record<string, string> = {}
-    fields.forEach((f) => { next[f.id] = '' })
-    onValuesChange(next)
+    onValuesChange({})
     onClearAll?.()
   }
 
@@ -50,8 +48,8 @@ export const FilterInlineRow: React.FC<FilterInlineRowProps> = ({
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center gap-x-3 gap-y-2',
-        'px-3 py-2 sm:px-4 sm:py-2.5',
+        'flex flex-wrap items-center gap-x-4 gap-y-2 min-h-[2.25rem]',
+        'px-3 py-2.5 sm:px-4 sm:py-3',
         'bg-bg-surface-muted/50 dark:bg-bg-surface-muted/30',
         className
       )}
@@ -64,7 +62,7 @@ export const FilterInlineRow: React.FC<FilterInlineRowProps> = ({
         </span>
       )}
       {fields.map((field) => (
-        <div key={field.id} className="flex items-center gap-2 shrink-0">
+        <div key={field.id} className="flex items-center gap-2 shrink-0 min-h-[2.25rem]">
           <label
             htmlFor={`filter-inline-${field.id}`}
             className="text-sm font-medium text-text-secondary whitespace-nowrap"
@@ -76,7 +74,7 @@ export const FilterInlineRow: React.FC<FilterInlineRowProps> = ({
             size="sm"
             value={values[field.id] ?? ''}
             onChange={(e) => handleFieldChange(field.id, e.target.value)}
-            className="min-w-[8.5rem] w-[9rem] sm:w-[10.5rem] [&_select]:h-9 [&_select]:text-xs [&_select]:py-1.5"
+            className="min-w-[8rem] w-[8.5rem] sm:w-[10rem] [&_select]:h-9 [&_select]:min-h-[2.25rem] [&_select]:text-xs [&_select]:py-1.5"
             aria-label={field.label}
           >
             <option value="">{field.allLabel ?? 'All'}</option>
@@ -93,7 +91,7 @@ export const FilterInlineRow: React.FC<FilterInlineRowProps> = ({
           variant="ghost"
           size="sm"
           onClick={handleClearAll}
-          className="text-text-tertiary hover:text-text-primary ml-auto shrink-0"
+          className="h-9 min-h-[2.25rem] text-text-tertiary hover:text-text-primary ml-auto shrink-0"
         >
           Clear filters
         </Button>

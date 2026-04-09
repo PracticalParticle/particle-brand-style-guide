@@ -1,9 +1,42 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { cn } from '@/utils/cn'
 import { DropdownSelect } from '@/components/DropdownSelect'
 import { Drawer } from '@/components/Drawer'
 import { Button } from '@/components/Button'
 import { Divider } from '@/components/Divider'
+import { Tooltip } from '@/components/Tooltip'
+
+function useMinMd() {
+  const [ok, setOk] = useState(false)
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(min-width: 768px)')
+    const fn = () => setOk(mq.matches)
+    fn()
+    mq.addEventListener('change', fn)
+    return () => mq.removeEventListener('change', fn)
+  }, [])
+  return ok
+}
+
+/** Icon-only rail (md+): show item label in a tooltip on hover. Below md, labels are visible — no tooltip. */
+function CollapsedRailTooltip({
+  collapsed,
+  label,
+  children,
+}: {
+  collapsed: boolean
+  label: string
+  children: React.ReactElement
+}) {
+  const isMdUp = useMinMd()
+  if (!collapsed || !isMdUp) return children
+  return (
+    <Tooltip content={label} placement="right" delay={200}>
+      {children}
+    </Tooltip>
+  )
+}
 
 // ---------------------------------------------------------------------------
 // Types
@@ -80,6 +113,10 @@ export interface SideNavRootProps {
   footerAlign?: 'start' | 'end' | 'stretch'
   /** Accessible label for the nav. */
   ariaLabel?: string
+  /**
+   * Desktop: narrow icon-only rail (md+). Below md, full labels stay visible (e.g. mobile overlay).
+   */
+  collapsed?: boolean
   className?: string
   children?: React.ReactNode
 }
@@ -90,6 +127,10 @@ interface SideNavContextValue {
   itemStyles: (item: SideNavItem) => string
   /** When set (e.g. in drawer), called when user activates an item so drawer can close. */
   onDrawerNavigate?: (id: string) => void
+  /**
+   * Desktop icon-only rail (labels hidden from md up). Ignored below md so mobile overlays stay full-width with labels.
+   */
+  collapsed: boolean
 }
 
 const SideNavContext = createContext<SideNavContextValue | null>(null)
@@ -119,13 +160,41 @@ function flattenItems(items: SideNavItem[] | undefined, sections: SideNavSection
 // ---------------------------------------------------------------------------
 
 const iconSize = 'h-[18px] w-[18px] shrink-0'
+/** Collapsed rail: fixed box so consumer icon classes cannot shrink or grow glyphs differently. */
+const iconSizeCollapsedRail =
+  'md:!h-5 md:!w-5 md:!min-h-[1.25rem] md:!min-w-[1.25rem] md:[&>svg]:!h-5 md:[&>svg]:!w-5 md:[&>svg]:!max-h-[1.25rem] md:[&>svg]:!max-w-[1.25rem]'
+const navItemBaseClass =
+  'w-full min-w-0 flex items-center justify-start gap-2 px-2.5 py-2 rounded-control text-sm font-medium transition-all duration-brand ease-brand text-left border-l-[3px] border-l-transparent'
+const navItemActiveClass =
+  'bg-bg-secondary/90 text-text-primary border-l-[3px] border-l-[rgb(var(--color-brand-primary))] font-medium shadow-none'
+/** Icon-only rail (md+): inverted brand fill + inverse foreground. Hover/focus override ghost Button’s bg-tertiary so icons stay on-brand. */
+const navItemActiveCollapsedRailClass =
+  'md:!border-l-transparent md:bg-[rgb(var(--color-brand-primary))] md:text-[rgb(var(--color-brand-inverse))] md:shadow-none md:ring-0 md:[&_svg]:text-[rgb(var(--color-brand-inverse))] md:hover:!bg-[rgb(var(--color-brand-primary-hover))] md:hover:!text-[rgb(var(--color-brand-inverse))] md:hover:[&_svg]:!text-[rgb(var(--color-brand-inverse))] md:focus-visible:!bg-[rgb(var(--color-brand-primary-hover))] md:focus-visible:!text-[rgb(var(--color-brand-inverse))] md:focus-visible:[&_svg]:!text-[rgb(var(--color-brand-inverse))] md:active:!bg-[rgb(var(--color-brand-primary-active))] md:active:!text-[rgb(var(--color-brand-inverse))] md:active:[&_svg]:!text-[rgb(var(--color-brand-inverse))]'
+const navItemInactiveClass =
+  'text-text-muted hover:bg-bg-secondary/60 hover:text-text-primary'
 
-function ItemContent({ item }: { item: SideNavItem }) {
+const sectionTitleClass =
+  'px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 text-left'
+
+function ItemContent({ item, collapsed }: { item: SideNavItem; collapsed: boolean }) {
   return (
     <>
-      {item.icon && <span className={cn(iconSize, 'flex items-center justify-center [&>svg]:h-full [&>svg]:w-full')}>{item.icon}</span>}
-      <span className="truncate">{item.label}</span>
-      {item.badge != null && <span className="ml-auto shrink-0">{item.badge}</span>}
+      {item.icon && (
+        <span
+          className={cn(
+            iconSize,
+            'flex shrink-0 items-center justify-center [&>svg]:h-full [&>svg]:w-full',
+            collapsed && iconSizeCollapsedRail
+          )}
+        >
+          {item.icon}
+        </span>
+      )}
+      {/* Collapsed rail (md+): label hidden (tooltip + aria-label on control); avoids layout overflow */}
+      <span className={cn('min-w-0 truncate', collapsed && 'md:hidden')}>{item.label}</span>
+      {item.badge != null && (
+        <span className={cn('ml-auto shrink-0', collapsed && 'md:hidden')}>{item.badge}</span>
+      )}
     </>
   )
 }
@@ -136,64 +205,77 @@ function ItemContent({ item }: { item: SideNavItem }) {
 
 function NavItemInner({ item, context }: { item: SideNavItem; context: SideNavContextValue }) {
   const isActive = context.activeId === item.id
+  const { collapsed } = context
   const baseClass = cn(
-    'w-full flex items-center justify-start gap-2 px-2 py-1.5 rounded-control text-sm font-medium transition text-left',
-    isActive ? 'bg-primary/20 text-primary' : 'text-text-muted hover:bg-bg-tertiary',
-    item.disabled && 'opacity-50 pointer-events-none'
+    navItemBaseClass,
+    isActive
+      ? cn(navItemActiveClass, collapsed && navItemActiveCollapsedRailClass)
+      : navItemInactiveClass,
+    item.disabled && 'opacity-50 pointer-events-none',
+    collapsed &&
+      'md:mx-auto md:box-border md:flex md:h-10 md:min-h-10 md:!w-10 md:!min-w-10 md:!max-w-10 md:shrink-0 md:justify-center md:gap-0 md:!px-0 md:!py-0'
   )
-
-  if (item.disabled) {
-    return (
-      <span className={baseClass} aria-disabled="true">
-        <ItemContent item={item} />
-      </span>
-    )
-  }
+  const a11yLabel = collapsed ? item.label : undefined
 
   const handleNavigate = () => context.onDrawerNavigate?.(item.id)
 
-  if (item.to && context.linkComponent) {
+  let node: React.ReactElement
+
+  if (item.disabled) {
+    node = (
+      <span className={baseClass} aria-disabled="true" aria-label={a11yLabel}>
+        <ItemContent item={item} collapsed={collapsed} />
+      </span>
+    )
+  } else if (item.to && context.linkComponent) {
     const Link = context.linkComponent
-    return (
+    node = (
       <Link
         to={item.to}
         className={baseClass}
         aria-current={isActive ? 'page' : undefined}
+        aria-label={a11yLabel}
         onClick={handleNavigate}
       >
-        <ItemContent item={item} />
+        <ItemContent item={item} collapsed={collapsed} />
       </Link>
     )
-  }
-
-  if (item.href) {
-    return (
+  } else if (item.href) {
+    node = (
       <a
         href={item.href}
         className={baseClass}
         aria-current={isActive ? 'page' : undefined}
+        aria-label={a11yLabel}
         onClick={handleNavigate}
       >
-        <ItemContent item={item} />
+        <ItemContent item={item} collapsed={collapsed} />
       </a>
+    )
+  } else {
+    node = (
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        fullWidth={!collapsed}
+        onClick={() => {
+          item.onClick?.()
+          handleNavigate()
+        }}
+        className={baseClass}
+        aria-current={isActive ? 'page' : undefined}
+        aria-label={a11yLabel}
+      >
+        <ItemContent item={item} collapsed={collapsed} />
+      </Button>
     )
   }
 
   return (
-    <Button
-      type="button"
-      variant="ghost"
-      size="sm"
-      fullWidth
-      onClick={() => {
-        item.onClick?.()
-        handleNavigate()
-      }}
-      className={cn(baseClass, 'justify-start')}
-      aria-current={isActive ? 'page' : undefined}
-    >
-      <ItemContent item={item} />
-    </Button>
+    <CollapsedRailTooltip collapsed={collapsed} label={item.label}>
+      {node}
+    </CollapsedRailTooltip>
   )
 }
 
@@ -232,6 +314,7 @@ export function SideNavRoot({
   drawerFooter,
   footerAlign = 'end',
   ariaLabel = 'Side navigation',
+  collapsed = false,
   className,
   children,
 }: SideNavRootProps) {
@@ -256,16 +339,18 @@ export function SideNavRoot({
   const itemStyles = useCallback(
     (item: SideNavItem) =>
       cn(
-        'w-full flex items-center justify-start gap-2 px-2 py-1.5 rounded-control text-sm font-medium transition text-left',
-        activeId === item.id ? 'bg-primary/20 text-primary' : 'text-text-muted hover:bg-bg-tertiary',
+        navItemBaseClass,
+        activeId === item.id
+          ? cn(navItemActiveClass, collapsed && navItemActiveCollapsedRailClass)
+          : navItemInactiveClass,
         item.disabled && 'opacity-50 pointer-events-none'
       ),
-    [activeId]
+    [activeId, collapsed]
   )
 
   const contextValue: SideNavContextValue = useMemo(
-    () => ({ activeId, linkComponent, itemStyles }),
-    [activeId, linkComponent, itemStyles]
+    () => ({ activeId, linkComponent, itemStyles, collapsed }),
+    [activeId, linkComponent, itemStyles, collapsed]
   )
 
   const drawerContextValue: SideNavContextValue = useMemo(
@@ -285,6 +370,8 @@ export function SideNavRoot({
       className={cn(
         'flex flex-col shrink-0 min-h-0 overflow-hidden',
         widthClasses[width],
+        collapsed &&
+          'md:!w-full md:!min-w-0 md:!max-w-full md:items-stretch md:overflow-x-clip md:overflow-hidden',
         variantClasses[variant],
         !isSliding && mobileMode !== 'none' && breakpointHide[breakpoint],
         className
@@ -292,19 +379,43 @@ export function SideNavRoot({
       aria-label={ariaLabel}
     >
       <nav
-        className="flex flex-1 min-h-0 w-full overflow-y-auto overscroll-contain"
+        className="flex min-h-0 w-full min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
         aria-label={navAriaLabel}
       >
-        <div className="flex flex-col p-4 gap-1 items-start w-full min-w-0">
+        <div
+          className={cn(
+            'flex w-full min-w-0 flex-col items-start gap-1 p-4',
+            collapsed && 'md:items-center md:gap-1 md:p-4'
+          )}
+        >
           {children != null ? (
             children
           ) : sections.length > 0 ? (
             sections.map((section, idx) => (
               <React.Fragment key={idx}>
-                {idx > 0 && <Divider variant="default" className="my-2 w-full" />}
-                <div className="w-full space-y-1">
+                {idx > 0 && (
+                  <Divider
+                    variant="default"
+                    className={cn(
+                      'my-2 w-full max-w-full shrink-0',
+                      collapsed && 'md:mx-auto md:my-1.5 md:w-9 md:max-w-[2.25rem]'
+                    )}
+                  />
+                )}
+                <div
+                  className={cn(
+                    'w-full min-w-0 space-y-1',
+                    collapsed && 'md:space-y-0'
+                  )}
+                >
                   {section.title && (
-                    <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 text-left">
+                    <p
+                      className={cn(
+                        sectionTitleClass,
+                        'hidden max-md:block',
+                        collapsed ? 'md:hidden' : 'md:block'
+                      )}
+                    >
                       {section.title}
                     </p>
                   )}
@@ -447,10 +558,23 @@ export interface SideNavSectionProps {
 }
 
 export function SideNavSectionComponent({ title, children, className }: SideNavSectionProps) {
+  const { collapsed } = useSideNav()
   return (
-    <div className={cn('w-full space-y-1', className)}>
+    <div
+      className={cn(
+        'w-full min-w-0 max-w-full space-y-1',
+        collapsed && 'md:space-y-0',
+        className
+      )}
+    >
       {title && (
-        <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2 text-left">
+        <p
+          className={cn(
+            sectionTitleClass,
+            'hidden max-md:block',
+            collapsed ? 'md:hidden' : 'md:block'
+          )}
+        >
           {title}
         </p>
       )}
@@ -481,54 +605,80 @@ export function SideNavItemComponent({
   active: activeProp,
 }: SideNavItemProps) {
   const context = useSideNav()
+  const { collapsed } = context
   const isActive = activeProp ?? context.activeId === id
   const item: SideNavItem = { id, label, icon, href, to, onClick, disabled, badge }
 
   const baseClass = cn(
-    'w-full flex items-center justify-start gap-2 px-2 py-1.5 rounded-control text-sm font-medium transition text-left',
-    isActive ? 'bg-primary/20 text-primary' : 'text-text-muted hover:bg-bg-tertiary',
-    disabled && 'opacity-50 pointer-events-none'
+    navItemBaseClass,
+    isActive
+      ? cn(navItemActiveClass, collapsed && navItemActiveCollapsedRailClass)
+      : navItemInactiveClass,
+    disabled && 'opacity-50 pointer-events-none',
+    collapsed &&
+      'md:mx-auto md:box-border md:flex md:h-10 md:min-h-10 md:!w-10 md:!min-w-10 md:!max-w-10 md:shrink-0 md:justify-center md:gap-0 md:!px-0 md:!py-0'
   )
+  const a11yLabel = collapsed ? label : undefined
 
   const handleNavigate = () => context.onDrawerNavigate?.(id)
 
+  let node: React.ReactElement
+
   if (disabled) {
-    return (
-      <span className={baseClass} aria-disabled="true">
-        <ItemContent item={item} />
+    node = (
+      <span className={baseClass} aria-disabled="true" aria-label={a11yLabel}>
+        <ItemContent item={item} collapsed={collapsed} />
       </span>
     )
-  }
-  if (to && context.linkComponent) {
+  } else if (to && context.linkComponent) {
     const Link = context.linkComponent
-    return (
-      <Link to={to} className={baseClass} aria-current={isActive ? 'page' : undefined} onClick={handleNavigate}>
-        <ItemContent item={item} />
+    node = (
+      <Link
+        to={to}
+        className={baseClass}
+        aria-current={isActive ? 'page' : undefined}
+        aria-label={a11yLabel}
+        onClick={handleNavigate}
+      >
+        <ItemContent item={item} collapsed={collapsed} />
       </Link>
     )
-  }
-  if (href) {
-    return (
-      <a href={href} className={baseClass} aria-current={isActive ? 'page' : undefined} onClick={handleNavigate}>
-        <ItemContent item={item} />
+  } else if (href) {
+    node = (
+      <a
+        href={href}
+        className={baseClass}
+        aria-current={isActive ? 'page' : undefined}
+        aria-label={a11yLabel}
+        onClick={handleNavigate}
+      >
+        <ItemContent item={item} collapsed={collapsed} />
       </a>
     )
+  } else {
+    node = (
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        fullWidth={!collapsed}
+        onClick={() => {
+          onClick?.()
+          handleNavigate()
+        }}
+        className={baseClass}
+        aria-current={isActive ? 'page' : undefined}
+        aria-label={a11yLabel}
+      >
+        <ItemContent item={item} collapsed={collapsed} />
+      </Button>
+    )
   }
+
   return (
-    <Button
-      type="button"
-      variant="ghost"
-      size="sm"
-      fullWidth
-      onClick={() => {
-        onClick?.()
-        handleNavigate()
-      }}
-      className={cn(baseClass, 'justify-start')}
-      aria-current={isActive ? 'page' : undefined}
-    >
-      <ItemContent item={item} />
-    </Button>
+    <CollapsedRailTooltip collapsed={collapsed} label={label}>
+      {node}
+    </CollapsedRailTooltip>
   )
 }
 

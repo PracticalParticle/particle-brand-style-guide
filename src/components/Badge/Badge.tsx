@@ -32,9 +32,10 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
       default: 'bg-tertiary text-text-inverse',
 
       // Primary — dark surface in dark mode, bg-primary in light.
+      // `border border-transparent` matches outline chip box model so toggling filter state does not jump or “double” borders.
       primary: [
-        'bg-primary text-text-inverse',
-        'dark:bg-bg-tertiary dark:text-text-primary dark:border dark:border-border',
+        'bg-primary text-text-inverse border border-transparent',
+        'dark:bg-bg-tertiary dark:text-text-primary dark:border-border',
       ].join(' '),  // bg-primary → bg-bg-tertiary in dark (different token, needs explicit override)
 
       // Status — tinted surfaces with bordered style.

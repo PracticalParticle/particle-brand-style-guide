@@ -50,7 +50,7 @@ const MAX_DOC_CARDS_COLS = 8
  *   :::
  *   :::
  *
- * Supported: doc-card, doc-callout, doc-cards (dynamic columns), doc-table, doc-list, doc-list-compact, doc-page-break
+ * Supported: doc-card, doc-callout, doc-cards (dynamic columns), doc-table, doc-list, doc-list-compact, doc-page-break, doc-figure
  */
 export function remarkDocDirectives() {
   return (tree: Root) => {

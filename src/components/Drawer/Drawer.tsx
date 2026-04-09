@@ -35,6 +35,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   const panelRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<Element | null>(null)
   const titleId = useId()
+  const hasHeader = Boolean(title || ariaLabel)
 
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -137,10 +138,13 @@ export const Drawer: React.FC<DrawerProps> = ({
         aria-label={!title ? ariaLabel : undefined}
         onClick={(e) => e.stopPropagation()}
       >
-        {(title || true) && (
-          <div className="flex items-center justify-between gap-2 shrink-0 p-4 pb-2">
+        {(title || ariaLabel) && (
+          <div className="flex min-w-0 shrink-0 items-start justify-between gap-2 p-3 pb-2 sm:items-center sm:p-4">
             {title ? (
-              <h2 id={titleId} className="text-lg font-semibold text-text-primary">
+              <h2
+                id={titleId}
+                className="min-w-0 flex-1 break-words pr-1 text-base font-semibold leading-snug text-text-primary sm:pr-2 sm:text-lg"
+              >
                 {title}
               </h2>
             ) : (
@@ -149,7 +153,7 @@ export const Drawer: React.FC<DrawerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-control p-2 text-text-muted hover:bg-bg-tertiary hover:text-text-primary transition-colors -m-2"
+              className="shrink-0 rounded-control p-2 text-text-muted hover:bg-bg-tertiary hover:text-text-primary transition-colors -m-2"
               aria-label="Close"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} aria-hidden>
@@ -158,7 +162,12 @@ export const Drawer: React.FC<DrawerProps> = ({
             </button>
           </div>
         )}
-        <div className="flex-1 flex flex-col min-h-0 overflow-hidden p-4 pt-0">
+        <div
+          className={cn(
+            'flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-3 sm:p-4',
+            hasHeader ? 'pt-0 sm:pt-0' : 'pt-3 sm:pt-4'
+          )}
+        >
           {children}
         </div>
       </div>

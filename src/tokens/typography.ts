@@ -5,8 +5,10 @@
 
 export const typography = {
   fontFamily: {
+    /** Inter — loaded in `globals.css` (Google Fonts) */
     sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-    mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+    /** Roboto Mono — loaded in `globals.css` (Google Fonts); pairs with Inter */
+    mono: ['Roboto Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
   },
 
   /* Scale: xs 12 → 4xl 36px; body ≥1.5 line-height; headings tighter */
@@ -48,5 +50,10 @@ export const typography = {
     loose: '2',
   },
 } as const;
+
+/** Emit a valid CSS `font-family` string (quotes families that contain spaces). */
+export function fontFamilyToCssString(families: readonly string[]): string {
+  return families.map((name) => (/\s/.test(name) ? `"${name}"` : name)).join(', ')
+}
 
 export type TypographyToken = typeof typography;
