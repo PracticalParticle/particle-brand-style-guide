@@ -35,6 +35,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   const panelRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<Element | null>(null)
   const titleId = useId()
+  const hasHeader = Boolean(title || ariaLabel)
 
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -161,7 +162,12 @@ export const Drawer: React.FC<DrawerProps> = ({
             </button>
           </div>
         )}
-        <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-3 pt-0 sm:p-4 sm:pt-0">
+        <div
+          className={cn(
+            'flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-3 sm:p-4',
+            hasHeader ? 'pt-0 sm:pt-0' : 'pt-3 sm:pt-4'
+          )}
+        >
           {children}
         </div>
       </div>

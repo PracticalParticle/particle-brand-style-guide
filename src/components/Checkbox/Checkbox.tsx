@@ -34,8 +34,9 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             htmlFor={checkboxId}
             className={cn(
               'flex cursor-pointer items-center gap-2',
-              // Touch target when label text is inside the component; compact when the control is paired with an external label.
-              label ? 'min-h-[44px] py-1' : 'min-h-0 py-0',
+              // Minimum 44px touch target; extra vertical padding when an internal label is present.
+              'min-h-[44px] items-center',
+              label ? 'py-1' : 'py-0',
               disabled && 'cursor-not-allowed opacity-50'
             )}
           >

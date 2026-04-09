@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Roboto+Mono:wght@400;500;600;700&display=swap');
+@import 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=Roboto+Mono:wght@400;500;600;700&display=swap';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -581,7 +581,7 @@
 
   /* Modal dialogs: near-opaque panel + same glass edge treatment (readable over busy UIs) */
   .surface-modal {
-    background: rgb(var(--color-bg-secondary) / 0.98);
+    background: rgb(var(--color-bg-elevated) / 0.98);
     border: 1px solid rgb(var(--color-border-default) / var(--glass-border-opacity));
     backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
@@ -592,7 +592,7 @@
       0 12px 32px rgb(0 0 0 / 0.1);
   }
   .dark .surface-modal {
-    background: rgb(var(--color-bg-secondary) / 0.97);
+    background: rgb(var(--color-bg-elevated) / 0.97);
     border-color: rgb(255 255 255 / 0.08);
     backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
@@ -1046,6 +1046,7 @@
   }
   .dark .table-container {
     background-color: rgb(var(--color-bg-surface));
+    border-top-color: rgb(var(--color-border-subtle));
   }
   .dark .table-container .table-header,
   .dark thead.table-header {

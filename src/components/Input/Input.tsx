@@ -9,6 +9,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   rightIcon?: React.ReactNode
   fullWidth?: boolean
   onRightIconClick?: () => void
+  /** Accessible name for the right icon button (required for correct SR when the action is not &quot;clear&quot;). */
+  rightIconAriaLabel?: string
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -22,6 +24,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     fullWidth = false,
     id,
     onRightIconClick,
+    rightIconAriaLabel = 'Clear',
     ...props
   }, ref) => {
     const generatedId = useId()
@@ -80,7 +83,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 type="button"
                 onClick={onRightIconClick}
                 className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-6 w-6 items-center justify-center rounded-full text-text-muted hover:bg-bg-tertiary hover:text-text-primary"
-                aria-label="Clear"
+                aria-label={rightIconAriaLabel}
               >
                 {rightIcon}
               </button>

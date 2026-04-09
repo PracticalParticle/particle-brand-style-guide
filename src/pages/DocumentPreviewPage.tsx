@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react'
 import type { ComponentPropsWithoutRef } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
+import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 import remarkDirective from 'remark-directive'
 import { useReactToPrint } from 'react-to-print'
@@ -402,7 +403,8 @@ function MarkdownLink({ href, children, ...rest }: ComponentPropsWithoutRef<'a'>
 }
 
 const markdownRemarkPlugins = [remarkGfm, remarkDirective, remarkDocDirectives]
-const markdownRehypePlugins = [rehypeRaw]
+/** Raw HTML from markdown is parsed then sanitized (scripts/event handlers stripped). */
+const markdownRehypePlugins = [rehypeRaw, rehypeSanitize]
 const markdownComponents = { a: MarkdownLink }
 
 export function DocumentPreviewPage({ onBack }: { onBack: () => void }) {
@@ -517,7 +519,7 @@ export function DocumentPreviewPage({ onBack }: { onBack: () => void }) {
           <strong>Export to PDF</strong> opens the browser print dialog. Choose &quot;Save as PDF&quot; to download. Header (with logo) and footer (with website) repeat on every page.
         </p>
         <p className="text-xs text-text-tertiary mb-3">
-          PDF export parses raw HTML in markdown (for directives). Only load <strong>trusted</strong> <code className="bg-bg-tertiary px-1 rounded">.md</code> files from sources you control.
+          Raw HTML in markdown is sanitized before render; only load <code className="bg-bg-tertiary px-1 rounded">.md</code> files from sources you trust.
         </p>
         <p className="text-xs text-text-tertiary mb-3">
           Section styles: <code className="bg-bg-tertiary px-1 rounded">:::doc-card</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-callout</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-cards</code> (columns = number of <code className="bg-bg-tertiary px-1 rounded">:::doc-card</code> blocks, 1–8), <code className="bg-bg-tertiary px-1 rounded">:::doc-table</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-list</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-list-compact</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-page-break</code> (new page in PDF), <code className="bg-bg-tertiary px-1 rounded">:::doc-figure</code> (ASCII / wide monospace, no card). Close with <code className="bg-bg-tertiary px-1 rounded">:::</code>. Enable &quot;Background graphics&quot; when saving PDF.
@@ -537,7 +539,13 @@ export function DocumentPreviewPage({ onBack }: { onBack: () => void }) {
           <div className="rounded-control border border-border bg-white p-4 min-h-[320px] min-w-[32rem] overflow-auto">
             <div className="text-sm text-text-secondary mb-2">Rendered preview</div>
             <div className={DOCUMENT_PREVIEW_MARKDOWN_CLASS}>
-              <ReactMarkdown remarkPlugins={markdownRemarkPlugins}>{markdown}</ReactMarkdown>
+              <ReactMarkdown
+                remarkPlugins={markdownRemarkPlugins}
+                rehypePlugins={markdownRehypePlugins}
+                components={markdownComponents}
+              >
+                {markdown}
+              </ReactMarkdown>
             </div>
           </div>
         </div>
