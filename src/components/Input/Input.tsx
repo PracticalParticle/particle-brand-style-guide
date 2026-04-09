@@ -25,6 +25,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     id,
     onRightIconClick,
     rightIconAriaLabel = 'Clear',
+    disabled,
     ...props
   }, ref) => {
     const generatedId = useId()
@@ -76,13 +77,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             }
             className={cn(baseStyles, borderStyles, iconPadding.left, iconPadding.right)}
             {...props}
+            disabled={disabled}
           />
           {rightIcon && (
             onRightIconClick ? (
               <button
                 type="button"
-                onClick={onRightIconClick}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-6 w-6 items-center justify-center rounded-full text-text-muted hover:bg-bg-tertiary hover:text-text-primary"
+                onClick={disabled ? undefined : onRightIconClick}
+                disabled={disabled}
+                className={cn(
+                  'absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-6 w-6 items-center justify-center rounded-full text-text-muted',
+                  'hover:bg-bg-tertiary hover:text-text-primary',
+                  'disabled:pointer-events-none disabled:opacity-40 disabled:cursor-not-allowed'
+                )}
                 aria-label={rightIconAriaLabel}
               >
                 {rightIcon}
