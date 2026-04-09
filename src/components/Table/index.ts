@@ -1,5 +1,7 @@
 export * from './Table'
 export * from './TableToolbar'
+export * from './TableRegistryShell'
+export * from './tableRegistryTokens'
 export * from './TablePagination'
 export * from './TableFilters'
 export * from './TableCardView'

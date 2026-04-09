@@ -92,8 +92,8 @@
     --tooltip-subtle-opacity: 0.98;
 
     --color-backdrop: 0 0 0;
-    --color-backdrop-opacity-light: 0.5;
-    --color-backdrop-opacity-dark: 0.65;
+    --color-backdrop-opacity-light: 0.28;
+    --color-backdrop-opacity-dark: 0.45;
 
     /* ── Layer opacities (translucent surfaces for depth) ───────────── */
     --layer-surface-overlay: 0.95;
@@ -339,6 +339,7 @@
   @media (prefers-reduced-transparency: reduce) {
     .card-glass,
     .surface-glass,
+    .surface-modal,
     [data-glass],
     [class*="backdrop-blur"] {
       backdrop-filter: none !important;
@@ -346,6 +347,7 @@
     }
     .card-glass,
     .surface-glass,
+    .surface-modal,
     [data-glass] {
       background: rgb(var(--color-bg-surface)) !important;
     }
@@ -575,6 +577,30 @@
       inset 0 -1px 0 0 rgb(0 0 0 / 0.25),          /* gravity edge */
       0 2px 8px rgb(0 0 0 / 0.30),                  /* contact shadow */
       0 8px 40px rgb(0 0 0 / 0.55);               /* deep ambient — dark room depth */
+  }
+
+  /* Modal dialogs: near-opaque panel + same glass edge treatment (readable over busy UIs) */
+  .surface-modal {
+    background: rgb(var(--color-bg-secondary) / 0.98);
+    border: 1px solid rgb(var(--color-border-default) / var(--glass-border-opacity));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.55),
+      inset 0 -1px 0 0 rgb(0 0 0 / 0.03),
+      0 2px 8px rgb(0 0 0 / 0.07),
+      0 12px 32px rgb(0 0 0 / 0.1);
+  }
+  .dark .surface-modal {
+    background: rgb(var(--color-bg-secondary) / 0.97);
+    border-color: rgb(255 255 255 / 0.08);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.06),
+      inset 0 -1px 0 0 rgb(0 0 0 / 0.28),
+      0 2px 8px rgb(0 0 0 / 0.35),
+      0 12px 48px rgb(0 0 0 / 0.55);
   }
 
   /* ── Section UI: icon wells, spotlight overlay (sections only) ───────── */

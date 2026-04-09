@@ -119,21 +119,21 @@ export const Modal: React.FC<ModalProps> = ({
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
     >
-      {/* Backdrop — neutral overlay, minimal blur; click closes when closeOnOverlayClick */}
+      {/* Backdrop — dim + blur; click closes when closeOnOverlayClick */}
       <div
-        className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-[2px] transition-opacity"
+        className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-sm transition-opacity"
         aria-hidden
         role="presentation"
         onClick={closeOnOverlayClick ? onClose : undefined}
       />
       
-      {/* Modal — glass surface (tokens: --glass-bg-opacity, --glass-blur) */}
+      {/* Modal — near-opaque surface-modal + layered header/body fills */}
       <div
         ref={dialogRef}
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          'relative z-50 w-full flex flex-col',
-          'rounded-overlay surface-glass',
+          'relative z-50 w-full flex flex-col overflow-hidden',
+          'rounded-overlay surface-modal',
           'shadow-modal dark:shadow-modal-dark',
           'min-h-[12rem] max-h-[90vh]',
           'transform transition-all',
@@ -149,7 +149,8 @@ export const Modal: React.FC<ModalProps> = ({
             className={cn(
               'flex items-center justify-between gap-4 shrink-0',
               'px-5 py-4 sm:px-6 rounded-t-overlay',
-              'border-b border-border'
+              'border-b border-border',
+              'bg-bg-tertiary/50 dark:bg-bg-surface-muted/55'
             )}
           >
             {title && (
@@ -178,8 +179,8 @@ export const Modal: React.FC<ModalProps> = ({
           </div>
         )}
 
-        {/* Content — scrollable, inherits glass background from parent */}
-        <div className="p-5 sm:p-6 overflow-y-auto flex-1 min-h-0 text-text-primary">
+        {/* Content — scrollable, subtle canvas tint separates from header */}
+        <div className="p-5 sm:p-6 overflow-y-auto flex-1 min-h-0 text-text-primary bg-bg-primary/35 dark:bg-bg-primary/40">
           {children}
         </div>
       </div>

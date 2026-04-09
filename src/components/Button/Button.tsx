@@ -16,6 +16,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   rightIcon?: React.ReactNode
   iconOnly?: boolean
   fullWidth?: boolean
+  /** Use `none` for pill / toggle chips where the child (e.g. Badge) carries focus styling; avoids focus box-shadow + ghost focus fill on click. */
+  focusRing?: 'subtle' | 'none'
   children: React.ReactNode
 }
 
@@ -31,15 +33,21 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       rightIcon,
       iconOnly = false,
       fullWidth = false,
+      focusRing = 'subtle',
       children,
       ...props
     },
     ref
   ) => {
+    const focusRingClass =
+      focusRing === 'none'
+        ? 'outline-none focus:outline-none focus-visible:outline-none'
+        : 'focus-ring-subtle'
+
     const baseStyles = [
       'inline-flex items-center justify-center font-medium rounded-control',
       'transition-all duration-normal ease-out',
-      'focus-ring-subtle',
+      focusRingClass,
       'disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none disabled:shadow-none',
       'select-none',
     ].join(' ')
