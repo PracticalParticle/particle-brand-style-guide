@@ -40,11 +40,17 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   const menuRef = useRef<HTMLDivElement>(null)
   const menuId = useId()
 
-  const handleItemClick = (item: DropdownMenuItem) => {
+  const handleItemClick = (
+    item: DropdownMenuItem,
+    e?: React.MouseEvent<HTMLButtonElement>
+  ) => {
     if (item.disabled) return
+    e?.preventDefault()
+    e?.stopPropagation()
     item.onClick?.()
     onSelect?.(item.value, item)
-    setOpen(false)
+    // Defer close so the portal isn’t torn down before mouseup; otherwise the “click” lands on the row/card under the menu.
+    window.setTimeout(() => setOpen(false), 0)
   }
 
   // Focus first item when menu opens
@@ -103,7 +109,11 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
                   item.disabled && 'opacity-50 cursor-not-allowed',
                   item.variant === 'danger' && 'text-error hover:bg-error-light/20 focus:bg-error-light/20 dark:hover:bg-error/20 dark:focus:bg-error/20'
                 )}
-                onClick={() => handleItemClick(item)}
+                onMouseDown={(e) => {
+                  if (item.disabled) return
+                  e.preventDefault()
+                }}
+                onClick={(e) => handleItemClick(item, e)}
               >
                 {item.icon && (
                   <span className={cn('shrink-0', item.variant === 'danger' ? 'text-error' : 'text-text-tertiary')}>
