@@ -7,6 +7,8 @@ type DirectiveNode = {
   name: string
   children?: BlockContent[]
   data?: Record<string, unknown>
+  /** `:::name{key=value}` (remark-directive) */
+  attributes?: Record<string, string | null | undefined> | null
 }
 type ParagraphNode = { type: 'paragraph'; children: Array<{ type: string; value?: string }>; data?: Record<string, unknown> }
 
@@ -50,7 +52,7 @@ const MAX_DOC_CARDS_COLS = 8
  *   :::
  *   :::
  *
- * Supported: doc-card, doc-callout, doc-cards (dynamic columns), doc-table, doc-list, doc-list-compact, doc-page-break, doc-figure
+ * Supported: doc-card, doc-callout, doc-cards (dynamic columns), doc-table (`{narrow=first|second|second-wrap}` — `second-wrap` = slim col 2 with wrap, e.g. thematic “Findings”), doc-list, doc-list-compact, doc-page-break, doc-figure
  */
 export function remarkDocDirectives() {
   return (tree: Root) => {
@@ -103,6 +105,19 @@ export function remarkDocDirectives() {
           className: ['doc-cards', `doc-cards-${count}`],
           style: `display:grid;grid-template-columns:repeat(${count},minmax(0,1fr));gap:0.75rem;align-items:start;width:100%;`,
         }
+        return
+      }
+
+      if (name === 'doc-table') {
+        const narrow = n.attributes?.narrow?.trim()
+        const classes = ['doc-table']
+        if (narrow === 'first' || narrow === 'second') {
+          classes.push(`doc-table-narrow-${narrow}`)
+        } else if (narrow === 'second-wrap') {
+          classes.push('doc-table-narrow-second-wrap')
+        }
+        n.data.hName = 'div'
+        n.data.hProperties = { className: classes }
         return
       }
 

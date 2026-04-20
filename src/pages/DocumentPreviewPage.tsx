@@ -1,8 +1,10 @@
 import { useMemo, useRef, useState } from 'react'
 import type { ComponentPropsWithoutRef } from 'react'
 import ReactMarkdown from 'react-markdown'
+import type { Schema } from 'hast-util-sanitize'
+import type { PluggableList } from 'unified'
 import rehypeRaw from 'rehype-raw'
-import rehypeSanitize from 'rehype-sanitize'
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
 import remarkDirective from 'remark-directive'
 import { useReactToPrint } from 'react-to-print'
@@ -102,9 +104,18 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor i
 Use **Export to PDF** and choose "Save as PDF" in the print dialog. Header and footer will appear on every page.
 `
 
+/** Slim index (#) or count column; `table-fixed` so width hints apply like print. */
+const DOC_TABLE_NARROW_PREVIEW_CLASSES =
+  '[&_.doc-table-narrow-first_table]:!table-fixed [&_.doc-table-narrow-first_table]:w-full [&_.doc-table-narrow-second_table]:!table-fixed [&_.doc-table-narrow-second_table]:w-full [&_.doc-table-narrow-second-wrap_table]:!table-fixed [&_.doc-table-narrow-second-wrap_table]:w-full ' +
+  '[&_.doc-table-narrow-first_table_th:first-child]:!w-[4.5em] [&_.doc-table-narrow-first_table_td:first-child]:!w-[4.5em] [&_.doc-table-narrow-first_table_th:first-child]:!min-w-[4.5em] [&_.doc-table-narrow-first_table_td:first-child]:!min-w-[4.5em] [&_.doc-table-narrow-first_table_th:first-child]:!max-w-[5em] [&_.doc-table-narrow-first_table_td:first-child]:!max-w-[5em] [&_.doc-table-narrow-first_table_th:first-child]:whitespace-nowrap [&_.doc-table-narrow-first_table_td:first-child]:whitespace-nowrap [&_.doc-table-narrow-first_table_th:first-child]:!px-2 [&_.doc-table-narrow-first_table_td:first-child]:!px-2 ' +
+  '[&_.doc-table-narrow-second_table_th:nth-child(2)]:!w-[4.5em] [&_.doc-table-narrow-second_table_td:nth-child(2)]:!w-[4.5em] [&_.doc-table-narrow-second_table_th:nth-child(2)]:!min-w-[4.5em] [&_.doc-table-narrow-second_table_td:nth-child(2)]:!min-w-[4.5em] [&_.doc-table-narrow-second_table_th:nth-child(2)]:!max-w-[5em] [&_.doc-table-narrow-second_table_td:nth-child(2)]:!max-w-[5em] [&_.doc-table-narrow-second_table_th:nth-child(2)]:whitespace-nowrap [&_.doc-table-narrow-second_table_td:nth-child(2)]:whitespace-nowrap [&_.doc-table-narrow-second_table_th:nth-child(2)]:!px-2 [&_.doc-table-narrow-second_table_td:nth-child(2)]:!px-2 ' +
+  '[&_.doc-table-narrow-second-wrap_table_th:nth-child(2)]:!w-[5.5rem] [&_.doc-table-narrow-second-wrap_table_td:nth-child(2)]:!w-[5.5rem] [&_.doc-table-narrow-second-wrap_table_th:nth-child(2)]:!max-w-[6.5rem] [&_.doc-table-narrow-second-wrap_table_td:nth-child(2)]:!max-w-[6.5rem] [&_.doc-table-narrow-second-wrap_table_th:nth-child(2)]:!min-w-0 [&_.doc-table-narrow-second-wrap_table_td:nth-child(2)]:!min-w-0 [&_.doc-table-narrow-second-wrap_table_th:nth-child(2)]:whitespace-normal [&_.doc-table-narrow-second-wrap_table_td:nth-child(2)]:whitespace-normal [&_.doc-table-narrow-second-wrap_table_th:nth-child(2)]:break-words [&_.doc-table-narrow-second-wrap_table_td:nth-child(2)]:break-words [&_.doc-table-narrow-second-wrap_table_th:nth-child(2)]:!px-2 [&_.doc-table-narrow-second-wrap_table_td:nth-child(2)]:!px-2'
+
 /** On-screen markdown preview (Tailwind); print path uses {@link getPrintPageStyle} instead. */
 const DOCUMENT_PREVIEW_MARKDOWN_CLASS =
-  'document-preview-pane text-sm text-text-primary bg-white [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:mt-2 [&_h1]:leading-snug [&_h1]:tracking-tight [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-3 [&_h2]:leading-snug [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:leading-snug [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_table]:border-collapse [&_th]:border [&_th]:border-border [&_td]:border [&_td]:border-border [&_th]:px-2 [&_td]:px-2 [&_th]:bg-bg-tertiary [&_a]:underline [&_a]:text-primary [&_.doc-card]:rounded-lg [&_.doc-card]:border [&_.doc-card]:border-border [&_.doc-card]:bg-bg-tertiary/50 [&_.doc-card]:p-4 [&_.doc-card]:my-3 [&_.doc-callout]:border-l-4 [&_.doc-callout]:border-l-primary [&_.doc-callout]:bg-bg-tertiary/50 [&_.doc-callout]:py-2 [&_.doc-callout]:px-3 [&_.doc-callout]:my-3 [&_.doc-callout]:text-xs [&_.doc-callout]:text-text-secondary [&_.doc-callout_strong]:text-text-primary [&_.doc-callout_strong]:font-semibold [&_.doc-callout_b]:text-text-primary [&_.doc-callout_code]:text-text-primary [&_.doc-directive-fence]:!hidden [&_.doc-cards]:grid [&_.doc-cards]:gap-3 [&_.doc-cards]:w-full [&_.doc-cards]:items-start [&_.doc-cards>*:not(.doc-card)]:!hidden [&_.doc-cards_.doc-card]:my-0 [&_.doc-cards_.doc-card]:min-w-0 [&_.doc-cards-1]:grid-cols-1 [&_.doc-cards-2]:grid-cols-2 [&_.doc-cards-3]:grid-cols-3 [&_.doc-cards-4]:grid-cols-4 [&_.doc-cards-5]:grid-cols-5 [&_.doc-cards-6]:grid-cols-6 [&_.doc-cards-7]:grid-cols-7 [&_.doc-cards-8]:grid-cols-8 [&_.doc-table]:my-4 [&_.doc-table]:w-full [&_.doc-table]:rounded-none [&_.doc-table]:border-0 [&_.doc-table]:bg-transparent [&_.doc-table]:p-0 [&_.doc-table]:shadow-none [&_.doc-table_table]:border-collapse [&_.doc-table_table]:border [&_.doc-table_table]:border-border [&_.doc-table_table]:text-sm [&_.doc-table_table]:leading-normal [&_.doc-table_th]:border [&_.doc-table_th]:border-border [&_.doc-table_th]:bg-bg-tertiary [&_.doc-table_th]:px-3 [&_.doc-table_th]:py-2.5 [&_.doc-table_td]:border [&_.doc-table_td]:border-border [&_.doc-table_td]:px-3 [&_.doc-table_td]:py-2.5 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:my-3 [&_pre]:rounded-md [&_pre]:border [&_pre]:border-border [&_pre]:bg-bg-secondary [&_pre]:p-3 [&_pre]:overflow-x-auto [&_.doc-card_pre]:!my-0 [&_.doc-card_pre:not(:first-child)]:!mt-2 [&_.doc-card_pre]:!bg-transparent [&_.doc-card_pre]:!border-0 [&_.doc-card_pre]:!p-0 [&_.doc-card_pre]:!rounded-none [&_.doc-card_pre]:!shadow-none [&_.doc-figure_pre]:!m-0 [&_.doc-figure_pre]:!rounded-none [&_.doc-figure_pre]:!border-0 [&_.doc-figure_pre]:!bg-transparent [&_.doc-figure_pre]:!p-0 [&_.doc-figure_pre]:!shadow-none [&_.doc-figure_pre]:text-xs [&_.doc-figure_pre]:leading-tight [&_.doc-figure_pre]:text-text-primary [&_.doc-list]:pl-6 [&_.doc-list-compact]:pl-5 [&_.doc-list-compact_li]:my-0.5 [&_.doc-page-break]:block [&_.doc-page-break]:border-t [&_.doc-page-break]:border-dashed [&_.doc-page-break]:border-border [&_.doc-page-break]:my-4 [&_.doc-page-break]:py-2 [&_.doc-page-break]:text-center [&_.doc-page-break]:text-xs [&_.doc-page-break]:text-text-tertiary [&_.doc-page-break]:before:content-[\'Page_break\']'
+  'document-preview-pane text-sm text-text-primary bg-white [&_h1]:text-2xl [&_h1]:font-semibold [&_h1]:mt-2 [&_h1]:leading-snug [&_h1]:tracking-tight [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:mt-3 [&_h2]:leading-snug [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:leading-snug [&_p]:my-2 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_table]:border-collapse [&_th]:border [&_th]:border-border [&_td]:border [&_td]:border-border [&_th]:px-2 [&_td]:px-2 [&_th]:bg-bg-tertiary [&_a]:underline [&_a]:text-primary [&_.doc-card]:rounded-lg [&_.doc-card]:border [&_.doc-card]:border-border [&_.doc-card]:bg-bg-tertiary/50 [&_.doc-card]:p-4 [&_.doc-card]:my-3 [&_.doc-callout]:border-l-4 [&_.doc-callout]:border-l-primary [&_.doc-callout]:bg-bg-tertiary/50 [&_.doc-callout]:py-2 [&_.doc-callout]:px-3 [&_.doc-callout]:my-3 [&_.doc-callout]:text-xs [&_.doc-callout]:text-text-secondary [&_.doc-callout_strong]:text-text-primary [&_.doc-callout_strong]:font-semibold [&_.doc-callout_b]:text-text-primary [&_.doc-callout_code]:text-text-primary [&_.doc-directive-fence]:!hidden [&_.doc-cards]:grid [&_.doc-cards]:gap-3 [&_.doc-cards]:w-full [&_.doc-cards]:items-start [&_.doc-cards>*:not(.doc-card)]:!hidden [&_.doc-cards_.doc-card]:my-0 [&_.doc-cards_.doc-card]:min-w-0 [&_.doc-cards-1]:grid-cols-1 [&_.doc-cards-2]:grid-cols-2 [&_.doc-cards-3]:grid-cols-3 [&_.doc-cards-4]:grid-cols-4 [&_.doc-cards-5]:grid-cols-5 [&_.doc-cards-6]:grid-cols-6 [&_.doc-cards-7]:grid-cols-7 [&_.doc-cards-8]:grid-cols-8 [&_.doc-table]:my-4 [&_.doc-table]:w-full [&_.doc-table]:rounded-none [&_.doc-table]:border-0 [&_.doc-table]:bg-transparent [&_.doc-table]:p-0 [&_.doc-table]:shadow-none [&_.doc-table_table]:border-collapse [&_.doc-table_table]:border [&_.doc-table_table]:border-border [&_.doc-table_table]:text-sm [&_.doc-table_table]:leading-normal [&_.doc-table_th]:border [&_.doc-table_th]:border-border [&_.doc-table_th]:bg-bg-tertiary [&_.doc-table_th]:px-3 [&_.doc-table_th]:py-2.5 [&_.doc-table_td]:border [&_.doc-table_td]:border-border [&_.doc-table_td]:px-3 [&_.doc-table_td]:py-2.5 [&_pre]:font-mono [&_pre]:text-xs [&_pre]:my-3 [&_pre]:rounded-md [&_pre]:border [&_pre]:border-border [&_pre]:bg-bg-secondary [&_pre]:p-3 [&_pre]:overflow-x-auto [&_.doc-card_pre]:!my-0 [&_.doc-card_pre:not(:first-child)]:!mt-2 [&_.doc-card_pre]:!bg-transparent [&_.doc-card_pre]:!border-0 [&_.doc-card_pre]:!p-0 [&_.doc-card_pre]:!rounded-none [&_.doc-card_pre]:!shadow-none [&_.doc-figure_pre]:!m-0 [&_.doc-figure_pre]:!rounded-none [&_.doc-figure_pre]:!border-0 [&_.doc-figure_pre]:!bg-transparent [&_.doc-figure_pre]:!p-0 [&_.doc-figure_pre]:!shadow-none [&_.doc-figure_pre]:text-xs [&_.doc-figure_pre]:leading-tight [&_.doc-figure_pre]:text-text-primary [&_.doc-list]:pl-6 [&_.doc-list-compact]:pl-5 [&_.doc-list-compact_li]:my-0.5 [&_.doc-page-break]:block [&_.doc-page-break]:border-t [&_.doc-page-break]:border-dashed [&_.doc-page-break]:border-border [&_.doc-page-break]:my-4 [&_.doc-page-break]:py-2 [&_.doc-page-break]:text-center [&_.doc-page-break]:text-xs [&_.doc-page-break]:text-text-tertiary [&_.doc-page-break]:before:content-[\'Page_break\']' +
+  ' ' +
+  DOC_TABLE_NARROW_PREVIEW_CLASSES
 
 function getPrintPageStyle(logoDataUrl: string): string {
   const b = PRINT_FONTS.body
@@ -372,6 +383,38 @@ function getPrintPageStyle(logoDataUrl: string): string {
   .doc-print-body .doc-table tbody td { border-radius: 0 !important; }
   .doc-print-body .doc-table tbody tr:nth-child(even) { background: ${S.tableRowStripe} !important; }
   .doc-print-body .doc-table tbody tr:nth-child(odd) { background: ${S.paper} !important; }
+  .doc-print-body .doc-table-narrow-first table th:first-child,
+  .doc-print-body .doc-table-narrow-first table td:first-child {
+    width: 4.5em !important;
+    max-width: 5em !important;
+    min-width: 3.25em !important;
+    white-space: nowrap !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    box-sizing: border-box !important;
+  }
+  .doc-print-body .doc-table-narrow-second table th:nth-child(2),
+  .doc-print-body .doc-table-narrow-second table td:nth-child(2) {
+    width: 4.5em !important;
+    max-width: 5em !important;
+    min-width: 3.25em !important;
+    white-space: nowrap !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    box-sizing: border-box !important;
+  }
+  .doc-print-body .doc-table-narrow-second-wrap table th:nth-child(2),
+  .doc-print-body .doc-table-narrow-second-wrap table td:nth-child(2) {
+    width: 5.5rem !important;
+    max-width: 6.5rem !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    overflow-wrap: anywhere !important;
+    padding-left: 6px !important;
+    padding-right: 6px !important;
+    box-sizing: border-box !important;
+  }
   .doc-print-body .doc-list { padding-left: 1.5rem; margin: 0.75em 0; }
   .doc-print-body .doc-list-compact { padding-left: 1.25rem; margin: 0.5em 0; }
   .doc-print-body .doc-list-compact li { margin: 0.25em 0; }
@@ -403,8 +446,22 @@ function MarkdownLink({ href, children, ...rest }: ComponentPropsWithoutRef<'a'>
 }
 
 const markdownRemarkPlugins = [remarkGfm, remarkDirective, remarkDocDirectives]
+
+/**
+ * Default GitHub-style sanitize schema only allows `itemScope` / `itemType` on `div`, so
+ * `className` on remark directive wrappers (`doc-table`, `doc-card`, …) was stripped and
+ * print/preview layout CSS never matched. Allow `doc-*` classes only.
+ */
+const DOCUMENT_MARKDOWN_SANITIZE_SCHEMA: Schema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    div: [...(defaultSchema.attributes?.div ?? []), ['className', /^doc-/u]],
+  },
+}
+
 /** Raw HTML from markdown is parsed then sanitized (scripts/event handlers stripped). */
-const markdownRehypePlugins = [rehypeRaw, rehypeSanitize]
+const markdownRehypePlugins: PluggableList = [rehypeRaw, [rehypeSanitize, DOCUMENT_MARKDOWN_SANITIZE_SCHEMA]]
 const markdownComponents = { a: MarkdownLink }
 
 export function DocumentPreviewPage({ onBack }: { onBack: () => void }) {
@@ -522,7 +579,7 @@ export function DocumentPreviewPage({ onBack }: { onBack: () => void }) {
           Raw HTML in markdown is sanitized before render; only load <code className="bg-bg-tertiary px-1 rounded">.md</code> files from sources you trust.
         </p>
         <p className="text-xs text-text-tertiary mb-3">
-          Section styles: <code className="bg-bg-tertiary px-1 rounded">:::doc-card</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-callout</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-cards</code> (columns = number of <code className="bg-bg-tertiary px-1 rounded">:::doc-card</code> blocks, 1–8), <code className="bg-bg-tertiary px-1 rounded">:::doc-table</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-list</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-list-compact</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-page-break</code> (new page in PDF), <code className="bg-bg-tertiary px-1 rounded">:::doc-figure</code> (ASCII / wide monospace, no card). Close with <code className="bg-bg-tertiary px-1 rounded">:::</code>. Enable &quot;Background graphics&quot; when saving PDF.
+          Section styles: <code className="bg-bg-tertiary px-1 rounded">:::doc-card</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-callout</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-cards</code> (columns = number of <code className="bg-bg-tertiary px-1 rounded">:::doc-card</code> blocks, 1–8), <code className="bg-bg-tertiary px-1 rounded">:::doc-table</code> (optional <code className="bg-bg-tertiary px-1 rounded">{'{narrow=first}'}</code>, <code className="bg-bg-tertiary px-1 rounded">{'{narrow=second}'}</code>, or <code className="bg-bg-tertiary px-1 rounded">{'{narrow=second-wrap}'}</code> for slim col 2 with wrap), <code className="bg-bg-tertiary px-1 rounded">:::doc-list</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-list-compact</code>, <code className="bg-bg-tertiary px-1 rounded">:::doc-page-break</code> (new page in PDF), <code className="bg-bg-tertiary px-1 rounded">:::doc-figure</code> (ASCII / wide monospace, no card). Close with <code className="bg-bg-tertiary px-1 rounded">:::</code>. Enable &quot;Background graphics&quot; when saving PDF.
         </p>
         <div className="grid gap-4 md:grid-cols-[1fr_1.5fr]">
           <div className="min-w-0">
