@@ -206,7 +206,7 @@ export const Popover: React.FC<PopoverProps> = ({
     <div
       ref={popoverRef}
       className={cn(
-        'fixed z-50 p-4 rounded-lg shadow-xl',
+        'fixed z-[150] p-4 rounded-lg shadow-xl',
         'bg-bg-secondary border border-border text-text-primary',
         'min-w-[10rem] max-w-[min(calc(100vw-2rem),20rem)]',
         'sm:max-w-[20rem]',

@@ -1,9 +1,12 @@
 import React, { useEffect, useRef, useId } from 'react'
+import { createPortal } from 'react-dom'
 import { cn } from '@/utils/cn'
 import { Button } from '@/components/Button'
 import { Stepper } from '@/components/Stepper'
 
 export type ModalVariant = 'default' | 'confirmation' | 'warning' | 'danger' | 'success' | 'info'
+
+export type ModalContentVerticalAlign = 'center' | 'start'
 
 export interface ModalProps {
   isOpen: boolean
@@ -16,6 +19,11 @@ export interface ModalProps {
   showCloseButton?: boolean
   closeOnOverlayClick?: boolean
   closeOnEscape?: boolean
+  /**
+   * Vertical placement of the dialog within the viewport.
+   * Use `start` for tall forms so the panel sits lower with comfortable top inset (avoids “stuck to header” feel).
+   */
+  contentVerticalAlign?: ModalContentVerticalAlign
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -28,6 +36,7 @@ export const Modal: React.FC<ModalProps> = ({
   showCloseButton = true,
   closeOnOverlayClick = true,
   closeOnEscape = true,
+  contentVerticalAlign = 'center',
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null)
   const triggerRef = useRef<Element | null>(null)
@@ -105,6 +114,8 @@ export const Modal: React.FC<ModalProps> = ({
 
   if (!isOpen) return null
 
+  if (typeof document === 'undefined') return null
+
   const sizes = {
     sm: 'max-w-md min-w-[18rem]',
     md: 'max-w-lg min-w-[20rem]',
@@ -115,10 +126,9 @@ export const Modal: React.FC<ModalProps> = ({
 
   const isAlertDialog = variant === 'danger' || variant === 'confirmation'
 
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
-    >
+  /** Portal keeps modals above app chrome (e.g. sticky headers at z-50) and out of overflow-hidden panes. */
+  const modalTree = (
+    <div className="fixed inset-0 z-[100] flex flex-col">
       {/* Backdrop — dim + blur; click closes when closeOnOverlayClick */}
       <div
         className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-sm transition-opacity"
@@ -126,19 +136,28 @@ export const Modal: React.FC<ModalProps> = ({
         role="presentation"
         onClick={closeOnOverlayClick ? onClose : undefined}
       />
-      
-      {/* Modal — near-opaque surface-modal + layered header/body fills */}
+
+      {/* Scroll + align region: isolates dialog from backdrop so flex centering is predictable */}
       <div
-        ref={dialogRef}
-        onClick={(e) => e.stopPropagation()}
         className={cn(
-          'relative z-50 w-full flex flex-col overflow-hidden',
-          'rounded-overlay surface-modal',
-          'shadow-modal dark:shadow-modal-dark',
-          'min-h-[12rem] max-h-[90vh]',
-          'transform transition-all',
-          sizes[size]
+          'relative z-10 flex min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6',
+          contentVerticalAlign === 'center' && 'items-center justify-center',
+          contentVerticalAlign === 'start' &&
+            'items-start justify-center pt-[max(1rem,env(safe-area-inset-top))] pb-10 sm:pt-12',
         )}
+      >
+        {/* Modal — near-opaque surface-modal + layered header/body fills */}
+        <div
+          ref={dialogRef}
+          onClick={(e) => e.stopPropagation()}
+          className={cn(
+            'relative z-10 w-full flex flex-col overflow-hidden',
+            'rounded-overlay surface-modal',
+            'shadow-modal dark:shadow-modal-dark',
+            'min-h-[12rem] max-h-[min(90vh,calc(100dvh-2rem))]',
+            'transform transition-all',
+            sizes[size]
+          )}
         role={isAlertDialog ? 'alertdialog' : 'dialog'}
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
@@ -183,9 +202,12 @@ export const Modal: React.FC<ModalProps> = ({
         <div className="p-5 sm:p-6 overflow-y-auto flex-1 min-h-0 text-text-primary bg-bg-primary/35 dark:bg-bg-primary/40">
           {children}
         </div>
+        </div>
       </div>
     </div>
   )
+
+  return createPortal(modalTree, document.body)
 }
 
 // Modal sub-components for better composition

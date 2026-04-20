@@ -37,7 +37,7 @@ export const Table = React.forwardRef<HTMLTableElement, TableProps>(
     const scrollWrapperClass = cn(
       'w-full min-w-0 overflow-auto overscroll-x-contain [-webkit-overflow-scrolling:touch]',
       stickyHeader &&
-        '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:border-b [&_thead]:border-border-subtle [&_thead]:bg-brand-primary/[0.07] [&_thead]:shadow-sm dark:[&_thead]:bg-brand-primary/[0.14]'
+        '[&_thead]:sticky [&_thead]:top-0 [&_thead]:z-10 [&_thead]:border-b [&_thead]:border-border-subtle [&_thead]:bg-bg-secondary [&_thead]:shadow-sm'
     )
     const scrollStyle = scrollMaxHeight ? { maxHeight: scrollMaxHeight } : undefined
     const tableEl = (
@@ -90,7 +90,7 @@ export const TableHeader = React.forwardRef<HTMLTableSectionElement, TableHeader
       <thead
         ref={ref}
         className={cn(
-          'table-header border-b border-border-subtle bg-brand-primary/[0.07] text-left dark:bg-brand-primary/[0.14]',
+          'table-header border-b border-border-subtle bg-bg-secondary text-left',
           className
         )}
         {...props}
@@ -229,7 +229,7 @@ export const TableHead = React.forwardRef<HTMLTableCellElement, TableHeadProps>(
       <th
         ref={ref}
         className={cn(
-          'h-10 sm:h-12 px-2 sm:px-4 text-left align-middle text-[11px] font-semibold uppercase tracking-wide text-text-primary whitespace-nowrap',
+          'h-10 sm:h-12 bg-bg-secondary px-2 sm:px-4 text-left align-middle text-[11px] font-semibold uppercase tracking-wide text-text-primary whitespace-nowrap',
           isButton &&
             'cursor-pointer select-none hover:bg-brand-primary/10 dark:hover:bg-brand-primary/20 transition-colors duration-brand ease-brand',
           className

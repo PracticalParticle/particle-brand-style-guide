@@ -17,6 +17,8 @@ export interface DrawerProps {
   /** Width as CSS value. Default 320px for left/right. */
   width?: string
   className?: string
+  /** Merged into the panel body below the optional title row (e.g. `overflow-y-auto` if the body should scroll). */
+  contentClassName?: string
   children: React.ReactNode
 }
 
@@ -30,6 +32,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   closeOnEscape = true,
   width = '320px',
   className,
+  contentClassName,
   children,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null)
@@ -164,8 +167,10 @@ export const Drawer: React.FC<DrawerProps> = ({
         )}
         <div
           className={cn(
-            'flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto overscroll-contain p-3 sm:p-4',
-            hasHeader ? 'pt-0 sm:pt-0' : 'pt-3 sm:pt-4'
+            // Default overflow-hidden: consumers use flex-1 + overflow-y-auto so footers stay pinned (nested scroll).
+            'flex min-h-0 min-w-0 flex-1 flex-col overflow-x-hidden overflow-hidden overscroll-contain p-3 sm:p-4',
+            hasHeader ? 'pt-0 sm:pt-0' : 'pt-3 sm:pt-4',
+            contentClassName
           )}
         >
           {children}

@@ -496,7 +496,7 @@ export function SideNavRoot({
             width="280px"
           >
             {/* -m-4 counteracts Drawer's p-4 so scrollbar can sit on panel edge */}
-            <div className="flex flex-col h-full min-h-0 -m-4 overflow-hidden">
+            <div className="flex min-h-0 flex-1 flex-col -m-4 overflow-hidden">
               <nav className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain min-w-0 pt-4" aria-label={navAriaLabel}>
                 <div className="flex flex-col gap-1 px-4 pt-4 pb-4 min-w-0">
                   {sections.length > 0
