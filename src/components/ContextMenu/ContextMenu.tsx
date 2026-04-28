@@ -53,8 +53,8 @@ const ContextMenuSubContent = React.forwardRef<
   <ContextMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      // Keep context menus above modal content/backdrops (Modal uses z-[100]).
-      'z-[110] min-w-[8rem] overflow-hidden rounded-lg border border-border bg-bg-secondary p-1 text-text-primary shadow-lg',
+      // Keep context menus above modal shell (tailwind preset z-overlay).
+      'z-overlay min-w-[8rem] overflow-hidden rounded-lg border border-border bg-bg-secondary p-1 text-text-primary shadow-lg',
       className
     )}
     {...props}
@@ -70,8 +70,8 @@ const ContextMenuContent = React.forwardRef<
     <ContextMenuPrimitive.Content
       ref={ref}
       className={cn(
-        // Keep context menus above modal content/backdrops (Modal uses z-[100]).
-        'z-[110] min-w-[8rem] overflow-hidden rounded-lg border border-border bg-bg-secondary p-1 text-text-primary shadow-md',
+        // Keep context menus above modal shell (tailwind preset z-overlay).
+        'z-overlay min-w-[8rem] overflow-hidden rounded-lg border border-border bg-bg-secondary p-1 text-text-primary shadow-md',
         className
       )}
       {...props}

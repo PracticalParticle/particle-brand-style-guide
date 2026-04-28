@@ -68,7 +68,7 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({
     <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
       {children}
       <div
-        className={cn('fixed z-[100] flex flex-col gap-2 max-w-sm w-full pointer-events-none', positionClasses[position])}
+        className={cn('fixed z-modal flex flex-col gap-2 max-w-sm w-full pointer-events-none', positionClasses[position])}
         role="region"
         aria-label="Notifications"
       >
