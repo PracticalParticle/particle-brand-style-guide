@@ -215,7 +215,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
       ref={tooltipRef}
       id={tooltipId}
       className={cn(
-        'fixed z-50 text-sm pointer-events-none',
+        // Keep tooltips above modal shell (tailwind preset z-overlay).
+        'fixed z-overlay text-sm pointer-events-none',
         'px-[var(--tooltip-padding-x)] py-[var(--tooltip-padding-y)]',
         'rounded-[var(--tooltip-radius)]',
         'max-w-[min(calc(100vw-2rem),var(--tooltip-max-width))]',

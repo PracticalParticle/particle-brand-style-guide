@@ -128,7 +128,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   /** Portal keeps modals above app chrome (e.g. sticky headers at z-50) and out of overflow-hidden panes. */
   const modalTree = (
-    <div className="fixed inset-0 z-[100] flex flex-col">
+    <div className="fixed inset-0 z-modal flex flex-col">
       {/* Backdrop — dim + blur; click closes when closeOnOverlayClick */}
       <div
         className="fixed inset-0 bg-backdrop dark:bg-backdrop-dark backdrop-blur-sm transition-opacity"

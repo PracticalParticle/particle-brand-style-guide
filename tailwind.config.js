@@ -267,6 +267,11 @@ export default {
         'span-15': 'span 15 / span 15',
         'span-16': 'span 16 / span 16',
       },
+      /* Floating UI stack: modal shell + toasts at `modal`; popovers/menus/tooltips above modals at `overlay`. */
+      zIndex: {
+        modal: 100,
+        overlay: 110,
+      },
       boxShadow: {
         subtle:   '0 1px 2px rgb(var(--color-shadow) / 0.04)',
         elevated: '0 8px 30px rgb(var(--color-shadow) / 0.08), 0 2px 8px rgb(var(--color-shadow) / 0.04)',

@@ -206,7 +206,8 @@ export const Popover: React.FC<PopoverProps> = ({
     <div
       ref={popoverRef}
       className={cn(
-        'fixed z-[90] p-4 rounded-lg shadow-xl',
+        // Keep popovers above modal content/backdrops (see tailwind preset z-modal / z-overlay).
+        'fixed z-overlay p-4 rounded-lg shadow-xl',
         'bg-bg-secondary border border-border text-text-primary',
         'min-w-[10rem] max-w-[min(calc(100vw-2rem),20rem)]',
         'sm:max-w-[20rem]',
